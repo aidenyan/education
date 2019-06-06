@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jimmy</groupId>
+    <artifactId>education</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>education-web-api</module>
+        <module>education-common</module>
+        <module>education-core</module>
+        <module>education-dao</module>
+        <module>education-service</module>
+        <module>education-teacher-api</module>
+        <module>education-dao</module>
+        <module>education-service</module>
+        <module>education-student-api</module>
+    </modules>
+    <properties>
+        <commons.version>3.9</commons.version>
+    </properties>
+   <dependencyManagement>
+       <dependencies>
+           <dependency>
+               <groupId>org.apache.commons</groupId>
+               <artifactId>commons-lang3</artifactId>
+               <version>${commons.version}</version>
+           </dependency>
+       </dependencies>
+   </dependencyManagement>
+</project>
