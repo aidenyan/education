@@ -25,7 +25,7 @@
         where site_id = #{siteId}
     </select>
 
-    <insert id="insert" parameterType="com.jimmy.dao.entity.SysInfo">
+    <insert id="insert" parameterType="com.jimmy.dao.entity.SysInfo"  useGeneratedKeys="true" keyProperty="id">
     insert into t_sys_info (sys_key, create_id,
       modify_id, create_time, modify_time, 
       site_id, sys_value)

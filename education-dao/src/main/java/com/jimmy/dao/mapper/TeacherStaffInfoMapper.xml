@@ -75,7 +75,7 @@
 
 
 
-  <insert id="insert" parameterType="com.jimmy.dao.entity.TeacherStaffInfo" >
+  <insert id="insert" parameterType="com.jimmy.dao.entity.TeacherStaffInfo"  useGeneratedKeys="true" keyProperty="id">
     insert into t_teacher_staff_info ( name, sex,
       staff_type, staff_name, email, 
       is_enabled, is_locked, locked_date, 

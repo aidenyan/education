@@ -14,7 +14,7 @@ public interface RoleInfoMapper {
      * @param id ID
      * @return 角色信息
      */
-    RoleInfo findById(@Param("id") Long id, @Param("roleIdList") List<Long> roleIdList);
+    RoleInfo findById(@Param("id") Long id, @Param("siteIdList") List<Long> siteIdList);
 
     /**
      * 保存角色信息
@@ -28,10 +28,10 @@ public interface RoleInfoMapper {
      * 根据角色的名字查询角色信息
      *
      * @param roleName   角色名字
-     * @param roleIdList 站点ID列表
+     * @param siteIdList 站点ID列表
      * @return List<角色信息>
      */
-    List<RoleInfo> list(@Param("roleName") String roleName, @Param("roleIdList") List<Long> roleIdList);
+    List<RoleInfo> list(@Param("roleName") String roleName, @Param("siteIdList") List<Long> siteIdList);
 
     /**
      * 跟新角色需要根据的数据

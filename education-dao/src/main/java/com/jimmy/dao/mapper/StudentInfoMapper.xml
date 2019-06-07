@@ -63,7 +63,7 @@
     </select>
 
 
-    <insert id="insert" parameterType="com.jimmy.dao.entity.StudentInfo">
+    <insert id="insert" parameterType="com.jimmy.dao.entity.StudentInfo"  useGeneratedKeys="true" keyProperty="id">
     insert into t_student_info (classmate_id, name,
       sex, email, is_enabled, 
       password, real_name, header_url, 

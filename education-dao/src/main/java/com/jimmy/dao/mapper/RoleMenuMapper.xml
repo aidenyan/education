@@ -5,5 +5,16 @@
     <id column="role_id" property="roleId" jdbcType="BIGINT" />
     <id column="menu_id" property="menuId" jdbcType="BIGINT" />
   </resultMap>
-
+  <delete id="deleted">
+    delete from t_role_menu
+    where role_id = #{roleId}
+  </delete>
+  <insert id="insert" parameterType="com.jimmy.dao.entity.RoleMenuKey" >
+    insert into t_role_menu (role_id, menu_id)
+    values (#{roleId,jdbcType=BIGINT}, #{menuId})
+  </insert>
+  <select id="list" resultType="java.lang.Long">
+    SELECT menu_id from  t_role_menu
+    where role_id = #{roleId}
+  </select>
 </mapper>

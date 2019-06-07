@@ -25,7 +25,7 @@
             #{siteId}
         </foreach>
     </select>
-    <insert id="insert" parameterType="com.jimmy.dao.entity.RoleInfo">
+    <insert id="insert" parameterType="com.jimmy.dao.entity.RoleInfo" useGeneratedKeys="true" keyProperty="id">
     insert into t_role_info ( name, role_desc,
       deleted, create_time, modify_time, 
       create_id, modify_id, site_id
