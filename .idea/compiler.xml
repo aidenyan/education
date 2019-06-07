@@ -13,6 +13,8 @@
         <module name="education-service" />
         <module name="education-student-api" />
         <module name="education-teacher-api" />
+        <module name="education-teacher-mobile-api" />
+        <module name="education-teacher-pad-api" />
         <module name="education-web-api" />
       </profile>
     </annotationProcessing>
@@ -27,6 +29,8 @@
       <module name="education-service" target="1.8" />
       <module name="education-student-api" target="1.8" />
       <module name="education-teacher-api" target="1.8" />
+      <module name="education-teacher-mobile-api" target="1.8" />
+      <module name="education-teacher-pad-api" target="1.8" />
       <module name="education-web-api" target="1.8" />
     </bytecodeTargetLevel>
   </component>

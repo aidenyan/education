@@ -17,6 +17,7 @@
         <module>education-teacher-api</module>
         <module>education-student-api</module>
         <module>education-mvc-common</module>
+        <module>education-teacher-pad-api</module>
     </modules>
     <properties>
         <commons.version>3.9</commons.version>

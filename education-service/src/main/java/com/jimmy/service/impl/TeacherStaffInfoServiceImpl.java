@@ -1,6 +1,7 @@
 package com.jimmy.service.impl;
 
 import com.jimmy.common.utils.StringUtils;
+import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.mapper.TeacherStaffInfoMapper;
@@ -49,15 +50,35 @@ public class TeacherStaffInfoServiceImpl implements TeacherStaffInfoService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int update(TeacherStaffInfo teacherStaffInfo) {
-        Assert.notNull(teacherStaffInfo, "teacherStaffInfo is null");
-        return teacherStaffInfoMapper.update(teacherStaffInfo);
+    public void updateAppToken(Long id, String token) {
+        Assert.notNull(id, "id is null");
+        Assert.notNull(token, "token is null");
+        TeacherStaffInfo teacherStaffInfo = new TeacherStaffInfo();
+        teacherStaffInfo.setId(id);
+        teacherStaffInfo.setAppToken(token);
+        if (LoginLocalThread.get() == null) {
+            teacherStaffInfo.setModifyId(id);
+        } else {
+            teacherStaffInfo.setModifyId(LoginLocalThread.get());
+        }
+        teacherStaffInfoMapper.updateProperty(teacherStaffInfo);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int updateProperty(TeacherStaffInfo teacherStaffInfo) {
-        Assert.notNull(teacherStaffInfo, "teacherStaffInfo is null");
-        return teacherStaffInfoMapper.update(teacherStaffInfo);
+    public void updatePadAppToken(Long id, String token) {
+        Assert.notNull(id, "id is null");
+        Assert.notNull(token, "token is null");
+        TeacherStaffInfo teacherStaffInfo = new TeacherStaffInfo();
+        teacherStaffInfo.setId(id);
+        teacherStaffInfo.setPadAppToken(token);
+        if (LoginLocalThread.get() == null) {
+            teacherStaffInfo.setModifyId(id);
+        } else {
+            teacherStaffInfo.setModifyId(LoginLocalThread.get());
+        }
+        teacherStaffInfoMapper.updateProperty(teacherStaffInfo);
     }
+
+
 }

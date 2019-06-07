@@ -1,4 +1,4 @@
-package com.jimmy.teacher.api.local.thread;
+package com.jimmy.teacher.pad.api.local.thread;
 
 import com.jimmy.dao.entity.TeacherStaffInfo;
 

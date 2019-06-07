@@ -39,11 +39,15 @@ public class StudentInfoServiceImpl implements StudentInfoService {
     @Override
     public void updateToken(String token, Long id) {
         Assert.notNull(id, "id is null");
-        Assert.isTrue(StringUtils.isNotBlank(token), "token is null");
+        Assert.notNull(token, "token is null");
         StudentInfo studentInfo = new StudentInfo();
         studentInfo.setId(id);
         studentInfo.setAppToken(token);
-        studentInfo.setModifyId(LoginLocalThread.get());
-        studentInfoMapper.update(studentInfo);
+        if (LoginLocalThread.get() == null) {
+            studentInfo.setModifyId(id);
+        } else {
+            studentInfo.setModifyId(LoginLocalThread.get());
+        }
+        studentInfoMapper.updateProperty(studentInfo);
     }
 }

@@ -38,18 +38,19 @@ public interface TeacherStaffInfoService {
     void save(TeacherStaffInfo teacherStaffInfo);
 
     /**
-     * 更新老师信息
+     * 根据ID更新token的值
      *
-     * @param teacherStaffInfo 老师信息
-     * @return 更新的数量
+     * @param id    ID
+     * @param token token
      */
-    int update(TeacherStaffInfo teacherStaffInfo);
+    void updateAppToken(Long id, String token);
 
     /**
-     * 更新老师信息
+     * 根据ID更新token的值
      *
-     * @param teacherStaffInfo 老师信息
-     * @return 更新的数量
+     * @param id    ID
+     * @param token token
      */
-    int updateProperty(TeacherStaffInfo teacherStaffInfo);
+    void updatePadAppToken(Long id, String token);
+
 }

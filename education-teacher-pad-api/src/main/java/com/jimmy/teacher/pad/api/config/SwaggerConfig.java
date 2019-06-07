@@ -1,9 +1,9 @@
-package com.jimmy.teacher.api.config;
+package com.jimmy.teacher.pad.api.config;
 
 import com.jimmy.mvc.common.config.WebConfig;
 import com.jimmy.service.TeacherStaffInfoService;
 import com.jimmy.service.TokenService;
-import com.jimmy.teacher.api.interceptor.AuthorInterceptor;
+import com.jimmy.teacher.pad.api.interceptor.AuthorInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +42,7 @@ public class SwaggerConfig extends WebConfig {
                  * paths():指定针对哪些请求生成接口文档
                  * 参考官方资料：http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api ****/
                 //.apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.jimmy.teacher.api.controller"))//controller所在的位置
+                .apis(RequestHandlerSelectors.basePackage("com.jimmy.teacher.pad.api.controller"))//controller所在的位置
 //                .paths(Predicates.or(PathSelectors.ant("/demo2"),
 //                        PathSelectors.ant("/demo1")
 //                ))//对路径进行过滤,是对方法上的requestMapper地址进行过滤

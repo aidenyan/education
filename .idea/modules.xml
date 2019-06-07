@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/education-service/education-service.iml" filepath="$PROJECT_DIR$/education-service/education-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/education-student-api/education-student-api.iml" filepath="$PROJECT_DIR$/education-student-api/education-student-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/education-teacher-api/education-teacher-api.iml" filepath="$PROJECT_DIR$/education-teacher-api/education-teacher-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/education-teacher-pad-api/education-teacher-pad-api.iml" filepath="$PROJECT_DIR$/education-teacher-pad-api/education-teacher-pad-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/education-web-api/education-web-api.iml" filepath="$PROJECT_DIR$/education-web-api/education-web-api.iml" />
     </modules>
   </component>

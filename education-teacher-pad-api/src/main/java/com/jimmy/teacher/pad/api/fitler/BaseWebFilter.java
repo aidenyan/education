@@ -1,4 +1,4 @@
-package com.jimmy.teacher.api.fitler;
+package com.jimmy.teacher.pad.api.fitler;
 
 import com.alibaba.fastjson.JSON;
 import com.jimmy.core.enums.OperationSysEnum;
@@ -8,7 +8,7 @@ import com.jimmy.core.local.thread.SysLogUuidLocalThread;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.local.thread.RequestLocalThread;
 import com.jimmy.mvc.common.local.thread.ResponseLocalThread;
-import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
+import com.jimmy.teacher.pad.api.local.thread.TeacherLocalThread;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
