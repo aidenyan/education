@@ -9,7 +9,8 @@ import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.utils.PasswordUtils;
 import com.jimmy.service.TeacherStaffInfoService;
 import com.jimmy.service.TokenService;
-import com.jimmy.teacher.api.controller.BaseController;
+
+import com.jimmy.teacher.pad.api.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
