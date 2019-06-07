@@ -35,7 +35,7 @@ public interface TeacherStaffInfoService {
      * @param teacherStaffInfo 老师信息
      * @return 保存的数量
      */
-    int insert(TeacherStaffInfo teacherStaffInfo);
+    void save(TeacherStaffInfo teacherStaffInfo);
 
     /**
      * 更新老师信息

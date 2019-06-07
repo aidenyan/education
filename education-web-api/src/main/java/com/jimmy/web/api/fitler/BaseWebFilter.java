@@ -3,6 +3,7 @@ package com.jimmy.web.api.fitler;
 import com.alibaba.fastjson.JSON;
 import com.jimmy.core.enums.OperationSysEnum;
 import com.jimmy.core.enums.ResultCoreEnum;
+import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.core.local.thread.OperationSysLocalThread;
 import com.jimmy.core.local.thread.SysLogUuidLocalThread;
 import com.jimmy.mvc.common.base.Result;
@@ -51,6 +52,7 @@ public class BaseWebFilter implements Filter {
         SysLogUuidLocalThread.set(null);
         MenuInfoLocalThread.set(null);
         TeacherLocalThread.set(null);
+        LoginLocalThread.set(null);
     }
 
     @Override

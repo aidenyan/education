@@ -1,5 +1,6 @@
 package com.jimmy.web.api.interceptor;
 
+import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.web.api.local.thread.MenuInfoLocalThread;
 import com.jimmy.web.api.local.thread.TeacherLocalThread;
@@ -18,6 +19,7 @@ public class TeacherInterceptor implements HandlerInterceptor {
         TeacherStaffInfo teacherStaffInfo = sessionService.find();
         TeacherLocalThread.set(teacherStaffInfo);
         MenuInfoLocalThread.set(sessionService.listMenuInfo());
+        LoginLocalThread.set(teacherStaffInfo.getId());
         return true;
     }
 

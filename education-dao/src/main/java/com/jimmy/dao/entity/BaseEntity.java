@@ -21,11 +21,11 @@ public class BaseEntity {
     /**
      * 创建人
      */
-    private Integer createId;
+    private Long createId;
     /**
      * 修改人
      */
-    private Integer modifyId;
+    private Long modifyId;
     /**
      * 站点
      */

@@ -55,11 +55,14 @@
         select
         <include refid="Base_Column_List"/>
         from t_student_info
-        where name like concat('%','#{name}','%') and is_deleted=0 AND
+        where  is_deleted=0 AND
         site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
+        <if test=" name != null">
+           and name like concat('%','#{name}','%')
+        </if>
     </select>
 
 
