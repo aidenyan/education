@@ -1,7 +1,10 @@
 package com.jimmy.student.api.config;
 
 import com.jimmy.mvc.common.config.WebConfig;
-import com.jimmy.mvc.common.interceptor.SiteInterceptor;
+import com.jimmy.service.StudentInfoService;
+import com.jimmy.service.TokenService;
+import com.jimmy.student.api.interceptor.AuthorInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,6 +22,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2//启动swagger，可以写在spring-boot的启动上
 public class SwaggerConfig extends WebConfig {
 
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private StudentInfoService studentInfoService;
 
     /**
      * Docket可以有多个,groupName分组的信息,每个分组可以有自己的类型
@@ -50,9 +58,14 @@ public class SwaggerConfig extends WebConfig {
                 .termsOfServiceUrl("")
                 .build();
     }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-         super.addInterceptors(registry);
+        super.addInterceptors(registry);
+        AuthorInterceptor authorInterceptor = new AuthorInterceptor();
+        authorInterceptor.setStudentInfoService(studentInfoService);
+        authorInterceptor.setTokenService(tokenService);
+        registry.addInterceptor(authorInterceptor).addPathPatterns("/student/**");
     }
 
 }
