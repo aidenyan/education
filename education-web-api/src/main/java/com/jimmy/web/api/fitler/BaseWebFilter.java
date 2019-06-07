@@ -8,6 +8,8 @@ import com.jimmy.core.local.thread.SysLogUuidLocalThread;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.local.thread.RequestLocalThread;
 import com.jimmy.mvc.common.local.thread.ResponseLocalThread;
+import com.jimmy.web.api.local.thread.MenuInfoLocalThread;
+import com.jimmy.web.api.local.thread.TeacherLocalThread;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -36,20 +38,19 @@ public class BaseWebFilter implements Filter {
         try {
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-
             Result<Void> resultModel = new Result<>(ResultCoreEnum.RESULT_EXCEPTION_SYS);
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
             PrintWriter out = response.getWriter();
             out.append(JSON.toJSONString(resultModel));
             out.close();
-
-
         }
         RequestLocalThread.set(null);
         ResponseLocalThread.set(null);
         OperationSysLocalThread.set(null);
         SysLogUuidLocalThread.set(null);
+        MenuInfoLocalThread.set(null);
+        TeacherLocalThread.set(null);
     }
 
     @Override

@@ -41,7 +41,7 @@
                selectByExampleQueryId="false"/>-->
 
 
-        <table tableName="t_site_info" domainObjectName="SiteInfo"
+        <table tableName="t_teacher_role" domainObjectName="TeacherRole"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

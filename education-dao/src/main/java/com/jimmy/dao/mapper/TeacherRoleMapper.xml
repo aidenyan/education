@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.TeacherRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.TeacherRoleKey" >
+    <id column="role_id" property="roleId" jdbcType="BIGINT" />
+    <id column="staff_id" property="staffId" jdbcType="BIGINT" />
+  </resultMap>
+  <delete id="deleted">
+    delete from t_teacher_role
+    where staff_id = #{staffId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.jimmy.dao.entity.TeacherRoleKey" >
+    insert into t_teacher_role (role_id, staff_id)
+    values (#{roleId,jdbcType=BIGINT}, #{staffId,jdbcType=BIGINT})
+  </insert>
+  <select id="list" resultType="java.lang.Long">
+    SELECT role_id from  t_teacher_role
+    where staff_id = #{staffId}
+  </select>
+
+</mapper>

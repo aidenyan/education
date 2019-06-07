@@ -1,11 +1,12 @@
 package com.jimmy.web.api.config;
 
 import com.jimmy.mvc.common.config.WebConfig;
+import com.jimmy.web.api.interceptor.TeacherInterceptor;
+import com.jimmy.web.api.service.SessionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -20,6 +21,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2//启动swagger，可以写在spring-boot的启动上
 public class SwaggerConfig extends WebConfig {
 
+    @Autowired
+    private SessionService sessionService;
 
     /**
      * Docket可以有多个,groupName分组的信息,每个分组可以有自己的类型
@@ -56,6 +59,9 @@ public class SwaggerConfig extends WebConfig {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         super.addInterceptors(registry);
+        TeacherInterceptor teacherInterceptor = new TeacherInterceptor();
+        teacherInterceptor.setSessionService(sessionService);
+        registry.addInterceptor(teacherInterceptor).addPathPatterns("/**");
     }
 
 }

@@ -4,15 +4,18 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
+
 @Data
-public class SiteInfo implements Serializable{
+public class SiteInfo implements Serializable {
 
 
     private String domain;
 
-    private Integer parentId;
+    private Long parentSiteId;
 
-    private String parentTree;
+    private Long siteId;
+
+    private String parentSiteTree;
 
     private Boolean childEnabled;
 
@@ -37,4 +40,4 @@ public class SiteInfo implements Serializable{
      * 修改人
      */
     private Integer modifyId;
-   }
+}

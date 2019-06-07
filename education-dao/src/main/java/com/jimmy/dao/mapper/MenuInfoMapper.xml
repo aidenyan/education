@@ -35,6 +35,11 @@
     <foreach collection="roleIdList" open="(" close=")" item="roleId" separator=",">
       #{roleId}
     </foreach>
+    and menu.site_id IN
+    <foreach collection="siteIdList"separator="," item="siteId" close=")" open="(">
+      #{siteId}
+    </foreach>
+
   </select>
   <select id="list" resultMap="BaseResultMap" >
     select

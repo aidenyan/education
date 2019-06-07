@@ -23,16 +23,16 @@ public class SiteInterceptor implements HandlerInterceptor {
         if (siteInfo == null) {
             throw new SiteException("site is not exist");
         }
-        SiteLocalThread.setSiteId(siteInfo.getId());
+        SiteLocalThread.setSiteId(siteInfo.getSiteId());
         List<SiteInfo> siteInfoList = null;
         if (siteInfo.getChildEnabled()) {
-            siteInfoList = siteInfoService.listChild(siteInfo.getId());
+            siteInfoList = siteInfoService.listChild(siteInfo.getSiteId());
         } else {
             siteInfoList = new ArrayList<>();
             siteInfoList.add(siteInfo);
         }
         List<Long> siteIdList = new ArrayList<>();
-        siteInfoList.forEach(site -> siteIdList.add(site.getId()));
+        siteInfoList.forEach(site -> siteIdList.add(site.getSiteId()));
         SiteLocalThread.setSiteIdList(siteIdList);
         return true;
     }

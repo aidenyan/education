@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.SysInfoMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.SysInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="sys_key" property="sysKey" jdbcType="VARCHAR"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="sys_value" property="sysValue" jdbcType="LONGVARCHAR"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, sys_key,  sys_value, create_id, modify_id, create_time, modify_time, site_id
+  </sql>
+    <sql id="Blob_Column_List">
+
+    </sql>
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_sys_info
+        where site_id = #{siteId}
+    </select>
+
+    <insert id="insert" parameterType="com.jimmy.dao.entity.SysInfo">
+    insert into t_sys_info (sys_key, create_id,
+      modify_id, create_time, modify_time, 
+      site_id, sys_value)
+    values ( #{sysKey,jdbcType=VARCHAR}, #{createId,jdbcType=BIGINT},
+      #{modifyId,jdbcType=BIGINT}, now(), now(),
+      #{siteId,jdbcType=BIGINT}, #{sysValue,jdbcType=LONGVARCHAR})
+  </insert>
+
+</mapper>
