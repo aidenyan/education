@@ -41,11 +41,12 @@
                selectByExampleQueryId="false"/>-->
 
 
-        <table tableName="t_sys_log_info" domainObjectName="SysLogInfo"
+        <table tableName="t_site_info" domainObjectName="SiteInfo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
+
         <!--oracle的生成方式-->
         <!--<classPathEntry-->
         <!--location="C:/Oracle/Middleware/wlserver_10.3/server/lib/ojdbc6.jar"/>-->

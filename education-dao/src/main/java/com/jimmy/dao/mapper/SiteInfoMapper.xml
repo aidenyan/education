@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.SiteInfoMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.SiteInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="domain" property="domain" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="parent_tree" property="parentTree" jdbcType="VARCHAR"/>
+        <result column="child_enabled" property="childEnabled" jdbcType="TINYINT"/>
+        <result column="deleted" property="deleted" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, domain, parent_id, parent_tree, child_enabled, deleted, create_time, modify_time,
+    create_id, modify_id
+  </sql>
+    <select id="findByDomain" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from t_site_info
+        where deleted=0 and domain =#{doamin}
+    </select>
+    <select id="listChild" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from t_site_info
+        where deleted=0 and parent_tree LIKE concat('%,','#{siteId}',',%')
+    </select>
+    <insert id="insert" parameterType="com.jimmy.dao.entity.SiteInfo">
+    insert into t_site_info ( domain, parent_id,
+      parent_tree, child_enabled, deleted, 
+      create_time, modify_time, create_id, 
+      modify_id)
+    values ( #{domain,jdbcType=VARCHAR}, #{parentId,jdbcType=INTEGER},
+      #{parentTree,jdbcType=VARCHAR}, #{childEnabled,jdbcType=TINYINT}, #{deleted,jdbcType=TINYINT}, 
+      now(), now(), #{createId,jdbcType=BIGINT},
+      #{modifyId,jdbcType=BIGINT})
+  </insert>
+
+
+</mapper>

@@ -5,7 +5,6 @@ import com.jimmy.common.utils.ObjectUtils;
 import com.jimmy.common.utils.StringUtils;
 import com.jimmy.core.anno.DisabledLog;
 import com.jimmy.core.anno.LogInfo;
-import com.jimmy.core.enums.OperationEnum;
 import com.jimmy.core.enums.OperationSysEnum;
 import com.jimmy.core.local.thread.LogInfoLocalThread;
 import com.jimmy.core.local.thread.OperationSysLocalThread;
@@ -62,7 +61,7 @@ public class LogAop {
         LogInfo logInfoLocal = LogInfoLocalThread.get();
         DisabledLog disabledLog = method.getAnnotation(DisabledLog.class);
         if (disabledLog == null && logInfo == null && logInfoLocal != null && !transactional.readOnly()) {
-            obj = dealSysLog(joinPoint, logInfoLocal, method,  1);
+            obj = dealSysLog(joinPoint, logInfoLocal, method, 1);
         } else {
             obj = joinPoint.proceed(joinPoint.getArgs());
         }
@@ -92,11 +91,11 @@ public class LogAop {
     }
 
     private Object dealSysLog(ProceedingJoinPoint joinPoint, LogInfo logInfo, Method method, Integer logType) throws Throwable {
-        Object obj = null;
+        Object obj = joinPoint.proceed(joinPoint.getArgs());
         SysLogInfo sysLogInfo = new SysLogInfo();
         sysLogInfo.setOperationUuid(SysLogUuidLocalThread.get());
-        OperationSysEnum sysEnum= OperationSysLocalThread.get();
-        if(sysEnum!=null){
+        OperationSysEnum sysEnum = OperationSysLocalThread.get();
+        if (sysEnum != null) {
             sysLogInfo.setOperationSys(sysEnum.getCode());
         }
         try {
@@ -143,7 +142,7 @@ public class LogAop {
             sysLogInfo.setObjType(logInfo.type().getCode());
             sysLogInfo.setSign(joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
             sysLogInfo.setLogType(logType);
-            obj = joinPoint.proceed(joinPoint.getArgs());
+
             if (obj != null) {
                 sysLogInfo.setOperationResult(JSON.toJSONString(obj));
             }
@@ -153,7 +152,6 @@ public class LogAop {
             sysLogInfoService.insert(sysLogInfo);
             ex.printStackTrace();
             logger.error("", ex);
-            throw ex;
         }
         return obj;
     }
