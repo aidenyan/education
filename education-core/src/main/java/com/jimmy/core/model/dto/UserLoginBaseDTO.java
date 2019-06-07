@@ -12,4 +12,5 @@ public class UserLoginBaseDTO {
      * 用户的TOKEN
      */
     private String token;
+
 }
