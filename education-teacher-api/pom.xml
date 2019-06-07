@@ -12,4 +12,18 @@
     <artifactId>education-teacher-api</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.jimmy</groupId>
+            <artifactId>education-mvc-common</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <!--&lt;!&ndash;热部署配置&ndash;&gt;-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-devtools</artifactId>-->
+        <!--<optional>true</optional>-->
+        <!--<scope>true</scope>-->
+        <!--</dependency>-->
+    </dependencies>
 </project>

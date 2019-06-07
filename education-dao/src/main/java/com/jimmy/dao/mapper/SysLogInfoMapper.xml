@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.SysLogInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.SysLogInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="operation_sys" property="operationSys" jdbcType="TINYINT" />
+    <result column="operation_id" property="operationId" jdbcType="BIGINT" />
+    <result column="operation_uuid" property="operationUuid" jdbcType="VARCHAR" />
+    <result column="operation_name" property="operationName" jdbcType="VARCHAR" />
+    <result column="operation_content" property="operationContent" jdbcType="VARCHAR" />
+    <result column="operation_code" property="operationCode" jdbcType="VARCHAR" />
+    <result column="operation_ip" property="operationIp" jdbcType="VARCHAR" />
+    <result column="log_type" property="logType" jdbcType="TINYINT" />
+    <result column="obj_id" property="objId" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="obj_type" property="objType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="INTEGER" />
+    <result column="modify_id" property="modifyId" jdbcType="INTEGER" />
+    <result column="site_id" property="siteId" jdbcType="BIGINT" />
+    <result column="operation_result" property="operationResult" jdbcType="LONGVARCHAR" />
+    <result column="operation_detail" property="operationDetail" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, operation_sys, operation_uuid,operation_id, operation_name, operation_content, operation_code,
+    operation_ip, log_type, obj_id, sign, obj_type,operation_result, operation_detail, create_time, modify_time, create_id,
+    modify_id, site_id
+  </sql>
+  <select id="findById" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sys_log_info
+    where id = #{id} and site_id IN
+    <foreach collection="siteIdList"separator="," item="siteId" close=")" open="(">
+      #{siteId}
+    </foreach>
+  </select>
+  <select id="list" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_sys_log_info
+    where site_id IN
+    <foreach collection="siteIdList"separator="," item="siteId" close=")" open="(">
+      #{siteId}
+    </foreach>
+    <if test="startDate != null">
+      AND create_time >= #{startDate}
+    </if>
+    <if test="endDate != null">
+      AND create_time &lt;= #{endDate}
+    </if>
+    <if test="operationSys != null">
+      AND operation_sys = #{operationSys}
+    </if>
+    <if test="logType != null">
+      AND log_type = #{logType}
+    </if>
+  </select>
+  <insert id="insert" parameterType="com.jimmy.dao.entity.SysLogInfo" >
+    insert into t_sys_log_info (operation_uuid, operation_sys, operation_id,
+      operation_name, operation_content, operation_code, 
+      operation_ip, log_type, obj_id, 
+      sign, obj_type, create_time, 
+      modify_time, create_id, modify_id, 
+      site_id, operation_result, operation_detail
+      )
+    values (#{operationUuid}, #{operationSys,jdbcType=TINYINT}, #{operationId,jdbcType=BIGINT},
+      #{operationName,jdbcType=VARCHAR}, #{operationContent,jdbcType=VARCHAR}, #{operationCode,jdbcType=VARCHAR}, 
+      #{operationIp,jdbcType=VARCHAR}, #{logType,jdbcType=TINYINT}, #{objId,jdbcType=VARCHAR}, 
+      #{sign,jdbcType=VARCHAR}, #{objType,jdbcType=INTEGER}, now(),
+      now(), #{createId,jdbcType=INTEGER}, #{modifyId,jdbcType=INTEGER},
+      #{siteId,jdbcType=BIGINT}, #{operationResult,jdbcType=LONGVARCHAR}, #{operationDetail,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+
+</mapper>

@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/education-common/education-common.iml" filepath="$PROJECT_DIR$/education-common/education-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/education-core/education-core.iml" filepath="$PROJECT_DIR$/education-core/education-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/education-dao/education-dao.iml" filepath="$PROJECT_DIR$/education-dao/education-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/education-mvc-common/education-mvc-common.iml" filepath="$PROJECT_DIR$/education-mvc-common/education-mvc-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/education-service/education-service.iml" filepath="$PROJECT_DIR$/education-service/education-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/education-student-api/education-student-api.iml" filepath="$PROJECT_DIR$/education-student-api/education-student-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/education-teacher-api/education-teacher-api.iml" filepath="$PROJECT_DIR$/education-teacher-api/education-teacher-api.iml" />

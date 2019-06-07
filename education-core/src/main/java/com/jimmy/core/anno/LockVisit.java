@@ -1,7 +1,6 @@
 package com.jimmy.core.anno;
 
 import java.lang.annotation.*;
-
 /**
  * @author aiden
  * @date 2017/4/20

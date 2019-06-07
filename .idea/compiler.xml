@@ -9,6 +9,7 @@
         <module name="education-common" />
         <module name="education-core" />
         <module name="education-dao" />
+        <module name="education-mvc-common" />
         <module name="education-service" />
         <module name="education-student-api" />
         <module name="education-teacher-api" />
@@ -21,6 +22,8 @@
       <module name="education-common" target="1.8" />
       <module name="education-core" target="1.8" />
       <module name="education-dao" target="1.8" />
+      <module name="education-dao-1" target="1.8" />
+      <module name="education-mvc-common" target="1.8" />
       <module name="education-service" target="1.8" />
       <module name="education-student-api" target="1.8" />
       <module name="education-teacher-api" target="1.8" />
