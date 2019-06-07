@@ -10,6 +10,7 @@ public class TeacherLocalThread {
     }
 
     public static void set(TeacherStaffInfo teacherStaffInfo) {
+        teacherStaffInfo.setPassword(null);
         teacherStaffInfoThreadLocal.set(teacherStaffInfo);
     }
 }

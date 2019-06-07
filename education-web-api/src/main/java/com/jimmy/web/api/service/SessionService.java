@@ -33,4 +33,9 @@ public interface SessionService {
      * @return List<菜单信息>
      */
     List<MenuInfo> listMenuInfo();
+
+    /**
+     * 退出
+     */
+    void out();
 }

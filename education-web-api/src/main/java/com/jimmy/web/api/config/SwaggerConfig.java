@@ -1,6 +1,7 @@
 package com.jimmy.web.api.config;
 
 import com.jimmy.mvc.common.config.WebConfig;
+import com.jimmy.web.api.interceptor.AuthorInterceptor;
 import com.jimmy.web.api.interceptor.TeacherInterceptor;
 import com.jimmy.web.api.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,9 @@ public class SwaggerConfig extends WebConfig {
         TeacherInterceptor teacherInterceptor = new TeacherInterceptor();
         teacherInterceptor.setSessionService(sessionService);
         registry.addInterceptor(teacherInterceptor).addPathPatterns("/**");
+        AuthorInterceptor authorInterceptor = new AuthorInterceptor();
+        authorInterceptor.setSessionService(sessionService);
+        registry.addInterceptor(teacherInterceptor).addPathPatterns("/admin/**");
     }
 
 }

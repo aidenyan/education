@@ -13,8 +13,15 @@
     insert into t_role_menu (role_id, menu_id)
     values (#{roleId,jdbcType=BIGINT}, #{menuId})
   </insert>
-  <select id="list" resultType="java.lang.Long">
+  <select id="listByRoleId" resultType="java.lang.Long">
     SELECT menu_id from  t_role_menu
     where role_id = #{roleId}
+  </select>
+  <select id="listByRoleIdList" resultType="java.lang.Long">
+    SELECT menu_id from  t_role_menu
+    where role_id IN
+    <foreach collection="roleIdList" separator="," item="roleId" close=")" open="(">
+      #{roleId}
+    </foreach>
   </select>
 </mapper>

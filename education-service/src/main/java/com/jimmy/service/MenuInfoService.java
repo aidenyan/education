@@ -19,4 +19,13 @@ public interface MenuInfoService {
      * @return List<菜单>
      */
     List<MenuInfo> list();
+
+    /**
+     * 根据教师ID查找菜单
+     *
+     * @param staffId 教师ID
+     * @return List<菜单>
+     */
+    List<MenuInfo> list(Long staffId);
+
 }

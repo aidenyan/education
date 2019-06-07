@@ -46,6 +46,13 @@ public class SessionServiceImpl implements SessionService {
         List<MenuInfo> menuInfoList = (List<MenuInfo>) session.getAttribute(SESSION_MENU_LIST_KEY);
         return menuInfoList;
     }
+
+    @Override
+    public void out() {
+        HttpServletRequest request = RequestLocalThread.get();
+        HttpSession session = request.getSession();
+        session.invalidate();
+    }
 }
 
 
