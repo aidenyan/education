@@ -1,10 +1,10 @@
 package com.jimmy.student.api.config;
 
+import com.jimmy.mvc.common.config.WebConfig;
+import com.jimmy.mvc.common.interceptor.SiteInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration//需要实力化
 @EnableSwagger2//启动swagger，可以写在spring-boot的启动上
-public class SwaggerConfig extends WebMvcConfigurerAdapter {
+public class SwaggerConfig extends WebConfig {
 
 
     /**
@@ -50,16 +50,9 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
                 .termsOfServiceUrl("")
                 .build();
     }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-    }
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
+         super.addInterceptors(registry);
     }
 
 }

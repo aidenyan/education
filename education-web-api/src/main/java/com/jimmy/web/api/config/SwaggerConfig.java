@@ -1,5 +1,6 @@
 package com.jimmy.web.api.config;
 
+import com.jimmy.mvc.common.config.WebConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -17,7 +18,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 @Configuration//需要实力化
 @EnableSwagger2//启动swagger，可以写在spring-boot的启动上
-public class SwaggerConfig extends WebMvcConfigurerAdapter {
+public class SwaggerConfig extends WebConfig {
 
 
     /**
@@ -51,15 +52,10 @@ public class SwaggerConfig extends WebMvcConfigurerAdapter {
                 .build();
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-
+        super.addInterceptors(registry);
     }
 
 }

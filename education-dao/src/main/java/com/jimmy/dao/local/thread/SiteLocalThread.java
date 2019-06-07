@@ -11,7 +11,7 @@ public class SiteLocalThread {
         return siteIdThreadLocal.get();
     }
 
-    public static void set(Long siteId) {
+    public static void setSiteId(Long siteId) {
         siteIdThreadLocal.set(siteId);
     }
 
@@ -20,7 +20,7 @@ public class SiteLocalThread {
         return siteIdListThreadLocal.get();
     }
 
-    public static void set(List<Long> siteIdList) {
+    public static void setSiteIdList(List<Long> siteIdList) {
         siteIdListThreadLocal.set(siteIdList);
     }
 }
