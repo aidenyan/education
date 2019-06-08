@@ -1,159 +1,111 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jimmy.dao.mapper.ClassRoomInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.ClassRoomInfo" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="create_id" property="createId" jdbcType="BIGINT" />
-    <result column="modify_id" property="modifyId" jdbcType="BIGINT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
-    <result column="site_id" property="siteId" jdbcType="BIGINT" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.jimmy.dao.entity.ClassRoomInfo" extends="BaseResultMap" >
-    <result column="description" property="description" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, name, address, create_id, modify_id, create_time, modify_time, site_id
+<mapper namespace="com.jimmy.dao.mapper.ClassRoomInfoMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.ClassRoomInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+        <result column="description" property="description" jdbcType="LONGVARCHAR"/>
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, name, address,description,is_deleted, create_id, modify_id, create_time, modify_time, site_id
   </sql>
-  <sql id="Blob_Column_List" >
-    description
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_class_room_info
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from t_class_room_info
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.jimmy.dao.entity.ClassRoomInfo" >
-    insert into t_class_room_info (id, name, address, 
-      create_id, modify_id, create_time, 
-      modify_time, site_id, description
-      )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT}, #{description,jdbcType=LONGVARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.jimmy.dao.entity.ClassRoomInfo" >
-    insert into t_class_room_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="address != null" >
-        address,
-      </if>
-      <if test="createId != null" >
-        create_id,
-      </if>
-      <if test="modifyId != null" >
-        modify_id,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="modifyTime != null" >
-        modify_time,
-      </if>
-      <if test="siteId != null" >
-        site_id,
-      </if>
-      <if test="description != null" >
-        description,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null" >
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="createId != null" >
-        #{createId,jdbcType=BIGINT},
-      </if>
-      <if test="modifyId != null" >
-        #{modifyId,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null" >
-        #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="siteId != null" >
-        #{siteId,jdbcType=BIGINT},
-      </if>
-      <if test="description != null" >
-        #{description,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jimmy.dao.entity.ClassRoomInfo" >
-    update t_class_room_info
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null" >
+
+    <select id="findById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_class_room_info
+        where id = #{id} and is_deleted=0
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_class_room_info
+        where is_deleted=0
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        <if test=" name != null">
+            AND name LIKE concat('%','#{name}','%')
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.jimmy.dao.entity.ClassRoomInfo"  keyProperty="id" useGeneratedKeys="true">
+        insert into t_class_room_info (is_deleted, name, address,
+        create_id, modify_id, create_time,
+        modify_time, site_id, description
+        )
+        values (#{isDeleted}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+        #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
+        #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT}, #{description,jdbcType=LONGVARCHAR}
+        )
+    </insert>
+
+    <update id="updateProperty" parameterType="com.jimmy.dao.entity.ClassRoomInfo">
+        update t_class_room_info
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            modify_id = #{modifyId,jdbcType=BIGINT},
+            modify_time =now(),
+            <if test="isDeleted != null">
+                is_deleted = #{isDeleted}
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId,jdbcType=BIGINT} and is_deleted=0
+    </update>
+    <update id="update" parameterType="com.jimmy.dao.entity.ClassRoomInfo">
+        update t_class_room_info
+        set name = #{name,jdbcType=VARCHAR},
         address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="createId != null" >
-        create_id = #{createId,jdbcType=BIGINT},
-      </if>
-      <if test="modifyId != null" >
         modify_id = #{modifyId,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null" >
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="siteId != null" >
-        site_id = #{siteId,jdbcType=BIGINT},
-      </if>
-      <if test="description != null" >
-        description = #{description,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jimmy.dao.entity.ClassRoomInfo" >
-    update t_class_room_info
-    set name = #{name,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      create_id = #{createId,jdbcType=BIGINT},
-      modify_id = #{modifyId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      site_id = #{siteId,jdbcType=BIGINT},
-      description = #{description,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.jimmy.dao.entity.ClassRoomInfo" >
-    update t_class_room_info
-    set name = #{name,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      create_id = #{createId,jdbcType=BIGINT},
-      modify_id = #{modifyId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      site_id = #{siteId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+        modify_time = now(),
+        description = #{description,jdbcType=LONGVARCHAR}
+        where id = #{id,jdbcType=BIGINT}  and site_id = #{siteId,jdbcType=BIGINT} and is_deleted=0
+    </update>
+
+    <update id="updateProperty" parameterType="com.jimmy.dao.entity.ClassRoomInfo">
+        update t_class_room_info
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+
+
+                modify_id = #{modifyId,jdbcType=BIGINT},
+
+                modify_time = now(),
+
+
+            <if test="description != null">
+                description = #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}  and site_id = #{siteId,jdbcType=BIGINT} and is_deleted=0
+    </update>
+
 </mapper>

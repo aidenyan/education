@@ -38,7 +38,7 @@
     </select>
 
 
-    <insert id="insert" parameterType="com.jimmy.dao.entity.ClassMate">
+    <insert id="insert" parameterType="com.jimmy.dao.entity.ClassMate" keyProperty="id" useGeneratedKeys="true">
     insert into t_class_mate ( name, is_deleted,
       create_id, modify_id, create_time, 
       modify_time, site_id, description
