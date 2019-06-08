@@ -10,9 +10,9 @@ public class TeacherStaffInfo extends BaseEntity {
 
     private String name;
 
-    private Byte sex;
+    private Integer sex;
 
-    private Byte staffType;
+    private Integer staffType;
 
     private String staffName;
 
@@ -48,7 +48,7 @@ public class TeacherStaffInfo extends BaseEntity {
 
     private String padAppToken;
 
-    private Byte isDeleted;
+    private Boolean isDeleted;
 
     private String headerInfo;
 }

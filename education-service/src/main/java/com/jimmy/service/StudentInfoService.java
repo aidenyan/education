@@ -37,4 +37,13 @@ public interface StudentInfoService {
      */
     void updateToken(String token, Long id);
 
+
+    /**
+     * 保存学生信息
+     *
+     * @param studentInfo 学生信息
+     * @return 保存的数量
+     */
+    int save(StudentInfo studentInfo);
+
 }

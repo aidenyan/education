@@ -25,13 +25,12 @@
         where site_id = #{siteId}
     </select>
 
-    <insert id="insert" parameterType="com.jimmy.dao.entity.SysInfo"  useGeneratedKeys="true" keyProperty="id">
-    insert into t_sys_info (sys_key, create_id,
-      modify_id, create_time, modify_time, 
-      site_id, sys_value)
-    values ( #{sysKey,jdbcType=VARCHAR}, #{createId,jdbcType=BIGINT},
-      #{modifyId,jdbcType=BIGINT}, now(), now(),
-      #{siteId,jdbcType=BIGINT}, #{sysValue,jdbcType=LONGVARCHAR})
-  </insert>
+    <update id="update" parameterType="com.jimmy.dao.entity.SysInfo" >
+      UPDATE  t_sys_info
+      SET sys_value=#{sysValue},
+      modify_id=#{modifyId},
+      modify_time=now()
+      where id=#{id} and site_id=#{siteId}
+  </update>
 
 </mapper>

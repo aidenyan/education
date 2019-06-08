@@ -8,12 +8,12 @@ import java.util.List;
 public interface SysInfoMapper {
 
     /**
-     * 保存系统
+     * 更新系统
      *
-     * @param record 系统信息
+     * @param record 更新系统
      * @return 保存数量
      */
-    int insert(SysInfo record);
+    int update(SysInfo record);
 
     /**
      * 根据站点siteId查询系统信息

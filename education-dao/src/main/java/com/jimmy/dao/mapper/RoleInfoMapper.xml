@@ -64,7 +64,7 @@
             modify_time =now(),
             modify_id = #{modifyId},
         </set>
-        where id = #{id,jdbcType=BIGINT}     AND deleted=0
+        where id = #{id,jdbcType=BIGINT}     AND deleted=0 and site_id=#{siteId}
     </update>
     <update id="update" parameterType="com.jimmy.dao.entity.RoleInfo">
     update t_role_info
@@ -73,6 +73,6 @@
       modify_time =now(),
       modify_id = #{modifyId}
 
-    where id = #{id,jdbcType=BIGINT}     AND deleted=0
+    where id = #{id,jdbcType=BIGINT}     AND deleted=0 and site_id=#{siteId}
   </update>
 </mapper>

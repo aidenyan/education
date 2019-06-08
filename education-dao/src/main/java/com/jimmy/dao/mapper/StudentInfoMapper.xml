@@ -131,7 +131,7 @@
                 header_info = #{headerInfo,jdbcType=LONGVARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT} and is_deleted=0 and  site_id=#{siteId}
     </update>
     <update id="update" parameterType="com.jimmy.dao.entity.StudentInfo">
     update t_student_info
@@ -147,7 +147,7 @@
       telephone = #{telephone,jdbcType=VARCHAR},
       modify_id = #{modifyId,jdbcType=BIGINT},
       modify_time = now(),
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and is_deleted=0 and  site_id=#{siteId}
   </update>
 
 </mapper>

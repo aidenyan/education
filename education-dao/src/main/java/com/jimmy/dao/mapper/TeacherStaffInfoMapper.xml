@@ -173,7 +173,7 @@
         header_info = #{headerInfo,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and is_deleted=0 and  site_id=#{siteId}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jimmy.dao.entity.TeacherStaffInfo" >
     update t_teacher_staff_info
@@ -193,7 +193,7 @@
       pad_app_token = #{padAppToken,jdbcType=VARCHAR},
       modify_id = #{modifyId,jdbcType=BIGINT},
       modify_time =now()
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT} and is_deleted=0 and  site_id=#{siteId}
   </update>
 
 </mapper>

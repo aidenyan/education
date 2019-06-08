@@ -22,6 +22,14 @@ public interface RoleInfoService {
      */
     int insert(RoleInfo record);
 
+
+    /**
+     * 删除角色信息
+     *
+     * @param id ID
+     */
+    void deleted(Long id);
+
     /**
      * 根据角色的名字查询角色信息
      *

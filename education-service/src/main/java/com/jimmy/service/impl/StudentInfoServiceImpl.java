@@ -48,6 +48,22 @@ public class StudentInfoServiceImpl implements StudentInfoService {
         } else {
             studentInfo.setModifyId(LoginLocalThread.get());
         }
+        studentInfo.setSiteId(SiteLocalThread.getSiteId());
         studentInfoMapper.updateProperty(studentInfo);
+    }
+
+    @Override
+    public int save(StudentInfo studentInfo) {
+        Assert.notNull(studentInfo, "studentInfo is null");
+        studentInfo.setSiteId(SiteLocalThread.getSiteId());
+        studentInfo.setModifyId(LoginLocalThread.get());
+        studentInfo.setCreateId(LoginLocalThread.get());
+        if (studentInfo.getId() == null) {
+            studentInfo.setIsDeleted(Boolean.FALSE);
+            return studentInfoMapper.insert(studentInfo);
+        } else {
+            return studentInfoMapper.update(studentInfo);
+        }
+
     }
 }

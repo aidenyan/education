@@ -1,5 +1,6 @@
 package com.jimmy.service.impl;
 
+import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.dao.entity.RoleInfo;
 import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.mapper.RoleInfoMapper;
@@ -28,12 +29,31 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     public int insert(RoleInfo roleInfo) {
         Assert.notNull(roleInfo, "roleInfo is null");
         roleInfo.setDeleted(Boolean.FALSE);
+        roleInfo.setModifyId(LoginLocalThread.get());
+        roleInfo.setCreateId(LoginLocalThread.get());
         roleInfo.setSiteId(SiteLocalThread.getSiteId());
-        return roleInfoMapper.insert(roleInfo);
+        if (roleInfo.getId() == null) {
+            return roleInfoMapper.insert(roleInfo);
+        } else {
+            return roleInfoMapper.update(roleInfo);
+        }
+
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleted(Long id) {
+        Assert.notNull(id, "id is null");
+        RoleInfo roleInfo = new RoleInfo();
+        roleInfo.setDeleted(Boolean.TRUE);
+        roleInfo.setModifyId(LoginLocalThread.get());
+        roleInfo.setId(id);
+        roleInfo.setSiteId(SiteLocalThread.getSiteId());
+        roleInfoMapper.updateProperty(roleInfo);
     }
 
     @Override
     public List<RoleInfo> list(String roleName) {
-        return null;
+        return roleInfoMapper.list(roleName, SiteLocalThread.getSiteIdList());
     }
 }

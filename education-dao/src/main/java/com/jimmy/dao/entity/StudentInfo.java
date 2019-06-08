@@ -12,7 +12,7 @@ public class StudentInfo extends BaseEntity {
 
     private String name;
 
-    private Byte sex;
+    private Integer sex;
 
     private String email;
 
@@ -32,7 +32,7 @@ public class StudentInfo extends BaseEntity {
 
     private String appToken;
 
-    private Byte isDeleted;
+    private Boolean isDeleted;
 
 
     private String headerInfo;
