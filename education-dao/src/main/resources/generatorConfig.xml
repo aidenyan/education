@@ -41,7 +41,7 @@
                selectByExampleQueryId="false"/>-->
 
 
-        <table tableName="t_machine_info" domainObjectName="MachineInfo"
+        <table tableName="t_course_info" domainObjectName="CourseInfo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

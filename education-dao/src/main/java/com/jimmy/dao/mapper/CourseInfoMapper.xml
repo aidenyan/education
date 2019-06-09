@@ -1,184 +1,122 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jimmy.dao.mapper.CourseInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.CourseInfo" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
-    <result column="time_long" property="timeLong" jdbcType="INTEGER" />
-    <result column="room_id" property="roomId" jdbcType="BIGINT" />
-    <result column="create_id" property="createId" jdbcType="BIGINT" />
-    <result column="modify_id" property="modifyId" jdbcType="BIGINT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
-    <result column="site_id" property="siteId" jdbcType="BIGINT" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.jimmy.dao.entity.CourseInfo" extends="BaseResultMap" >
-    <result column="description" property="description" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, name, start_time, time_long, room_id, create_id, modify_id, create_time, modify_time, 
-    site_id
+<mapper namespace="com.jimmy.dao.mapper.CourseInfoMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.CourseInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP"/>
+        <result column="time_long" property="timeLong" jdbcType="INTEGER"/>
+        <result column="room_id" property="roomId" jdbcType="BIGINT"/>
+        <result column="teacher_id" property="teacherId" jdbcType="BIGINT"/>
+        <result column="is_used" property="isUsed" jdbcType="TINYINT"/>
+        <result column="description" property="description" jdbcType="LONGVARCHAR"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, name, start_time, time_long, room_id, teacher_id, is_used,description, create_id, modify_id,
+    create_time, modify_time, site_id
   </sql>
-  <sql id="Blob_Column_List" >
-    description
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_course_info
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from t_course_info
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.jimmy.dao.entity.CourseInfo" >
-    insert into t_course_info (id, name, start_time, 
-      time_long, room_id, create_id, 
-      modify_id, create_time, modify_time, 
-      site_id, description)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
-      #{timeLong,jdbcType=INTEGER}, #{roomId,jdbcType=BIGINT}, #{createId,jdbcType=BIGINT}, 
-      #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{siteId,jdbcType=BIGINT}, #{description,jdbcType=LONGVARCHAR})
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_course_info
+        where site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        <if test=" name != null ">
+            AND name LIKE concat('%','#{name}','%')
+        </if>
+    </select>
+
+    <select id="listCouldUsed" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_course_info
+        where site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+
+        <if test=" roomId != null ">
+            AND room_id=#{roomId}
+        </if>
+        <if test=" teacherId != null ">
+            AND teacher_id=#{teacherId}
+        </if>
+        and is_used=0
+        ORDER BY start_time ASC
+        limit #{SIZE}
+    </select>
+
+    <select id="findById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_course_info
+        where id = #{id,jdbcType=BIGINT} and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+
+
+    <insert id="insert" parameterType="com.jimmy.dao.entity.CourseInfo">
+    insert into t_course_info ( name, start_time,
+      time_long, room_id, tearcher_id,
+      is_used, create_id, modify_id, 
+      create_time, modify_time, site_id, 
+      description)
+    values (#{name,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP},
+      #{timeLong,jdbcType=INTEGER}, #{roomId,jdbcType=BIGINT}, #{tearcherId,jdbcType=BIGINT},
+      #{isUsed,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
+     now(), now(), #{siteId,jdbcType=BIGINT},
+      #{description,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.jimmy.dao.entity.CourseInfo" >
-    insert into t_course_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="startTime != null" >
-        start_time,
-      </if>
-      <if test="timeLong != null" >
-        time_long,
-      </if>
-      <if test="roomId != null" >
-        room_id,
-      </if>
-      <if test="createId != null" >
-        create_id,
-      </if>
-      <if test="modifyId != null" >
-        modify_id,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="modifyTime != null" >
-        modify_time,
-      </if>
-      <if test="siteId != null" >
-        site_id,
-      </if>
-      <if test="description != null" >
-        description,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null" >
-        #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="timeLong != null" >
-        #{timeLong,jdbcType=INTEGER},
-      </if>
-      <if test="roomId != null" >
-        #{roomId,jdbcType=BIGINT},
-      </if>
-      <if test="createId != null" >
-        #{createId,jdbcType=BIGINT},
-      </if>
-      <if test="modifyId != null" >
-        #{modifyId,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null" >
-        #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="siteId != null" >
-        #{siteId,jdbcType=BIGINT},
-      </if>
-      <if test="description != null" >
-        #{description,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jimmy.dao.entity.CourseInfo" >
-    update t_course_info
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="startTime != null" >
-        start_time = #{startTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="timeLong != null" >
-        time_long = #{timeLong,jdbcType=INTEGER},
-      </if>
-      <if test="roomId != null" >
-        room_id = #{roomId,jdbcType=BIGINT},
-      </if>
-      <if test="createId != null" >
-        create_id = #{createId,jdbcType=BIGINT},
-      </if>
-      <if test="modifyId != null" >
-        modify_id = #{modifyId,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null" >
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="siteId != null" >
-        site_id = #{siteId,jdbcType=BIGINT},
-      </if>
-      <if test="description != null" >
-        description = #{description,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jimmy.dao.entity.CourseInfo" >
+
+    <update id="updateProperty" parameterType="com.jimmy.dao.entity.CourseInfo">
+        update t_course_info
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="timeLong != null">
+                time_long = #{timeLong,jdbcType=INTEGER},
+            </if>
+            <if test="roomId != null">
+                room_id = #{roomId,jdbcType=BIGINT},
+            </if>
+            <if test="tearcherId != null">
+                tearcher_id = #{tearcherId,jdbcType=BIGINT},
+            </if>
+            <if test="isUsed != null">
+                is_used = #{isUsed,jdbcType=TINYINT},
+            </if>
+                modify_id = #{modifyId,jdbcType=BIGINT},
+                modify_time = now(),
+            <if test="description != null">
+                description = #{description,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}  and site_id = #{siteId,jdbcType=BIGINT} and is_used=0
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jimmy.dao.entity.CourseInfo">
     update t_course_info
     set name = #{name,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       time_long = #{timeLong,jdbcType=INTEGER},
       room_id = #{roomId,jdbcType=BIGINT},
-      create_id = #{createId,jdbcType=BIGINT},
       modify_id = #{modifyId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      site_id = #{siteId,jdbcType=BIGINT},
+      modify_time =now(),
       description = #{description,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}  and site_id = #{siteId,jdbcType=BIGINT} and is_used=0
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jimmy.dao.entity.CourseInfo" >
-    update t_course_info
-    set name = #{name,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=TIMESTAMP},
-      time_long = #{timeLong,jdbcType=INTEGER},
-      room_id = #{roomId,jdbcType=BIGINT},
-      create_id = #{createId,jdbcType=BIGINT},
-      modify_id = #{modifyId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      site_id = #{siteId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
 </mapper>
