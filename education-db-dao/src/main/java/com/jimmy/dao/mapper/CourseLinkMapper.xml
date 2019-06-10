@@ -14,23 +14,5 @@
     insert into t_course_link (course_id, courseware_id)
     values (#{courseId,jdbcType=BIGINT}, #{coursewareId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.jimmy.dao.entity.CourseLinkKey" >
-    insert into t_course_link
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="courseId != null" >
-        course_id,
-      </if>
-      <if test="coursewareId != null" >
-        courseware_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="courseId != null" >
-        #{courseId,jdbcType=BIGINT},
-      </if>
-      <if test="coursewareId != null" >
-        #{coursewareId,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
+
 </mapper>

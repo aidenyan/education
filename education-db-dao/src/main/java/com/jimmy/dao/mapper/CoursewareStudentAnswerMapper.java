@@ -1,7 +1,6 @@
 package com.jimmy.dao.mapper;
 
 import com.jimmy.dao.entity.CoursewareStudentAnswer;
-import com.jimmy.dao.entity.CoursewareStudentAnswerWithBLOBs;
 
 public interface CoursewareStudentAnswerMapper {
     int deleteByPrimaryKey(Long id);
