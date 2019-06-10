@@ -18,6 +18,7 @@
         <module>education-student-api</module>
         <module>education-mvc-common</module>
         <module>education-teacher-pad-api</module>
+        <module>education-db-dao</module>
     </modules>
     <properties>
         <commons.version>3.9</commons.version>

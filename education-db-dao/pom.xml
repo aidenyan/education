@@ -9,13 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>education-dao</artifactId>
+    <artifactId>education-db-dao</artifactId>
+
 
     <dependencies>
         <dependency>
             <groupId>com.jimmy</groupId>
             <artifactId>education-core</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${parent.version}</version>
         </dependency>
         <!-- mysql依赖 -->
         <dependency>

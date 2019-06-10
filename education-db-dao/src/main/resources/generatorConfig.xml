@@ -18,19 +18,19 @@
                         password="123456"/>
 
         <javaModelGenerator targetPackage="com.jimmy.dao.entity"
-                            targetProject="D:/idea/work/education/education-dao/src/main/java">
+                            targetProject="D:/idea/work/education/education-db-dao/src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="com.jimmy.dao.mapper"
-                         targetProject="D:/idea/work/education/education-dao/src/main/java">
+                         targetProject="D:/idea/work/education/education-db-dao/src/main/java">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
 
         <javaClientGenerator targetPackage="com.jimmy.dao.mapper"
-                             targetProject="D:/idea/work/education/education-dao/src/main/java"
+                             targetProject="D:/idea/work/education/education-db-dao/src/main/java"
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>

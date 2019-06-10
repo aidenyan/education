@@ -40,7 +40,7 @@
     <orderEntry type="library" name="Maven: nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:1.4.0" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy:2.4.7" level="project" />
     <orderEntry type="module" module-name="education-service" />
-    <orderEntry type="library" name="Maven: com.jimmy:education-dao:1.0-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="education-db-dao" />
     <orderEntry type="module" module-name="education-core" />
     <orderEntry type="module" module-name="education-common" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.9" level="project" />
@@ -64,6 +64,7 @@
     <orderEntry type="library" name="Maven: com.github.pagehelper:pagehelper:4.2.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.jsqlparser:jsqlparser:0.9.5" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.22" level="project" />
+    <orderEntry type="library" name="Maven: com.jimmy:education-dao:1.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-test:1.5.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-test:1.5.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-test-autoconfigure:1.5.0.RELEASE" level="project" />
@@ -84,7 +85,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:jconsole:1.8.0">
         <CLASSES>
-          <root url="jar://D:/java/jdk/1.8/lib/jconsole.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../java/jdk/jdk1.8.0_172/lib/jconsole.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -93,7 +94,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:tools:1.8.0">
         <CLASSES>
-          <root url="jar://D:/java/jdk/1.8/lib/tools.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../../../java/jdk/jdk1.8.0_172/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
