@@ -33,7 +33,7 @@
     <include refid="Base_Column_List" />
     from t_sys_log_info
     where id = #{id} and site_id IN
-    <foreach collection="siteIdList"separator="," item="siteId" close=")" open="(">
+    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
       #{siteId}
     </foreach>
   </select>
@@ -42,7 +42,7 @@
     <include refid="Base_Column_List" />
     from t_sys_log_info
     where site_id IN
-    <foreach collection="siteIdList"separator="," item="siteId" close=")" open="(">
+    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
       #{siteId}
     </foreach>
     <if test="startDate != null">

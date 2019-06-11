@@ -36,7 +36,7 @@
       #{roleId}
     </foreach>
     and menu.site_id IN
-    <foreach collection="siteIdList"separator="," item="siteId" close=")" open="(">
+    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
       #{siteId}
     </foreach>
 
@@ -47,7 +47,7 @@
     from t_menu_info
     where deleted=0
    and site_id IN
-    <foreach collection="siteIdList"separator="," item="siteId" close=")" open="(">
+    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
       #{siteId}
     </foreach>
   </select>

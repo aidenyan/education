@@ -13,23 +13,18 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="site_id" property="siteId" jdbcType="BIGINT" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.jimmy.dao.entity.CoursewareStudentAnswerWithBLOBs" extends="BaseResultMap" >
     <result column="result" property="result" jdbcType="LONGVARCHAR" />
     <result column="tearch_result" property="tearchResult" jdbcType="LONGVARCHAR" />
   </resultMap>
+
   <sql id="Base_Column_List" >
-    id, course_id, courseware_id, courseware_item_id, student_id, fraction, create_id, 
+    id, course_id, courseware_id, courseware_item_id, student_id, fraction,    result, tearch_result, create_id,
     modify_id, create_time, modify_time, site_id
   </sql>
-  <sql id="Blob_Column_List" >
-    result, tearch_result
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from t_couseware_student_answer
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -37,7 +32,7 @@
     delete from t_couseware_student_answer
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswerWithBLOBs" >
+  <insert id="insert" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswer" >
     insert into t_couseware_student_answer (id, course_id, courseware_id, 
       courseware_item_id, student_id, fraction, 
       create_id, modify_id, create_time, 
@@ -49,7 +44,7 @@
       #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT}, #{result,jdbcType=LONGVARCHAR}, 
       #{tearchResult,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswerWithBLOBs" >
+  <insert id="insertSelective" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswer" >
     insert into t_couseware_student_answer
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -134,7 +129,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswerWithBLOBs" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswer" >
     update t_couseware_student_answer
     <set >
       <if test="courseId != null" >
@@ -176,7 +171,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswerWithBLOBs" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswer" >
     update t_couseware_student_answer
     set course_id = #{courseId,jdbcType=BIGINT},
       courseware_id = #{coursewareId,jdbcType=BIGINT},

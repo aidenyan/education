@@ -55,26 +55,6 @@
         )
     </insert>
 
-    <update id="updateProperty" parameterType="com.jimmy.dao.entity.ClassRoomInfo">
-        update t_class_room_info
-        <set>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="address != null">
-                address = #{address,jdbcType=VARCHAR},
-            </if>
-            modify_id = #{modifyId,jdbcType=BIGINT},
-            modify_time =now(),
-            <if test="isDeleted != null">
-                is_deleted = #{isDeleted}
-            </if>
-            <if test="description != null">
-                description = #{description,jdbcType=LONGVARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId,jdbcType=BIGINT} and is_deleted=0
-    </update>
     <update id="update" parameterType="com.jimmy.dao.entity.ClassRoomInfo">
         update t_class_room_info
         set name = #{name,jdbcType=VARCHAR},

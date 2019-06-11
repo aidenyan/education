@@ -20,8 +20,8 @@ public interface TeacherStaffInfoDTOTransfer {
 
     TeacherStaffInfoDTOTransfer INSTANCE = Mappers.getMapper(TeacherStaffInfoDTOTransfer.class);
 
-    @Mappings({@Mapping(target = "sex", source = "teacherStaffInfoDTO.getSex()==null?null:teacherStaffInfoDTO.getSex().getValue()"),
-            @Mapping(target = "staffInfo", source = "teacherStaffInfoDTO.getStaffType()==null?null:teacherStaffInfoDTO.getStaffType().getValue()"),
+    @Mappings({@Mapping(target = "sex", expression = "java(teacherStaffInfoDTO.getSex()==null?null:teacherStaffInfoDTO.getSex().getValue())"),
+            @Mapping(target = "staffType", expression = "java(teacherStaffInfoDTO.getStaffType()==null?null:teacherStaffInfoDTO.getStaffType().getValue())"),
            })
     TeacherStaffInfo toTeacherStaffInfo(TeacherStaffInfoDTO teacherStaffInfoDTO);
 
@@ -29,7 +29,7 @@ public interface TeacherStaffInfoDTOTransfer {
 
     @Mappings({
             @Mapping(target = "sex", expression = "java(teacherStaffInfo.getSex()==null?null:com.jimmy.mvc.common.model.enums.SexEnum.valueOf(teacherStaffInfo.getSex()))"),
-            @Mapping(target = "staffInfo", expression = "java(teacherStaffInfo.getStaffType()==null?null:com.jimmy.mvc.common.model.enums.StaffTypeEnum.valueOf(teacherStaffInfo.getStaffType()))")})
+            @Mapping(target = "staffType", expression = "java(teacherStaffInfo.getStaffType()==null?null:com.jimmy.mvc.common.model.enums.StaffTypeEnum.valueOf(teacherStaffInfo.getStaffType()))")})
     TeacherStaffInfoDTO toTeacherStaffInfoDTO(TeacherStaffInfo teacherStaffInfo);
 
     List<TeacherStaffInfoDTO> toTeacherStaffInfoDTOList(List<TeacherStaffInfo> teacherStaffInfo);
