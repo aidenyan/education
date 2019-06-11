@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.StudentStarInfoMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.StudentStarInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="tearcher_id" property="tearcherId" jdbcType="BIGINT"/>
+        <result column="student_id" property="studentId" jdbcType="BIGINT"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, tearcher_id, student_id, create_id, modify_id, create_time, modify_time, site_id
+  </sql>
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_student_star_info
+        where create_time &lt;=#{endDate} and create_time >=#{startDate}
+    </select>
+    <delete id="deleted">
+    delete from t_student_star_info
+    where id = #{id}
+  </delete>
+    <insert id="insert" parameterType="com.jimmy.dao.entity.StudentStarInfo">
+    insert into t_student_star_info ( tearcher_id, student_id,
+      create_id, modify_id, create_time, 
+      modify_time, site_id)
+    values ( #{tearcherId,jdbcType=BIGINT}, #{studentId,jdbcType=BIGINT},
+      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT})
+  </insert>
+
+</mapper>

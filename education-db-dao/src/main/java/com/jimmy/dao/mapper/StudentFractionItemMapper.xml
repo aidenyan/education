@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.StudentFractionItemMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.StudentFractionItem">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="fraction_id" property="fractionId" jdbcType="BIGINT"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="dictionary_item_id" property="dictionaryItemId" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="fraction" property="fraction" jdbcType="INTEGER"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, fraction_id, type, dictionary_item_id, name, fraction, create_id, modify_id, 
+    create_time, modify_time, site_id
+  </sql>
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_student_fraction_item
+        where fraction_id = #{fractionId}
+    </select>
+    <insert id="insert" parameterType="com.jimmy.dao.entity.StudentFractionItem">
+    insert into t_student_fraction_item (fraction_id, type,
+      dictionary_item_id, name, fraction, 
+      create_id, modify_id, create_time, 
+      modify_time, site_id)
+    values ( #{fractionId,jdbcType=BIGINT}, #{type,jdbcType=TINYINT},
+      #{dictionaryItemId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{fraction,jdbcType=INTEGER}, 
+      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT})
+  </insert>
+
+</mapper>
