@@ -11,5 +11,7 @@
     <file url="file://$PROJECT_DIR$/education-core/src/main/java/com/jimmy/core/exception/ParamterException.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-core/src/main/java/com/jimmy/core/exception/ServiceException.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-core/src/main/java/com/jimmy/core/web/mvc/DateEditor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/enums/BaseEnum.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/TeacherStaffInfoDTOTransfer.java" charset="UTF-8" />
   </component>
 </project>

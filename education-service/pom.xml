@@ -18,21 +18,6 @@
              <artifactId>education-db-dao</artifactId>
              <version>${parent.version}</version>
          </dependency>
-         <dependency>
-             <groupId>com.jimmy</groupId>
-             <artifactId>education-dao</artifactId>
-             <version>1.0-SNAPSHOT</version>
-         </dependency>
-         <dependency>
-             <groupId>com.jimmy</groupId>
-             <artifactId>education-dao</artifactId>
-             <version>1.0-SNAPSHOT</version>
-         </dependency>
-         <dependency>
-             <groupId>com.jimmy</groupId>
-             <artifactId>education-dao</artifactId>
-             <version>1.0-SNAPSHOT</version>
-         </dependency>
 
 
      </dependencies>

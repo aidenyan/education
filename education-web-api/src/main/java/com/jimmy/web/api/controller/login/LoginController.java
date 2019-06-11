@@ -11,6 +11,8 @@ import com.jimmy.service.TeacherStaffInfoService;
 import com.jimmy.web.api.controller.BaseController;
 import com.jimmy.web.api.service.SessionService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +48,8 @@ public class LoginController extends BaseController {
     @ResponseBody
     @GetMapping("/in")
     @ApiOperation("管理后台登录接口")
+    @ApiImplicitParams({@ApiImplicitParam(value = "用户名称", name = "userName", paramType = "query", required = true),
+            @ApiImplicitParam(value = "密码", name = "password", paramType = "query", required = true)})
     public Result<Void> in(String userName, String password) {
         TeacherStaffInfo teacherStaffInfo = teacherStaffInfoService.findByName(userName);
         if (teacherStaffInfo == null) {

@@ -11,6 +11,8 @@ import com.jimmy.service.StudentInfoService;
 import com.jimmy.service.TokenService;
 import com.jimmy.student.api.controller.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,6 +47,8 @@ public class LoginController extends BaseController {
     @ResponseBody
     @PostMapping("/in")
     @ApiOperation("管理后台登录接口")
+    @ApiImplicitParams({@ApiImplicitParam(value = "用户名称", name = "userName", paramType = "query", required = true),
+            @ApiImplicitParam(value = "密码", name = "password", paramType = "query", required = true)})
     public Result<String> in(String userName, String password) {
         StudentInfo studentInfo = studentInfoService.findByName(userName);
         if (studentInfo == null) {
