@@ -21,7 +21,7 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
         <result column="site_id" property="siteId" jdbcType="BIGINT"/>
-        <result column="header_info" property="headerInfo" jdbcType="LONGVARCHAR"/>
+        <result column="header_info" property="headerInfo" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -40,16 +40,21 @@
             #{siteId}
         </foreach>
     </select>
-    <select id="findByName" resultMap="BaseResultMap">
+    <select id="listByIdList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_student_info
-        where name = #{name} and is_deleted=0 AND
+        where  is_deleted=0 AND
         site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
+        and id  IN
+        <foreach collection="idList" separator="," item="id" close=")" open="(">
+            #{id}
+        </foreach>
     </select>
+
 
     <select id="list" resultMap="BaseResultMap">
         select
@@ -80,7 +85,7 @@
       #{birthTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
       #{appToken,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT}, 
       #{modifyId,jdbcType=BIGINT},now(), now(),
-      #{siteId,jdbcType=BIGINT}, #{headerInfo,jdbcType=LONGVARCHAR})
+      #{siteId,jdbcType=BIGINT}, #{headerInfo,jdbcType=VARCHAR})
   </insert>
 
     <update id="updateProperty" parameterType="com.jimmy.dao.entity.StudentInfo">
@@ -128,7 +133,7 @@
             modify_id = #{modifyId,jdbcType=BIGINT},
             modify_time = now(),
             <if test="headerInfo != null">
-                header_info = #{headerInfo,jdbcType=LONGVARCHAR},
+                header_info = #{headerInfo,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT} and is_deleted=0 and  site_id=#{siteId}

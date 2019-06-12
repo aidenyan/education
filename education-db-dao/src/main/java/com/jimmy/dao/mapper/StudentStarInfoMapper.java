@@ -21,8 +21,8 @@ public interface StudentStarInfoMapper {
      * @param id
      * @return
      */
-    int deleted(@Param("id") Long id);
+    int deleted(@Param("id") Long id, @Param("siteIdList") List<Long> siteIdList);
 
-    List<StudentStarInfo> list(@Param("startDate") Date startDate,@Param("endDate") Date endDate);
+    List<StudentStarInfo> list(@Param("startDate") Date startDate,@Param("endDate") Date endDate, @Param("siteIdList") List<Long> siteIdList);
 
 }

@@ -7,7 +7,7 @@
         <result column="type" property="type" jdbcType="TINYINT"/>
         <result column="dictionary_item_id" property="dictionaryItemId" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="fraction" property="fraction" jdbcType="INTEGER"/>
+        <result column="fraction" property="fraction" />
         <result column="create_id" property="createId" jdbcType="BIGINT"/>
         <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
@@ -30,7 +30,7 @@
       create_id, modify_id, create_time, 
       modify_time, site_id)
     values ( #{fractionId,jdbcType=BIGINT}, #{type,jdbcType=TINYINT},
-      #{dictionaryItemId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{fraction,jdbcType=INTEGER}, 
+      #{dictionaryItemId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{fraction},
       #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT})
   </insert>

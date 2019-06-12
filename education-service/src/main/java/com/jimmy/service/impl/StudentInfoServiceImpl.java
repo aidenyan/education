@@ -37,6 +37,11 @@ public class StudentInfoServiceImpl implements StudentInfoService {
     }
 
     @Override
+    public List<StudentInfo> list(List<Long> idList) {
+        return studentInfoMapper.listByIdList(idList, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
     public void updateToken(String token, Long id) {
         Assert.notNull(id, "id is null");
         Assert.notNull(token, "token is null");

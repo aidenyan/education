@@ -34,7 +34,6 @@ public class TeacherController {
     @ResponseBody
     @PostMapping("/detail")
     public Result<TeacherStaffInfoDTO> detail() {
-
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
         TeacherStaffInfoDTO teacherStaffInfoDTO = TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfoDTO(teacherStaffInfo);
         return ResultBuilder.error(ResultCodeEnum.OK, teacherStaffInfoDTO);

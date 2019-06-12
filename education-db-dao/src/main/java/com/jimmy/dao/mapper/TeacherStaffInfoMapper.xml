@@ -29,7 +29,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="site_id" property="siteId" jdbcType="BIGINT" />
-    <result column="header_info" property="headerInfo" jdbcType="LONGVARCHAR" />
+    <result column="header_info" property="headerInfo" jdbcType="VARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -98,7 +98,7 @@
       #{webToken,jdbcType=VARCHAR}, #{appToken,jdbcType=VARCHAR}, #{padAppToken,jdbcType=VARCHAR}, 
       #{isDeleted,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
       now(), now(), #{siteId,jdbcType=BIGINT},
-      #{headerInfo,jdbcType=LONGVARCHAR})
+      #{headerInfo,jdbcType=VARCHAR})
   </insert>
 
   <update id="updateProperty" parameterType="com.jimmy.dao.entity.TeacherStaffInfo" >
@@ -170,12 +170,12 @@
         modify_id = #{modifyId,jdbcType=BIGINT},
         modify_time = now(),
       <if test="headerInfo != null" >
-        header_info = #{headerInfo,jdbcType=LONGVARCHAR},
+        header_info = #{headerInfo,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT} and is_deleted=0 and  site_id=#{siteId}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jimmy.dao.entity.TeacherStaffInfo" >
+  <update id="update" parameterType="com.jimmy.dao.entity.TeacherStaffInfo" >
     update t_teacher_staff_info
     set name = #{name,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=TINYINT},

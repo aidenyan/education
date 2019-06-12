@@ -30,6 +30,13 @@ public interface StudentInfoService {
     List<StudentInfo> list(String name);
 
     /**
+     * 根据id获取学生信息
+     * @param idList ID列表
+     * @return List<学生信息>
+     */
+    List<StudentInfo> list(List<Long> idList);
+
+    /**
      * 更新token
      *
      * @param token token

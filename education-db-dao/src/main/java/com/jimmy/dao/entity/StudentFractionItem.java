@@ -2,19 +2,21 @@ package com.jimmy.dao.entity;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 public class StudentFractionItem extends BaseEntity {
 
 
     private Long fractionId;
 
-    private Byte type;
+    private Integer type;
 
     private Long dictionaryItemId;
 
     private String name;
 
-    private Integer fraction;
+    private BigDecimal fraction;
 
 
 }

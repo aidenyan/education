@@ -19,11 +19,21 @@
         <include refid="Base_Column_List"/>
         from t_student_star_info
         where create_time &lt;=#{endDate} and create_time >=#{startDate}
+        AND
+        site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
     </select>
     <delete id="deleted">
-    delete from t_student_star_info
-    where id = #{id}
-  </delete>
+        delete from t_student_star_info
+        where id = #{id}
+        AND
+        site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </delete>
     <insert id="insert" parameterType="com.jimmy.dao.entity.StudentStarInfo">
     insert into t_student_star_info ( tearcher_id, student_id,
       create_id, modify_id, create_time, 
