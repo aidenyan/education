@@ -28,4 +28,5 @@ public interface CourseLinkMapper {
      */
     int insert(CourseLinkKey record);
 
+
 }

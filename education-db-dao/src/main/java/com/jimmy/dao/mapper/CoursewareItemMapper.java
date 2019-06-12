@@ -1,19 +1,18 @@
 package com.jimmy.dao.mapper;
 
 import com.jimmy.dao.entity.CoursewareItem;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CoursewareItemMapper {
-    int deleteByPrimaryKey(Long id);
 
     int insert(CoursewareItem record);
 
-    int insertSelective(CoursewareItem record);
+    List<CoursewareItem> listByCoursewareId(@Param("coursewareId") Long coursewareId, @Param("siteIdList") List<Long> siteIdList);
 
-    CoursewareItem selectByPrimaryKey(Long id);
+    List<CoursewareItem> listByCoursewareIdList(@Param("coursewareIdList") List<Long> coursewareIdList, @Param("siteIdList") List<Long> siteIdList);
 
-    int updateByPrimaryKeySelective(CoursewareItem record);
 
-    int updateByPrimaryKeyWithBLOBs(CoursewareItem record);
-
-    int updateByPrimaryKey(CoursewareItem record);
+    int deleted(@Param("coursewareId") Long coursewareId, @Param("siteIdList") List<Long> siteIdList);
 }

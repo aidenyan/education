@@ -1,172 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jimmy.dao.mapper.CoursewareItemMapper" >
-  <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.CoursewareItem" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="type" property="type" jdbcType="TINYINT" />
-    <result column="content_type" property="contentType" jdbcType="TINYINT" />
-    <result column="resource_id" property="resourceId" jdbcType="BIGINT" />
-    <result column="create_id" property="createId" jdbcType="BIGINT" />
-    <result column="modify_id" property="modifyId" jdbcType="BIGINT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
-    <result column="site_id" property="siteId" jdbcType="BIGINT" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.jimmy.dao.entity.CoursewareItem" extends="BaseResultMap" >
-    <result column="content" property="content" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.jimmy.dao.mapper.CoursewareItemMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.CoursewareItem">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="content_type" property="contentType" jdbcType="TINYINT"/>
+        <result column="resource_id" property="resourceId" jdbcType="BIGINT"/>
+        <result column="courseware_id" property="coursewareId" jdbcType="BIGINT"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, type, content_type, resource_id, create_id, modify_id, create_time, modify_time, 
-    site_id
+    site_id,content,order_num,courseware_id
   </sql>
-  <sql id="Blob_Column_List" >
-    content
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from t_courseware_item
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from t_courseware_item
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.jimmy.dao.entity.CoursewareItem" >
-    insert into t_courseware_item (id, type, content_type, 
+
+    <select id="listByCoursewareId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_courseware_item
+        where courseware_id = #{coursewareId}
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+    <select id="listByCoursewareIdList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_courseware_item
+        where courseware_id IN
+        <foreach collection="coursewareIdList" separator="," item="coursewareId" close=")" open="(">
+            #{coursewareId}
+        </foreach>
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+    <delete id="deleted">
+        delete from t_courseware_item
+        where courseware_id = #{coursewareId}
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </delete>
+    <insert id="insert" parameterType="com.jimmy.dao.entity.CoursewareItem">
+    insert into t_courseware_item (courseware_id,order_num,type, content_type,
       resource_id, create_id, modify_id, 
       create_time, modify_time, site_id, 
       content)
-    values (#{id,jdbcType=BIGINT}, #{type,jdbcType=TINYINT}, #{contentType,jdbcType=TINYINT}, 
+    values (#{coursewareId,jdbcType=BIGINT},#{orderNum}, #{type,jdbcType=TINYINT}, #{contentType,jdbcType=TINYINT},
       #{resourceId,jdbcType=BIGINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP},now(),now(),
       #{content,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.jimmy.dao.entity.CoursewareItem" >
-    insert into t_courseware_item
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="type != null" >
-        type,
-      </if>
-      <if test="contentType != null" >
-        content_type,
-      </if>
-      <if test="resourceId != null" >
-        resource_id,
-      </if>
-      <if test="createId != null" >
-        create_id,
-      </if>
-      <if test="modifyId != null" >
-        modify_id,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="modifyTime != null" >
-        modify_time,
-      </if>
-      <if test="siteId != null" >
-        site_id,
-      </if>
-      <if test="content != null" >
-        content,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="type != null" >
-        #{type,jdbcType=TINYINT},
-      </if>
-      <if test="contentType != null" >
-        #{contentType,jdbcType=TINYINT},
-      </if>
-      <if test="resourceId != null" >
-        #{resourceId,jdbcType=BIGINT},
-      </if>
-      <if test="createId != null" >
-        #{createId,jdbcType=BIGINT},
-      </if>
-      <if test="modifyId != null" >
-        #{modifyId,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null" >
-        #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="siteId != null" >
-        #{siteId,jdbcType=BIGINT},
-      </if>
-      <if test="content != null" >
-        #{content,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jimmy.dao.entity.CoursewareItem" >
-    update t_courseware_item
-    <set >
-      <if test="type != null" >
-        type = #{type,jdbcType=TINYINT},
-      </if>
-      <if test="contentType != null" >
-        content_type = #{contentType,jdbcType=TINYINT},
-      </if>
-      <if test="resourceId != null" >
-        resource_id = #{resourceId,jdbcType=BIGINT},
-      </if>
-      <if test="createId != null" >
-        create_id = #{createId,jdbcType=BIGINT},
-      </if>
-      <if test="modifyId != null" >
-        modify_id = #{modifyId,jdbcType=BIGINT},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyTime != null" >
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="siteId != null" >
-        site_id = #{siteId,jdbcType=BIGINT},
-      </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jimmy.dao.entity.CoursewareItem" >
-    update t_courseware_item
-    set type = #{type,jdbcType=TINYINT},
-      content_type = #{contentType,jdbcType=TINYINT},
-      resource_id = #{resourceId,jdbcType=BIGINT},
-      create_id = #{createId,jdbcType=BIGINT},
-      modify_id = #{modifyId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      site_id = #{siteId,jdbcType=BIGINT},
-      content = #{content,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.jimmy.dao.entity.CoursewareItem" >
-    update t_courseware_item
-    set type = #{type,jdbcType=TINYINT},
-      content_type = #{contentType,jdbcType=TINYINT},
-      resource_id = #{resourceId,jdbcType=BIGINT},
-      create_id = #{createId,jdbcType=BIGINT},
-      modify_id = #{modifyId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      site_id = #{siteId,jdbcType=BIGINT}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+
 </mapper>

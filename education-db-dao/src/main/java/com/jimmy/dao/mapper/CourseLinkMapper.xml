@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jimmy.dao.mapper.CourseLinkMapper" >
-  <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.CourseLinkKey" >
-    <id column="course_id" property="courseId" jdbcType="BIGINT" />
-    <id column="courseware_id" property="coursewareId" jdbcType="BIGINT" />
-  </resultMap>
-  <delete id="deleteByPrimaryKey" parameterType="com.jimmy.dao.entity.CourseLinkKey" >
-    delete from t_course_link
-    where course_id = #{courseId,jdbcType=BIGINT}
-      and courseware_id = #{coursewareId,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="com.jimmy.dao.entity.CourseLinkKey" >
+<mapper namespace="com.jimmy.dao.mapper.CourseLinkMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.CourseLinkKey">
+        <id column="course_id" property="courseId" jdbcType="BIGINT"/>
+        <id column="courseware_id" property="coursewareId" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.jimmy.dao.entity.CourseLinkKey">
     insert into t_course_link (course_id, courseware_id)
     values (#{courseId,jdbcType=BIGINT}, #{coursewareId,jdbcType=BIGINT})
   </insert>
-
+    <delete id="deleteByCoursewareId">
+    delete from t_course_link where courseware_id=#{coursewareId}
+  </delete>
+    <delete id="deleteByCourseId">
+    delete from t_course_link where course_id=#{courseId}
+  </delete>
 </mapper>

@@ -6,13 +6,17 @@ import lombok.Data;
 public class CoursewareItem extends BaseEntity {
 
 
-    private Byte type;
+    private Integer type;
 
-    private Byte contentType;
+    private Integer contentType;
 
     private Long resourceId;
 
     private String content;
+
+    private Integer orderNum;
+
+    private Long coursewareId;
 
 
 }

@@ -9,7 +9,6 @@ public class Courseware extends BaseEntity {
 
     private Byte isUsed;
 
-
     private String description;
 
 
