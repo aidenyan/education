@@ -2,12 +2,16 @@ package com.jimmy.teacher.api.controller.admin;
 
 import com.jimmy.dao.entity.CourseInfo;
 import com.jimmy.dao.entity.TeacherStaffInfo;
+import com.jimmy.model.dto.CoursewareDetailVO;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.CourseInfoDTO;
+import com.jimmy.mvc.common.model.dto.CoursewareDetailDTO;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
+import com.jimmy.mvc.common.model.transfer.CoursewareDetailDTOTransfer;
 import com.jimmy.service.CourseInfoService;
+import com.jimmy.service.CoursewareService;
 import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +36,21 @@ public class CousewareController {
     @Autowired
     private CourseInfoService courseInfoService;
 
+
+    @Autowired
+    private CoursewareService coursewareService;
+
+
+    @ApiOperation("获取该课程的课件信息")
+    @ResponseBody
+    @GetMapping("/info/{courseId}")
+    public Result<List<CoursewareDetailDTO>> info(@PathVariable("courseId") Long courseId) {
+        List<CoursewareDetailVO> coursewareDetailVOList = coursewareService.list(courseId);
+        if (CollectionUtils.isEmpty(coursewareDetailVOList)) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
+        }
+        return ResultBuilder.error(ResultCodeEnum.OK, CoursewareDetailDTOTransfer.INSTANCE.toCoursewareDetailDTOList(coursewareDetailVOList));
+    }
 
     @ApiOperation("获得最新的课程")
     @ResponseBody

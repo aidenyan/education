@@ -6,7 +6,7 @@ import com.jimmy.dao.entity.MachineInfo;
 import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.mapper.ClassRoomInfoMapper;
 import com.jimmy.dao.mapper.MachineInfoMapper;
-import com.jimmy.model.dto.ClassRoomDTO;
+import com.jimmy.model.dto.ClassRoomVO;
 import com.jimmy.service.ClassRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -58,9 +58,9 @@ public class ClassRoomServiceImpl implements ClassRoomService {
     }
 
     @Override
-    public ClassRoomDTO find(Long roomId) {
+    public ClassRoomVO find(Long roomId) {
         Assert.notNull(roomId);
-        ClassRoomDTO classRoomDTO = new ClassRoomDTO();
+        ClassRoomVO classRoomDTO = new ClassRoomVO();
         classRoomDTO.setClassRoomInfo(classRoomInfoMapper.findById(roomId, SiteLocalThread.getSiteIdList()));
         classRoomDTO.setMachineInfoList(machineInfoMapper.listByRoomId(roomId, SiteLocalThread.getSiteIdList()));
         return classRoomDTO;

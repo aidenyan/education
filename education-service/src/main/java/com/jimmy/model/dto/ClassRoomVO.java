@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class ClassRoomDTO {
+public class ClassRoomVO {
     private ClassRoomInfo classRoomInfo;
     private List<MachineInfo> machineInfoList;
 }

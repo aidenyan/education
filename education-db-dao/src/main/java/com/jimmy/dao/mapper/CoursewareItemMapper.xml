@@ -29,6 +29,7 @@
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
+        ORDER BY order_num DESC ;
     </select>
     <select id="listByCoursewareIdList" resultMap="BaseResultMap">
         select
@@ -42,6 +43,7 @@
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
+        ORDER BY coursewareId ASC ,order_num DESC ;
     </select>
     <delete id="deleted">
         delete from t_courseware_item

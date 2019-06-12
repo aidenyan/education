@@ -2,7 +2,7 @@ package com.jimmy.service;
 
 import com.jimmy.dao.entity.ClassRoomInfo;
 import com.jimmy.dao.entity.MachineInfo;
-import com.jimmy.model.dto.ClassRoomDTO;
+import com.jimmy.model.dto.ClassRoomVO;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public interface ClassRoomService {
      * @param roomId 教室ID
      * @return 教室和机床信息
      */
-    ClassRoomDTO find(Long roomId);
+    ClassRoomVO find(Long roomId);
     /**
      * 根据roomID查找教室信息
      *
