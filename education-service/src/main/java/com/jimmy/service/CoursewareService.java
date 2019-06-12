@@ -1,5 +1,6 @@
 package com.jimmy.service;
 
+import com.jimmy.dao.entity.CoursewareItem;
 import com.jimmy.model.dto.CoursewareDetailVO;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface CoursewareService {
      * @return List<课程信息>
      */
     List<CoursewareDetailVO> list(Long courseId);
+
+    /**
+     * 根据课程ID和状态查询课件某个详细信息
+     */
+
+    List<CoursewareItem> listByCoursewareId(Long coursewareId, Integer contentType);
 }

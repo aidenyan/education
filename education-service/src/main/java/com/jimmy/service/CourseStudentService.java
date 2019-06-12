@@ -28,10 +28,15 @@ public interface CourseStudentService {
     /**
      * 获取该课程已经结束的学生
      */
-    List<CourseStudent> list(Long courseId,Integer status);
+    List<CourseStudent> list(Long courseId, Integer status);
+
+    /**
+     * 获取某个机器上的所有学生
+     */
+    List<CourseStudent> list(Long courseId, Long machine);
 
     /**
      * 学生结束课程
      */
-    void updateCourseStudentStatus(Long courseId, Long studentId,Integer status);
+    void updateCourseStudentStatus(Long courseId, Long studentId, Integer status);
 }

@@ -49,7 +49,14 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     @Override
     public List<CourseStudent> list(Long courseId, Integer status) {
         Assert.notNull(courseId);
-        return courseStudentMapper.listByCourseId(courseId, status, SiteLocalThread.getSiteIdList());
+        return courseStudentMapper.listByCourseId(courseId, status, null, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
+    public List<CourseStudent> list(Long courseId, Long machine) {
+        Assert.notNull(courseId);
+        Assert.notNull(machine);
+        return courseStudentMapper.listByCourseId(courseId, null, machine, SiteLocalThread.getSiteIdList());
     }
 
     @Override

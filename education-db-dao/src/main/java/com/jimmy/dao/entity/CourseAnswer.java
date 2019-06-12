@@ -5,12 +5,16 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class StudentAnswer extends BaseEntity {
+public class CourseAnswer extends BaseEntity {
 
     /**
-     * 课程学生关系ID
+     * 课程ID
      */
-    private Long courseStudentId;
+    private Long courseId;
+    /**
+     * 机床ID
+     */
+    private Long machineId;
     /**
      * 课件ID
      */

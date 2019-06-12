@@ -2,6 +2,8 @@ package com.jimmy.mvc.common.model.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @ClassName: MachineStudentDTO
  * @Description:
@@ -15,7 +17,11 @@ public class MachineStudentDTO {
      */
     private Long machineId;
     /**
-     * 学生ID
+     * 课件ID
      */
-    private Long studentId;
+    private Long courewareId;
+    /**
+     * 学生列表
+     */
+    private List<Long> studentIdList;
 }

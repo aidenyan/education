@@ -21,5 +21,9 @@ public class CourseStudent extends BaseEntity {
      * 状态0：课程机器分布完成，1:课程完成
      */
     private Integer status;
+    /**
+     * 课件ID
+     */
+    private Long coursewareId;
 
 }

@@ -31,7 +31,7 @@ public interface CourseStudentMapper {
      * @return
      */
 
-    List<CourseStudent> listByCourseId(@Param("courseId") Long courseId, @Param("status") Integer status, @Param("siteIdList") List<Long> siteIdList);
+    List<CourseStudent> listByCourseId(@Param("courseId") Long courseId, @Param("status") Integer status,@Param("machineId") Long machineId, @Param("siteIdList") List<Long> siteIdList);
 
 
     /**

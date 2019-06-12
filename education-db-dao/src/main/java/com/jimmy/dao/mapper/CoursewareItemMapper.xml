@@ -25,6 +25,9 @@
         <include refid="Base_Column_List"/>
         from t_courseware_item
         where courseware_id = #{coursewareId}
+        <if test=" contentType != null">
+            and content_type=#{contentType}
+        </if>
         and site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}

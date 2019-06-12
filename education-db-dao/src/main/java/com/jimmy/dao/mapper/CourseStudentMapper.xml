@@ -5,6 +5,7 @@
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="course_id" property="courseId" jdbcType="BIGINT"/>
         <result column="machine_id" property="machineId" jdbcType="BIGINT"/>
+        <result column="courseware_id" property="coursewareId" jdbcType="BIGINT"/>
         <result column="student_id" property="studentId" jdbcType="BIGINT"/>
         <result column="create_id" property="createId" jdbcType="BIGINT"/>
         <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
@@ -15,7 +16,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, course_id, machine_id, student_id, create_id, modify_id, create_time, modify_time, 
+    id, course_id, machine_id,courseware_id, student_id, create_id, modify_id, create_time, modify_time,
     site_id,status
   </sql>
 
@@ -26,6 +27,9 @@
         where course_id = #{courseId,jdbcType=BIGINT}
         <if test="status != null">
             and status=#{status}
+        </if>
+        <if test=" machineId != null">
+            and machine_id=#{machineId}
         </if>
         and site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
@@ -40,11 +44,11 @@
         where site_id=#{siteId} and course_id=#{courseId} and student_id=#{studentId}
     </update>
     <insert id="insert" parameterType="com.jimmy.dao.entity.CourseStudent">
-    insert into t_course_student ( course_id, machine_id,
+    insert into t_course_student ( courseware_id,course_id, machine_id,
       student_id, create_id, modify_id, 
       create_time, modify_time, site_id, 
       status)
-    values ( #{courseId,jdbcType=BIGINT}, #{machineId,jdbcType=BIGINT},
+    values ( #{coursewareId,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}, #{machineId,jdbcType=BIGINT},
       #{studentId,jdbcType=BIGINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
      now(),now(), #{siteId,jdbcType=BIGINT},
       #{status})
@@ -53,6 +57,9 @@
     <update id="updateProperty" parameterType="com.jimmy.dao.entity.CourseStudent">
         update t_course_student
         <set>
+            <if test="coursewareId != null">
+                courseware_id = #{coursewareId,jdbcType=BIGINT},
+            </if>
             <if test="courseId != null">
                 course_id = #{courseId,jdbcType=BIGINT},
             </if>

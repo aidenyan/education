@@ -1,6 +1,6 @@
 package com.jimmy.dao.mapper;
 
-import com.jimmy.dao.entity.StudentAnswer;
+import com.jimmy.dao.entity.CourseAnswer;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -12,7 +12,7 @@ public interface StudentAnswerMapper {
      * @param record
      * @return
      */
-    int insert(StudentAnswer record);
+    int insert(CourseAnswer record);
 
     /**
      * 更新
@@ -20,7 +20,7 @@ public interface StudentAnswerMapper {
      * @param record
      * @return
      */
-    int updateProperty(StudentAnswer record);
+    int updateProperty(CourseAnswer record);
 
     /**
      * 获取学生的回答信息
@@ -28,5 +28,5 @@ public interface StudentAnswerMapper {
      * @param courseStudentId
      * @return
      */
-    List<StudentAnswer> listByCourseStudentId(@Param("courseStudentId") Long courseStudentId, @Param("siteIdList") List<Long> siteIdList);
+    List<CourseAnswer> listByCourseStudentId(@Param("courseStudentId") Long courseStudentId, @Param("siteIdList") List<Long> siteIdList);
 }

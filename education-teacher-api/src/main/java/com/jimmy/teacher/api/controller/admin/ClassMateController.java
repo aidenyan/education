@@ -93,12 +93,15 @@ public class ClassMateController {
         List<CourseStudent> courseStudentList = new ArrayList<>();
         CourseStudent courseStudent;
         for (MachineStudentDTO machineStudentDTO : machineStudents) {
-            courseStudent = new CourseStudent();
-            courseStudent.setCourseId(courseId);
-            courseStudent.setStudentId(machineStudentDTO.getStudentId());
-            courseStudent.setMachineId(machineStudentDTO.getMachineId());
-            courseStudent.setStatus(CourseStatusEnum.ASSIGN.getValue());
-            courseStudentList.add(courseStudent);
+            for (Long studentId : machineStudentDTO.getStudentIdList()) {
+                courseStudent = new CourseStudent();
+                courseStudent.setCourseId(courseId);
+                courseStudent.setStudentId(studentId);
+                courseStudent.setStatus(CourseStatusEnum.ASSIGN.getValue());
+                courseStudent.setMachineId(machineStudentDTO.getMachineId());
+                courseStudent.setCoursewareId(machineStudentDTO.getCourewareId());
+                courseStudentList.add(courseStudent);
+            }
         }
         if (CollectionUtils.isEmpty(courseStudentList)) {
             return ResultBuilder.error(ResultCodeEnum.OK);
@@ -111,15 +114,22 @@ public class ClassMateController {
     @ResponseBody
     @PostMapping("/single/assign")
     public Result<Void> listAssign(MachineStudentDTO machineStudent, Long courseId) {
-        if (machineStudent == null) {
+        if (machineStudent == null || CollectionUtils.isEmpty(machineStudent.getStudentIdList())) {
             return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
         }
-        CourseStudent courseStudent = new CourseStudent();
-        courseStudent.setCourseId(courseId);
-        courseStudent.setStudentId(machineStudent.getStudentId());
-        courseStudent.setMachineId(machineStudent.getMachineId());
-        courseStudent.setStatus(CourseStatusEnum.ASSIGN.getValue());
-        courseStudentService.save(courseStudent);
+        CourseStudent courseStudent;
+        List<CourseStudent> courseStudentList = new ArrayList<>();
+        for (Long studentId : machineStudent.getStudentIdList()) {
+            courseStudent = new CourseStudent();
+            courseStudent.setCourseId(courseId);
+            courseStudent.setStudentId(studentId);
+            courseStudent.setMachineId(machineStudent.getMachineId());
+            courseStudent.setStatus(CourseStatusEnum.ASSIGN.getValue());
+            courseStudent.setCoursewareId(machineStudent.getCourewareId());
+            courseStudentList.add(courseStudent);
+        }
+
+        courseStudentService.save(courseStudentList);
         return ResultBuilder.error(ResultCodeEnum.OK);
     }
 
