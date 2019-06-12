@@ -12,5 +12,10 @@ public class UserLoginBaseDTO {
      * 用户的TOKEN
      */
     private String token;
+    /**
+     * 教室ID/机床ID
+     */
+    private Long workAddressId;
+
 
 }

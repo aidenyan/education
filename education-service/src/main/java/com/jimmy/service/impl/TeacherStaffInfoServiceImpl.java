@@ -2,7 +2,6 @@ package com.jimmy.service.impl;
 
 import com.jimmy.common.utils.StringUtils;
 import com.jimmy.core.local.thread.LoginLocalThread;
-import com.jimmy.dao.entity.ClassMate;
 import com.jimmy.dao.entity.TeacherRoleKey;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.dao.local.thread.SiteLocalThread;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
-import sun.rmi.runtime.Log;
 
 import java.util.List;
 
@@ -70,7 +68,7 @@ public class TeacherStaffInfoServiceImpl implements TeacherStaffInfoService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateAppToken(Long id, String token) {
+    public void updateAppToken(Long id, String token, Long roomId) {
         Assert.notNull(id, "id is null");
         Assert.notNull(token, "token is null");
         TeacherStaffInfo teacherStaffInfo = new TeacherStaffInfo();
@@ -82,6 +80,7 @@ public class TeacherStaffInfoServiceImpl implements TeacherStaffInfoService {
             teacherStaffInfo.setModifyId(LoginLocalThread.get());
         }
         teacherStaffInfo.setSiteId(SiteLocalThread.getSiteId());
+        teacherStaffInfo.setRoomId(roomId);
         teacherStaffInfoMapper.updateProperty(teacherStaffInfo);
     }
 

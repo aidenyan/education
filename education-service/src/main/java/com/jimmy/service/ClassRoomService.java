@@ -30,7 +30,13 @@ public interface ClassRoomService {
      * @return 教室和机床信息
      */
     ClassRoomDTO find(Long roomId);
-
+    /**
+     * 根据roomID查找教室信息
+     *
+     * @param roomId 教室ID
+     * @return 教室信息
+     */
+    ClassRoomInfo detail(Long roomId);
     /**
      * 删除教室信息
      *

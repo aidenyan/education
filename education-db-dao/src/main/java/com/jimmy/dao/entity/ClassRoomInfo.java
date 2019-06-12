@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ClassRoomInfo extends BaseEntity {
 
-
+    private String sn;
     private String name;
 
     private String address;

@@ -49,5 +49,6 @@ public class TeacherStaffInfoDTO extends BaseDTO {
     private Boolean isDeleted;
     @ApiModelProperty("头像特征信息")
     private String headerInfo;
-
+    @ApiModelProperty("教师ID")
+    private Long roomId;
 }

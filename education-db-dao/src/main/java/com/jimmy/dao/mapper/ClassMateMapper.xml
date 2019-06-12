@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.ClassMate">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sn" property="sn" jdbcType="VARCHAR"/>
         <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
         <result column="create_id" property="createId" jdbcType="BIGINT"/>
         <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
@@ -13,7 +14,7 @@
         <result column="description" property="description" jdbcType="LONGVARCHAR"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, name, is_deleted,  description,create_id, modify_id, create_time, modify_time, site_id
+    id, name, is_deleted,sn, description,create_id, modify_id, create_time, modify_time, site_id
   </sql>
     <select id="findById" resultMap="BaseResultMap">
         select
@@ -39,11 +40,11 @@
 
 
     <insert id="insert" parameterType="com.jimmy.dao.entity.ClassMate" keyProperty="id" useGeneratedKeys="true">
-    insert into t_class_mate ( name, is_deleted,
+    insert into t_class_mate (sn, name, is_deleted,
       create_id, modify_id, create_time, 
       modify_time, site_id, description
       )
-    values ( #{name,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT},
+    values ( #{sn},#{name,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT},
       #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, now(),
      now(), #{siteId,jdbcType=BIGINT}, #{description,jdbcType=LONGVARCHAR}
       )

@@ -51,4 +51,6 @@ public class TeacherStaffInfo extends BaseEntity {
     private Boolean isDeleted;
 
     private String headerInfo;
+
+    private Long roomId;
 }

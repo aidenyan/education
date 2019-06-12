@@ -67,6 +67,12 @@ public class ClassRoomServiceImpl implements ClassRoomService {
     }
 
     @Override
+    public ClassRoomInfo detail(Long roomId) {
+        Assert.notNull(roomId);
+        return classRoomInfoMapper.findById(roomId, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleted(Long roomId) {
         ClassRoomInfo classRoomInfo = new ClassRoomInfo();

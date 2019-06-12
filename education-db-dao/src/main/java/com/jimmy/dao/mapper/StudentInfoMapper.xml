@@ -16,6 +16,7 @@
         <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
         <result column="app_token" property="appToken" jdbcType="VARCHAR"/>
         <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
+        <result column="machine_id" property="machineId" jdbcType="BIGINT"/>
         <result column="create_id" property="createId" jdbcType="BIGINT"/>
         <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
@@ -25,7 +26,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, classmate_id, name, sex, email, is_enabled, password, real_name, header_url, 
+    id, classmate_id, name,machine_id, sex, email, is_enabled, password, real_name, header_url,
     birth_time, mobile, telephone, app_token, is_deleted, create_id, modify_id, create_time, 
     modify_time,  header_info, site_id
   </sql>
@@ -72,14 +73,14 @@
 
 
     <insert id="insert" parameterType="com.jimmy.dao.entity.StudentInfo"  useGeneratedKeys="true" keyProperty="id">
-    insert into t_student_info (classmate_id, name,
+    insert into t_student_info (machine_id,classmate_id, name,
       sex, email, is_enabled, 
       password, real_name, header_url, 
       birth_time, mobile, telephone, 
       app_token, is_deleted, create_id, 
       modify_id, create_time, modify_time, 
       site_id, header_info)
-    values ( #{classmateId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+    values (#{machineId}, #{classmateId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
       #{sex,jdbcType=TINYINT}, #{email,jdbcType=VARCHAR}, #{isEnabled,jdbcType=BIT}, 
       #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{headerUrl,jdbcType=VARCHAR}, 
       #{birthTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
@@ -91,6 +92,9 @@
     <update id="updateProperty" parameterType="com.jimmy.dao.entity.StudentInfo">
         update t_student_info
         <set>
+            <if test="machineId != null">
+                machine_id = #{machineId},
+            </if>
             <if test="classmateId != null">
                 classmate_id = #{classmateId,jdbcType=BIGINT},
             </if>

@@ -36,7 +36,12 @@ public interface CourseInfoService {
      */
     List<CourseInfo> list(String name);
 
-
+    /**
+     * 修改课程改为已经使用
+     *
+     * @param courseId 课程ID
+     */
+    void useCourse(Long courseId);
 
     /**
      * 查找可以使用这个教室以及老师的课程信息

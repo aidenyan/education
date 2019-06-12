@@ -43,7 +43,7 @@ public interface TeacherStaffInfoService {
      * @param id    ID
      * @param token token
      */
-    void updateAppToken(Long id, String token);
+    void updateAppToken(Long id, String token,Long roomId);
 
     /**
      * 根据ID更新token的值

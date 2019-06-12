@@ -54,6 +54,17 @@ public class CourseInfoServiceImpl implements CourseInfoService {
     }
 
     @Override
+    public void useCourse(Long courseId) {
+        Assert.notNull(courseId);
+        CourseInfo courseInfo=new CourseInfo();
+        courseInfo.setIsUsed(true);
+        courseInfo.setId(courseId);
+        courseInfo.setModifyId(LoginLocalThread.get());
+        courseInfo.setSiteId(SiteLocalThread.getSiteId());
+        courseInfoMapper.updateProperty(courseInfo);
+    }
+
+    @Override
     public List<CourseInfo> listCouldUsed(Long roomId, Long teacherId, Integer size) {
         return courseInfoMapper.listCouldUsed(roomId, teacherId, size, SiteLocalThread.getSiteIdList());
     }

@@ -51,11 +51,12 @@
 
 
 
-        <table tableName="t_student_star_info" domainObjectName="StudentStarInfo"
+        <table tableName="t_class_room_info" domainObjectName="ClassRoomInfo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
+
         <!--oracle的生成方式-->
         <!--<classPathEntry-->
         <!--location="C:/Oracle/Middleware/wlserver_10.3/server/lib/ojdbc6.jar"/>-->

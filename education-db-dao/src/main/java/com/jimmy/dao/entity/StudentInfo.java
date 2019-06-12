@@ -64,4 +64,8 @@ public class StudentInfo extends BaseEntity {
      */
     private String headerInfo;
 
+    /**
+     * »ú´²ID
+     */
+    private Long machineId;
 }

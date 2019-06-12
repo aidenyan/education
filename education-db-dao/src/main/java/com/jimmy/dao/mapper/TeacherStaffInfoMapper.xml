@@ -19,6 +19,7 @@
     <result column="header_url" property="headerUrl" jdbcType="VARCHAR" />
     <result column="birth_time" property="birthTime" jdbcType="TIMESTAMP" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="app_room_id" property="appRoomId" jdbcType="BIGINT" />
     <result column="telephone" property="telephone" jdbcType="VARCHAR" />
     <result column="web_token" property="webToken" jdbcType="VARCHAR" />
     <result column="app_token" property="appToken" jdbcType="VARCHAR" />
@@ -35,7 +36,7 @@
   <sql id="Base_Column_List" >
     id, name, sex, staff_type, staff_name, email, is_enabled, is_locked, locked_date, 
     login_date, login_failure_count, login_ip, password, real_name, header_url, birth_time, 
-    mobile, telephone, web_token, app_token, pad_app_token,header_info, is_deleted, create_id, modify_id,
+    mobile, telephone, web_token, app_token,app_room_id, pad_app_token,header_info, is_deleted, create_id, modify_id,
     create_time, modify_time, site_id
   </sql>
   <select id="findById" resultMap="BaseResultMap"  >
@@ -79,7 +80,7 @@
 
 
   <insert id="insert" parameterType="com.jimmy.dao.entity.TeacherStaffInfo"  useGeneratedKeys="true" keyProperty="id">
-    insert into t_teacher_staff_info ( name, sex,
+    insert into t_teacher_staff_info ( app_room_id,name, sex,
       staff_type, staff_name, email, 
       is_enabled, is_locked, locked_date, 
       login_date, login_failure_count, login_ip, 
@@ -89,7 +90,7 @@
       is_deleted, create_id, modify_id, 
       create_time, modify_time, site_id, 
       header_info)
-    values ( #{name,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT},
+    values ( #{appRoomId},#{name,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT},
       #{staffType,jdbcType=TINYINT}, #{staffName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{isEnabled,jdbcType=BIT}, #{isLocked,jdbcType=BIT}, #{lockedDate,jdbcType=TIMESTAMP}, 
       #{loginDate,jdbcType=TIMESTAMP}, #{loginFailureCount,jdbcType=INTEGER}, #{loginIp,jdbcType=VARCHAR}, 
@@ -104,6 +105,9 @@
   <update id="updateProperty" parameterType="com.jimmy.dao.entity.TeacherStaffInfo" >
     update t_teacher_staff_info
     <set >
+      <if test="appRoomId != null" >
+        app_room_id = #{appRoomId},
+      </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -188,9 +192,6 @@
       birth_time = #{birthTime,jdbcType=TIMESTAMP},
       mobile = #{mobile,jdbcType=VARCHAR},
       telephone = #{telephone,jdbcType=VARCHAR},
-      web_token = #{webToken,jdbcType=VARCHAR},
-      app_token = #{appToken,jdbcType=VARCHAR},
-      pad_app_token = #{padAppToken,jdbcType=VARCHAR},
       modify_id = #{modifyId,jdbcType=BIGINT},
       modify_time =now()
     where id = #{id,jdbcType=BIGINT} and is_deleted=0 and  site_id=#{siteId}
