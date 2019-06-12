@@ -34,13 +34,13 @@
             #{siteId}
         </foreach>
     </delete>
-    <insert id="insert" parameterType="com.jimmy.dao.entity.StudentStarInfo">
+    <insert id="insert" parameterType="com.jimmy.dao.entity.StudentStarInfo"  keyProperty="id" useGeneratedKeys="true">
     insert into t_student_star_info ( tearcher_id, student_id,
       create_id, modify_id, create_time, 
       modify_time, site_id)
     values ( #{tearcherId,jdbcType=BIGINT}, #{studentId,jdbcType=BIGINT},
-      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT})
+      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, now(),
+      now(), #{siteId,jdbcType=BIGINT})
   </insert>
 
 </mapper>

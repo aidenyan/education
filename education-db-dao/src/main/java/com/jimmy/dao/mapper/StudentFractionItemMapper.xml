@@ -24,15 +24,15 @@
         from t_student_fraction_item
         where fraction_id = #{fractionId}
     </select>
-    <insert id="insert" parameterType="com.jimmy.dao.entity.StudentFractionItem">
+    <insert id="insert" parameterType="com.jimmy.dao.entity.StudentFractionItem"  keyProperty="id" useGeneratedKeys="true">
     insert into t_student_fraction_item (fraction_id, type,
       dictionary_item_id, name, fraction, 
       create_id, modify_id, create_time, 
       modify_time, site_id)
     values ( #{fractionId,jdbcType=BIGINT}, #{type,jdbcType=TINYINT},
       #{dictionaryItemId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{fraction},
-      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT})
+      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, now(),
+      now(), #{siteId,jdbcType=BIGINT})
   </insert>
 
 </mapper>

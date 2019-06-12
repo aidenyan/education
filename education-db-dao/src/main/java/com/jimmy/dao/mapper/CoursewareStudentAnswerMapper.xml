@@ -32,7 +32,7 @@
     delete from t_couseware_student_answer
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswer" >
+  <insert id="insert" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswer"  keyProperty="id" useGeneratedKeys="true">
     insert into t_couseware_student_answer (id, course_id, courseware_id, 
       courseware_item_id, student_id, fraction, 
       create_id, modify_id, create_time, 
@@ -40,8 +40,8 @@
       tearch_result)
     values (#{id,jdbcType=BIGINT}, #{courseId,jdbcType=BIGINT}, #{coursewareId,jdbcType=BIGINT}, 
       #{coursewareItemId,jdbcType=BIGINT}, #{studentId,jdbcType=BIGINT}, #{fraction,jdbcType=INTEGER}, 
-      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT}, #{result,jdbcType=LONGVARCHAR}, 
+      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT},now(),
+      now(), #{siteId,jdbcType=BIGINT}, #{result,jdbcType=LONGVARCHAR},
       #{tearchResult,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.jimmy.dao.entity.CoursewareStudentAnswer" >

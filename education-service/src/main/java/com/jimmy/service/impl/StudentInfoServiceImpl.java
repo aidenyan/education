@@ -38,7 +38,14 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
     @Override
     public List<StudentInfo> list(List<Long> idList) {
+        Assert.notEmpty(idList);
         return studentInfoMapper.listByIdList(idList, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
+    public List<StudentInfo> listByClassMate(List<Long> classMateIdList) {
+        Assert.notEmpty(classMateIdList);
+        return studentInfoMapper.listByClassMate(classMateIdList, SiteLocalThread.getSiteIdList());
     }
 
     @Override

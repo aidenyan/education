@@ -28,9 +28,9 @@ public class CourseInfo extends BaseEntity {
      */
     private Long teacherId;
     /**
-     * 是否已经使用
+     * 使用状态
      */
-    private Boolean isUsed;
+    private Integer usedStatus;
     /**
      * 描述
      */

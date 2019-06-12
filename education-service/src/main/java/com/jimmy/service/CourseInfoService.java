@@ -41,7 +41,7 @@ public interface CourseInfoService {
      *
      * @param courseId 课程ID
      */
-    void useCourse(Long courseId);
+    void useCourse(Long courseId,Integer usedStatus,Long roomId);
 
     /**
      * 查找可以使用这个教室以及老师的课程信息

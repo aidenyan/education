@@ -42,7 +42,7 @@
     </select>
 
 
-    <insert id="insert" parameterType="com.jimmy.dao.entity.Question">
+    <insert id="insert" parameterType="com.jimmy.dao.entity.Question"  keyProperty="id" useGeneratedKeys="true">
     insert into t_question (is_deleted, question, type,
       result, create_id, modify_id, 
       create_time, modify_time, site_id

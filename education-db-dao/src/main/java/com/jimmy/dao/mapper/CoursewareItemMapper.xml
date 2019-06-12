@@ -53,7 +53,7 @@
             #{siteId}
         </foreach>
     </delete>
-    <insert id="insert" parameterType="com.jimmy.dao.entity.CoursewareItem">
+    <insert id="insert" parameterType="com.jimmy.dao.entity.CoursewareItem"  keyProperty="id" useGeneratedKeys="true">
     insert into t_courseware_item (courseware_id,order_num,type, content_type,
       resource_id, create_id, modify_id, 
       create_time, modify_time, site_id, 

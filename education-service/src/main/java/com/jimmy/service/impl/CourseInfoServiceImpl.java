@@ -31,13 +31,13 @@ public class CourseInfoServiceImpl implements CourseInfoService {
         courseInfo.setModifyId(LoginLocalThread.get());
         courseInfo.setCreateId(LoginLocalThread.get());
         courseInfo.setSiteId(SiteLocalThread.getSiteId());
-        courseInfo.setIsUsed(Boolean.FALSE);
+        courseInfo.setUsedStatus(0);
         if (courseInfo.getId() == null) {
             courseInfoMapper.insert(courseInfo);
         } else {
             CourseInfo tempCourseInfo = courseInfoMapper.findById(courseInfo.getId(), SiteLocalThread.getSiteIdList());
             Assert.notNull(tempCourseInfo);
-            Assert.isTrue(!tempCourseInfo.getIsUsed());
+            Assert.isTrue(tempCourseInfo.getUsedStatus() == 0);
             courseInfoMapper.update(courseInfo);
         }
     }
@@ -54,13 +54,18 @@ public class CourseInfoServiceImpl implements CourseInfoService {
     }
 
     @Override
-    public void useCourse(Long courseId) {
+    @Transactional(rollbackFor = Exception.class)
+    public void useCourse(Long courseId, Integer usedStatus,Long roomId) {
         Assert.notNull(courseId);
-        CourseInfo courseInfo=new CourseInfo();
-        courseInfo.setIsUsed(true);
+        CourseInfo courseInfo = new CourseInfo();
+        courseInfo.setUsedStatus(usedStatus);
         courseInfo.setId(courseId);
         courseInfo.setModifyId(LoginLocalThread.get());
         courseInfo.setSiteId(SiteLocalThread.getSiteId());
+        if (usedStatus == 1) {
+            Assert.notNull(roomId);
+            courseInfoMapper.updateUsedStatus(courseId,roomId,SiteLocalThread.getSiteId());
+        }
         courseInfoMapper.updateProperty(courseInfo);
     }
 

@@ -36,7 +36,12 @@ public interface StudentInfoMapper {
      * @return List<学生信息>
      */
     List<StudentInfo> listByIdList(@Param("idList")List<Long> idList, @Param("siteIdList") List<Long> siteIdList);
-
+    /**
+     * 根据班级ID获取学生信息
+     * @param classMateIdList 班级ID
+     * @return List<学生信息>
+     */
+    List<StudentInfo> listByClassMate(@Param("classMateIdList") List<Long> classMateIdList,@Param("siteIdList") List<Long> siteIdList);
     /**
      * 保存学生信息
      *

@@ -37,12 +37,12 @@
       #{siteId}
     </foreach>
   </select>
-  <insert id="insert" parameterType="com.jimmy.dao.entity.StudentFraction" >
+  <insert id="insert" parameterType="com.jimmy.dao.entity.StudentFraction"  keyProperty="id" useGeneratedKeys="true">
     insert into t_student_fraction ( student_id,course_id, fraction,
       create_id, modify_id, create_time, 
       modify_time, site_id)
     values (  #{studentId,jdbcType=BIGINT},#{courseId,jdbcType=BIGINT}, #{fraction},
-      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
-      #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT})
+      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT},now(),
+     now(), #{siteId,jdbcType=BIGINT})
   </insert>
 </mapper>

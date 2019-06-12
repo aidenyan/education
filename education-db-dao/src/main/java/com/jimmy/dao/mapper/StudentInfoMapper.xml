@@ -56,7 +56,20 @@
         </foreach>
     </select>
 
-
+    <select id="listByClassMate" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_student_info
+        where  is_deleted=0 AND
+        site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        and classmate_id  IN
+        <foreach collection="idList" separator="," item="id" close=")" open="(">
+            #{id}
+        </foreach>
+    </select>
     <select id="list" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

@@ -58,7 +58,7 @@
       AND log_type = #{logType}
     </if>
   </select>
-  <insert id="insert" parameterType="com.jimmy.dao.entity.SysLogInfo" >
+  <insert id="insert" parameterType="com.jimmy.dao.entity.SysLogInfo"  keyProperty="id" useGeneratedKeys="true">
     insert into t_sys_log_info (operation_uuid, operation_sys, operation_id,
       operation_name, operation_content, operation_code, 
       operation_ip, log_type, obj_id, 

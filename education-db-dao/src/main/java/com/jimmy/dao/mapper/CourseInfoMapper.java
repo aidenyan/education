@@ -47,12 +47,19 @@ public interface CourseInfoMapper {
      */
     int updateProperty(CourseInfo record);
 
+
+    /**
+     * 更新之前已经上过的状态
+     */
+    int updateUsedStatus(@Param("courseId") Long courseId, @Param("roomId") Long roomId, @Param("siteId") Long siteId);
+
+
     /**
      * 查找可以使用这个教室以及老师的课程信息
      *
-     * @param roomId 教室ID
+     * @param roomId    教室ID
      * @param teacherId 老师ID
-     * @param size  数量
+     * @param size      数量
      * @return List<课程></>
      */
     List<CourseInfo> listCouldUsed(@Param("roomId") Long roomId, @Param("teacherId") Long teacherId,

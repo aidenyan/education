@@ -1,6 +1,6 @@
 package com.jimmy.mvc.common.model.dto;
 
-import com.jimmy.dao.entity.BaseEntity;
+import com.jimmy.mvc.common.model.enums.UsedStatusEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -37,10 +37,10 @@ public class CourseInfoDTO extends BaseDTO {
     @ApiModelProperty("教师ID")
     private Long teacherId;
     /**
-     * 是否已经使用
+     * 使用状态
      */
-    @ApiModelProperty("是否已经使用")
-    private Boolean isUsed;
+    @ApiModelProperty("使用状态")
+    private UsedStatusEnum usedStatus;
     /**
      * 描述
      */

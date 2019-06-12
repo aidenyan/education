@@ -42,7 +42,7 @@
       site_id)
     values ( #{roomId,jdbcType=BIGINT}, #{sn,jdbcType=VARCHAR},
       #{rowNum,jdbcType=INTEGER}, #{columnNum,jdbcType=INTEGER}, #{createId,jdbcType=BIGINT}, 
-      #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyId,jdbcType=BIGINT}, now(),  now(),
       #{siteId,jdbcType=BIGINT})
   </insert>
 

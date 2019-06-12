@@ -35,7 +35,12 @@ public interface StudentInfoService {
      * @return List<学生信息>
      */
     List<StudentInfo> list(List<Long> idList);
-
+    /**
+     * 根据班级ID获取学生信息
+     * @param classMateIdList 班级ID
+     * @return List<学生信息>
+     */
+    List<StudentInfo> listByClassMate(List<Long> classMateIdList);
     /**
      * 更新token
      *

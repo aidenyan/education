@@ -40,7 +40,7 @@
         </foreach>
         and type =#{type}
     </select>
-    <insert id="insert" parameterType="com.jimmy.dao.entity.ResourceInfo">
+    <insert id="insert" parameterType="com.jimmy.dao.entity.ResourceInfo"  keyProperty="id" useGeneratedKeys="true">
     insert into t_resource_info (is_deleted, type, create_id,
       modify_id, create_time, modify_time, 
       site_id, content)

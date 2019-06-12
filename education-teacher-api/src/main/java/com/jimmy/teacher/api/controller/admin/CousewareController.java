@@ -8,6 +8,7 @@ import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.CourseInfoDTO;
 import com.jimmy.mvc.common.model.dto.CoursewareDetailDTO;
+import com.jimmy.mvc.common.model.enums.UsedStatusEnum;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CoursewareDetailDTOTransfer;
 import com.jimmy.service.CourseInfoService;
@@ -76,9 +77,25 @@ public class CousewareController {
         return ResultBuilder.error(ResultCodeEnum.OK, CourseInfoDTOTransfer.INSTANCE.toCourseInfoDTOList(courseInfoList));
     }
 
+    @ApiOperation("修改课程状态改为正在使用")
+    @ResponseBody
+    @PostMapping("/using/{courseId}")
+    public Result<Boolean> using(@PathVariable("courseId") Long courseId) {
+        TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
+        CourseInfo courseInfo = courseInfoService.findById(courseId);
+        if (courseInfo == null) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
+        }
+        if (courseInfo.getRoomId().equals(teacherStaffInfo.getRoomId())) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
+        }
+        courseInfoService.useCourse(courseId, UsedStatusEnum.USING.getValue(), teacherStaffInfo.getRoomId());
+        return ResultBuilder.error(ResultCodeEnum.OK);
+    }
+
     @ApiOperation("修改课程状态改为已经使用")
     @ResponseBody
-    @PostMapping("/user/{courseId}")
+    @PostMapping("/used/{courseId}")
     public Result<Boolean> list(@PathVariable("courseId") Long courseId) {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
         CourseInfo courseInfo = courseInfoService.findById(courseId);
@@ -88,7 +105,7 @@ public class CousewareController {
         if (courseInfo.getRoomId().equals(teacherStaffInfo.getRoomId())) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
-        courseInfoService.useCourse(courseId);
+        courseInfoService.useCourse(courseId, UsedStatusEnum.ALREADY_USED.getValue(),null);
         return ResultBuilder.error(ResultCodeEnum.OK);
     }
 }
