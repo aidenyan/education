@@ -26,6 +26,7 @@ public class CourseInfoServiceImpl implements CourseInfoService {
     private CourseInfoMapper courseInfoMapper;
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(CourseInfo courseInfo) {
         Assert.notNull(courseInfo);
         courseInfo.setModifyId(LoginLocalThread.get());

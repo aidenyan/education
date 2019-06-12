@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.CourseStudentRegisterMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.CourseStudentRegister">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="course_student_id" property="courseStudentId" jdbcType="BIGINT"/>
+        <result column="command_id" property="commandId" jdbcType="BIGINT"/>
+        <result column="is_register" property="isRegister" jdbcType="TINYINT"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, course_student_id, command_id, is_register, create_id, modify_id, create_time, 
+    modify_time, site_id
+  </sql>
+    <select id="listByCommand" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_course_student_register
+        where command_id = #{commandId,jdbcType=BIGINT}
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+
+    <insert id="insert" parameterType="com.jimmy.dao.entity.CourseStudentRegister">
+    insert into t_course_student_register ( course_student_id, command_id,
+      is_register, create_id, modify_id, 
+      create_time, modify_time, site_id
+      )
+    values ( #{courseStudentId,jdbcType=BIGINT}, #{commandId,jdbcType=BIGINT},
+      #{isRegister,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
+      now(), now(), #{siteId,jdbcType=BIGINT}
+      )
+  </insert>
+
+</mapper>

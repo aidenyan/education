@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.CourseStudentMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.CourseStudent">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="course_id" property="courseId" jdbcType="BIGINT"/>
+        <result column="machine_id" property="machineId" jdbcType="BIGINT"/>
+        <result column="student_id" property="studentId" jdbcType="BIGINT"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+        <result column="status" property="status"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, course_id, machine_id, student_id, create_id, modify_id, create_time, modify_time, 
+    site_id,status
+  </sql>
+
+    <select id="listByCourseId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_course_student
+        where course_id = #{courseId,jdbcType=BIGINT}
+        <if test="status != null">
+            and status=#{status}
+        </if>
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+    <delete id="deleted">
+       DELETE from t_course_student where site_id=#{siteId} and course_id=#{courseId} and student_id=#{studentId}
+   </delete>
+    <update id="updateCourseStudentStatus">
+             update t_course_student SET status=#{status}
+        where site_id=#{siteId} and course_id=#{courseId} and student_id=#{studentId}
+    </update>
+    <insert id="insert" parameterType="com.jimmy.dao.entity.CourseStudent">
+    insert into t_course_student ( course_id, machine_id,
+      student_id, create_id, modify_id, 
+      create_time, modify_time, site_id, 
+      status)
+    values ( #{courseId,jdbcType=BIGINT}, #{machineId,jdbcType=BIGINT},
+      #{studentId,jdbcType=BIGINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
+     now(),now(), #{siteId,jdbcType=BIGINT},
+      #{status})
+  </insert>
+
+    <update id="updateProperty" parameterType="com.jimmy.dao.entity.CourseStudent">
+        update t_course_student
+        <set>
+            <if test="courseId != null">
+                course_id = #{courseId,jdbcType=BIGINT},
+            </if>
+            <if test="machineId != null">
+                machine_id = #{machineId,jdbcType=BIGINT},
+            </if>
+            <if test="studentId != null">
+                student_id = #{studentId,jdbcType=BIGINT},
+            </if>
+
+
+            modify_id = #{modifyId,jdbcType=BIGINT},
+
+
+            modify_time = now(),
+
+
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

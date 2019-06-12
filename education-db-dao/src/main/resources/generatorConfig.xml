@@ -49,13 +49,9 @@
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>-->
 
-        <table tableName="t_temporary_class_mate" domainObjectName="TemporaryClassMate"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
 
-        <table tableName="t_temporary_student_class_mate" domainObjectName="TemporaryStudentClassMate"
+
+        <table tableName="t_course_student_register" domainObjectName="CourseStudentRegister"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

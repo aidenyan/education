@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.StudentAnswerMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.StudentAnswer">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="course_student_id" property="courseStudentId" jdbcType="BIGINT"/>
+        <result column="courseware_id" property="coursewareId" jdbcType="BIGINT"/>
+        <result column="courseware_item_id" property="coursewareItemId" jdbcType="BIGINT"/>
+        <result column="fraction" property="fraction" jdbcType="INTEGER"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+        <result column="student_result" property="studentResult" jdbcType="LONGVARCHAR"/>
+        <result column="tearch_result" property="tearchResult" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, course_student_id, courseware_id, courseware_item_id, fraction, create_id,
+    modify_id, create_time, modify_time, site_id, student_result, tearch_result
+  </sql>
+
+    <select id="listByCourseStudentId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_student_answer
+        where course_student_id = #{courseStudentId,jdbcType=BIGINT}
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+
+    <insert id="insert" parameterType="com.jimmy.dao.entity.StudentAnswer">
+    insert into t_student_answer ( course_student_id, courseware_id,
+      courseware_item_id, fraction, create_id, 
+      modify_id, create_time, modify_time, 
+      site_id, student_result, tearch_result
+      )
+    values ( #{courseStudentId,jdbcType=BIGINT}, #{coursewareId,jdbcType=BIGINT},
+      #{coursewareItemId,jdbcType=BIGINT}, #{fraction,jdbcType=INTEGER}, #{createId,jdbcType=BIGINT}, 
+      #{modifyId,jdbcType=BIGINT}, now(), now(),
+      #{siteId,jdbcType=BIGINT}, #{studentResult,jdbcType=LONGVARCHAR}, #{tearchResult,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+
+    <update id="updateProperty" parameterType="com.jimmy.dao.entity.StudentAnswer">
+        update t_student_answer
+        <set>
+            <if test="courseStudentId != null">
+                course_student_id = #{courseStudentId,jdbcType=BIGINT},
+            </if>
+            <if test="coursewareId != null">
+                courseware_id = #{coursewareId,jdbcType=BIGINT},
+            </if>
+            <if test="coursewareItemId != null">
+                courseware_item_id = #{coursewareItemId,jdbcType=BIGINT},
+            </if>
+            <if test="fraction != null">
+                fraction = #{fraction,jdbcType=INTEGER},
+            </if>
+            modify_id = #{modifyId,jdbcType=BIGINT},
+            modify_time = now(),
+            <if test="studentResult != null">
+                student_result = #{studentResult,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="tearchResult != null">
+                tearch_result = #{tearchResult,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

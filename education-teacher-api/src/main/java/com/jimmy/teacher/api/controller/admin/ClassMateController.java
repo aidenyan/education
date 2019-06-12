@@ -2,25 +2,28 @@ package com.jimmy.teacher.api.controller.admin;
 
 import com.jimmy.core.enums.ResultCoreEnum;
 import com.jimmy.dao.entity.ClassMate;
+import com.jimmy.dao.entity.CourseStudent;
 import com.jimmy.dao.entity.StudentInfo;
 import com.jimmy.dao.entity.TemporaryClassMate;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
+import com.jimmy.mvc.common.model.dto.MachineStudentDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
+import com.jimmy.mvc.common.model.enums.CourseStatusEnum;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
 import com.jimmy.service.ClassMateService;
+import com.jimmy.service.CourseStudentService;
 import com.jimmy.service.StudentInfoService;
 import com.jimmy.service.TemporaryClassMateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,6 +43,9 @@ public class ClassMateController {
 
     @Autowired
     private StudentInfoService studentInfoService;
+
+    @Autowired
+    private CourseStudentService courseStudentService;
 
     @Autowired
     private TemporaryClassMateService temporaryClassMateService;
@@ -76,4 +82,62 @@ public class ClassMateController {
         List<StudentInfo> studentInfoList = temporaryClassMateService.findStudentId(courseId);
         return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
     }
+
+    @ApiOperation("分配学生和机器信息")
+    @ResponseBody
+    @PostMapping("/list/assign")
+    public Result<Void> listAssign(MachineStudentDTO[] machineStudents, Long courseId) {
+        if (machineStudents == null || machineStudents.length == 0) {
+            return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+        }
+        List<CourseStudent> courseStudentList = new ArrayList<>();
+        CourseStudent courseStudent;
+        for (MachineStudentDTO machineStudentDTO : machineStudents) {
+            courseStudent = new CourseStudent();
+            courseStudent.setCourseId(courseId);
+            courseStudent.setStudentId(machineStudentDTO.getStudentId());
+            courseStudent.setMachineId(machineStudentDTO.getMachineId());
+            courseStudent.setStatus(CourseStatusEnum.ASSIGN.getValue());
+            courseStudentList.add(courseStudent);
+        }
+        if (CollectionUtils.isEmpty(courseStudentList)) {
+            return ResultBuilder.error(ResultCodeEnum.OK);
+        }
+        courseStudentService.save(courseStudentList);
+        return ResultBuilder.error(ResultCodeEnum.OK);
+    }
+
+    @ApiOperation("单个调整学生和机器信息")
+    @ResponseBody
+    @PostMapping("/single/assign")
+    public Result<Void> listAssign(MachineStudentDTO machineStudent, Long courseId) {
+        if (machineStudent == null) {
+            return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+        }
+        CourseStudent courseStudent = new CourseStudent();
+        courseStudent.setCourseId(courseId);
+        courseStudent.setStudentId(machineStudent.getStudentId());
+        courseStudent.setMachineId(machineStudent.getMachineId());
+        courseStudent.setStatus(CourseStatusEnum.ASSIGN.getValue());
+        courseStudentService.save(courseStudent);
+        return ResultBuilder.error(ResultCodeEnum.OK);
+    }
+
+    @ApiOperation("获取课程已经结束的学生的ID")
+    @ResponseBody
+    @PostMapping("/course/list")
+    public Result<List<Long>> listByCourseId(Long courseId) {
+        if (courseId == null) {
+            return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+        }
+        List<CourseStudent> courseStudentList = courseStudentService.list(courseId, CourseStatusEnum.END.getValue());
+        List<Long> studentIdList = new ArrayList<>();
+        if (courseStudentList == null) {
+            return ResultBuilder.error(ResultCodeEnum.OK, studentIdList);
+        }
+        courseStudentList.forEach(courseStudent -> studentIdList.add(courseStudent.getStudentId()));
+        return ResultBuilder.error(ResultCodeEnum.OK, studentIdList);
+    }
+
+
 }
