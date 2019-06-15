@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class ResourceInfo extends BaseEntity {
-    private Long id;
 
     private Integer type;
 
