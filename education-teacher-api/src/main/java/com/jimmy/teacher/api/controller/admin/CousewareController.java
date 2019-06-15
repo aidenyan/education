@@ -2,7 +2,7 @@ package com.jimmy.teacher.api.controller.admin;
 
 import com.jimmy.dao.entity.CourseInfo;
 import com.jimmy.dao.entity.TeacherStaffInfo;
-import com.jimmy.model.dto.CoursewareDetailVO;
+import com.jimmy.model.vo.CoursewareDetailVO;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;

@@ -15,6 +15,7 @@
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/enums/BaseEnum.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/ClassRoomDTOTransfer.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/ClassRoomVoDTOTransfer.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/CourseAnswerDTOTransfer.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/CourseInfoDTOTransfer.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/CoursewareDTOTransfer.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/CoursewareDetailDTOTransfer.java" charset="UTF-8" />
@@ -22,5 +23,7 @@
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/MachineInfoTOTransfer.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/StudentInfoDTOTransfer.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/TeacherStaffInfoDTOTransfer.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-teacher-api/src/main/java/com/jimmy/teacher/api/controller/admin/ClassMateController.java" charset="GBK" />
+    <file url="PROJECT" charset="GBK" />
   </component>
 </project>

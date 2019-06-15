@@ -5,7 +5,7 @@ import com.jimmy.dao.entity.CoursewareItem;
 import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.mapper.CoursewareItemMapper;
 import com.jimmy.dao.mapper.CoursewareMapper;
-import com.jimmy.model.dto.CoursewareDetailVO;
+import com.jimmy.model.vo.CoursewareDetailVO;
 import com.jimmy.service.CoursewareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ public class CoursewareServiceImpl implements CoursewareService {
         }
         Map<Long, Courseware> coursewareIdMap = new HashMap<>();
         coursewareList.forEach(courseware -> coursewareIdMap.put(courseware.getId(), courseware));
-        List<CoursewareItem> coursewareItemList = coursewareItemMapper.listByCoursewareIdList(coursewareIdMap.keySet(), SiteLocalThread.getSiteIdList());
+        List<CoursewareItem> coursewareItemList = coursewareItemMapper.listByCoursewareIdList(coursewareIdMap.keySet(), null,SiteLocalThread.getSiteIdList());
         Map<Long, List<CoursewareItem>> itemMap = new HashMap<>();
         coursewareItemList.forEach(coursewareItem -> {
             List<CoursewareItem> itemList = itemMap.get(coursewareItem.getCoursewareId());
@@ -67,5 +67,19 @@ public class CoursewareServiceImpl implements CoursewareService {
         Assert.notNull(coursewareId);
         Assert.notNull(contentType);
         return coursewareItemMapper.listByCoursewareId(coursewareId, contentType, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
+    public List<CoursewareItem> listByCourseId(Long courseId, Integer contentType) {
+        Assert.notNull(courseId);
+        Assert.notNull(contentType);
+        List<Courseware> coursewareList = coursewareMapper.list(courseId, SiteLocalThread.getSiteIdList());
+        if(CollectionUtils.isEmpty(coursewareList)){
+            return Collections.EMPTY_LIST;
+        }
+        List<Long> coursewaredIdList=new ArrayList<>();
+        coursewareList.forEach(courseware -> coursewaredIdList.add(courseware.getId()));
+        return coursewareItemMapper.listByCoursewareIdList(coursewaredIdList, contentType, SiteLocalThread.getSiteIdList());
+
     }
 }

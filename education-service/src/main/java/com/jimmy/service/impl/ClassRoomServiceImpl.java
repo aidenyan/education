@@ -6,7 +6,7 @@ import com.jimmy.dao.entity.MachineInfo;
 import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.mapper.ClassRoomInfoMapper;
 import com.jimmy.dao.mapper.MachineInfoMapper;
-import com.jimmy.model.dto.ClassRoomVO;
+import com.jimmy.model.vo.ClassRoomVO;
 import com.jimmy.service.ClassRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

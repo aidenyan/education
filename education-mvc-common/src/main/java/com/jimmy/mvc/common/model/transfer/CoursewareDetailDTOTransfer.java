@@ -1,8 +1,6 @@
 package com.jimmy.mvc.common.model.transfer;
 
-import com.jimmy.dao.entity.Courseware;
-import com.jimmy.model.dto.CoursewareDetailVO;
-import com.jimmy.mvc.common.model.dto.CoursewareDTO;
+import com.jimmy.model.vo.CoursewareDetailVO;
 import com.jimmy.mvc.common.model.dto.CoursewareDetailDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

@@ -1,5 +1,7 @@
 package com.jimmy.mvc.common.model.dto;
 
+import com.alibaba.fastjson.JSON;
+import com.jimmy.common.utils.StringUtils;
 import com.jimmy.mvc.common.model.enums.ContentTypeEnum;
 import com.jimmy.mvc.common.model.enums.CoursewareItemTypeEnum;
 import io.swagger.annotations.ApiModel;
@@ -29,6 +31,7 @@ public class CoursewareItemDTO extends BaseDTO {
      */
     @ApiModelProperty("内容对象为具体内容的一个JSON对象")
     private String content;
+
     @ApiModelProperty("具体信息对像")
     private Object contentObj;
     /**
@@ -42,5 +45,22 @@ public class CoursewareItemDTO extends BaseDTO {
     @ApiModelProperty("课件ID")
     private Long coursewareId;
 
+    public Object getContentObj() {
+        if (StringUtils.isBlank(content)) {
+            return null;
+        }
+        if (ContentTypeEnum.BLUEPRINT == getContentType()) {
+            contentObj = JSON.parseObject(content, DrawingDTO.class);
+        }
+        return contentObj;
+    }
+
+    public <T> T convert(Class<T> tClass) {
+        if (StringUtils.isBlank(content)) {
+            return null;
+        }
+
+        return JSON.parseObject(content, tClass);
+    }
 
 }

@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface StudentAnswerMapper {
+public interface CourseAnswerMapper {
     /**
      * 保存
      *
@@ -25,8 +25,8 @@ public interface StudentAnswerMapper {
     /**
      * 获取学生的回答信息
      *
-     * @param courseStudentId
-     * @return
      */
-    List<CourseAnswer> listByCourseStudentId(@Param("courseStudentId") Long courseStudentId, @Param("siteIdList") List<Long> siteIdList);
+    List<CourseAnswer> listMachineAnswer(@Param("courseId") Long courseId, @Param("machineId") Long machineId,
+                                             @Param("itemIdList")  List<Long> itemIdList,
+                                             @Param("siteIdList") List<Long> siteIdList);
 }

@@ -1,4 +1,4 @@
-package com.jimmy.model.dto;
+package com.jimmy.model.vo;
 
 import com.jimmy.dao.entity.Courseware;
 import com.jimmy.dao.entity.CoursewareItem;

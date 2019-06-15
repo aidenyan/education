@@ -57,7 +57,7 @@
                 description = #{description,jdbcType=LONGVARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=BIGINT}
+        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId,jdbcType=BIGINT}
     </update>
 
 </mapper>

@@ -1,6 +1,6 @@
 package com.jimmy.mvc.common.model.transfer;
 
-import com.jimmy.model.dto.ClassRoomVO;
+import com.jimmy.model.vo.ClassRoomVO;
 import com.jimmy.mvc.common.model.dto.ClassRoomVoDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

@@ -1,6 +1,8 @@
 package com.jimmy.service;
 
 import com.jimmy.dao.entity.StudentFraction;
+import com.jimmy.dao.entity.StudentTotalFaction;
+import com.jimmy.model.vo.StudentFractionVo;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -22,5 +24,17 @@ public interface StudentFractionService {
      * @param endDate   结束时间
      * @return List<学生信息>
      */
-    List<StudentFraction> listByFraction(BigDecimal fraction, Date startDate, Date endDate);
+    List<StudentTotalFaction> listByFraction(BigDecimal fraction, Date startDate, Date endDate);
+
+    /**
+     * 获取学生的分数
+     */
+    List<StudentFraction> list(Long courseId, List<Long> studentIdList);
+
+    /**
+     * 保存
+     *
+     * @param studentFractionVos
+     */
+    void save(List<StudentFractionVo> studentFractionVos);
 }
