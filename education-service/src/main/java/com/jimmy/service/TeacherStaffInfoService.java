@@ -53,6 +53,12 @@ public interface TeacherStaffInfoService {
      */
     void updatePadAppToken(Long id, String token);
 
+
+    /**
+     * 保存老师头部特征
+     */
+    int updateHeader(String headerInfo, Long id);
+
     /**
      * 删除教师
      * @param id ID

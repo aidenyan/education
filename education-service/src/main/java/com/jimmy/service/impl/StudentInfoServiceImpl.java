@@ -49,6 +49,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateToken(String token, Long id) {
         Assert.notNull(id, "id is null");
         Assert.notNull(token, "token is null");
@@ -65,6 +66,7 @@ public class StudentInfoServiceImpl implements StudentInfoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int save(StudentInfo studentInfo) {
         Assert.notNull(studentInfo, "studentInfo is null");
         studentInfo.setSiteId(SiteLocalThread.getSiteId());
@@ -77,5 +79,18 @@ public class StudentInfoServiceImpl implements StudentInfoService {
             return studentInfoMapper.update(studentInfo);
         }
 
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int updateHeader(String headerInfo, Long id) {
+        Assert.notNull(id, "id is null");
+        Assert.isTrue(StringUtils.isNotBlank(headerInfo), "headerInfo is null");
+        StudentInfo studentInfo = new StudentInfo();
+        studentInfo.setSiteId(SiteLocalThread.getSiteId());
+        studentInfo.setModifyId(LoginLocalThread.get());
+        studentInfo.setHeaderInfo(headerInfo);
+        studentInfo.setId(id);
+        return studentInfoMapper.updateProperty(studentInfo);
     }
 }

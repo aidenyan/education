@@ -15,20 +15,20 @@
         <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, domain,site_id, parent_id, parent_tree, child_enabled, deleted, create_time, modify_time,
+    id, domain,site_id, parent_site_id, parent_site_tree, child_enabled, deleted, create_time, modify_time,
     create_id, modify_id
   </sql>
-    <select id="findByDomain" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    <select id="findByDomain" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_site_info
-        where deleted=0 and domain =#{doamin}
+        where deleted=0 and domain = #{domain}
     </select>
     <select id="listChild" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_site_info
-        where deleted=0 and parent_site_tree LIKE concat('%,','#{siteId}',',%')
+        where deleted=0 and parent_site_tree LIKE concat('%,',#{siteId},',%')
     </select>
 
 

@@ -17,9 +17,12 @@ public class TeacherInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse httpServletResponse, Object o) throws Exception {
         TeacherStaffInfo teacherStaffInfo = sessionService.find();
-        TeacherLocalThread.set(teacherStaffInfo);
-        MenuInfoLocalThread.set(sessionService.listMenuInfo());
-        LoginLocalThread.set(teacherStaffInfo.getId());
+        if(teacherStaffInfo!=null){
+            TeacherLocalThread.set(teacherStaffInfo);
+            MenuInfoLocalThread.set(sessionService.listMenuInfo());
+            LoginLocalThread.set(teacherStaffInfo.getId());
+        }
+
         return true;
     }
 

@@ -6,13 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface SiteInfoMapper {
-    /**
-     * 保存站点信息
-     *
-     * @param record 站点信息
-     * @return 保存结果
-     */
-    int insert(SiteInfo record);
+
 
     /**
      * 根据域名查询对应的站点信息

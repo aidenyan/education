@@ -12,6 +12,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Autowired
     private SiteInfoService siteInfoService;
 
+    @Autowired
+    private FilePathConfig filePathConfig;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         SiteInterceptor siteInterceptor = new SiteInterceptor();
@@ -19,5 +22,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(siteInterceptor).addPathPatterns("/**");
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("swagger-ui.html")
+                .addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/upload/**").addResourceLocations("file:" + filePathConfig.getFilePath().replace("\\", "/") + "/");
 
+    }
 }

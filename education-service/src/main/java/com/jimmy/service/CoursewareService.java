@@ -36,5 +36,15 @@ public interface CoursewareService {
     /**
      * 保存或者修改
      */
-    void save(Courseware courseware, List<CoursewareItem> itemList,Long courseId);
+    void save(Courseware courseware, List<CoursewareItem> itemList, Long courseId);
+
+    /**
+     * 保定关系
+     */
+    void bind(List<Long> coursewareIdList, Long courseId);
+
+    /**
+     * 解除绑定
+     */
+    void unBind(List<Long> coursewareIdList, Long courseId);
 }

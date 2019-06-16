@@ -118,4 +118,30 @@ public class CoursewareServiceImpl implements CoursewareService {
             coursewareItemMapper.insert(coursewareItem);
         }
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void bind(List<Long> coursewareIdList, Long courseId) {
+        Assert.notNull(courseId);
+        Assert.notEmpty(coursewareIdList);
+        coursewareIdList.forEach(coursewareId -> {
+            CourseLinkKey courseLinkKey = new CourseLinkKey();
+            courseLinkKey.setCourseId(courseId);
+            courseLinkKey.setCoursewareId(coursewareId);
+            courseLinkMapper.insert(courseLinkKey);
+        });
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void unBind(List<Long> coursewareIdList, Long courseId) {
+        Assert.notNull(courseId);
+        Assert.notEmpty(coursewareIdList);
+        coursewareIdList.forEach(coursewareId -> {
+            CourseLinkKey courseLinkKey = new CourseLinkKey();
+            courseLinkKey.setCourseId(courseId);
+            courseLinkKey.setCoursewareId(coursewareId);
+            courseLinkMapper.deleted(courseLinkKey);
+        });
+    }
 }

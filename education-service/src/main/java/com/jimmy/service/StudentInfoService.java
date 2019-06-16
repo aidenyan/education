@@ -31,16 +31,20 @@ public interface StudentInfoService {
 
     /**
      * 根据id获取学生信息
+     *
      * @param idList ID列表
      * @return List<学生信息>
      */
     List<StudentInfo> list(List<Long> idList);
+
     /**
      * 根据班级ID获取学生信息
+     *
      * @param classMateIdList 班级ID
      * @return List<学生信息>
      */
     List<StudentInfo> listByClassMate(List<Long> classMateIdList);
+
     /**
      * 更新token
      *
@@ -57,5 +61,11 @@ public interface StudentInfoService {
      * @return 保存的数量
      */
     int save(StudentInfo studentInfo);
+
+
+    /**
+     * 保存学生头部特征
+     */
+    int updateHeader(String headerInfo, Long id);
 
 }

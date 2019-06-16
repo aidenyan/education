@@ -16,4 +16,7 @@
     <delete id="deleteByCourseId">
     delete from t_course_link where course_id=#{courseId}
   </delete>
+    <delete id="deleted">
+        delete from t_course_link where courseware_id=#{coursewareId} and  course_id=#{courseId}
+    </delete>
 </mapper>

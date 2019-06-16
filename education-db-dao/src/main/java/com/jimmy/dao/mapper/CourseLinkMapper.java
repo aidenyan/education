@@ -28,5 +28,12 @@ public interface CourseLinkMapper {
      */
     int insert(CourseLinkKey record);
 
+    /**
+     * 删除课程和课件关联
+     *
+     * @return 删除数量
+     */
+    int deleted(CourseLinkKey record);
+
 
 }

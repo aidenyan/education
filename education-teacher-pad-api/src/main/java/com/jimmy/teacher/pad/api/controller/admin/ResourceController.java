@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,7 +35,7 @@ public class ResourceController {
     }
 
     @ResponseBody
-    @GetMapping("/list/resour")
+    @GetMapping("/list/resource")
     @ApiOperation("根据资源类型获取资源列表")
     public Result<List<ResourceInfoDTO>> listType(ResourceTypeEnum resourceType) {
         if (resourceType == null) {
@@ -42,5 +43,16 @@ public class ResourceController {
         }
         List<ResourceInfo> resourceInfoList = resourceInfoService.list(resourceType.getValue());
         return ResultBuilder.ok(ResourceInfoDTOTransfer.INSTANCE.toResourceInfoDTOList(resourceInfoList));
+    }
+
+    @ResponseBody
+    @GetMapping("/save")
+    @ApiOperation("根据资源类型获取资源列表")
+    public Result<Boolean> listType(@RequestBody ResourceInfoDTO resourceInfoDTO) {
+        if (resourceInfoDTO == null) {
+            return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+        }
+        resourceInfoService.save(ResourceInfoDTOTransfer.INSTANCE.toResourceInfo(resourceInfoDTO));
+        return ResultBuilder.ok(Boolean.TRUE);
     }
 }

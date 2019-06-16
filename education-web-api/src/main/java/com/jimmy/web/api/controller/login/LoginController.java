@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@Api(tags = "ç™»å½•/é€€å‡º", description = "ç™»å½•ä»¥åŠé€€å‡ºAPI")
+@Api(tags = "µÇÂ¼/ÍË³ö", description = "µÇÂ¼ÒÔ¼°ÍË³öAPI")
 @Controller
 @RequestMapping("/login")
 public class LoginController extends BaseController {
@@ -39,7 +39,7 @@ public class LoginController extends BaseController {
 
     @ResponseBody
     @GetMapping("/out")
-    @ApiOperation("ç®¡ç†åå°é€€å‡ºæ¥å£")
+    @ApiOperation("¹ÜÀíºóÌ¨ÍË³ö½Ó¿Ú")
     public Result<Void> out() {
         sessionService.out();
         return ResultBuilder.ok(null);
@@ -47,9 +47,9 @@ public class LoginController extends BaseController {
 
     @ResponseBody
     @GetMapping("/in")
-    @ApiOperation("ç®¡ç†åå°ç™»å½•æ¥å£")
-    @ApiImplicitParams({@ApiImplicitParam(value = "ç”¨æˆ·åç§°", name = "userName", paramType = "query", required = true),
-            @ApiImplicitParam(value = "å¯†ç ", name = "password", paramType = "query", required = true)})
+    @ApiOperation("¹ÜÀíºóÌ¨µÇÂ¼½Ó¿Ú")
+    @ApiImplicitParams({@ApiImplicitParam(value = "ÓÃ»§Ãû³Æ", name = "userName", paramType = "query", required = true),
+            @ApiImplicitParam(value = "ÃÜÂë", name = "password", paramType = "query", required = true)})
     public Result<Void> in(String userName, String password) {
         TeacherStaffInfo teacherStaffInfo = teacherStaffInfoService.findByName(userName);
         if (teacherStaffInfo == null) {

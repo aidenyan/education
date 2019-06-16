@@ -2,6 +2,7 @@ package com.jimmy.service.impl;
 
 import com.jimmy.common.utils.StringUtils;
 import com.jimmy.core.local.thread.LoginLocalThread;
+import com.jimmy.dao.entity.StudentInfo;
 import com.jimmy.dao.entity.TeacherRoleKey;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.dao.local.thread.SiteLocalThread;
@@ -99,6 +100,18 @@ public class TeacherStaffInfoServiceImpl implements TeacherStaffInfoService {
         }
         teacherStaffInfo.setSiteId(SiteLocalThread.getSiteId());
         teacherStaffInfoMapper.updateProperty(teacherStaffInfo);
+    }
+
+    @Override
+    public int updateHeader(String headerInfo, Long id) {
+        Assert.notNull(id, "id is null");
+        Assert.isTrue(StringUtils.isNotBlank(headerInfo), "headerInfo is null");
+        TeacherStaffInfo teacherStaffInfo = new TeacherStaffInfo();
+        teacherStaffInfo.setSiteId(SiteLocalThread.getSiteId());
+        teacherStaffInfo.setModifyId(LoginLocalThread.get());
+        teacherStaffInfo.setHeaderInfo(headerInfo);
+        teacherStaffInfo.setId(id);
+        return teacherStaffInfoMapper.updateProperty(teacherStaffInfo);
     }
 
     @Override

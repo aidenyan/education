@@ -38,24 +38,14 @@ public class SwaggerConfig extends WebConfig {
     @Bean
     public Docket api() {
         System.out.println("----XIN----2018/7/11 下午12:58 Line:22,当前类=SwaggerConfig.api()");
-        return new Docket(DocumentationType.SWAGGER_2).groupName("测试样例").select()
-                /*** 重要的两个方法: apis():指定要生成文档的接口包基本路径
-                 * paths():指定针对哪些请求生成接口文档
-                 * 参考官方资料：http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api ****/
-                //.apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.jimmy.teacher.pad.api.controller"))//controller所在的位置
-//                .paths(Predicates.or(PathSelectors.ant("/demo2"),
-//                        PathSelectors.ant("/demo1")
-//                ))//对路径进行过滤,是对方法上的requestMapper地址进行过滤
+        return new Docket(DocumentationType.SWAGGER_2).groupName("老师pad部分").select()
+                .apis(RequestHandlerSelectors.basePackage("com.jimmy.teacher.pad.api.controller,com.jimmy.mvc.common.controller"))//controller所在的位置
                 .build()
                 .apiInfo(apiInfo()).pathMapping("/");
 
     }
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-    }
+
+
 
     private ApiInfo apiInfo() {
         /**
@@ -72,7 +62,7 @@ public class SwaggerConfig extends WebConfig {
         AuthorInterceptor authorInterceptor = new AuthorInterceptor();
         authorInterceptor.setTeacherStaffInfoService(teacherStaffInfoService);
         authorInterceptor.setTokenService(tokenService);
-        registry.addInterceptor(authorInterceptor).addPathPatterns("/teacher/**");
+        registry.addInterceptor(authorInterceptor).addPathPatterns("/pad/**");
     }
 
 }
