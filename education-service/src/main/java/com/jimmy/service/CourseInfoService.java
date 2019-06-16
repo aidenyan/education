@@ -1,6 +1,7 @@
 package com.jimmy.service;
 
 import com.jimmy.dao.entity.CourseInfo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,7 +20,13 @@ public interface CourseInfoService {
      * @return 保存信息
      */
     void save(CourseInfo record);
-
+    /**
+     * 查找课程信息
+     *
+     * @param roomId ID
+     * @return 课程信息
+     */
+    CourseInfo findByRoomId(Long roomId);
     /**
      * 查找课程信息
      *

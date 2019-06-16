@@ -22,7 +22,13 @@ public interface CourseInfoMapper {
      * @return 课程信息
      */
     CourseInfo findById(@Param("id") Long id, @Param("siteIdList") List<Long> siteIdList);
-
+    /**
+     * 查找课程信息
+     *
+     * @param roomId ID
+     * @return 课程信息
+     */
+    CourseInfo findByRoomId(@Param("roomId") Long roomId, @Param("siteIdList") List<Long> siteIdList);
     /**
      * 查找课程信息
      *

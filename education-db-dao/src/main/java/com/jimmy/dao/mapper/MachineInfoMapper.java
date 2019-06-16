@@ -15,6 +15,11 @@ public interface MachineInfoMapper {
     int insert(MachineInfo record);
 
     /**
+     * 查找机床信息
+
+     */
+    MachineInfo findMachine(@Param("id")Long id, @Param("siteIdList") List<Long> siteIdList);
+    /**
      * 查找教室的机床信息
      *
      * @param roomId 教室ID

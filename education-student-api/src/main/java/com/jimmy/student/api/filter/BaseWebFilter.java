@@ -10,6 +10,7 @@ import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.local.thread.RequestLocalThread;
 import com.jimmy.mvc.common.local.thread.ResponseLocalThread;
+import com.jimmy.student.api.local.thread.CourseStudentLocalThread;
 import com.jimmy.student.api.local.thread.StudentLocalThread;
 import org.springframework.stereotype.Component;
 
@@ -54,6 +55,7 @@ public class BaseWebFilter implements Filter {
         SiteLocalThread.setSiteIdList(null);
         StudentLocalThread.set(null);
         LoginLocalThread.set(null);
+        CourseStudentLocalThread.set(null);
     }
 
     @Override

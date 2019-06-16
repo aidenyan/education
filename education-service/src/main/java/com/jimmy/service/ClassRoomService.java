@@ -3,6 +3,7 @@ package com.jimmy.service;
 import com.jimmy.dao.entity.ClassRoomInfo;
 import com.jimmy.dao.entity.MachineInfo;
 import com.jimmy.model.vo.ClassRoomVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,7 +15,18 @@ public interface ClassRoomService {
      * @return List<教室>
      */
     List<ClassRoomInfo> list(String name);
+    /**
+     * 获取所有的机床
+     *
+     * @param roomId ID
+     * @return List<机床>
+     */
+    List<MachineInfo> listById(Long roomId);
+    /**
+     * 查找机床信息
 
+     */
+    MachineInfo findMachine(Long machineId);
     /**
      * 保存教室和机床信息
      *

@@ -10,7 +10,9 @@ public class StudentLocalThread {
     }
 
     public static void set(StudentInfo studentInfo) {
-        studentInfo.setPassword(null);
+         if(studentInfo!=null){
+             studentInfo.setPassword(null);
+         }
         studentInfoThreadLocal.set(studentInfo);
     }
 }

@@ -7,6 +7,8 @@ import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
+import com.jimmy.mvc.common.model.dto.ClassRoomDTO;
+import com.jimmy.mvc.common.model.transfer.ClassRoomDTOTransfer;
 import com.jimmy.mvc.common.utils.PasswordUtils;
 import com.jimmy.service.ClassRoomService;
 import com.jimmy.service.TeacherStaffInfoService;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
 import java.util.UUID;
 
 @Api(tags = "登录/退出", description = "登录以及退出API")
@@ -40,6 +43,14 @@ public class LoginController extends BaseController {
     @Autowired
     private TeacherStaffInfoService teacherStaffInfoService;
 
+    @ResponseBody
+    @PostMapping("/room/list")
+    @ApiOperation("获取所有的教室")
+    public Result<List<ClassRoomDTO>> listRoom() {
+        List<ClassRoomInfo> classRoomInfoList=classRoomService.list(null);
+        return ResultBuilder.ok(ClassRoomDTOTransfer.INSTANCE.toClassRoomDTOList(classRoomInfoList));
+    }
+
 
     @ResponseBody
     @PostMapping("/out")
@@ -54,7 +65,7 @@ public class LoginController extends BaseController {
     @ApiOperation("管理后台登录接口")
     @ApiImplicitParams({@ApiImplicitParam(value = "用户名称", name = "userName", paramType = "query", required = true),
             @ApiImplicitParam(value = "密码", name = "password", paramType = "query", required = true),
-            @ApiImplicitParam(value = "教师编码", name = "roomNo", paramType = "query", required = true),
+            @ApiImplicitParam(value = "教室的ID", name = "roomId", paramType = "query", required = true),
     })
     public Result<String> in(@RequestParam String userName, @RequestParam String password, @RequestParam Long roomId) {
         TeacherStaffInfo teacherStaffInfo = teacherStaffInfoService.findByName(userName);
@@ -78,4 +89,6 @@ public class LoginController extends BaseController {
         teacherStaffInfoService.updateAppToken(teacherStaffInfo.getId(), token, classRoomInfo.getId());
         return ResultBuilder.ok(headerToken);
     }
+
+
 }

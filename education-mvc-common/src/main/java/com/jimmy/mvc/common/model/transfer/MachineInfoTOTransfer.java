@@ -2,6 +2,7 @@ package com.jimmy.mvc.common.model.transfer;
 
 import com.jimmy.dao.entity.MachineInfo;
 import com.jimmy.mvc.common.model.dto.ClassRoomDTO;
+import com.jimmy.mvc.common.model.dto.MachineInfoDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -19,12 +20,12 @@ public interface MachineInfoTOTransfer {
     MachineInfoTOTransfer INSTANCE = Mappers.getMapper(MachineInfoTOTransfer.class);
 
 
-    MachineInfo toClassRoom(ClassRoomDTO classRoomDTO);
+    MachineInfo toMachineInfo(MachineInfoDTO machineInfoDTO);
 
-    List<MachineInfo> toClassRoomList(List<ClassRoomDTO> classRoomDTOList);
+    List<MachineInfo> toMachineInfoList(List<MachineInfoDTO> machineInfoDTOList);
 
 
-    ClassRoomDTO toClassRoomDTO(MachineInfo classRoom);
+    MachineInfoDTO toMachineInfoDTO(MachineInfo machineInfo);
 
-    List<ClassRoomDTO> toClassRoomDTOList(List<MachineInfo> classRoomList);
+    List<MachineInfoDTO> toMachineInfoDTOList(List<MachineInfo> machineInfoList);
 }

@@ -34,7 +34,14 @@ public interface CourseStudentService {
      * 获取某个机器上的所有学生
      */
     List<CourseStudent> list(Long courseId, Long machine);
-
+    /**
+     * 查找机床等路的信息
+     */
+    List<CourseStudent> find(Long courseId, Long studentId, Long machinaId);
+    /**
+     * 查找机床等路的信息
+     */
+    CourseStudent find(Long courseStudentId);
     /**
      * 学生结束课程
      */

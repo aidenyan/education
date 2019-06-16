@@ -32,6 +32,18 @@ public class ClassRoomServiceImpl implements ClassRoomService {
     }
 
     @Override
+    public List<MachineInfo> listById(Long roomId) {
+        Assert.notNull(roomId);
+        return machineInfoMapper.listByRoomId(roomId, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
+    public MachineInfo findMachine(Long machineId) {
+        Assert.notNull(machineId);
+        return machineInfoMapper.findMachine(machineId, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(ClassRoomInfo classRoomInfo, List<MachineInfo> machineInfoList) {
         Assert.notNull(classRoomInfo);

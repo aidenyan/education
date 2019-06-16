@@ -31,13 +31,13 @@ public interface CourseStudentMapper {
      * @return
      */
 
-    List<CourseStudent> listByCourseId(@Param("courseId") Long courseId, @Param("status") Integer status,@Param("machineId") Long machineId, @Param("siteIdList") List<Long> siteIdList);
+    List<CourseStudent> listByCourseId(@Param("courseId") Long courseId, @Param("status") Integer status, @Param("machineId") Long machineId, @Param("siteIdList") List<Long> siteIdList);
 
 
     /**
      * 学生结束课程
      */
-    int updateCourseStudentStatus(@Param("courseId") Long courseId, @Param("studentId") Long studentId, @Param("status") Integer status, @Param("siteId") Long siteId);
+    int updateCourseStudentStatus(@Param("courseId") Long courseId, @Param("machineId") Long machineId, @Param("status") Integer status, @Param("siteId") Long siteId);
 
     /**
      * 删除
@@ -52,8 +52,18 @@ public interface CourseStudentMapper {
      * 删除
      *
      * @param courseId
-     * @param studentId
      * @param siteId
      */
     void update(@Param("courseId") Long courseId, @Param("studentId") Long studentId, @Param("siteId") Long siteId);
+
+    /**
+     * 查找机床等路的信息
+     */
+    List<CourseStudent> find(@Param("courseId") Long courseId, @Param("studentId") Long studentId, @Param("machineId") Long machineId, @Param("siteIdList") List<Long> siteIdList);
+
+    /**
+     * 查找机床等路的信息
+     */
+    CourseStudent findById(@Param("courseStudentId") Long courseStudentId, @Param("siteIdList") List<Long> siteIdList);
+
 }

@@ -19,7 +19,33 @@
     id, course_id, machine_id,courseware_id, student_id, create_id, modify_id, create_time, modify_time,
     site_id,status
   </sql>
+    <select id="find" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_course_student
+        where course_id = #{courseId,jdbcType=BIGINT}
 
+            and student_id=#{studentId}
+
+            and machine_id=#{machineId}
+
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+    <select id="findById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_course_student
+        where id = #{courseStudentId,jdbcType=BIGINT}
+
+
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
     <select id="listByCourseId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
@@ -41,7 +67,7 @@
    </delete>
     <update id="updateCourseStudentStatus">
              update t_course_student SET status=#{status}
-        where site_id=#{siteId} and course_id=#{courseId} and student_id=#{studentId}
+        where site_id=#{siteId} and course_id=#{courseId} and machine_id=#{machineId}
     </update>
     <insert id="insert" parameterType="com.jimmy.dao.entity.CourseStudent">
     insert into t_course_student ( courseware_id,course_id, machine_id,

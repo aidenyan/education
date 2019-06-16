@@ -63,9 +63,19 @@
             #{siteId}
         </foreach>
     </select>
+    <select id="findByRoomId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_course_info
+        where room_id = #{roomId,jdbcType=BIGINT}
+        and used_status=1
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
 
-
-    <insert id="insert" parameterType="com.jimmy.dao.entity.CourseInfo"  keyProperty="id" useGeneratedKeys="true">
+    <insert id="insert" parameterType="com.jimmy.dao.entity.CourseInfo" keyProperty="id" useGeneratedKeys="true">
     insert into t_course_info ( name, start_time,
       time_long, room_id, tearcher_id,
       used_status, create_id, modify_id,

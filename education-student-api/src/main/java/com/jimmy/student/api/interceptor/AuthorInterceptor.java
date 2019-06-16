@@ -4,9 +4,12 @@ import com.jimmy.common.utils.StringUtils;
 import com.jimmy.core.exception.AuthorException;
 import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.core.model.dto.UserLoginBaseDTO;
+import com.jimmy.dao.entity.CourseStudent;
 import com.jimmy.dao.entity.StudentInfo;
+import com.jimmy.service.CourseStudentService;
 import com.jimmy.service.StudentInfoService;
 import com.jimmy.service.TokenService;
+import com.jimmy.student.api.local.thread.CourseStudentLocalThread;
 import com.jimmy.student.api.local.thread.StudentLocalThread;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,6 +24,8 @@ public class AuthorInterceptor implements HandlerInterceptor {
 
     private StudentInfoService studentInfoService;
 
+    private CourseStudentService courseStudentService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String token = request.getHeader(HEADER_TOKEN);
@@ -31,7 +36,9 @@ public class AuthorInterceptor implements HandlerInterceptor {
         if (userLoginBaseDTO == null || userLoginBaseDTO.getUseId() == null) {
             throw new AuthorException("not login");
         }
-        StudentInfo studentInfo = studentInfoService.findById(userLoginBaseDTO.getUseId());
+        CourseStudent courseStudent = courseStudentService.find(userLoginBaseDTO.getUseId());
+
+        StudentInfo studentInfo = studentInfoService.findById(courseStudent.getStudentId());
         if (studentInfo == null) {
             throw new AuthorException("not login");
         }
@@ -43,6 +50,7 @@ public class AuthorInterceptor implements HandlerInterceptor {
         }
         StudentLocalThread.set(studentInfo);
         LoginLocalThread.set(studentInfo.getId());
+        CourseStudentLocalThread.set(courseStudent);
         return true;
     }
 
@@ -62,5 +70,9 @@ public class AuthorInterceptor implements HandlerInterceptor {
 
     public void setStudentInfoService(StudentInfoService studentInfoService) {
         this.studentInfoService = studentInfoService;
+    }
+
+    public void setCourseStudentService(CourseStudentService courseStudentService) {
+        this.courseStudentService = courseStudentService;
     }
 }

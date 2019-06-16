@@ -44,6 +44,12 @@ public class CourseInfoServiceImpl implements CourseInfoService {
     }
 
     @Override
+    public CourseInfo findByRoomId(Long roomId) {
+        Assert.notNull(roomId);
+        return courseInfoMapper.findByRoomId(roomId, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
     public CourseInfo findById(Long id) {
         Assert.notNull(id);
         return courseInfoMapper.findById(id, SiteLocalThread.getSiteIdList());

@@ -34,9 +34,17 @@ public class CourseAnswerServiceImpl implements CourseAnswerService {
         Assert.notEmpty(courseAnswerList);
 
         courseAnswerList.forEach(courseAnswer -> {
-            courseAnswer.setSiteId(SiteLocalThread.getSiteId());
-            courseAnswer.setModifyId(LoginLocalThread.get());
-            courseAnswerMapper.updateProperty(courseAnswer);
+            if (courseAnswer.getId() == null) {
+                courseAnswer.setSiteId(SiteLocalThread.getSiteId());
+                courseAnswer.setModifyId(LoginLocalThread.get());
+                courseAnswer.setCreateId(LoginLocalThread.get());
+                courseAnswerMapper.insert(courseAnswer);
+            } else {
+                courseAnswer.setSiteId(SiteLocalThread.getSiteId());
+                courseAnswer.setModifyId(LoginLocalThread.get());
+                courseAnswerMapper.updateProperty(courseAnswer);
+            }
+
         });
     }
 }

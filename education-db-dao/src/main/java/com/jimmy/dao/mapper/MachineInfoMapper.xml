@@ -17,7 +17,7 @@
     id, room_id, sn, row_num, column_num, create_id, modify_id, create_time, modify_time, 
     site_id
   </sql>
-    <select id="listByRoomId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+    <select id="listByRoomId" resultMap="BaseResultMap" >
         select
         <include refid="Base_Column_List"/>
         from t_machine_info
@@ -27,6 +27,17 @@
             #{siteId}
         </foreach>
     </select>
+    <select id="findMachine" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_machine_info
+        where id = #{id}
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+
     <delete id="deleteByRoomId">
         delete from t_machine_info
         where room_id = #{roomId}

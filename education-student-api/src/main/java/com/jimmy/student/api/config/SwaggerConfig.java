@@ -1,6 +1,8 @@
 package com.jimmy.student.api.config;
 
+import com.jimmy.dao.entity.CourseStudent;
 import com.jimmy.mvc.common.config.WebConfig;
+import com.jimmy.service.CourseStudentService;
 import com.jimmy.service.StudentInfoService;
 import com.jimmy.service.TokenService;
 import com.jimmy.student.api.interceptor.AuthorInterceptor;
@@ -27,6 +29,8 @@ public class SwaggerConfig extends WebConfig {
 
     @Autowired
     private StudentInfoService studentInfoService;
+    @Autowired
+    private CourseStudentService courseStudentService;
 
     /**
      * Docket可以有多个,groupName分组的信息,每个分组可以有自己的类型
@@ -65,6 +69,7 @@ public class SwaggerConfig extends WebConfig {
         AuthorInterceptor authorInterceptor = new AuthorInterceptor();
         authorInterceptor.setStudentInfoService(studentInfoService);
         authorInterceptor.setTokenService(tokenService);
+        authorInterceptor.setCourseStudentService(courseStudentService);
         registry.addInterceptor(authorInterceptor).addPathPatterns("/student/**");
     }
 

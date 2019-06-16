@@ -60,11 +60,25 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateCourseStudentStatus(Long courseId, Long studentId, Integer status) {
+    public List<CourseStudent> find(Long courseId, Long studentId,  Long machinaId) {
         Assert.notNull(courseId);
         Assert.notNull(studentId);
-        Assert.notNull(status);
-        courseStudentMapper.updateCourseStudentStatus(courseId, studentId, status, SiteLocalThread.getSiteId());
+        Assert.notNull(machinaId);
+        return courseStudentMapper.find(courseId,studentId,machinaId,SiteLocalThread.getSiteIdList());
     }
+
+    @Override
+    public CourseStudent find(Long courseStudentId) {
+        return courseStudentMapper.findById(courseStudentId,SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateCourseStudentStatus(Long courseId, Long machinaId, Integer status) {
+        Assert.notNull(courseId);
+        Assert.notNull(machinaId);
+        Assert.notNull(status);
+        courseStudentMapper.updateCourseStudentStatus(courseId, machinaId, status, SiteLocalThread.getSiteId());
+    }
+
 }
