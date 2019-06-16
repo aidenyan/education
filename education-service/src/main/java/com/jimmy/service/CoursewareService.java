@@ -1,5 +1,6 @@
 package com.jimmy.service;
 
+import com.jimmy.dao.entity.Courseware;
 import com.jimmy.dao.entity.CoursewareItem;
 import com.jimmy.model.vo.CoursewareDetailVO;
 
@@ -31,4 +32,9 @@ public interface CoursewareService {
      */
 
     List<CoursewareItem> listByCourseId(Long courseId, Integer contentType);
+
+    /**
+     * 保存或者修改
+     */
+    void save(Courseware courseware, List<CoursewareItem> itemList,Long courseId);
 }

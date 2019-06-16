@@ -19,11 +19,11 @@ public interface QuestionItemMapper {
     /**
      * 根据ID查找问题
      *
-     * @param questionId         ID
+     * @param questionIdList         ID
      * @param siteIdList
      * @return 问题信息
      */
-    List<QuestionItem> list(@Param("questionId") Long questionId, @Param("siteIdList") List<Long> siteIdList);
+    List<QuestionItem> list(@Param("questionIdList") List<Long> questionIdList, @Param("siteIdList") List<Long> siteIdList);
 
     /**
      * 根据问题ID删除选择项

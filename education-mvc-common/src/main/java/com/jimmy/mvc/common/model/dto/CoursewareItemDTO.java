@@ -55,6 +55,13 @@ public class CoursewareItemDTO extends BaseDTO {
         return contentObj;
     }
 
+    public void setContentObj(Object contentObj) {
+        this.contentObj = contentObj;
+        if (contentObj != null) {
+            content = JSON.toJSONString(contentObj);
+        }
+    }
+
     public <T> T convert(Class<T> tClass) {
         if (StringUtils.isBlank(content)) {
             return null;

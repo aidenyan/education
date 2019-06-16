@@ -11,9 +11,9 @@ import java.util.List;
 
 /**
  * @ClassName: ProtectionTransfer
- * @Description: å±æ€§åvoï¼Œpoè½¬æ¢å™¨
+ * @Description: ÊôĞÔÃûvo£¬po×ª»»Æ÷
  * @author: wuyao
- * @date: 2019å¹´5æœˆ15æ—¥ ä¸‹åˆ1:51:07
+ * @date: 2019Äê5ÔÂ15ÈÕ ÏÂÎç1:51:07
  */
 @Mapper()
 public interface StudentInfoDTOTransfer {
@@ -21,7 +21,6 @@ public interface StudentInfoDTOTransfer {
     StudentInfoDTOTransfer INSTANCE = Mappers.getMapper(StudentInfoDTOTransfer.class);
 
     @Mappings({@Mapping(target = "sex", expression = "java(studentInfoDTO.getSex()==null?null:studentInfoDTO.getSex().getValue())"),
-            @Mapping(target = "staffType", expression = "java(studentInfoDTO.getStaffType()==null?null:studentInfoDTO.getStaffType().getValue())"),
     })
     StudentInfo toStudentInfo(StudentInfoDTO studentInfoDTO);
 

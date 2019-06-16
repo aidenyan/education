@@ -1,8 +1,11 @@
 package com.jimmy.service.impl;
 
+import com.jimmy.core.local.thread.LoginLocalThread;
+import com.jimmy.dao.entity.CourseLinkKey;
 import com.jimmy.dao.entity.Courseware;
 import com.jimmy.dao.entity.CoursewareItem;
 import com.jimmy.dao.local.thread.SiteLocalThread;
+import com.jimmy.dao.mapper.CourseLinkMapper;
 import com.jimmy.dao.mapper.CoursewareItemMapper;
 import com.jimmy.dao.mapper.CoursewareMapper;
 import com.jimmy.model.vo.CoursewareDetailVO;
@@ -28,6 +31,8 @@ public class CoursewareServiceImpl implements CoursewareService {
 
     @Autowired
     private CoursewareMapper coursewareMapper;
+    @Autowired
+    private CourseLinkMapper courseLinkMapper;
 
     @Autowired
     private CoursewareItemMapper coursewareItemMapper;
@@ -41,7 +46,7 @@ public class CoursewareServiceImpl implements CoursewareService {
         }
         Map<Long, Courseware> coursewareIdMap = new HashMap<>();
         coursewareList.forEach(courseware -> coursewareIdMap.put(courseware.getId(), courseware));
-        List<CoursewareItem> coursewareItemList = coursewareItemMapper.listByCoursewareIdList(coursewareIdMap.keySet(), null,SiteLocalThread.getSiteIdList());
+        List<CoursewareItem> coursewareItemList = coursewareItemMapper.listByCoursewareIdList(coursewareIdMap.keySet(), null, SiteLocalThread.getSiteIdList());
         Map<Long, List<CoursewareItem>> itemMap = new HashMap<>();
         coursewareItemList.forEach(coursewareItem -> {
             List<CoursewareItem> itemList = itemMap.get(coursewareItem.getCoursewareId());
@@ -74,12 +79,43 @@ public class CoursewareServiceImpl implements CoursewareService {
         Assert.notNull(courseId);
         Assert.notNull(contentType);
         List<Courseware> coursewareList = coursewareMapper.list(courseId, SiteLocalThread.getSiteIdList());
-        if(CollectionUtils.isEmpty(coursewareList)){
+        if (CollectionUtils.isEmpty(coursewareList)) {
             return Collections.EMPTY_LIST;
         }
-        List<Long> coursewaredIdList=new ArrayList<>();
+        List<Long> coursewaredIdList = new ArrayList<>();
         coursewareList.forEach(courseware -> coursewaredIdList.add(courseware.getId()));
         return coursewareItemMapper.listByCoursewareIdList(coursewaredIdList, contentType, SiteLocalThread.getSiteIdList());
 
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void save(Courseware courseware, List<CoursewareItem> itemList, Long courseId) {
+        courseware.setCreateId(LoginLocalThread.get());
+        courseware.setModifyId(LoginLocalThread.get());
+        courseware.setSiteId(SiteLocalThread.getSiteId());
+        if (courseware.getId() != null) {
+            Courseware tempCourseware = coursewareMapper.find(courseware.getId(), SiteLocalThread.getSiteIdList());
+            Assert.notNull(tempCourseware);
+            Assert.isTrue(!tempCourseware.getIsUsed());
+            coursewareMapper.updateProperty(courseware);
+        } else {
+            courseware.setIsUsed(false);
+            coursewareMapper.insert(courseware);
+            if (courseId != null) {
+                CourseLinkKey courseLinkKey = new CourseLinkKey();
+                courseLinkKey.setCourseId(courseId);
+                courseLinkKey.setCoursewareId(courseware.getId());
+                courseLinkMapper.insert(courseLinkKey);
+            }
+        }
+        coursewareItemMapper.deleted(courseware.getId(), SiteLocalThread.getSiteIdList());
+        for (CoursewareItem coursewareItem : itemList) {
+            coursewareItem.setCreateId(LoginLocalThread.get());
+            coursewareItem.setModifyId(LoginLocalThread.get());
+            coursewareItem.setSiteId(SiteLocalThread.getSiteId());
+            coursewareItem.setCoursewareId(courseware.getId());
+            coursewareItemMapper.insert(coursewareItem);
+        }
     }
 }

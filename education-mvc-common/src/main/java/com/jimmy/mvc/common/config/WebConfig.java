@@ -19,9 +19,5 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addInterceptor(siteInterceptor).addPathPatterns("/**");
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-    }
+
 }

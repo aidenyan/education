@@ -5,9 +5,9 @@ package com.jimmy.core.enums;
  * @date 2017/2/21
  */
 public enum ResultCoreEnum implements ResultEnum {
-    RESULT_EXCEPTION_SYS("-10001", "绯荤粺寮傚父","绯荤粺寮傚父"),
-    RESULT_AUTHORITY_NOT_ENOUGH("-10002", "鏉冮檺涓嶈冻","鏉冮檺涓嶈冻"),
-    RESULT_PARAMETER_EXCEPTION("-10003", "鍙傛暟寮傚父","鍙傛暟寮傚父");
+    RESULT_EXCEPTION_SYS("-10001", "系统异常","系统异常"),
+    RESULT_AUTHORITY_NOT_ENOUGH("-10002", "权限不足","权限不足"),
+    RESULT_PARAMETER_EXCEPTION("-10003", "参数异常","参数异常");
     private String code;
     private String message;
     private String desc;

@@ -1,5 +1,6 @@
 package com.jimmy.mvc.common.model.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -12,7 +13,10 @@ import java.util.List;
  */
 @Data
 public class CoursewareDetailDTO {
+    @ApiModelProperty("课件的ID")
+    private Long courseId;
+    @ApiModelProperty("课件的信息")
     private CoursewareDTO courseware;
-
+    @ApiModelProperty("课件的详细内容")
     private List<CoursewareItemDTO> coursewareItemList;
 }

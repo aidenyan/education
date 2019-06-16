@@ -8,59 +8,59 @@ import java.util.List;
 public interface CourseInfoMapper {
 
     /**
-     * ä¿å­˜è¯¾ç¨‹ä¿¡æ¯
+     * ±£´æ¿Î³ÌĞÅÏ¢
      *
-     * @param record è¯¾ç¨‹ä¿¡æ¯
-     * @return ä¿å­˜ä¿¡æ¯
+     * @param record ¿Î³ÌĞÅÏ¢
+     * @return ±£´æĞÅÏ¢
      */
     int insert(CourseInfo record);
 
     /**
-     * æŸ¥æ‰¾è¯¾ç¨‹ä¿¡æ¯
+     * ²éÕÒ¿Î³ÌĞÅÏ¢
      *
      * @param id ID
-     * @return è¯¾ç¨‹ä¿¡æ¯
+     * @return ¿Î³ÌĞÅÏ¢
      */
     CourseInfo findById(@Param("id") Long id, @Param("siteIdList") List<Long> siteIdList);
 
     /**
-     * æŸ¥æ‰¾è¯¾ç¨‹ä¿¡æ¯
+     * ²éÕÒ¿Î³ÌĞÅÏ¢
      *
      * @param name ID
-     * @return è¯¾ç¨‹ä¿¡æ¯
+     * @return ¿Î³ÌĞÅÏ¢
      */
     List<CourseInfo> list(@Param("name") String name, @Param("siteIdList") List<Long> siteIdList);
 
     /**
-     * æ›´æ–°è¯¾ç¨‹ä¿¡æ¯
+     * ¸üĞÂ¿Î³ÌĞÅÏ¢
      *
-     * @param record è¯¾ç¨‹ä¿¡æ¯
-     * @return æ›´æ–°æ•°é‡
+     * @param record ¿Î³ÌĞÅÏ¢
+     * @return ¸üĞÂÊıÁ¿
      */
     int update(CourseInfo record);
 
     /**
-     * æ›´æ–°éœ€è¦æ›´æ–°çš„æ•°é‡
+     * ¸üĞÂĞèÒª¸üĞÂµÄÊıÁ¿
      *
-     * @param record è¯¾ç¨‹ä¿¡æ¯
-     * @return æ›´æ–°æ•°é‡
+     * @param record ¿Î³ÌĞÅÏ¢
+     * @return ¸üĞÂÊıÁ¿
      */
     int updateProperty(CourseInfo record);
 
 
     /**
-     * æ›´æ–°ä¹‹å‰å·²ç»ä¸Šè¿‡çš„çŠ¶æ€
+     * ¸üĞÂÖ®Ç°ÒÑ¾­ÉÏ¹ıµÄ×´Ì¬
      */
     int updateUsedStatus(@Param("courseId") Long courseId, @Param("roomId") Long roomId, @Param("siteId") Long siteId);
 
 
     /**
-     * æŸ¥æ‰¾å¯ä»¥ä½¿ç”¨è¿™ä¸ªæ•™å®¤ä»¥åŠè€å¸ˆçš„è¯¾ç¨‹ä¿¡æ¯
+     * ²éÕÒ¿ÉÒÔÊ¹ÓÃÕâ¸ö½ÌÊÒÒÔ¼°ÀÏÊ¦µÄ¿Î³ÌĞÅÏ¢
      *
-     * @param roomId    æ•™å®¤ID
-     * @param teacherId è€å¸ˆID
-     * @param size      æ•°é‡
-     * @return List<è¯¾ç¨‹></>
+     * @param roomId    ½ÌÊÒID
+     * @param teacherId ÀÏÊ¦ID
+     * @param size      ÊıÁ¿
+     * @return List<¿Î³Ì></>
      */
     List<CourseInfo> listCouldUsed(@Param("roomId") Long roomId, @Param("teacherId") Long teacherId,
                                    @Param("size") Integer size, @Param("siteIdList") List<Long> siteIdList

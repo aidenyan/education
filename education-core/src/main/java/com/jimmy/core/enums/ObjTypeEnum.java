@@ -2,7 +2,7 @@ package com.jimmy.core.enums;
 
 
 public enum ObjTypeEnum {
-    ACCOUNT( 1, "甯愬彿"), PRODUCT( 2, "鑰佸笀"), INVENTORY( 3, "瀛︾敓");
+    ACCOUNT( 1, "帐号"), PRODUCT( 2, "老师"), INVENTORY( 3, "学生");
 
     private final Integer code;
     private final String desc;

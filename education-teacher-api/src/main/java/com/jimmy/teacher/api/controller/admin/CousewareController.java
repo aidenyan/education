@@ -10,7 +10,8 @@ import com.jimmy.mvc.common.model.dto.CourseInfoDTO;
 import com.jimmy.mvc.common.model.dto.CoursewareDetailDTO;
 import com.jimmy.mvc.common.model.enums.UsedStatusEnum;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
-import com.jimmy.mvc.common.model.transfer.CoursewareDetailDTOTransfer;
+import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransferImpl;
+import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
 import com.jimmy.service.CourseInfoService;
 import com.jimmy.service.CoursewareService;
 import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,7 +52,16 @@ public class CousewareController {
         if (CollectionUtils.isEmpty(coursewareDetailVOList)) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
-        return ResultBuilder.error(ResultCodeEnum.OK, CoursewareDetailDTOTransfer.INSTANCE.toCoursewareDetailDTOList(coursewareDetailVOList));
+        List<CoursewareDetailDTO> coursewareDetailDTOList=new ArrayList<>();
+        coursewareDetailVOList.forEach(coursewareDetailVO -> {
+            CoursewareDetailDTO coursewareDetailDTO=new CoursewareDetailDTO();
+            coursewareDetailDTO.setCourseware(CoursewareDTOTransferImpl.INSTANCE.toCoursewareDTO(coursewareDetailVO.getCourseware()));
+            coursewareDetailDTO.setCoursewareItemList(CoursewareItemDTOTransfer.INSTANCE.toCoursewareItemDTOList(coursewareDetailVO.getCoursewareItemList()));
+            coursewareDetailDTOList.add(coursewareDetailDTO);
+
+        });
+
+        return ResultBuilder.error(ResultCodeEnum.OK, coursewareDetailDTOList);
     }
 
     @ApiOperation("获得最新的课程")

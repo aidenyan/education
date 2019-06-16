@@ -13,9 +13,9 @@ import java.util.List;
 
 /**
  * @ClassName: ProtectionTransfer
- * @Description: å±æ€§åvoï¼Œpoè½¬æ¢å™¨
+ * @Description: ÊôĞÔÃûvo£¬po×ª»»Æ÷
  * @author: wuyao
- * @date: 2019å¹´5æœˆ15æ—¥ ä¸‹åˆ1:51:07
+ * @date: 2019Äê5ÔÂ15ÈÕ ÏÂÎç1:51:07
  */
 @Mapper()
 public interface CourseAnswerDTOTransfer {
@@ -29,8 +29,8 @@ public interface CourseAnswerDTOTransfer {
 
     List<CourseAnswer> toCourseAnswerList(List<CourseAnswerDTO> courseAnswerDTOList);
 
-    @Mappings({@Mapping(target = "studentResult", expression = "java(courseAnswer.getStudentResult()==null?null:com.alibaba.fastjson.JSON.parseArray()(courseAnswer.getStudentResult(),com.jimmy.mvc.common.model.vo.AnswerDTO.class))"),
-            @Mapping(target = "tearchResult", expression = "java(courseAnswerDTO.getTearchResult()==null?null:com.alibaba.fastjson.JSON.parseArray(courseAnswer.getTearchResult(),com.jimmy.mvc.common.model.vo.AnswerDTO.class))")
+    @Mappings({@Mapping(target = "studentResult", expression = "java(courseAnswer.getStudentResult()==null?null:com.alibaba.fastjson.JSON.parseArray(courseAnswer.getStudentResult(),com.jimmy.mvc.common.model.dto.AnswerDTO.class))"),
+            @Mapping(target = "tearchResult", expression = "java(courseAnswerDTO.getTearchResult()==null?null:com.alibaba.fastjson.JSON.parseArray(courseAnswer.getTearchResult(),com.jimmy.mvc.common.model.dto.AnswerDTO.class))")
     })
     CourseAnswerDTO toCourseAnswerDTO(CourseAnswer courseAnswer);
 

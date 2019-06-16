@@ -11,9 +11,9 @@ import java.util.List;
 
 /**
  * @ClassName: ProtectionTransfer
- * @Description: å±æ€§åvoï¼Œpoè½¬æ¢å™¨
+ * @Description: ÊôĞÔÃûvo£¬po×ª»»Æ÷
  * @author: wuyao
- * @date: 2019å¹´5æœˆ15æ—¥ ä¸‹åˆ1:51:07
+ * @date: 2019Äê5ÔÂ15ÈÕ ÏÂÎç1:51:07
  */
 @Mapper()
 public interface CoursewareItemDTOTransfer {
@@ -29,8 +29,8 @@ public interface CoursewareItemDTOTransfer {
     List<CoursewareItem> toCoursewareItemList(List<CoursewareItemDTO> coursewareItemDTOList);
 
     @Mappings({
-            @Mapping(target = "type", expression = "java(coursewareItem.getType()==null?null:com.jimmy.mvc.common.model.enums.ContentTypeEnum.valueOf(coursewareItem.getType()))"),
-            @Mapping(target = "contentType", expression = "java(coursewareItem.getContentType()==null?null:com.jimmy.mvc.common.model.enums.CoursewareItemTypeEnum.valueOf(coursewareItem.getContentType()))")})
+            @Mapping(target = "type", expression = "java(coursewareItem.getType()==null?null:com.jimmy.mvc.common.model.enums.CoursewareItemTypeEnum.valueOf(coursewareItem.getType()))"),
+            @Mapping(target = "contentType", expression = "java(coursewareItem.getContentType()==null?null:com.jimmy.mvc.common.model.enums.ContentTypeEnum.valueOf(coursewareItem.getContentType()))")})
     CoursewareItemDTO toCoursewareItemDTO(CoursewareItem coursewareItem);
 
     List<CoursewareItemDTO> toCoursewareItemDTOList(List<CoursewareItem> coursewareItemList);
