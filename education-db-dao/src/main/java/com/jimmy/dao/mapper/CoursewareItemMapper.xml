@@ -42,6 +42,9 @@
         <foreach collection="coursewareIdList" separator="," item="coursewareId" close=")" open="(">
             #{coursewareId}
         </foreach>
+        <if test=" contentType != null">
+            and content_type=#{contentType}
+        </if>
         and site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}

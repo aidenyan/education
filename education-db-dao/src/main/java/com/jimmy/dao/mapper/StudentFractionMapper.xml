@@ -1,43 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.jimmy.dao.mapper.StudentFractionMapper" >
-  <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.StudentFraction" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="course_id" property="courseId" jdbcType="BIGINT" />
-    <result column="student_id" property="studentId" jdbcType="BIGINT" />
-    <result column="fraction" property="fraction" />
-    <result column="create_id" property="createId" jdbcType="BIGINT" />
-    <result column="modify_id" property="modifyId" jdbcType="BIGINT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
-    <result column="site_id" property="siteId" jdbcType="BIGINT" />
-  </resultMap>
-  <sql id="Base_Column_List" >
+<mapper namespace="com.jimmy.dao.mapper.StudentFractionMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.StudentFraction">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="course_id" property="courseId" jdbcType="BIGINT"/>
+        <result column="student_id" property="studentId" jdbcType="BIGINT"/>
+        <result column="fraction" property="fraction"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+    </resultMap>
+    <resultMap id="StudentTotalFactionResultMap" type="com.jimmy.dao.entity.StudentTotalFaction">
+        <result column="student_id" property="studentId" jdbcType="BIGINT"/>
+        <result column="total_fraction" property="totalFraction"/>
+    </resultMap>
+    <sql id="Base_Column_List">
     id, course_id, fraction,student_id, create_id, modify_id, create_time, modify_time, site_id
   </sql>
-  <select id="find" resultMap="BaseResultMap" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_student_fraction
-    where id = #{id}
-    AND
-    site_id IN
-    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
-      #{siteId}
-    </foreach>
-  </select>
-  <select id="listByFraction" resultMap="BaseResultMap" >
-    select
-    <include refid="Base_Column_List" />
-    from t_student_fraction
-    where fraction >=#{fraction}  and create_time &lt;=#{endDate} and create_time >=#{startDate}
-    AND
-    site_id IN
-    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
-      #{siteId}
-    </foreach>
-  </select>
-  <insert id="insert" parameterType="com.jimmy.dao.entity.StudentFraction"  keyProperty="id" useGeneratedKeys="true">
+    <select id="find" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_student_fraction
+        where id = #{id}
+        AND
+        site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+
+
+    <select id="listByCourseId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_student_fraction
+        where course_id=#{courseId}
+        <if test=" studentIdList!= null and studentIdList.size() > 0 ">
+            and student_id IN
+            <foreach collection="studentIdList" separator="," item="studentId" close=")" open="(">
+                #{studentId}
+            </foreach>
+        </if>
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+    <select id="listByFraction" resultMap="StudentTotalFactionResultMap">
+        select
+        sum(fraction) total_fraction,student_id
+        from t_student_fraction
+        where create_time &lt;=#{endDate} and create_time >=#{startDate}
+        AND
+        site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        GROUP By student_id
+        HAVING total_fraction >=#{fraction}
+    </select>
+    <insert id="insert" parameterType="com.jimmy.dao.entity.StudentFraction" keyProperty="id" useGeneratedKeys="true">
     insert into t_student_fraction ( student_id,course_id, fraction,
       create_id, modify_id, create_time, 
       modify_time, site_id)

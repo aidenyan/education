@@ -1,7 +1,8 @@
 package com.jimmy.service;
 
+import com.jimmy.dao.entity.Courseware;
 import com.jimmy.dao.entity.CoursewareItem;
-import com.jimmy.model.dto.CoursewareDetailVO;
+import com.jimmy.model.vo.CoursewareDetailVO;
 
 import java.util.List;
 
@@ -21,8 +22,19 @@ public interface CoursewareService {
     List<CoursewareDetailVO> list(Long courseId);
 
     /**
-     * 根据课程ID和状态查询课件某个详细信息
+     * 根据课件ID和状态查询课件某个详细信息
      */
 
     List<CoursewareItem> listByCoursewareId(Long coursewareId, Integer contentType);
+
+    /**
+     * 根据课程ID和状态查询课件某个详细信息
+     */
+
+    List<CoursewareItem> listByCourseId(Long courseId, Integer contentType);
+
+    /**
+     * 保存或者修改
+     */
+    void save(Courseware courseware, List<CoursewareItem> itemList,Long courseId);
 }

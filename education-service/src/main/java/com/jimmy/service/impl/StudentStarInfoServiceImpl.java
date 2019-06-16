@@ -4,6 +4,7 @@ import com.jimmy.common.utils.DateUtils;
 import com.jimmy.dao.entity.StudentFraction;
 import com.jimmy.dao.entity.StudentInfo;
 import com.jimmy.dao.entity.StudentStarInfo;
+import com.jimmy.dao.entity.StudentTotalFaction;
 import com.jimmy.dao.local.model.dto.SysInfoDTO;
 import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.local.thread.SysInfoLocalThread;
@@ -52,7 +53,7 @@ public class StudentStarInfoServiceImpl implements StudentStarInfoService {
             });
         }
         SysInfoDTO sysInfoDTO = SysInfoLocalThread.get();
-        List<StudentFraction> studentFractionList = studentFractionService.listByFraction(sysInfoDTO.getFraction(), theWeekStart, theWeekEnd);
+        List<StudentTotalFaction> studentFractionList = studentFractionService.listByFraction(sysInfoDTO.getFraction(), theWeekStart, theWeekEnd);
         if (!CollectionUtils.isEmpty(studentFractionList)) {
             studentFractionList.forEach(studentFraction -> {
                 studentIdList.add(studentFraction.getStudentId());

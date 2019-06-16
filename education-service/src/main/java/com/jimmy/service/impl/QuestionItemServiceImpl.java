@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -21,7 +22,13 @@ public class QuestionItemServiceImpl implements QuestionItemService {
     @Override
     public List<QuestionItem> list(Long questionId) {
         Assert.notNull(questionId);
-        return questionItemMapper.list(questionId, SiteLocalThread.getSiteIdList());
+        return questionItemMapper.list(Arrays.asList(questionId), SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
+    public List<QuestionItem> list(List<Long> questionIdList) {
+        Assert.notEmpty(questionIdList);
+        return questionItemMapper.list(questionIdList, SiteLocalThread.getSiteIdList());
     }
 
     @Override

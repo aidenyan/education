@@ -8,21 +8,19 @@ import java.util.List;
 public interface SysInfoMapper {
 
     /**
-     * 鏇存柊绯荤粺
+     * 更新系统
      *
-     * @param record 鏇存柊绯荤粺
-     * @return 淇濆瓨鏁伴噺
+     * @param record 更新系统
+     * @return 保存数量
      */
     int update(SysInfo record);
 
     /**
-     * 鏍规嵁绔欑偣siteId鏌ヨ绯荤粺淇℃伅
+     * 根据站点siteId查询系统信息
      *
-     * @param siteId 绔欑偣ID
-     * @return list<绯荤粺淇℃伅/>
+     * @param siteId 站点ID
+     * @return list<系统信息/>
      */
 
     List<SysInfo> list(@Param("siteId") Long siteId);
-
-
 }

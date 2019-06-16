@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.DictionaryMapper" >
+  <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.Dictionary" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sn" property="sn" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="TINYINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="modify_id" property="modifyId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="site_id" property="siteId" jdbcType="BIGINT" />
+    <result column="description" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, sn,description, is_deleted, create_id, modify_id, create_time, modify_time, site_id
+  </sql>
+
+  <select id="find" resultMap="BaseResultMap"  >
+    select 
+    <include refid="Base_Column_List" />
+    from t_dictionary
+    where id = #{id,jdbcType=BIGINT} and is_deleted=0  and site_id IN
+    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+      #{siteId}
+    </foreach>
+  </select>
+
+
+  <select id="list" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from t_dictionary
+    where site_id IN
+    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+      #{siteId}
+    </foreach>
+    and is_deleted=0
+    <if test="name != null">
+      and  name like concat('%','#{name}','%')
+    </if>
+  </select>
+
+  <insert id="insert" parameterType="com.jimmy.dao.entity.Dictionary" >
+    insert into t_dictionary (name, sn,
+      is_deleted, create_id, modify_id, 
+      create_time, modify_time, site_id, 
+      description)
+    values ( #{name,jdbcType=VARCHAR}, #{sn,jdbcType=VARCHAR},
+      #{isDeleted,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
+      now(), now(), #{siteId,jdbcType=BIGINT},
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <update id="updateProperty" parameterType="com.jimmy.dao.entity.Dictionary" >
+    update t_dictionary
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sn != null" >
+        sn = #{sn,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=TINYINT},
+      </if>
+
+
+        modify_id = #{modifyId,jdbcType=BIGINT},
+
+        modify_time = now(),
+
+      <if test="description != null" >
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT} and site_id = #{siteId,jdbcType=BIGINT} and is_deleted=0
+  </update>
+
+</mapper>

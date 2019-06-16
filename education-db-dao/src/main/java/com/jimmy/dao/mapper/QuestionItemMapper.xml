@@ -19,7 +19,11 @@
         select
         <include refid="Base_Column_List"/>
         from t_question_item
-        where question_id = #{questionId,jdbcType=BIGINT}
+        where
+        question_id IN
+        <foreach collection="questionIdList" separator="," item="questionId" close=")" open="(">
+            #{questionId}
+        </foreach>
         and site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}

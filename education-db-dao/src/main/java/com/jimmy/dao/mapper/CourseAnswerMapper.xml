@@ -22,33 +22,22 @@
     modify_id, create_time, modify_time, site_id, student_result, tearch_result
   </sql>
 
-    <select id="listByCourseStudentId" resultMap="BaseResultMap">
+    <select id="listMachineAnswer" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from t_student_answer
         where course_id = #{courseId,jdbcType=BIGINT}
-        <if test=" machineId != null">
-            and machine_id = #{machineId,jdbcType=BIGINT}
-        </if>
+        and  machine_id  = #{machineId,jdbcType=BIGINT}
+        and courseware_item_id IN
+        <foreach collection="itemIdList" separator="," item="itemId" close=")" open="(">
+            #{itemId}
+        </foreach>
         and site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
     </select>
 
-    <select id="findByCourseStudent" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from t_student_answer
-        where course_id = #{courseId,jdbcType=BIGINT}
-        and machine_id = #{machineId,jdbcType=BIGINT}
-        and courseware_item_id = #{coursewareItemId,jdbcType=BIGINT}
-        and site_id IN
-        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
-            #{siteId}
-        </foreach>
-
-    </select>
     <insert id="insert" parameterType="com.jimmy.dao.entity.CourseAnswer">
     insert into t_student_answer (machine_id, course_id, courseware_id,
       courseware_item_id, fraction, create_id, 
@@ -89,7 +78,7 @@
                 tearch_result = #{tearchResult,jdbcType=LONGVARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId}
+        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId,jdbcType=BIGINT}
     </update>
 
 </mapper>

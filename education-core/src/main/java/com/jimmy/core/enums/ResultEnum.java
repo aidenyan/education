@@ -10,7 +10,7 @@ public interface ResultEnum {
     public void setCode(String code);
 
     /**
-     * 瀵瑰鎻愮ず淇℃伅
+     * 对外提示信息
      *
      * @return
      */
@@ -19,7 +19,7 @@ public interface ResultEnum {
     public void setMessage(String message);
 
     /**
-     * 寮傚父鎻忚堪淇℃伅
+     * 异常描述信息
      *
      * @return
      */

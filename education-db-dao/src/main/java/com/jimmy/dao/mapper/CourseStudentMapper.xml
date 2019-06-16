@@ -81,7 +81,7 @@
                 status = #{status},
             </if>
         </set>
-        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId}
+        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId,jdbcType=BIGINT}
     </update>
 
 </mapper>

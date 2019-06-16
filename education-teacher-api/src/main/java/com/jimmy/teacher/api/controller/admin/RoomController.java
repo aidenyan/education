@@ -1,7 +1,7 @@
 package com.jimmy.teacher.api.controller.admin;
 
 import com.jimmy.dao.entity.TeacherStaffInfo;
-import com.jimmy.model.dto.ClassRoomVO;
+import com.jimmy.model.vo.ClassRoomVO;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;

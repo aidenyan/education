@@ -24,11 +24,9 @@ public interface CourseAnswerMapper {
 
     /**
      * 获取学生的回答信息
+     *
      */
-    CourseAnswer findByCourseStudent(@Param("courseId") Long courseId, @Param("machineId") Long machineId, @Param("coursewareItemId") Long coursewareItemId, @Param("siteIdList") List<Long> siteIdList);
-
-    /**
-     * 获取学生的回答信息
-     */
-    List<CourseAnswer> listByCourseStudentId(@Param("courseId") Long courseId, @Param("machineId") Long machineId, @Param("siteIdList") List<Long> siteIdList);
+    List<CourseAnswer> listMachineAnswer(@Param("courseId") Long courseId, @Param("machineId") Long machineId,
+                                             @Param("itemIdList")  List<Long> itemIdList,
+                                             @Param("siteIdList") List<Long> siteIdList);
 }

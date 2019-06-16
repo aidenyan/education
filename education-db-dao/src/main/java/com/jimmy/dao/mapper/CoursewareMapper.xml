@@ -22,15 +22,24 @@
         courseware.create_time, courseware.modify_time, courseware.site_id, courseware.description
         from t_courseware courseware
         join t_course_link cl on courseware.id=cl.courseware_id and cl.course_id=#{courseId}
-        where site_id IN
+        where courseware.site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
     </select>
-
+    <select id="find" resultMap="BaseResultMap">
+        select
+         <include refid="Base_Column_List"/>
+        from t_courseware courseware
+        where id=#{coursewareId}
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
     <insert id="insert" parameterType="com.jimmy.dao.entity.Courseware"  keyProperty="id" useGeneratedKeys="true">
     insert into t_courseware ( name, is_used,
-      create_id, modify_id, create_time, 
+      create_id, modify_id, create_time,
       modify_time, site_id, description
       )
     values ( #{name,jdbcType=VARCHAR}, #{isUsed,jdbcType=TINYINT},
@@ -57,7 +66,7 @@
                 description = #{description,jdbcType=LONGVARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId}
+        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId,jdbcType=BIGINT}
     </update>
 
 </mapper>

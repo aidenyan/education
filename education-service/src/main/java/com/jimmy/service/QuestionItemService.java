@@ -12,7 +12,13 @@ public interface QuestionItemService {
      * @return 问题信息
      */
     List<QuestionItem> list(Long questionId);
-
+    /**
+     * 根据ID查找问题
+     *
+     * @param questionIdList ID
+     * @return 问题信息
+     */
+    List<QuestionItem> list(List<Long> questionIdList);
     /**
      * 保存选项
      *

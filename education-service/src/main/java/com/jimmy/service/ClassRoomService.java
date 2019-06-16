@@ -2,7 +2,7 @@ package com.jimmy.service;
 
 import com.jimmy.dao.entity.ClassRoomInfo;
 import com.jimmy.dao.entity.MachineInfo;
-import com.jimmy.model.dto.ClassRoomVO;
+import com.jimmy.model.vo.ClassRoomVO;
 
 import java.util.List;
 
