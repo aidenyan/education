@@ -10,7 +10,8 @@ import com.jimmy.mvc.common.model.dto.CourseInfoDTO;
 import com.jimmy.mvc.common.model.dto.CoursewareDetailDTO;
 import com.jimmy.mvc.common.model.enums.UsedStatusEnum;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
-import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransferImpl;
+import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransfer;
+
 import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
 import com.jimmy.service.CourseInfoService;
 import com.jimmy.service.CoursewareService;
@@ -55,7 +56,7 @@ public class CousewareController {
         List<CoursewareDetailDTO> coursewareDetailDTOList=new ArrayList<>();
         coursewareDetailVOList.forEach(coursewareDetailVO -> {
             CoursewareDetailDTO coursewareDetailDTO=new CoursewareDetailDTO();
-            coursewareDetailDTO.setCourseware(CoursewareDTOTransferImpl.INSTANCE.toCoursewareDTO(coursewareDetailVO.getCourseware()));
+            coursewareDetailDTO.setCourseware(CoursewareDTOTransfer.INSTANCE.toCoursewareDTO(coursewareDetailVO.getCourseware()));
             coursewareDetailDTO.setCoursewareItemList(CoursewareItemDTOTransfer.INSTANCE.toCoursewareItemDTOList(coursewareDetailVO.getCoursewareItemList()));
             coursewareDetailDTOList.add(coursewareDetailDTO);
 
