@@ -1,6 +1,7 @@
 package com.jimmy.mvc.common.model.dto;
 
 import com.jimmy.mvc.common.model.enums.CommadTypeEnum;
+import com.jimmy.mvc.common.model.enums.DirectionEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class CommandDTO extends BaseDTO {
      */
     @ApiModelProperty(value = "发送的人", hidden = true)
     private String operationName;
+
     /**
      * 发送的人ID
      */
@@ -29,6 +31,11 @@ public class CommandDTO extends BaseDTO {
      */
     @ApiModelProperty(value = "指令类型")
     private CommadTypeEnum commandType;
+    /**
+     * 方向
+     */
+    @ApiModelProperty(value = "方向", hidden = true)
+    private DirectionEnum direction;
     /**
      * SN
      */

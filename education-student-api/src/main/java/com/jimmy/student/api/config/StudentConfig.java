@@ -1,12 +1,11 @@
-package com.jimmy.teacher.api.config;
+package com.jimmy.student.api.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = "teacher.config")
+@ConfigurationProperties(prefix = "student.config")
 @Data
-public class TeacherConfig {
-    private Long dictionaryId;
+public class StudentConfig {
 
     private String token;
 

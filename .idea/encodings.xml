@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="GBK">
+    <file url="file://$PROJECT_DIR$/education-common/src/main/java/com/jimmy/common/utils/EncryptUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-common/src/main/java/com/jimmy/common/utils/FileUtils.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-common/src/main/java/com/jimmy/common/utils/HttpUtils.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-common/src/main/java/com/jimmy/common/utils/SSLClient.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-core/src/main/java/com/jimmy/core/anno/LockVisit.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-core/src/main/java/com/jimmy/core/anno/LogInfo.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-core/src/main/java/com/jimmy/core/enums/ObjTypeEnum.java" charset="GBK" />

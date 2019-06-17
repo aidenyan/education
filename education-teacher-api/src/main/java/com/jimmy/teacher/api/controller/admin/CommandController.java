@@ -6,14 +6,18 @@ import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.model.dto.CommandDTO;
+import com.jimmy.mvc.common.model.dto.CommandMessageDTO;
 import com.jimmy.mvc.common.model.enums.DirectionEnum;
 import com.jimmy.mvc.common.model.transfer.CommandDTOTransfer;
+import com.jimmy.mvc.common.service.CommandQueueService;
 import com.jimmy.service.CommandService;
+import com.jimmy.teacher.api.config.TeacherConfig;
 import com.jimmy.teacher.api.controller.BaseController;
 import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,10 +33,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Api(tags = "指令信息", description = "指令信息API")
 @Controller
 @RequestMapping("/admin/command")
+@EnableConfigurationProperties(TeacherConfig.class)
 public class CommandController extends BaseController {
+
+
+    @Autowired
+    private TeacherConfig teacherConfig;
 
     @Autowired
     private CommandService commandService;
+
+    @Autowired
+    private CommandQueueService commandQueueService;
 
     @ApiOperation("发送指令")
     @ResponseBody
@@ -40,11 +52,22 @@ public class CommandController extends BaseController {
     public Result<Long> using(@RequestBody CommandDTO commandDTO) {
         CommandInfo commandInfo = CommandDTOTransfer.INSTANCE.toCommandInfo(commandDTO);
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
+
+        commandDTO.setOperationId(teacherStaffInfo.getId());
+        commandDTO.setOperationName(teacherStaffInfo.getName());
+
         commandInfo.setOperationId(teacherStaffInfo.getId());
         commandInfo.setOperationName(teacherStaffInfo.getName());
         commandInfo.setSn(StringUtils.uuid());
+        commandDTO.setSn(commandInfo.getSn());
         commandInfo.setDirection(DirectionEnum.TO_STUDENT.getValue());
+        commandDTO.setDirection(DirectionEnum.TO_STUDENT);
         Long id = commandService.save(commandInfo);
+        CommandMessageDTO commandMessageDTO = new CommandMessageDTO();
+        commandMessageDTO.setSendUrl(teacherConfig.getStudentUrl());
+        commandMessageDTO.setToken(teacherConfig.getToken());
+        commandMessageDTO.setCommandDTO(commandDTO);
+        commandQueueService.push(commandMessageDTO);
         return ResultBuilder.ok(id);
     }
 

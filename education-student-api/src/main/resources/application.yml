@@ -16,5 +16,8 @@ server:
 logging:
   config: classpath:log.xml
 
-
+student:
+   config:
+     toke: dsfsasredserwersdfdsf
+      studentUrl: http://localhost:8082/teacher/teacher/common/command
 
