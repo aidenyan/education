@@ -47,7 +47,6 @@ public class CoursewareController extends BaseController {
             coursewareDetailDTOList.add(coursewareDetailDTO);
 
         });
-
         return ResultBuilder.error(ResultCodeEnum.OK, coursewareDetailDTOList);
     }
 }

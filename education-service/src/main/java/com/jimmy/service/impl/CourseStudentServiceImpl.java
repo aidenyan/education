@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -63,8 +64,14 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     public List<CourseStudent> find(Long courseId, Long studentId,  Long machinaId) {
         Assert.notNull(courseId);
         Assert.notNull(studentId);
-        Assert.notNull(machinaId);
-        return courseStudentMapper.find(courseId,studentId,machinaId,SiteLocalThread.getSiteIdList());
+        return find(courseId, Arrays.asList(studentId),machinaId);
+    }
+
+    @Override
+    public List<CourseStudent> find(Long courseId, List<Long> studentIdList, Long machinaId) {
+        Assert.notNull(courseId);
+        Assert.notEmpty(studentIdList);
+        return courseStudentMapper.find(courseId, studentIdList,machinaId,SiteLocalThread.getSiteIdList());
     }
 
     @Override

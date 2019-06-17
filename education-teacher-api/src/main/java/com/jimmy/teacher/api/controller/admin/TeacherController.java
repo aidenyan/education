@@ -18,6 +18,7 @@ import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.TeacherStaffInfoDTOTransfer;
 import com.jimmy.service.*;
 import com.jimmy.teacher.api.config.TeacherConfig;
+import com.jimmy.teacher.api.controller.BaseController;
 import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +44,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/admin/teacher")
 @EnableConfigurationProperties(TeacherConfig.class)
-public class TeacherController {
+public class TeacherController  extends BaseController {
 
     @Autowired
     private TeacherConfig teacherConfig;

@@ -5,9 +5,9 @@
 
 <generatorConfiguration>
     <!--mysql的生成方式-->
-    <!--<classPathEntry-->
-            <!--location="C:/work/repositorys/mysql/mysql-connector-java/5.1.36/mysql-connector-java-5.1.36.jar"/>-->
-    <classPathEntry  location="D:/work/repositorys/mysql/mysql-connector-java/5.1.36/mysql-connector-java-5.1.36.jar"/>
+    <classPathEntry
+            location="C:/work/repositorys/mysql/mysql-connector-java/5.1.36/mysql-connector-java-5.1.36.jar"/>
+    <!--<classPathEntry  location="D:/work/repositorys/mysql/mysql-connector-java/5.1.36/mysql-connector-java-5.1.36.jar"/>-->
     <context id="my" targetRuntime="MyBatis3">
         <commentGenerator>
             <property name="suppressDate" value="false"/>
@@ -18,29 +18,29 @@
                         connectionURL="jdbc:mysql://94.191.60.104:3306/education" userId="root"
                         password="123456"/>
 
-        <!--<javaModelGenerator targetPackage="com.jimmy.dao.entity"-->
-                            <!--targetProject="C:/work/idea/work/education/education-db-dao/src/main/java">-->
-
         <javaModelGenerator targetPackage="com.jimmy.dao.entity"
-                            targetProject="D:/idea/work/education/education-db-dao/src/main/java">
+                            targetProject="C:/work/idea/work/education/education-db-dao/src/main/java">
+
+        <!--<javaModelGenerator targetPackage="com.jimmy.dao.entity"-->
+                            <!--targetProject="D:/idea/work/education/education-db-dao/src/main/java">-->
 
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
 
-        <!--<sqlMapGenerator targetPackage="com.jimmy.dao.mapper"-->
-                            <!--targetProject="C:/work/idea/work/education/education-db-dao/src/main/java">-->
-
         <sqlMapGenerator targetPackage="com.jimmy.dao.mapper"
-                         targetProject="D:/idea/work/education/education-db-dao/src/main/java">
+                            targetProject="C:/work/idea/work/education/education-db-dao/src/main/java">
+
+        <!--<sqlMapGenerator targetPackage="com.jimmy.dao.mapper"-->
+                         <!--targetProject="D:/idea/work/education/education-db-dao/src/main/java">-->
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
-        <!--<javaClientGenerator targetPackage="com.jimmy.dao.mapper"-->
-                         <!--targetProject="C:/work/idea/work/education/education-db-dao/src/main/java"    type="XMLMAPPER">-->
         <javaClientGenerator targetPackage="com.jimmy.dao.mapper"
-                             targetProject="D:/idea/work/education/education-db-dao/src/main/java"
-                             type="XMLMAPPER">
+                         targetProject="C:/work/idea/work/education/education-db-dao/src/main/java"    type="XMLMAPPER">
+        <!--<javaClientGenerator targetPackage="com.jimmy.dao.mapper"-->
+                             <!--targetProject="D:/idea/work/education/education-db-dao/src/main/java"-->
+                             <!--type="XMLMAPPER">-->
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
@@ -53,7 +53,7 @@
 
 
 
-        <table tableName="t_dictionary_item" domainObjectName="DictionaryItem"
+        <table tableName="t_command_info" domainObjectName="CommandInfo"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">

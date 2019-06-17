@@ -1,25 +1,30 @@
 package com.jimmy.teacher.api.websocket;
 
+import com.alibaba.fastjson.JSON;
+import com.jimmy.common.utils.StringUtils;
+import com.jimmy.mvc.common.model.dto.SocketMessage;
+import com.jimmy.mvc.common.model.enums.CommadTypeEnum;
+import com.jimmy.mvc.common.service.WebSocketService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @ServerEndpoint("/websocket")
 @Component
 public class WebSocket {
-    //静态变量，用来记录当前
-    //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。若要实现服务端与单一客户端通信的话，可以使用Map来存放，其中Key可以为用户标识
-    private static Map<Long, WebSocket> webSocketMap = new HashMap<>();
+
 
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
 
-    private Long studentId;
+    private Long teacherId;
+    @Autowired
+    private WebSocketService webSocketService;
 
 
     /**
@@ -37,7 +42,7 @@ public class WebSocket {
      */
     @OnClose
     public void onClose() {
-        webSocketMap.remove(studentId);
+        WebSocketUtils.remove(teacherId);
     }
 
     /**
@@ -48,8 +53,14 @@ public class WebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-
-         System.out.println(message);
+        Assert.isTrue(StringUtils.isNotBlank(message));
+        SocketMessage socketMessage = JSON.parseObject(message, SocketMessage.class);
+        if (CommadTypeEnum.INIT == socketMessage.getSocketType()) {
+            this.teacherId = (Long) socketMessage.getResult();
+            WebSocketUtils.add(teacherId, this);
+        } else {
+            webSocketService.dealMessage(teacherId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
+        }
     }
 
     /**
@@ -65,11 +76,15 @@ public class WebSocket {
 
     /**
      * 这个方法与上面几个方法不一样。没有用注解，是根据自己需要添加的方法。
-     *
-     * @param message
-     * @throws IOException
      */
-    public void sendMessage(String message) throws IOException {
+    public void sendMessage(Object messageObj, CommadTypeEnum socketType) throws IOException {
+        Assert.notNull(messageObj);
+        Assert.notNull(socketType);
+        SocketMessage socketMessage = new SocketMessage();
+        socketMessage.setCode("200");
+        socketMessage.setResult(messageObj);
+        socketMessage.setSocketType(socketType);
+        this.session.getBasicRemote().sendText(JSON.toJSONString(socketMessage));
     }
 
 

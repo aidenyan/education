@@ -25,9 +25,14 @@
         from t_course_student
         where course_id = #{courseId,jdbcType=BIGINT}
 
-            and student_id=#{studentId}
+        and student_id IN
+        <foreach collection="studentIdList" separator="," item="studentId" close=")" open="(">
+            #{studentId}
+        </foreach>
+             <if test=" machinaId != null">
+                 and machine_id=#{machineId}
+             </if>
 
-            and machine_id=#{machineId}
 
         and site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">

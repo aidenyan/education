@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.CommandInfoMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.CommandInfo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="course_id" property="courseId" jdbcType="BIGINT"/>
+        <result column="direction" property="direction" jdbcType="TINYINT"/>
+        <result column="operation_name" property="operationName" jdbcType="VARCHAR"/>
+        <result column="operation_id" property="operationId" jdbcType="BIGINT"/>
+        <result column="command_type" property="commandType" jdbcType="TINYINT"/>
+        <result column="sn" property="sn" jdbcType="VARCHAR"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, course_id, direction, operation_name, operation_id, command_type, sn,  content, create_id,
+    modify_id, create_time, modify_time, site_id
+  </sql>
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+
+        from t_command_info
+        where course_id = #{courseId,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" parameterType="com.jimmy.dao.entity.CommandInfo" useGeneratedKeys="true" keyProperty="id">
+    insert into t_command_info ( course_id, direction,
+      operation_name, operation_id, command_type, 
+      sn, create_id, modify_id, 
+      create_time, modify_time, site_id, 
+      content)
+    values ( #{courseId,jdbcType=BIGINT}, #{direction,jdbcType=TINYINT},
+      #{operationName,jdbcType=VARCHAR}, #{operationId,jdbcType=BIGINT}, #{commandType,jdbcType=TINYINT}, 
+      #{sn,jdbcType=VARCHAR}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
+       now(),now(), #{siteId,jdbcType=BIGINT},
+      #{content,jdbcType=LONGVARCHAR})
+  </insert>
+
+</mapper>

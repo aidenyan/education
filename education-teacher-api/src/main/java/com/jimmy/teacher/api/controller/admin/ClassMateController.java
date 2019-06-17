@@ -16,6 +16,7 @@ import com.jimmy.service.ClassMateService;
 import com.jimmy.service.CourseStudentService;
 import com.jimmy.service.StudentInfoService;
 import com.jimmy.service.TemporaryClassMateService;
+import com.jimmy.teacher.api.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ import java.util.List;
 @Api(tags = "班级/临时班级信息", description = "课程课件信息API")
 @Controller
 @RequestMapping("/admin/class_mate")
-public class ClassMateController {
+public class ClassMateController  extends BaseController {
 
     @Autowired
     private ClassMateService classMateService;

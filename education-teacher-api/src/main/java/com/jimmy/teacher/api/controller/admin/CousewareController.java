@@ -15,6 +15,7 @@ import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
 import com.jimmy.service.CourseInfoService;
 import com.jimmy.service.CoursewareService;
+import com.jimmy.teacher.api.controller.BaseController;
 import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +36,7 @@ import java.util.List;
 @Api(tags = "课程课件信息", description = "课程课件信息API")
 @Controller
 @RequestMapping("/admin/couseware")
-public class CousewareController {
+public class CousewareController  extends BaseController {
     public final static Integer MAX_COURSE_NUM = 100000;
     @Autowired
     private CourseInfoService courseInfoService;
