@@ -1,5 +1,6 @@
 package com.jimmy.teacher.api.controller.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.jimmy.common.utils.StringUtils;
 import com.jimmy.dao.entity.CommandInfo;
 import com.jimmy.dao.entity.TeacherStaffInfo;
@@ -56,12 +57,18 @@ public class CommandController extends BaseController {
         commandDTO.setOperationId(teacherStaffInfo.getId());
         commandDTO.setOperationName(teacherStaffInfo.getName());
 
+
         commandInfo.setOperationId(teacherStaffInfo.getId());
         commandInfo.setOperationName(teacherStaffInfo.getName());
         commandInfo.setSn(StringUtils.uuid());
-        commandDTO.setSn(commandInfo.getSn());
         commandInfo.setDirection(DirectionEnum.TO_STUDENT.getValue());
+        commandInfo.setCommandType(commandDTO.getCommandType().getValue());
+        commandInfo.setContent(JSON.toJSONString(commandDTO.getContent()));
+        commandInfo.setCourseId(commandDTO.getCourseId());
+
+
         commandDTO.setDirection(DirectionEnum.TO_STUDENT);
+        commandDTO.setSn(commandInfo.getSn());
         Long id = commandService.save(commandInfo);
         CommandMessageDTO commandMessageDTO = new CommandMessageDTO();
         commandMessageDTO.setSendUrl(teacherConfig.getStudentUrl());

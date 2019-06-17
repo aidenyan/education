@@ -1,6 +1,6 @@
 package com.jimmy.mvc.common.service.impl;
 
-import com.jimmy.mvc.common.model.enums.CommadTypeEnum;
+import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.mvc.common.service.WebSocketService;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class WebSocketServiceImpl implements WebSocketService {
 
 
     @Override
-    public void dealMessage(Long sendId, String message, CommadTypeEnum socketType) {
+    public void dealMessage(Long sendId, String message, CommandTypeEnum socketType) {
 
     }
 }

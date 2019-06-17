@@ -1,6 +1,6 @@
 package com.jimmy.mvc.common.model.dto;
 
-import com.jimmy.mvc.common.model.enums.CommadTypeEnum;
+import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.mvc.common.model.enums.DirectionEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -30,7 +30,7 @@ public class CommandDTO extends BaseDTO {
      * 指令类型
      */
     @ApiModelProperty(value = "指令类型")
-    private CommadTypeEnum commandType;
+    private CommandTypeEnum commandType;
     /**
      * 方向
      */
@@ -45,6 +45,8 @@ public class CommandDTO extends BaseDTO {
      * 指令内容
      */
     @ApiModelProperty(value = "指令内容")
-    private String content;
+    private Object content;
+
+
 
 }

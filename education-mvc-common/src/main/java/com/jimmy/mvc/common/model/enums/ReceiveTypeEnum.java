@@ -5,34 +5,30 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @ClassName: StaffTypeEnum
+ * @ClassName: ReceiveTypeEnum
  * @Description:
  * @author: aiden
- * @date: 2019/6/11/011.
+ * @date: 2019/6/17/017.
  */
-public enum CommadTypeEnum implements BaseEnum {
-    /**
-     * 链接之后的第一条数据
-     */
-    INIT(0, "初始化"),
-    SIGN_IN(1, "签到命令"),;
-    private static Map<Integer, CommadTypeEnum> ELEMENTS_MAP;
+public enum ReceiveTypeEnum implements BaseEnum {
+    ALL(0, "所有人"),
+    USE_LIST(1, "用户列表");
+    private static Map<Integer, ResourceTypeEnum> ELEMENTS_MAP;
 
     static {
-        ELEMENTS_MAP = Arrays.stream(CommadTypeEnum.values())
-                .collect(Collectors.toMap(CommadTypeEnum::getValue, (element) -> element));
+        ELEMENTS_MAP = Arrays.stream(ResourceTypeEnum.values())
+                .collect(Collectors.toMap(ResourceTypeEnum::getValue, (element) -> element));
     }
 
     private final Integer value;
     private final String message;
 
-
-    CommadTypeEnum(Integer value, String message) {
+    ReceiveTypeEnum(Integer value, String message) {
         this.value = value;
         this.message = message;
     }
 
-    public static CommadTypeEnum valueOf(int value) {
+    public static ResourceTypeEnum valueOf(int value) {
         return ELEMENTS_MAP.get(value);
     }
 
@@ -46,4 +42,3 @@ public enum CommadTypeEnum implements BaseEnum {
         return message;
     }
 }
-

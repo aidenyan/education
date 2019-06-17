@@ -28,7 +28,7 @@ public interface CommandDTOTransfer {
     List<CommandInfo> toCommandInfoList(List<CommandDTO> courseInfoDTOList);
 
     @Mappings({
-            @Mapping(target = "commandType", expression = "java(commandInfo.getCommandType()==null?null:com.jimmy.mvc.common.model.enums.CommadTypeEnum.valueOf(commandInfo.getCommandType()))"),
+            @Mapping(target = "commandType", expression = "java(commandInfo.getCommandType()==null?null:com.jimmy.mvc.common.model.enums.CommandTypeEnum.valueOf(commandInfo.getCommandType()))"),
     })
     CommandDTO toCommandDTO(CommandInfo commandInfo);
 

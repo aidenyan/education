@@ -1,6 +1,6 @@
 package com.jimmy.mvc.common.service;
 
-import com.jimmy.mvc.common.model.enums.CommadTypeEnum;
+import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 
 /**
  * @ClassName: WebSocketService
@@ -15,5 +15,5 @@ public interface WebSocketService {
      * @param message
      * @param socketType
      */
-    void dealMessage(Long sendId, String message, CommadTypeEnum socketType);
+    void dealMessage(Long sendId, String message, CommandTypeEnum socketType);
 }

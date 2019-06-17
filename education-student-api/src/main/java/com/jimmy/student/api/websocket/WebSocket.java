@@ -1,4 +1,4 @@
-package com.jimmy.teacher.api.websocket;
+package com.jimmy.student.api.websocket;
 
 import com.alibaba.fastjson.JSON;
 import com.jimmy.common.utils.StringUtils;
@@ -22,7 +22,7 @@ public class WebSocket {
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
 
-    private Long teacherId;
+    private Long machineId;
     @Autowired
     private WebSocketService webSocketService;
 
@@ -42,7 +42,7 @@ public class WebSocket {
      */
     @OnClose
     public void onClose() {
-        WebSocketUtils.remove(teacherId);
+        WebSocketUtils.remove(machineId);
     }
 
     /**
@@ -56,10 +56,10 @@ public class WebSocket {
         Assert.isTrue(StringUtils.isNotBlank(message));
         SocketMessage socketMessage = JSON.parseObject(message, SocketMessage.class);
         if (CommandTypeEnum.INIT == socketMessage.getSocketType()) {
-            this.teacherId = (Long) socketMessage.getResult();
-            WebSocketUtils.add(teacherId, this);
+            this.machineId = (Long) socketMessage.getResult();
+            WebSocketUtils.add(machineId, this);
         } else {
-            webSocketService.dealMessage(teacherId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
+            webSocketService.dealMessage(machineId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
         }
     }
 
