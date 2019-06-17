@@ -22,6 +22,7 @@ import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,7 @@ import java.util.Map;
 @Api(tags = "老师相关信息接口", description = "老师相关信息接口API")
 @Controller
 @RequestMapping("/admin/teacher")
+@EnableConfigurationProperties(TeacherConfig.class)
 public class TeacherController {
 
     @Autowired
