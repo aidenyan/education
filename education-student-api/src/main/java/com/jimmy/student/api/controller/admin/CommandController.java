@@ -91,7 +91,7 @@ public class CommandController extends BaseController {
         commandInfo.setSn(StringUtils.uuid());
         commandInfo.setDirection(DirectionEnum.TO_TEACHER.getValue());
         commandInfo.setCommandType(commandDTO.getCommandType().getValue());
-        commandInfo.setContent(JSON.toJSONString(commandDTO.getContent()));
+        commandInfo.setContent(commandDTO.getContent());
         commandInfo.setCourseId(commandDTO.getCourseId());
 
 

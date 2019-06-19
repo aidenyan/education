@@ -50,7 +50,7 @@ public class StudentCommonController {
         /**
          * 命令相关的处理
          */
-        String content = JSON.toJSONString(commandDTO.getContent());
+        String content = commandDTO.getContent();
         if (commandDTO.getCommandType() == CommandTypeEnum.BROADCAST_TEXT
                 || commandDTO.getCommandType() == CommandTypeEnum.BROADCAST_VIDEO) {
             BroadcastDTO broadcastDTO = JSON.parseObject(content, BroadcastDTO.class);

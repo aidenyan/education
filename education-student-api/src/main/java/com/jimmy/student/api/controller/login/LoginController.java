@@ -59,7 +59,7 @@ public class LoginController extends BaseController {
     }
 
     @ResponseBody
-    @PostMapping("/room/list")
+    @PostMapping("/machine/list")
     @ApiOperation("获取所有的教室")
     public Result<List<MachineInfoDTO>> listMachine(Long roomId) {
         List<MachineInfo> machineInfoList = classRoomService.listById(roomId);

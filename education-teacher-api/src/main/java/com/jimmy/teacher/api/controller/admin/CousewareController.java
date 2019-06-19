@@ -123,7 +123,7 @@ public class CousewareController extends BaseController {
 
     @ApiOperation("修改课程状态改为未使用使用")
     @ResponseBody
-    @PostMapping("/used/{courseId}")
+    @PostMapping("/unused/{courseId}")
     public Result<Boolean> unused(@PathVariable("courseId") Long courseId) {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
         CourseInfo courseInfo = courseInfoService.findById(courseId);

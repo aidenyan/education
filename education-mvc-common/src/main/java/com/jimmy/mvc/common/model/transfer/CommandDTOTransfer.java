@@ -22,7 +22,8 @@ public interface CommandDTOTransfer {
     CommandDTOTransfer INSTANCE = Mappers.getMapper(CommandDTOTransfer.class);
 
 
-    @Mappings({@Mapping(target = "commandType", expression = "java(courseInfoDTO.getCommandType()==null?null:courseInfoDTO.getCommandType().getValue())")
+    @Mappings({@Mapping(target = "commandType", expression = "java(courseInfoDTO.getCommandType()==null?null:courseInfoDTO.getCommandType().getValue())"),
+            @Mapping(target = "direction", expression = "java(courseInfoDTO.getDirection()==null?null:courseInfoDTO.getDirection().getValue())")
     })
     CommandInfo toCommandInfo(CommandDTO courseInfoDTO);
 
@@ -30,12 +31,13 @@ public interface CommandDTOTransfer {
 
     @Mappings({
             @Mapping(target = "commandType", expression = "java(commandInfo.getCommandType()==null?null:com.jimmy.mvc.common.model.enums.CommandTypeEnum.valueOf(commandInfo.getCommandType()))"),
+            @Mapping(target = "direction", expression = "java(commandInfo.getDirection()==null?null:com.jimmy.mvc.common.model.enums.DirectionEnum.valueOf(commandInfo.getDirection()))")
     })
     CommandDTO toCommandDTO(CommandInfo commandInfo);
 
     List<CommandDTO> toCommandDTOList(List<CommandInfo> commandInfoList);
 
-    @Mappings({@Mapping(target = "content", expression = "java(commandDetailDTO.getContent()==null?null:com.alibaba.fastjson.JSON.toJSONString(commandDetailDTO.getDetail()))")
+    @Mappings({@Mapping(target = "content", expression = "java(commandDetailDTO.getDetail()==null?null:com.alibaba.fastjson.JSON.toJSONString(commandDetailDTO.getDetail()))")
     })
     CommandDTO toCommandDTO(CommandDetailDTO commandDetailDTO);
 }

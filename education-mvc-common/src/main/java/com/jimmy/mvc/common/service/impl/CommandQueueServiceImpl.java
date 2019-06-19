@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutorService;
 @Service
 public class CommandQueueServiceImpl implements CommandQueueService {
 
-    @Autowired
+    @Autowired(required = false)
     private ExecutorService executorService;
 
     private Queue<CommandMessageDTO> queue = new LinkedList<>();

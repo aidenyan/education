@@ -51,7 +51,7 @@ public class TeacherCommonController {
         /**
          * 命令相关的处理
          */
-        String content = JSON.toJSONString(commandDTO.getContent());
+        String content = commandDTO.getContent();
         if (commandDTO.getCommandType() == CommandTypeEnum.RAISE_HAND) {
             RaiseHandDTO raiseHandDTO = JSON.parseObject(content, RaiseHandDTO.class);
             WebSocketUtils.push(raiseHandDTO, CommandTypeEnum.INTERACTIVE, Arrays.asList(raiseHandDTO.getTeacherId()));

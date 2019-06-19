@@ -23,8 +23,8 @@ logging:
 teacher:
    config:
      dictionaryId: 12
-     toke: dsfsasredserwersdfdsf
-      studentUrl: http://localhost:8083/student/student/common/command
+     token: dsfsasredserwersdfdsf
+     studentUrl: http://localhost:8083/student/student/common/command
 
 
 

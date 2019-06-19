@@ -45,7 +45,7 @@ public class CommandDTO extends BaseDTO {
      * 指令内容
      */
     @ApiModelProperty(value = "指令内容")
-    private Object content;
+    private String content;
 
 
 
