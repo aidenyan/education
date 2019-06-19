@@ -35,5 +35,9 @@ public class CourseInfo extends BaseEntity {
      * 描述
      */
     private String description;
+    /**
+     * 使用的老师
+     */
+    private Long usedTeacherId;
 
 }

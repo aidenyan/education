@@ -15,6 +15,7 @@ public class CoursewareItemDTO extends BaseDTO {
     /**
      * 课件类型，0:资源，1:题库
      */
+    @ApiModelProperty("课件类型")
     private CoursewareItemTypeEnum type;
     /**
      * 如果type为0，0：图片，1：视频，2:文字；3：图纸；如果未1：5：问答题，6:单选题，7.多选题

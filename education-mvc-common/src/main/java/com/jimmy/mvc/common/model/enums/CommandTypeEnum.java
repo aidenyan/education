@@ -18,7 +18,10 @@ public enum CommandTypeEnum implements BaseEnum {
     SIGN_IN(1, "签到命令", false),
     BROADCAST_TEXT(2, "广播文字信息", true),
     BROADCAST_VIDEO(3, "广播视频信息", true),
-    INTERACTIVE(4, "交互", false),;
+    INTERACTIVE(4, "交互", true),
+    MIDDLE_SIGN_IN(5, "中途签到", true),
+    RAISE_HAND(6,"举手",true),
+    ;
     private static Map<Integer, CommandTypeEnum> ELEMENTS_MAP;
 
     static {

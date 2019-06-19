@@ -46,5 +46,9 @@ public class CourseInfoDTO extends BaseDTO {
      */
     @ApiModelProperty("描述")
     private String description;
-
+    /**
+     * 使用的老师
+     */
+    @ApiModelProperty("使用的老师")
+    private Long usedTeacherId;
 }

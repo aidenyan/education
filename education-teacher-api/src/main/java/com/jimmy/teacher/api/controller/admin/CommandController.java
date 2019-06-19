@@ -6,8 +6,8 @@ import com.jimmy.dao.entity.CommandInfo;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
-import com.jimmy.mvc.common.model.dto.CommandDTO;
-import com.jimmy.mvc.common.model.dto.CommandMessageDTO;
+import com.jimmy.mvc.common.model.dto.*;
+import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.mvc.common.model.enums.DirectionEnum;
 import com.jimmy.mvc.common.model.transfer.CommandDTOTransfer;
 import com.jimmy.mvc.common.service.CommandQueueService;
@@ -47,10 +47,53 @@ public class CommandController extends BaseController {
     @Autowired
     private CommandQueueService commandQueueService;
 
-    @ApiOperation("发送指令")
+    @ApiOperation("签到")
     @ResponseBody
-    @PostMapping("/send")
-    public Result<Long> using(@RequestBody CommandDTO commandDTO) {
+    @PostMapping("/sing_in")
+    public Result<Long> singInfo(@RequestBody CommandDetailDTO<Void> commandDetailDTO) {
+        commandDetailDTO.setCommandType(CommandTypeEnum.SIGN_IN);
+        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
+        return ResultBuilder.ok(id);
+    }
+
+    @ApiOperation("广播文字")
+    @ResponseBody
+    @PostMapping("/broadcast_text")
+    public Result<Long> broadcastText(@RequestBody CommandDetailDTO<BroadcastDTO> commandDetailDTO) {
+        commandDetailDTO.setCommandType(CommandTypeEnum.BROADCAST_TEXT);
+        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
+        return ResultBuilder.ok(id);
+    }
+
+    @ApiOperation("广播视频")
+    @ResponseBody
+    @PostMapping("/broadcast_video")
+    public Result<Long> broadcastVideo(@RequestBody CommandDetailDTO<BroadcastDTO> commandDetailDTO) {
+        commandDetailDTO.setCommandType(CommandTypeEnum.BROADCAST_VIDEO);
+        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
+        return ResultBuilder.ok(id);
+    }
+
+    @ApiOperation("交互")
+    @ResponseBody
+    @PostMapping("/interactive")
+    public Result<Long> interactive(@RequestBody CommandDetailDTO<InteractiveDTO> commandDetailDTO) {
+        commandDetailDTO.setCommandType(CommandTypeEnum.INTERACTIVE);
+        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
+        return ResultBuilder.ok(id);
+    }
+
+    @ApiOperation("中途签到在各自的机床上进行签到")
+    @ResponseBody
+    @PostMapping("/middle_sing_in")
+    public Result<Long> middleSignIn(@RequestBody CommandDetailDTO<Void> commandDetailDTO) {
+        commandDetailDTO.setCommandType(CommandTypeEnum.MIDDLE_SIGN_IN);
+        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
+        return ResultBuilder.ok(id);
+    }
+
+
+    public Long using(CommandDTO commandDTO) {
         CommandInfo commandInfo = CommandDTOTransfer.INSTANCE.toCommandInfo(commandDTO);
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
 
@@ -75,7 +118,7 @@ public class CommandController extends BaseController {
         commandMessageDTO.setToken(teacherConfig.getToken());
         commandMessageDTO.setCommandDTO(commandDTO);
         commandQueueService.push(commandMessageDTO);
-        return ResultBuilder.ok(id);
+        return id;
     }
 
 }

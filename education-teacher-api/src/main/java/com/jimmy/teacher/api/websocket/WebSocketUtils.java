@@ -1,5 +1,9 @@
 package com.jimmy.teacher.api.websocket;
 
+import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
+
+import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,5 +22,15 @@ public class WebSocketUtils {
 
     public static synchronized void remove(Long theacherId) {
         webSocketMap.remove(theacherId);
+    }
+
+    public static void push(Object sendContent, CommandTypeEnum commadType, Collection<Long> theacherIdList) {
+        theacherIdList.forEach(theacherId -> {
+            try {
+                webSocketMap.get(theacherId).sendMessage(sendContent, commadType);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

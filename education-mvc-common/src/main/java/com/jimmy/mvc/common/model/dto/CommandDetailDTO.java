@@ -8,7 +8,7 @@ import lombok.Data;
 
 @Data
 @ApiModel("命令信息")
-public class CommandDTO extends BaseDTO {
+public class CommandDetailDTO<T> extends BaseDTO {
     /**
      * 课程ID
      */
@@ -29,7 +29,7 @@ public class CommandDTO extends BaseDTO {
     /**
      * 指令类型
      */
-    @ApiModelProperty(value = "指令类型")
+    @ApiModelProperty(value = "指令类型",hidden = true)
     private CommandTypeEnum commandType;
     /**
      * 方向
@@ -45,8 +45,8 @@ public class CommandDTO extends BaseDTO {
      * 指令内容
      */
     @ApiModelProperty(value = "指令内容")
-    private Object content;
-
+    private T detail;
+    
 
 
 

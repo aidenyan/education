@@ -2,6 +2,7 @@ package com.jimmy.mvc.common.model.transfer;
 
 import com.jimmy.dao.entity.CommandInfo;
 import com.jimmy.mvc.common.model.dto.CommandDTO;
+import com.jimmy.mvc.common.model.dto.CommandDetailDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -33,4 +34,8 @@ public interface CommandDTOTransfer {
     CommandDTO toCommandDTO(CommandInfo commandInfo);
 
     List<CommandDTO> toCommandDTOList(List<CommandInfo> commandInfoList);
+
+    @Mappings({@Mapping(target = "content", expression = "java(commandDetailDTO.getContent()==null?null:com.alibaba.fastjson.JSON.toJSONString(commandDetailDTO.getDetail()))")
+    })
+    CommandDTO toCommandDTO(CommandDetailDTO commandDetailDTO);
 }

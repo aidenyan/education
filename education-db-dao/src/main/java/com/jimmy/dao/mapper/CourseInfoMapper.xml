@@ -8,6 +8,8 @@
         <result column="time_long" property="timeLong" jdbcType="INTEGER"/>
         <result column="room_id" property="roomId" jdbcType="BIGINT"/>
         <result column="teacher_id" property="teacherId" jdbcType="BIGINT"/>
+        <result column="used_teacher_id" property="usedTeacherId" jdbcType="BIGINT"/>
+
         <result column="used_status" property="usedStatus" jdbcType="TINYINT"/>
         <result column="description" property="description" jdbcType="LONGVARCHAR"/>
         <result column="create_id" property="createId" jdbcType="BIGINT"/>
@@ -17,7 +19,7 @@
         <result column="site_id" property="siteId" jdbcType="BIGINT"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, name, start_time, time_long, room_id, teacher_id, used_status,description, create_id, modify_id,
+    id, name, start_time, time_long, room_id, teacher_id, used_teacher_id,used_status,description, create_id, modify_id,
     create_time, modify_time, site_id
   </sql>
 
@@ -106,6 +108,10 @@
             <if test="tearcherId != null">
                 tearcher_id = #{tearcherId,jdbcType=BIGINT},
             </if>
+            <if test="usedTeacherId != null">
+                used_teacher_id = #{usedTeacherId,jdbcType=BIGINT},
+            </if>
+
             <if test="usedStatus != null">
                 used_status = #{usedStatus,jdbcType=TINYINT},
             </if>

@@ -62,11 +62,12 @@ public class CourseInfoServiceImpl implements CourseInfoService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void useCourse(Long courseId, Integer usedStatus,Long roomId) {
+    public void useCourse(Long teacherId,Long courseId, Integer usedStatus,Long roomId) {
         Assert.notNull(courseId);
         CourseInfo courseInfo = new CourseInfo();
         courseInfo.setUsedStatus(usedStatus);
         courseInfo.setId(courseId);
+        courseInfo.setUsedTeacherId(teacherId);
         courseInfo.setModifyId(LoginLocalThread.get());
         courseInfo.setSiteId(SiteLocalThread.getSiteId());
         if (usedStatus == 1) {

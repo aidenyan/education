@@ -15,6 +15,7 @@ public enum ResultCodeEnum implements ResultEnum {
     STUDNE_ANSWER_NOT_EXIST("-10005","学生还没有回答","该教室没有课程"),
     MACHINE_STUDENT_NOT_EXIST("-10006","该机床上没有学生","该机床上没有学生"),
     APPRIASE_ALREADY_EXIST("-10007","该机床已经评价过了","该机床已经评价过了"),
+    COURSE_NOT_START("-10008","还没有开始上课","还没有开始上课"),
     ;
     private String code;
     private String message;

@@ -42,7 +42,7 @@ public class CommandQueueServiceImpl implements CommandQueueService {
 
 
     public void sendMessage(CommandMessageDTO commandMessageDTO) {
-        if (commandMessageDTO == null) {
+        if (commandMessageDTO == null || commandMessageDTO.getCommandDTO() == null || commandMessageDTO.getCommandDTO().getCommandType() == null || !commandMessageDTO.getCommandDTO().getCommandType().isSend()) {
             return;
         }
         String result = null;
@@ -50,7 +50,7 @@ public class CommandQueueServiceImpl implements CommandQueueService {
             String sn = commandMessageDTO.getCommandDTO().getSn();
             String token = EncryptUtil.encryptMd5(sn, commandMessageDTO.getToken());
 
-            result = HttpUtils.post(commandMessageDTO.getSendUrl()+"/"+token, JSON.toJSONString(commandMessageDTO.getCommandDTO()));
+            result = HttpUtils.post(commandMessageDTO.getSendUrl() + "/" + token, JSON.toJSONString(commandMessageDTO.getCommandDTO()));
             CommandResultDTO commandResultDTO = JSON.parseObject(result, CommandResultDTO.class);
             if (commandResultDTO.getResult() == null || !commandResultDTO.getResult()) {
                 push(commandMessageDTO);

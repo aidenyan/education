@@ -11,7 +11,6 @@ import com.jimmy.mvc.common.model.dto.CoursewareDetailDTO;
 import com.jimmy.mvc.common.model.enums.UsedStatusEnum;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransfer;
-
 import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
 import com.jimmy.service.CourseInfoService;
 import com.jimmy.service.CoursewareService;
@@ -36,7 +35,7 @@ import java.util.List;
 @Api(tags = "课程课件信息", description = "课程课件信息API")
 @Controller
 @RequestMapping("/admin/couseware")
-public class CousewareController  extends BaseController {
+public class CousewareController extends BaseController {
     public final static Integer MAX_COURSE_NUM = 100000;
     @Autowired
     private CourseInfoService courseInfoService;
@@ -54,9 +53,9 @@ public class CousewareController  extends BaseController {
         if (CollectionUtils.isEmpty(coursewareDetailVOList)) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
-        List<CoursewareDetailDTO> coursewareDetailDTOList=new ArrayList<>();
+        List<CoursewareDetailDTO> coursewareDetailDTOList = new ArrayList<>();
         coursewareDetailVOList.forEach(coursewareDetailVO -> {
-            CoursewareDetailDTO coursewareDetailDTO=new CoursewareDetailDTO();
+            CoursewareDetailDTO coursewareDetailDTO = new CoursewareDetailDTO();
             coursewareDetailDTO.setCourseware(CoursewareDTOTransfer.INSTANCE.toCoursewareDTO(coursewareDetailVO.getCourseware()));
             coursewareDetailDTO.setCoursewareItemList(CoursewareItemDTOTransfer.INSTANCE.toCoursewareItemDTOList(coursewareDetailVO.getCoursewareItemList()));
             coursewareDetailDTOList.add(coursewareDetailDTO);
@@ -102,14 +101,14 @@ public class CousewareController  extends BaseController {
         if (courseInfo.getRoomId().equals(teacherStaffInfo.getRoomId())) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
-        courseInfoService.useCourse(courseId, UsedStatusEnum.USING.getValue(), teacherStaffInfo.getRoomId());
+        courseInfoService.useCourse(teacherStaffInfo.getId(), courseId, UsedStatusEnum.USING.getValue(), teacherStaffInfo.getRoomId());
         return ResultBuilder.error(ResultCodeEnum.OK);
     }
 
     @ApiOperation("修改课程状态改为已经使用")
     @ResponseBody
     @PostMapping("/used/{courseId}")
-    public Result<Boolean> list(@PathVariable("courseId") Long courseId) {
+    public Result<Boolean> used(@PathVariable("courseId") Long courseId) {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
         CourseInfo courseInfo = courseInfoService.findById(courseId);
         if (courseInfo == null) {
@@ -118,7 +117,23 @@ public class CousewareController  extends BaseController {
         if (courseInfo.getRoomId().equals(teacherStaffInfo.getRoomId())) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
-        courseInfoService.useCourse(courseId, UsedStatusEnum.ALREADY_USED.getValue(),null);
+        courseInfoService.useCourse(teacherStaffInfo.getId(), courseId, UsedStatusEnum.ALREADY_USED.getValue(), null);
+        return ResultBuilder.error(ResultCodeEnum.OK);
+    }
+
+    @ApiOperation("修改课程状态改为未使用使用")
+    @ResponseBody
+    @PostMapping("/used/{courseId}")
+    public Result<Boolean> unused(@PathVariable("courseId") Long courseId) {
+        TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
+        CourseInfo courseInfo = courseInfoService.findById(courseId);
+        if (courseInfo == null) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
+        }
+        if (courseInfo.getRoomId().equals(teacherStaffInfo.getRoomId())) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
+        }
+        courseInfoService.useCourse(null, courseId, UsedStatusEnum.ALREADY_USED.getValue(), null);
         return ResultBuilder.error(ResultCodeEnum.OK);
     }
 }

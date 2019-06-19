@@ -1,17 +1,23 @@
 package com.jimmy.teacher.api.controller.common;
 
+import com.alibaba.fastjson.JSON;
 import com.jimmy.common.utils.EncryptUtil;
 import com.jimmy.common.utils.StringUtils;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.model.dto.CommandDTO;
+import com.jimmy.mvc.common.model.dto.RaiseHandDTO;
+import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.teacher.api.config.TeacherConfig;
+import com.jimmy.teacher.api.websocket.WebSocketUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
 
 /**
  * @ClassName: TeacherCommonController
@@ -42,6 +48,14 @@ public class TeacherCommonController {
         /**
          * 命令相关的处理
          */
+        /**
+         * 命令相关的处理
+         */
+        String content = JSON.toJSONString(commandDTO.getContent());
+        if (commandDTO.getCommandType() == CommandTypeEnum.RAISE_HAND) {
+            RaiseHandDTO raiseHandDTO = JSON.parseObject(content, RaiseHandDTO.class);
+            WebSocketUtils.push(raiseHandDTO, CommandTypeEnum.INTERACTIVE, Arrays.asList(raiseHandDTO.getTeacherId()));
+        }
         return ResultBuilder.ok(true);
     }
 }
