@@ -8,6 +8,10 @@ import java.util.Date;
 public class StudentInfo extends BaseEntity {
 
     /**
+     * IC¿¨
+     */
+    private String idCard;
+    /**
      * °à¼¶ID
      */
     private Long classmateId;

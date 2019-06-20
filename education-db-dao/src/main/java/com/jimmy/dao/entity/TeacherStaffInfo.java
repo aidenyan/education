@@ -7,7 +7,10 @@ import java.util.Date;
 @Data
 public class TeacherStaffInfo extends BaseEntity {
 
-
+    /**
+     * IC¿¨
+     */
+    private String idCard;
     private String name;
 
     private Integer sex;

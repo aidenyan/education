@@ -11,7 +11,11 @@ import java.util.Date;
 @Data
 @ApiModel("老师的基本信息")
 public class TeacherStaffInfoDTO extends BaseDTO {
-
+    /**
+     * IC卡
+     */
+    @ApiModelProperty("IC卡")
+    private String idCard;
     @ApiModelProperty("老师的姓名")
     private String name;
     @ApiModelProperty("性别：0:表示男，1:表示女")

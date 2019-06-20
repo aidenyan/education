@@ -3,6 +3,7 @@
 <mapper namespace="com.jimmy.dao.mapper.TeacherStaffInfoMapper" >
   <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.TeacherStaffInfo" >
     <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR"/>
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="TINYINT" />
     <result column="staff_type" property="staffType" jdbcType="TINYINT" />
@@ -36,7 +37,7 @@
   <sql id="Base_Column_List" >
     id, name, sex, staff_type, staff_name, email, is_enabled, is_locked, locked_date, 
     login_date, login_failure_count, login_ip, password, real_name, header_url, birth_time, 
-    mobile, telephone, web_token, app_token,app_room_id, pad_app_token,header_info, is_deleted, create_id, modify_id,
+    mobile, telephone, web_token, app_token,app_room_id, pad_app_token,header_info, id_card,is_deleted, create_id, modify_id,
     create_time, modify_time, site_id
   </sql>
   <select id="findById" resultMap="BaseResultMap"  >
@@ -80,7 +81,7 @@
 
 
   <insert id="insert" parameterType="com.jimmy.dao.entity.TeacherStaffInfo"  useGeneratedKeys="true" keyProperty="id">
-    insert into t_teacher_staff_info ( app_room_id,name, sex,
+    insert into t_teacher_staff_info (id_card, app_room_id,name, sex,
       staff_type, staff_name, email, 
       is_enabled, is_locked, locked_date, 
       login_date, login_failure_count, login_ip, 
@@ -90,7 +91,7 @@
       is_deleted, create_id, modify_id, 
       create_time, modify_time, site_id, 
       header_info)
-    values ( #{appRoomId},#{name,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT},
+    values ( #{idCard},#{appRoomId},#{name,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT},
       #{staffType,jdbcType=TINYINT}, #{staffName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{isEnabled,jdbcType=BIT}, #{isLocked,jdbcType=BIT}, #{lockedDate,jdbcType=TIMESTAMP}, 
       #{loginDate,jdbcType=TIMESTAMP}, #{loginFailureCount,jdbcType=INTEGER}, #{loginIp,jdbcType=VARCHAR}, 
@@ -105,6 +106,9 @@
   <update id="updateProperty" parameterType="com.jimmy.dao.entity.TeacherStaffInfo" >
     update t_teacher_staff_info
     <set >
+      <if test="idCard != null">
+        id_card = #{idCard},
+      </if>
       <if test="appRoomId != null" >
         app_room_id = #{appRoomId},
       </if>
@@ -182,6 +186,7 @@
   <update id="update" parameterType="com.jimmy.dao.entity.TeacherStaffInfo" >
     update t_teacher_staff_info
     set name = #{name,jdbcType=VARCHAR},
+          id_card = #{idCard},
       sex = #{sex,jdbcType=TINYINT},
       staff_type = #{staffType,jdbcType=TINYINT},
       staff_name = #{staffName,jdbcType=VARCHAR},

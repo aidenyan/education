@@ -11,7 +11,11 @@ import java.util.Date;
 @Data
 @ApiModel("学生基本信息")
 public class StudentInfoDTO extends BaseDTO {
-
+    /**
+     * IC卡
+     */
+    @ApiModelProperty("IC卡")
+    private String idCard;
     /**
      * 班级ID
      */
