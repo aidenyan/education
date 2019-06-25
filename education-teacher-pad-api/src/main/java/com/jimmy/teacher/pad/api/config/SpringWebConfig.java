@@ -13,7 +13,7 @@ public class SpringWebConfig {
     @Bean
     public ServletRegistrationBean servletRegistrationBean(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean servletServletRegistrationBean = new ServletRegistrationBean(dispatcherServlet);
-        servletServletRegistrationBean.addUrlMappings("/pad/**");
+        servletServletRegistrationBean.addUrlMappings("/pad/*");
         return servletServletRegistrationBean;
     }
 

@@ -27,6 +27,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("swagger-ui.html")
                 .addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/upload/**").addResourceLocations("file:" + filePathConfig.getFilePath().replace("\\", "/") + "/");
-
     }
+
 }

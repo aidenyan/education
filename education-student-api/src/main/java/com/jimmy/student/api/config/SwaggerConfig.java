@@ -42,7 +42,9 @@ public class SwaggerConfig extends WebConfig {
     public Docket api() {
 
         return new Docket(DocumentationType.SWAGGER_2).groupName("测试样例").select()
+                .apis(RequestHandlerSelectors.basePackage("com.jimmy.mvc.common.controller"))
                 .apis(RequestHandlerSelectors.basePackage("com.jimmy.student.api.controller"))
+                .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo()).pathMapping("/");
 
