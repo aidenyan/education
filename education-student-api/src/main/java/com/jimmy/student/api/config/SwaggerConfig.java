@@ -42,7 +42,7 @@ public class SwaggerConfig extends WebConfig {
     public Docket api() {
 
         return new Docket(DocumentationType.SWAGGER_2).groupName("测试样例").select()
-                .apis(RequestHandlerSelectors.basePackage("com.jimmy.teacher.api.controller")).paths(PathSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.jimmy.student.api.controller"))
                 .build()
                 .apiInfo(apiInfo()).pathMapping("/");
 
@@ -64,7 +64,7 @@ public class SwaggerConfig extends WebConfig {
         authorInterceptor.setStudentInfoService(studentInfoService);
         authorInterceptor.setTokenService(tokenService);
         authorInterceptor.setCourseStudentService(courseStudentService);
-        registry.addInterceptor(authorInterceptor).addPathPatterns("/student/**");
+        registry.addInterceptor(authorInterceptor).addPathPatterns("/admin/**");
     }
 
 }

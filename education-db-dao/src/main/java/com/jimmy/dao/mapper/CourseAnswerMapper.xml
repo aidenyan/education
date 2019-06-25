@@ -7,7 +7,7 @@
         <result column="machine_id" property="machineId" jdbcType="BIGINT"/>
         <result column="courseware_id" property="coursewareId" jdbcType="BIGINT"/>
         <result column="courseware_item_id" property="coursewareItemId" jdbcType="BIGINT"/>
-        <result column="fraction" property="fraction" jdbcType="INTEGER"/>
+        <result column="fraction" property="fraction" />
         <result column="create_id" property="createId" jdbcType="BIGINT"/>
         <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>

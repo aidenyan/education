@@ -12,15 +12,20 @@ import com.jimmy.service.CourseInfoService;
 import com.jimmy.service.CoursewareService;
 import com.jimmy.student.api.controller.BaseController;
 import com.jimmy.student.api.local.thread.CourseStudentLocalThread;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Api(tags = "课件信息", description = "课件信息API")
+@Controller
+@RequestMapping("/admin/courseware")
 public class CoursewareController extends BaseController {
     @Autowired
     private CourseInfoService courseInfoService;

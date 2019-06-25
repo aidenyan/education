@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 import java.util.UUID;
 
-@Api(tags = "ç™»å½•/é€€å‡º", description = "ç™»å½•ä»¥åŠé€€å‡ºAPI")
+@Api(tags = "µÇÂ¼ÒÔ¼°µÇÂ¼Ö®Ç°µÄ½Ó¿Ú", description = "µÇÂ¼ÒÔ¼°µÇÂ¼Ö®Ç°µÄ½Ó¿ÚAPI")
 @Controller
 @RequestMapping("/login")
 public class LoginController extends BaseController {
@@ -52,7 +52,7 @@ public class LoginController extends BaseController {
 
     @ResponseBody
     @PostMapping("/room/list")
-    @ApiOperation("è·å–æ‰€æœ‰çš„æ•™å®¤")
+    @ApiOperation("»ñÈ¡ËùÓĞµÄ½ÌÊÒ")
     public Result<List<ClassRoomDTO>> listRoom() {
         List<ClassRoomInfo> classRoomInfoList = classRoomService.list(null);
         return ResultBuilder.ok(ClassRoomDTOTransfer.INSTANCE.toClassRoomDTOList(classRoomInfoList));
@@ -60,7 +60,7 @@ public class LoginController extends BaseController {
 
     @ResponseBody
     @PostMapping("/machine/list")
-    @ApiOperation("è·å–æ‰€æœ‰çš„æ•™å®¤")
+    @ApiOperation("»ñÈ¡ËùÓĞµÄ½ÌÊÒ")
     public Result<List<MachineInfoDTO>> listMachine(Long roomId) {
         List<MachineInfo> machineInfoList = classRoomService.listById(roomId);
         return ResultBuilder.ok(MachineInfoTOTransfer.INSTANCE.toMachineInfoDTOList(machineInfoList));
@@ -68,7 +68,7 @@ public class LoginController extends BaseController {
 
     @ResponseBody
     @PostMapping("/out")
-    @ApiOperation("ç®¡ç†åå°é€€å‡ºæ¥å£")
+    @ApiOperation("¹ÜÀíºóÌ¨ÍË³ö½Ó¿Ú")
     public Result<Void> out() {
         studentInfoService.updateToken("", LoginLocalThread.get());
         return ResultBuilder.ok(null);
@@ -76,10 +76,10 @@ public class LoginController extends BaseController {
 
     @ResponseBody
     @PostMapping("/in")
-    @ApiOperation("ç®¡ç†åå°ç™»å½•æ¥å£")
-    @ApiImplicitParams({@ApiImplicitParam(value = "ç”¨æˆ·åç§°", name = "userName", paramType = "query", required = true),
-            @ApiImplicitParam(value = "æœºåºŠID", name = "machinaId", paramType = "query", required = true),
-            @ApiImplicitParam(value = "å¯†ç ", name = "password", paramType = "query", required = true)})
+    @ApiOperation("¹ÜÀíºóÌ¨µÇÂ¼½Ó¿Ú")
+    @ApiImplicitParams({@ApiImplicitParam(value = "ÓÃ»§Ãû³Æ", name = "userName", paramType = "query", required = true),
+            @ApiImplicitParam(value = "»ú´²ID", name = "machinaId", paramType = "query", required = true),
+            @ApiImplicitParam(value = "ÃÜÂë", name = "password", paramType = "query", required = true)})
     public Result<String> in(String userName, String password, Long machinaId) {
         StudentInfo studentInfo = studentInfoService.findByName(userName);
         if (studentInfo == null) {

@@ -17,7 +17,7 @@ public class SiteInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        StringBuffer url = request.getRequestURL();
+      StringBuffer url = request.getRequestURL();
         String domain = url.delete(url.length() - request.getRequestURI().length(), url.length()).append("/").toString();
         SiteInfo siteInfo = siteInfoService.findByDomain(domain);
         if (siteInfo == null) {
