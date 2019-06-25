@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
@@ -37,10 +38,9 @@ public class SwaggerConfig extends WebConfig {
      */
     @Bean
     public Docket api() {
-        System.out.println("----XIN----2018/7/11 下午12:58 Line:22,当前类=SwaggerConfig.api()");
         return new Docket(DocumentationType.SWAGGER_2).groupName("老师pad部分").select()
                 .apis(RequestHandlerSelectors.basePackage("com.jimmy.teacher.pad.api.controller,com.jimmy.mvc.common.controller"))//controller所在的位置
-                .build()
+                .paths(PathSelectors.any()).build()
                 .apiInfo(apiInfo()).pathMapping("/");
 
     }

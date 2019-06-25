@@ -11,6 +11,7 @@
         <option value="$PROJECT_DIR$/educaion-service/pom.xml" />
         <option value="$PROJECT_DIR$/education-dao-1/pom.xml" />
         <option value="$PROJECT_DIR$/education-dao/pom.xml" />
+        <option value="$PROJECT_DIR$/education-test-api/pom.xml" />
       </set>
     </option>
   </component>

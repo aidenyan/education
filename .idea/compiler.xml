@@ -32,6 +32,7 @@
       <module name="education-teacher-api" target="1.8" />
       <module name="education-teacher-mobile-api" target="1.8" />
       <module name="education-teacher-pad-api" target="1.8" />
+      <module name="education-test-api" target="1.8" />
       <module name="education-web-api" target="1.8" />
     </bytecodeTargetLevel>
   </component>

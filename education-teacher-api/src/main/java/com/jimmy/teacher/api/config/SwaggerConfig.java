@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
@@ -42,10 +43,7 @@ public class SwaggerConfig extends WebConfig {
                  * paths():指定针对哪些请求生成接口文档
                  * 参考官方资料：http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api ****/
                 //.apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.jimmy.teacher.api.controller"))//controller所在的位置
-//                .paths(Predicates.or(PathSelectors.ant("/demo2"),
-//                        PathSelectors.ant("/demo1")
-//                ))//对路径进行过滤,是对方法上的requestMapper地址进行过滤
+                .apis(RequestHandlerSelectors.basePackage("com.jimmy.teacher.api.controller")).paths(PathSelectors.any())//controller所在的位置
                 .build()
                 .apiInfo(apiInfo()).pathMapping("/");
 
