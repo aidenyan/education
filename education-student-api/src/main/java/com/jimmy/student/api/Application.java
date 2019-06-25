@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableTransactionManagement
 @MapperScan("com.jimmy.dao")
-@ComponentScan(basePackages = {"com.jimmy.core","com.jimmy.service","com.jimmy.mvc","com.jimmy.student.api"})
+@ComponentScan(basePackages = {"com.jimmy.student.api","com.jimmy.core","com.jimmy.service","com.jimmy.mvc"})
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

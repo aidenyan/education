@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" defaultCharsetForPropertiesFiles="GBK">
+    <file url="file://$PROJECT_DIR$/assembly/release-education-student-api.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assembly/release-education-teacher-api.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assembly/release-education-teacher-pad-api.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/assembly/release-education-web-api.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/deploy.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/startup.bat" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/startup.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/stop.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/student/deploy.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/student/startup.bat" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/student/startup.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/student/stop.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/teacher-pad/deploy.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/teacher-pad/startup.bat" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/teacher-pad/startup.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/teacher-pad/stop.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/teacher/deploy.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/teacher/startup.bat" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/teacher/startup.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/teacher/stop.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/web/deploy.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/web/startup.bat" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/web/startup.sh" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/bin/web/stop.sh" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-common/src/main/java/com/jimmy/common/utils/EncryptUtil.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-common/src/main/java/com/jimmy/common/utils/FileUtils.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-common/src/main/java/com/jimmy/common/utils/HttpUtils.java" charset="UTF-8" />
@@ -31,6 +55,8 @@
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/TeacherStaffInfoDTOTransfer.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-teacher-api/src/main/java/com/jimmy/teacher/api/controller/admin/ClassMateController.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-web-api/src/main/java/com/jimmy/web/api/controller/login/LoginController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/install.bat" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/install.sh" charset="UTF-8" />
     <file url="PROJECT" charset="GBK" />
   </component>
 </project>
