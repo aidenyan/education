@@ -43,7 +43,7 @@ public class SwaggerConfig extends WebConfig {
                  * paths():指定针对哪些请求生成接口文档
                  * 参考官方资料：http://www.baeldung.com/swagger-2-documentation-for-spring-rest-api ****/
                 //.apis(RequestHandlerSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.jimmy.teacher.api.controller,com.jimmy.mvc.common.controller")).paths(PathSelectors.any())//controller所在的位置
+                .apis(RequestHandlerSelectors.basePackage("com.jimmy")).paths(PathSelectors.any())//controller所在的位置
                 .build()
                 .apiInfo(apiInfo()).pathMapping("/");
 

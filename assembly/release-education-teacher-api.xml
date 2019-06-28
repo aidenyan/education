@@ -8,12 +8,12 @@
     </formats>
     <files>
         <file>
-            <source>bin/student/startup.sh</source>
+            <source>bin/teacher/startup.sh</source>
             <outputDirectory>bin/</outputDirectory>
             <destName>startup.sh</destName>
         </file>
         <file>
-            <source>bin/student/startup.bat</source>
+            <source>bin/teacher/startup.bat</source>
             <outputDirectory>bin/</outputDirectory>
             <destName>startup.bat</destName>
         </file>

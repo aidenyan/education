@@ -39,7 +39,7 @@ public class SwaggerConfig extends WebConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2).groupName("老师pad部分").select()
-                .apis(RequestHandlerSelectors.basePackage("com.jimmy.teacher.pad.api.controller,com.jimmy.mvc.common.controller"))//controller所在的位置
+                .apis(RequestHandlerSelectors.basePackage("com.jimmy"))//controller所在的位置
                 .paths(PathSelectors.any()).build()
                 .apiInfo(apiInfo()).pathMapping("/");
 
