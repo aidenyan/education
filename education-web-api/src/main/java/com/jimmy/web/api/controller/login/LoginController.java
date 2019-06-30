@@ -5,6 +5,7 @@ import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
+import com.jimmy.mvc.common.model.enums.StaffTypeEnum;
 import com.jimmy.mvc.common.utils.PasswordUtils;
 import com.jimmy.service.MenuInfoService;
 import com.jimmy.service.TeacherStaffInfoService;
@@ -48,10 +49,10 @@ public class LoginController extends BaseController {
     @ResponseBody
     @GetMapping("/in")
     @ApiOperation("管理后台登录接口")
-    @ApiImplicitParams({@ApiImplicitParam(value = "用户名称", name = "userName", paramType = "query", required = true),
+    @ApiImplicitParams({@ApiImplicitParam(value = "用户名称", name = "name", paramType = "query", required = true),
             @ApiImplicitParam(value = "密码", name = "password", paramType = "query", required = true)})
-    public Result<Void> in(String userName, String password) {
-        TeacherStaffInfo teacherStaffInfo = teacherStaffInfoService.findByName(userName);
+    public Result<Void> in(String name, String password) {
+        TeacherStaffInfo teacherStaffInfo = teacherStaffInfoService.findByName(name);
         if (teacherStaffInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.ACCOUNT_NOT_EXIST);
         }
@@ -59,7 +60,13 @@ public class LoginController extends BaseController {
             return ResultBuilder.error(ResultCodeEnum.PASSWORD_ERROR);
         }
         sessionService.save(teacherStaffInfo);
-        List<MenuInfo> menuInfoList = menuInfoService.list(teacherStaffInfo.getId());
+        List<MenuInfo> menuInfoList;
+        if (StaffTypeEnum.SCHOOL_MASTER.getValue() == teacherStaffInfo.getStaffType()) {
+            menuInfoList = menuInfoService.list();
+        } else {
+            menuInfoList = menuInfoService.list(teacherStaffInfo.getId());
+        }
+
         sessionService.save(menuInfoList);
         return ResultBuilder.ok(null);
     }

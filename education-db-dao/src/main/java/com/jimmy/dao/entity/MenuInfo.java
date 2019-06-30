@@ -10,7 +10,7 @@ public class MenuInfo extends BaseEntity {
 
     private String code;
 
-    private Byte menuType;
+    private Integer menuType;
 
     private Short parentMenuId;
 
@@ -18,11 +18,11 @@ public class MenuInfo extends BaseEntity {
 
     private String menuUrl;
 
-    private Byte menuLevel;
+    private Integer menuLevel;
 
     private Short orderNum;
 
-    private Byte deleted;
+    private Boolean deleted;
 
 
 }
