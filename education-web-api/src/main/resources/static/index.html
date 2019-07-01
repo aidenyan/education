@@ -191,7 +191,7 @@
 <script type="text/javascript" src="common/js/parent.js"></script>
 
 <script type="text/javascript">
-
+    var staticPath= "/static/";
     $(function () {
         var form, layer, laydate, laypage, laytpl;
         layui.use(['form', 'layer', 'laytpl', 'laypage'], function () {
@@ -338,7 +338,7 @@
                 if (menuInfo.menuType == 0) {
                     var menuUrl = "";
                     if (Utils.isNotNull(menuInfo.menuUrl)) {
-                        menuUrl = menuInfo.menuUrl;
+                        menuUrl = staticPath+menuInfo.menuUrl;
                     }
                     map.push(menuInfo.id, {
                         menuType: menuInfo.menuType,
@@ -362,7 +362,7 @@
                         "name": menuInfo.name,
                         code: menuInfo.code,
                         "parentId": menuInfo.parentMenuId,
-                        "url": menuInfo.menuUrl,
+                        "url": staticPath+menuInfo.menuUrl,
                         icon: "",
                         isHeader: "0",
                         childMenus: new Array()

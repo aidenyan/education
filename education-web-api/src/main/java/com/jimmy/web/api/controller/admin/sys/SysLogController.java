@@ -1,10 +1,10 @@
 package com.jimmy.web.api.controller.admin.sys;
 
-import com.github.pagehelper.Page;
+
+import com.jimmy.core.base.Page;
 import com.jimmy.dao.entity.SysLogInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
-import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.enums.LogTypeEnum;
 import com.jimmy.mvc.common.model.enums.OperationSysEnum;
 import com.jimmy.service.SysLogInfoService;
@@ -52,9 +52,10 @@ public class SysLogController extends BaseController {
     public Result<Page<SysLogInfo>> logTypeList(Date startDate, Date endDate, Integer operationSys, Integer logType, Integer pageNo, Integer pageSize) {
         this.setPage(pageNo, pageSize);
         List<SysLogInfo> list = sysLogInfoService.list(startDate, endDate, operationSys, logType);
-        Result<Page<SysLogInfo>> result = getPageResult(list, ResultCodeEnum.OK);
-        return result;
+        Page<SysLogInfo> resultList = getPageResult(list);
+        return ResultBuilder.ok(resultList);
     }
+
     @ResponseBody
     @GetMapping("/info")
     @ApiOperation("œÍœ∏–≈œ¢")
