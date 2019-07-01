@@ -1,6 +1,7 @@
 package com.jimmy.service.impl;
 
 import com.jimmy.core.anno.DisabledLog;
+import com.jimmy.core.base.Page;
 import com.jimmy.dao.entity.SysLogInfo;
 import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.mapper.SysLogInfoMapper;
@@ -10,12 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-public class SysLogInfoServiceImpl implements SysLogInfoService {
+public class  SysLogInfoServiceImpl implements SysLogInfoService {
 
     @Autowired
     private SysLogInfoMapper sysLogInfoMapper;
@@ -37,4 +39,6 @@ public class SysLogInfoServiceImpl implements SysLogInfoService {
     public List<SysLogInfo> list(Date startDate, Date endDate, Integer operationSys, Integer logType) {
         return sysLogInfoMapper.list(startDate, endDate, operationSys, logType, SiteLocalThread.getSiteIdList());
     }
+
+
 }

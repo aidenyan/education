@@ -1,7 +1,8 @@
 package com.jimmy.service;
 
+import com.jimmy.core.base.Page;
 import com.jimmy.dao.entity.SysLogInfo;
-import org.apache.ibatis.annotations.Param;
+
 
 import java.util.Date;
 import java.util.List;
@@ -26,5 +27,6 @@ public interface SysLogInfoService {
      * @return List<日志信息>
      */
     List<SysLogInfo> list( Date startDate, Date endDate,  Integer operationSys,Integer logType);
+
 
 }
