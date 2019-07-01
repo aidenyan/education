@@ -55,5 +55,12 @@ public class SysLogController extends BaseController {
         Result<Page<SysLogInfo>> result = getPageResult(list, ResultCodeEnum.OK);
         return result;
     }
+    @ResponseBody
+    @GetMapping("/info")
+    @ApiOperation("œÍœ∏–≈œ¢")
+    public Result<SysLogInfo> info(Long id) {
 
+        SysLogInfo sysLogInfo = sysLogInfoService.findById(id);
+        return ResultBuilder.ok(sysLogInfo);
+    }
 }

@@ -79,7 +79,7 @@
     {{#  layui.each(d.result, function(index, item){ }}
     <tr>
         <td>{{item.id}}</td>
-        <td>{{item.operationContent}}</td>
+        <td>{{item.operationSys}}</td>
         <td>{{item.operationName}}</td>
         <td>{{item.operationContent}}</td>
         <td>{{item.operationIp}}</td>
@@ -169,11 +169,11 @@
 
         //监听提交
         form.on('submit(search)', function (data) {
-            myAjax.ajaxPage('/api/admin/sys/log/page.json', 'pageNum', 'pageContent', 'pageTpl', data.field);
+            myAjax.ajaxPage('/api/admin/sys/log/page', 'pageNum', 'pageContent', 'pageTpl', data.field);
             return false;
         });
 
-        myAjax.ajaxPage('/api/admin/sys/log/page.json', 'pageNum', 'pageContent', 'pageTpl');
+        myAjax.ajaxPage('/api/admin/sys/log/page', 'pageNum', 'pageContent', 'pageTpl');
 
         //获取操作
         myAjax.ajaxTpl("/api/admin/sys/log/operation_sys", 'slcOperation', 'slcOptionOrg', true);
