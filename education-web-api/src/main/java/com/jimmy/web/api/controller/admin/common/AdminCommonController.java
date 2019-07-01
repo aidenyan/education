@@ -15,10 +15,13 @@ import com.jimmy.web.api.local.thread.MenuInfoLocalThread;
 import com.jimmy.web.api.local.thread.TeacherLocalThread;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Api(tags = "需要登录的公共处理", description = "需要登录的公共处理API")
@@ -33,7 +36,7 @@ public class AdminCommonController extends BaseController {
     @ResponseBody
     @GetMapping("/account/check_password")
     @ApiOperation("检查当前登录的密码")
-    public Result<Boolean> checkPassword(String password) {
+    public Result<Boolean> checkPassword(@Validated @NotEmpty(message = "密码不能为空") String password) {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
         teacherStaffInfo = teacherStaffInfoService.findById(teacherStaffInfo.getId());
         return ResultBuilder.ok(PasswordUtils.isEquals(password, teacherStaffInfo.getPassword()));
@@ -59,7 +62,7 @@ public class AdminCommonController extends BaseController {
     @ResponseBody
     @PostMapping("/account/update")
     @ApiOperation("更新密码")
-    public Result<Boolean> update(@RequestBody PasswordUpdateDTO passwordUpdate) {
+    public Result<Boolean> update(@Validated @RequestBody PasswordUpdateDTO passwordUpdate) {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
         teacherStaffInfo = teacherStaffInfoService.findById(teacherStaffInfo.getId());
         if (!PasswordUtils.isEquals(passwordUpdate.getOldPassword(), teacherStaffInfo.getPassword())) {
