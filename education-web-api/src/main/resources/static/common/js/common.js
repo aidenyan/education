@@ -8,7 +8,7 @@ function writeJs() {
     document.write('<script type="text/javascript" src="../../common/js/parent.js"></script>');
     document.write('<script type="text/javascript" src="../../common/js/child.js"></script>');
     document.write('<script type="text/javascript" src="../../common/js/params.js"></script>');
-    document.write('<script type="text/javascript" src=".././common./js/list.js"></script>');
+    document.write('<script type="text/javascript" src="../../common/js/list.js"></script>');
 }
 writeJs();
 

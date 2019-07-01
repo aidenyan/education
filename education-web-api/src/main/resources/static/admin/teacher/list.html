@@ -15,6 +15,9 @@
                 <div class="content-search layui-form">
                     <div class="layui-form-item hasNext">
                         <div class="layui-inline po-r">
+                            <a href="javascript:void(-1);" id="add_teacher"
+                               class="layui-btn layui-btn-small product_save"> <i class="layui-icon"
+                                                                                  style="vertical-align: middle"></i>新增教师</a>
                             <span>姓名</span>
                             <input type="text" name="inputStr" id="searchParam" autocomplete="off"
                                    class="layui-input small mizo-srarch-input">
@@ -85,13 +88,20 @@
             <div class="datagrid-cell datagrid-cell-c1-w100">{{item.realName}}</div>
         </td>
         <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.staffType.message}}</div>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.staffType=='SCHOOL_MASTER'){ }}校长 {{# }else{
+                }}老师{{# } }}
+            </div>
         </td>
         <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.sex.message}}</div>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.sex=='WOMAN'){ }}女 {{# }else{ }}男{{# } }}</div>
         </td>
         <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{#if(item.isEnabled == null ||!item.isEnabled){}}否{{# } else{}}是{{}}</div>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.email}}</div>
+        </td>
+        <td>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.isEnabled==null||!item.isEnabled){ }}否 {{#
+                }else{ }}是{{# } }}
+            </div>
         </td>
         <td>
             <div class="datagrid-cell datagrid-cell-c1-time">{{laydate.now(item.createTime)}}</div>
@@ -99,6 +109,7 @@
         <td class="state_uhandle">
             <div class="datagrid-cell datagrid-cell-c1-w70">
                 <button class=" view" value="{{item.id}}" title="查看"><i class="icon-uniE602"></i></button>
+                <button class=" edit" value="{{item.id}}" title="编辑"><i class="icon-bianji"></i></button>
             </div>
         </td>
     </tr>
@@ -131,7 +142,7 @@
 
         function pageOrder(data) {
 
-            myAjax.ajaxPage('/admin/teacher/page', 'pageNum', 'page_tbody', 'pageTpl', data);
+            myAjax.ajaxPage('/api/admin/teacher/page', 'pageNum', 'page_tbody', 'pageTpl', data);
         }
 
         form.on('submit(search)', function () {
@@ -152,14 +163,20 @@
         pageOrder();
 
         $("#page_tbody").on("click", ".view", function () {
-            callParent.openTab("member_view", 0, "查看会员", "admin/userCenter/member_view.html?id=" + $(this).val(), true);
+            callParent.openTab("teacher_view", 0, "查看教师", "/static/admin/teacher/view.html?id=" + $(this).val(), true);
+        })
+        $("#page_tbody").on("click", ".edit", function () {
+            callParent.openTab("teacher_edit", 0, "编辑教师", "/static/admin/teacher/edit.html?id=" + $(this).val(), true);
         })
 
         callParent.isLoadEnd("member_page");
         callParent.register(function () {
             refresh();
         }, "refresh");
+        $("#add_teacher").on("click", function () {
+            callParent.openTab("teacher_add", 0, "编辑教师", "/static/admin/teacher/edit.html", true);
 
+        })
     });
 </script>
 </body>
