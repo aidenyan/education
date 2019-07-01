@@ -14,6 +14,13 @@ public interface TeacherStaffInfoService {
     TeacherStaffInfo findById(Long id);
 
     /**
+     * 更新需要更新的信息
+     *
+     * @param teacherStaffInfo
+     */
+    void updateProperty(TeacherStaffInfo teacherStaffInfo);
+
+    /**
      * 根据登录账号查找老师信息
      *
      * @param name 老师登录账号
@@ -35,7 +42,7 @@ public interface TeacherStaffInfoService {
      * @param teacherStaffInfo 老师信息
      * @return 保存的数量
      */
-    void save(TeacherStaffInfo teacherStaffInfo,List<Long> roleIdList);
+    void save(TeacherStaffInfo teacherStaffInfo, List<Long> roleIdList);
 
     /**
      * 根据ID更新token的值
@@ -43,7 +50,7 @@ public interface TeacherStaffInfoService {
      * @param id    ID
      * @param token token
      */
-    void updateAppToken(Long id, String token,Long roomId);
+    void updateAppToken(Long id, String token, Long roomId);
 
     /**
      * 根据ID更新token的值
@@ -61,6 +68,7 @@ public interface TeacherStaffInfoService {
 
     /**
      * 删除教师
+     *
      * @param id ID
      */
     void deleted(Long id);

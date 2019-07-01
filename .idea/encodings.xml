@@ -5,10 +5,6 @@
     <file url="file://$PROJECT_DIR$/assembly/release-education-teacher-api.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/assembly/release-education-teacher-pad-api.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/assembly/release-education-web-api.xml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/bin/deploy.sh" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/bin/startup.bat" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/bin/startup.sh" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/bin/stop.sh" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/bin/student/deploy.sh" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/bin/student/startup.bat" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/bin/student/startup.sh" charset="UTF-8" />
@@ -41,6 +37,7 @@
     <file url="file://$PROJECT_DIR$/education-db-dao/src/main/java/com/jimmy/dao/mapper/CourseInfoMapper.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-db-dao/src/main/java/com/jimmy/dao/mapper/StudentStarInfoMapper.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-db-dao/src/main/java/com/jimmy/dao/mapper/SysInfoMapper.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/enums/ResultCodeEnum.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/enums/BaseEnum.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/ClassRoomDTOTransfer.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/ClassRoomVoDTOTransfer.java" charset="GBK" />
@@ -56,6 +53,11 @@
     <file url="file://$PROJECT_DIR$/education-student-api/src/main/java/com/jimmy/student/api/controller/login/LoginController.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-teacher-api/src/main/java/com/jimmy/teacher/api/controller/admin/ClassMateController.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-web-api/src/main/java/com/jimmy/web/api/controller/login/LoginController.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/common/home.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/sys/log_list.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/index.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/layui" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/login.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/install.bat" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/install.sh" charset="UTF-8" />
     <file url="PROJECT" charset="GBK" />

@@ -10,7 +10,7 @@ spring:
   mvc:
     view:
       suffix: .html
-      prefix: /
+      prefix: /login.html
 upload:
    config:
       filePath: C:\work\upload

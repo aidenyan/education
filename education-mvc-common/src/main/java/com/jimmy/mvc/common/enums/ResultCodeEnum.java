@@ -7,15 +7,17 @@ import com.jimmy.core.enums.ResultEnum;
  * @date 2017/2/21
  */
 public enum ResultCodeEnum implements ResultEnum {
-    OK("200", "成功", "成功"),
-    ACCOUNT_NOT_EXIST("-10001","账号不存在","账号不存在"),
-    PASSWORD_ERROR("-10002","密码错误","密码错误"),
-    ROOM_NOT_EXIST("-10003","教室不成在","教室不成在"),
-    COURSE_NOT_EXIST("-10004","该教室没有课程","该教室没有课程"),
-    STUDNE_ANSWER_NOT_EXIST("-10005","学生还没有回答","该教室没有课程"),
-    MACHINE_STUDENT_NOT_EXIST("-10006","该机床上没有学生","该机床上没有学生"),
-    APPRIASE_ALREADY_EXIST("-10007","该机床已经评价过了","该机床已经评价过了"),
-    COURSE_NOT_START("-10008","还没有开始上课","还没有开始上课"),
+    OK("0", "�ɹ�", "�ɹ�"),
+    ACCOUNT_NOT_EXIST("-10001","�˺Ų�����","�˺Ų�����"),
+    PASSWORD_ERROR("-10002","�������","�������"),
+    ROOM_NOT_EXIST("-10003","���Ҳ�����","���Ҳ�����"),
+    COURSE_NOT_EXIST("-10004","�ý���û�пγ�","�ý���û�пγ�"),
+    STUDNE_ANSWER_NOT_EXIST("-10005","ѧ����û�лش�","�ý���û�пγ�"),
+    MACHINE_STUDENT_NOT_EXIST("-10006","�û�����û��ѧ��","�û�����û��ѧ��"),
+    APPRIASE_ALREADY_EXIST("-10007","�û����Ѿ����۹���","�û����Ѿ����۹���"),
+    COURSE_NOT_START("-10008","��û�п�ʼ�Ͽ�","��û�п�ʼ�Ͽ�"),
+    OLD_PASSWORD_ERROR("-10009","ԭ�������","ԭ�������"),
+
     ;
     private String code;
     private String message;

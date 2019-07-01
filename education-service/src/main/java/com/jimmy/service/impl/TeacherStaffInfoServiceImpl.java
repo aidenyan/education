@@ -33,6 +33,16 @@ public class TeacherStaffInfoServiceImpl implements TeacherStaffInfoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateProperty(TeacherStaffInfo teacherStaffInfo) {
+        Assert.notNull(teacherStaffInfo, "teacherStaffInfo is null");
+        Assert.notNull(teacherStaffInfo.getId(), "teacherStaffInfo id is null");
+        teacherStaffInfo.setSiteId(SiteLocalThread.getSiteId());
+        teacherStaffInfo.setModifyId(LoginLocalThread.get());
+        teacherStaffInfoMapper.updateProperty(teacherStaffInfo);
+    }
+
+    @Override
     public TeacherStaffInfo findByName(String name) {
         Assert.isTrue(StringUtils.isNotBlank(name), "name is null");
         return teacherStaffInfoMapper.findByName(name, SiteLocalThread.getSiteIdList());

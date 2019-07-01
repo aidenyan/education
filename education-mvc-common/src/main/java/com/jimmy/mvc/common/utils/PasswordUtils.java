@@ -15,4 +15,10 @@ public class PasswordUtils {
         return password.equals(encryPassword);
 
     }
+    public static String encryPassword(String password) {
+
+        password = EncryptUtils.encryptMd5(password, PASSWORD_ENCRY_KEY);
+        return password;
+
+    }
 }
