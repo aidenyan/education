@@ -20,12 +20,25 @@
                 <span>教师信息</span>
             </div>
             <form id="form">
-                <input type="hidden" id="id" name="id">
+
+            </form>
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn-small save" lay-submit="" lay-filter="save">
+                    确定
+                </button>
+                <button id="cancel" class="layui-btn layui-btn-small">返回</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../../common/js/common.js"></script>
+    <script type="x-jsrender" id="source_content">
+           <input type="hidden" id="id" name="id" value="{{:id}}">
                 <div class="layui-form-item form-item-margButtom5">
                     <div class="layui-inline">
                         <label class="layui-form-label padd_top"><span style="color:red">*</span>登录账号:</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="name" lay-verify="required"  maxlength="40" name="name" autocomplete="off" class="layui-input" >
+                            <input type="text" id="name" lay-verify="required" value="{{:name}}" maxlength="40" name="name" autocomplete="off" class="layui-input" >
                         </div>
                     </div>
                 </div>
@@ -33,28 +46,30 @@
                     <div class="layui-inline">
                         <label class="layui-form-label padd_top"><span style="color:red">*</span>身份证:</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="idCard" lay-verify="required"  maxlength="40" name="idCard" autocomplete="off" class="layui-input" >
+                            <input type="text" id="idCard" lay-verify="required"  value="{{:idCard}}"   maxlength="40" name="idCard" autocomplete="off" class="layui-input" >
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item form-item-margButtom5">
                     <div class="layui-inline">
                         <label class="layui-form-label padd_top"><span style="color:red">*</span>性别:</label>
-                        <div class="layui-input-inline">
-                            <select id="sex" name="sex" lay-verify="required">
-                                <option value="0">男</option>
-                                <option value="1">女</option>
+                      <div class="layui-input-inline">
+                            <select id="sex" name="sex" lay-verify="required" value="{{:sex}}" style="display:block">
+                                <option value="MAN" {{if sex=='MAN'}}selected {{/if}}>男</option>
+                                <option value="WOMAN" {{if sex=='WOMAN'}}selected {{/if}}>女</option>
                             </select>
                         </div>
+
                     </div>
                 </div>
+
                 <div class="layui-form-item form-item-margButtom5">
                     <div class="layui-inline">
                         <label class="layui-form-label padd_top"><span style="color:red">*</span>职位:</label>
                         <div class="layui-input-inline">
-                            <select id="staffType" name="staffType" lay-verify="required">
-                                <option value="0">校长</option>
-                                <option value="1">老师</option>
+                            <select id="staffType" name="staffType" lay-verify="required" value="{{:staffType}}"  style="display:block">
+                                <option value="TEACHER"{{if staffType=='TEACHER'}}selected {{/if}}>老师</option>
+                                <option value="SCHOOL_MASTER" {{if staffType=='SCHOOL_MASTER'}}selected {{/if}}>校长</option>
                             </select>
                         </div>
                     </div>
@@ -63,67 +78,40 @@
                     <div class="layui-inline">
                         <label class="layui-form-label padd_top">邮件</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="email" autocomplete="off" name="email" class="layui-input"  maxlength="100">
+                            <input type="text" id="email" autocomplete="off" name="email" value="{{:email}}"  class="layui-input"  maxlength="100">
                         </div>
                     </div>
                 </div>
                 <div class="layui-form-item form-item-margButtom5">
                     <div class="layui-inline">
-                        <label class="layui-form-label padd_top">联系方式</label>
+                        <label class="layui-form-label padd_top">手机号码</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="phone" autocomplete="off" class="layui-input" disabled="disabled">
+                            <input type="text" id="mobile"  name="mobile" lay-verify="required" value="{{:mobile}}"autocomplete="off" class="layui-input" disabled="disabled">
                         </div>
                     </div>
                 </div>
-            </form>
-            <div class="layui-inline">
-                <button class="layui-btn layui-btn-small save" lay-submit="" lay-filter="save" style="display:none;">
-                    确定
-                </button>
-                <button id="cancel" class="layui-btn layui-btn-small">返回</button>
-            </div>
-        </div>
-    </div>
-    <script type="text/javascript" src="../admin.js"></script>
-    <script type="text/html" id="slcOption">
-        {{#  layui.each(d, function(index, item){ }}
-        <option value="{{item.id}}">{{item.name}}</option>
-        {{#  }); }}
+                <div class="layui-form-item form-item-margButtom5">
+                    <div class="layui-inline">
+                        <label class="layui-form-label padd_top">电话号码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="telephone" name="telephone" value="{{:telephone}}" autocomplete="off" class="layui-input" disabled="disabled">
+                        </div>
+                    </div>
+                </div>
     </script>
     <script>
         $(window).ready(function () {
-            layui.use(['form', 'layedit', 'laytpl', 'laydate'], function () {
+            layui.use(['form', 'layedit', 'laytpl', 'laydate','myAjax'], function () {
                 var form = layui.form();
-                var layer = layui.layer;
-                var laytpl = layui.laytpl;
-                var layedit = layui.layedit;
-                var id = Utils.getHrefValue("id");
-                ajaxsend("", "/admin/common/rank_level/list.json", function (dataJson) {
-                    if (dataJson.code == "0") {
-                        laytpl($("#slcOption").html()).render(dataJson.result, function (html) {
-                            $("#levelId").append(html);
-                            form.render()
-                            if (id) {
-                                ajaxsend({"id": id}, "/admin/member/info.json", function (dataJson) {
-                                    if (dataJson.code == "0") {
-                                        $("#id").val(dataJson.result.id);
-                                        $("#username").val(dataJson.result.username);
-                                        $("#amount").val(dataJson.result.amount);
-                                        $("#phone").val(dataJson.result.phone);
-                                        $("#levelId").val(dataJson.result.levelId);
-                                        form.render();
-                                        $(".save").show();
-                                    }
-                                })
-                            }
-                        });
-                    }
-                })
+                var layer = layui.layer , myAjax = layui.myAjax;
+                myAjax.ajaxTep("/api/admin/teacher/info?id="+getParam("id"),"form","source_content",false,function (dataJson) {
+                    return dataJson;
+                });
                 form.on('submit(save)', function (data) {
                     saveInfo();
                 });
                 saveInfo = function () {
-                    ajaxsend($("form").serialize(), "/admin/member/update.json", function (dataJson) {
+                    ajaxsend($("form").serialize(), "/api/admin/teacher/save", function (dataJson) {
                         if (dataJson.result == true) {
                             callParent.parentUse("member_page", "refresh");
                             $("#cancel").click();

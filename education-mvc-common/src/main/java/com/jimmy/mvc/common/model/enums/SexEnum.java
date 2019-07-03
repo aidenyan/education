@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
  * @date: 2019/6/11/011.
  */
 public enum SexEnum implements BaseEnum {
-    MAN(0, "ÄÐ"),
-    WOMAN(1, "Å®");
+        MAN(1, "ÄÐ"),
+    WOMAN(0, "Å®");
     private static Map<Integer, SexEnum> ELEMENTS_MAP;
 
     static {

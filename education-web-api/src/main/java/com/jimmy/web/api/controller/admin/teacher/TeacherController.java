@@ -43,4 +43,17 @@ public class TeacherController extends BaseController {
         return ResultBuilder.ok(resultPage);
     }
 
+    @ResponseBody
+    @GetMapping("/save")
+    @ApiOperation("保存老师信息")
+    public Result<Void> save(TeacherStaffInfoDTO teacherStaffInfoDTO) {
+        teacherStaffInfoService.save(TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfo(teacherStaffInfoDTO), teacherStaffInfoDTO.getRoleIdList());
+        return ResultBuilder.ok(null);
+    }
+    @ResponseBody
+    @GetMapping("/info")
+    @ApiOperation("保存老师信息")
+    public Result<TeacherStaffInfoDTO> info(Long id) {
+        return ResultBuilder.ok(TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfoDTO(teacherStaffInfoService.findById(id)));
+    }
 }

@@ -5,8 +5,10 @@ import com.jimmy.mvc.common.model.enums.StaffTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @ApiModel("老师的基本信息")
@@ -55,4 +57,7 @@ public class TeacherStaffInfoDTO extends BaseDTO {
     private String headerInfo;
     @ApiModelProperty("教师ID")
     private Long roomId;
+    @ApiModelProperty("角色ID")
+    @NotEmpty(message = "角色不能为空")
+    private List<Long> roleIdList;
 }

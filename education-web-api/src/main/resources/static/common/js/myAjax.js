@@ -22,23 +22,43 @@ layui.define(function (exports) {
         , form = layui.form();
     var obj = {
         ajaxSend: function (url, backFun, data, type, sync) {
-            if(type=="post"){
-                type="post_get"
+            if (type == "post") {
+                type = "post_get"
             }
-            ajaxsend(data,url,backFun,type,sync);
+            ajaxsend(data, url, backFun, type, sync);
             return false;
         },
-        ajaxPage: function (url, pageId, content, tpl, data, type, backFun,backFunAll) {
-            loadPageInfo(url,data,type,content,tpl,pageId,backFun,backFunAll)
+        ajaxPage: function (url, pageId, content, tpl, data, type, backFun, backFunAll) {
+            loadPageInfo(url, data, type, content, tpl, pageId, backFun, backFunAll)
         },
-        ajaxTpl: function (url, content, tpl, isAppend, backFun, data, type,beforeFun) {
+        ajaxTep: function (url, content, tpl, isAppend, backFun, data, type, beforeFun) {
             obj.ajaxSend(url, function (dataJson) {
-                obj.getTpl(content, tpl, dataJson, isAppend, backFun,beforeFun);
+                obj.getTep(content, tpl, dataJson, isAppend, backFun, beforeFun);
             }, data, type);
         },
-        getTpl: function (content, tpl, dataJson, isAppend, backFun,beforeFun) {
-            if(Utils.isNotNull(beforeFun)){
-                dataJson=beforeFun.call(this,dataJson);
+        getTep: function (content, tpl, dataJson, isAppend, backFun, beforeFun) {
+            if (Utils.isNotNull(beforeFun)) {
+                dataJson = beforeFun.call(this, dataJson);
+            }
+            var jsRenderTpl = $.templates('#' + tpl),
+                finalTpl = jsRenderTpl(dataJson.result);
+            if (isAppend) {
+                $("#" + content).append(finalTpl);
+            } else {
+                $("#" + content).html(finalTpl);
+            }
+            if (backFun != null) {
+                backFun.call(this, dataJson.result);
+            }
+        },
+        ajaxTpl: function (url, content, tpl, isAppend, backFun, data, type, beforeFun) {
+            obj.ajaxSend(url, function (dataJson) {
+                obj.getTpl(content, tpl, dataJson, isAppend, backFun, beforeFun);
+            }, data, type);
+        },
+        getTpl: function (content, tpl, dataJson, isAppend, backFun, beforeFun) {
+            if (Utils.isNotNull(beforeFun)) {
+                dataJson = beforeFun.call(this, dataJson);
             }
             var getTpl = $("#" + tpl).html();
             laytpl(getTpl).render(dataJson.result, function (html) {
@@ -52,33 +72,36 @@ layui.define(function (exports) {
                 }
                 form.render();
             });
+
         }
     };
-   function loadPageInfo(url,data,type,content,tpl,pageId,backFun,backFunAll){
-       obj.ajaxSend(url, function (dataJson) {
-           obj.getTpl(content, tpl, dataJson);
-           laypage({
-               cont: pageId
-               , pages: dataJson.result.totalPage  //总页数
-               , curr: dataJson.result.pageNo || 1
-               , skin: '#1E9FFF'
-               , skip: true
-               , jump: function (jumpObj, first) {
-                   if (!first) {
-                       loadPageInfo(url,$.extend(data, {'pageNo': jumpObj.curr}),type,content,tpl,pageId,backFun,backFunAll)
 
-                   }
-               }
-           });
-           if (backFun != null) {
-               backFun.call(this, dataJson.result);
-           }
+    function loadPageInfo(url, data, type, content, tpl, pageId, backFun, backFunAll) {
+        obj.ajaxSend(url, function (dataJson) {
+            obj.getTpl(content, tpl, dataJson);
+            laypage({
+                cont: pageId
+                , pages: dataJson.result.totalPage  //总页数
+                , curr: dataJson.result.pageNo || 1
+                , skin: '#1E9FFF'
+                , skip: true
+                , jump: function (jumpObj, first) {
+                    if (!first) {
+                        loadPageInfo(url, $.extend(data, {'pageNo': jumpObj.curr}), type, content, tpl, pageId, backFun, backFunAll)
 
-           if (backFunAll != null) {
-               backFunAll.call(this, dataJson);
-           }
-       }, data, type);
-   }
+                    }
+                }
+            });
+            if (backFun != null) {
+                backFun.call(this, dataJson.result);
+            }
+
+            if (backFunAll != null) {
+                backFunAll.call(this, dataJson);
+            }
+        }, data, type);
+    }
+
     //输出接口
     exports('myAjax', obj);
 });
