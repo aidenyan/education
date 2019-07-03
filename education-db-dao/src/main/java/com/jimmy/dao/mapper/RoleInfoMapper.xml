@@ -21,7 +21,7 @@
         from t_role_info
         where id = #{id} AND deleted=0
        and site_id IN
-        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(" >
             #{siteId}
         </foreach>
     </select>
@@ -41,11 +41,13 @@
         select
         <include refid="Base_Column_List"/>
         from t_role_info
-        where name LIKE concat('%','#{name}','%')
-       and site_id IN
+        where
+        site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
+        and name LIKE concat('%',#{roleName},'%')
+
         AND deleted=0
     </select>
 

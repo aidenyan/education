@@ -54,6 +54,7 @@ public class RoleInfoServiceImpl implements RoleInfoService {
 
     @Override
     public List<RoleInfo> list(String roleName) {
+        Assert.notNull(roleName);
         return roleInfoMapper.list(roleName, SiteLocalThread.getSiteIdList());
     }
 }

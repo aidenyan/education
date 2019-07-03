@@ -98,14 +98,29 @@
                         </div>
                     </div>
                 </div>
+                  <div class="layui-form-item form-item-margButtom5">
+                    <div class="layui-inline">
+                        <label class="layui-form-label padd_top">角色</label>
+                        <div class="layui-input-inline" id="role_id">
+
+                        </div>
+                    </div>
+                </div>
+    </script>
+    <script type="x-jsrender" id="role_list">
+          {{#  layui.each(d.result, function(index, item){ }}
+           <input type="check"  name="roleId" value="{{:item.id}}" lay-verify="required" >{{:item.name}}
+            {{#  }); }}
     </script>
     <script>
         $(window).ready(function () {
             layui.use(['form', 'layedit', 'laytpl', 'laydate','myAjax'], function () {
                 var form = layui.form();
-                var layer = layui.layer , myAjax = layui.myAjax;
-                myAjax.ajaxTep("/api/admin/teacher/info?id="+getParam("id"),"form","source_content",false,function (dataJson) {
-                    return dataJson;
+                var layer = layui.layer , myAjax = layui.myAjax,laytpl = layui.laytpl;
+                  myAjax.ajaxTep("/api/admin/teacher/info?id="+getParam("id"),"form","source_content",false,function (dataJson) {
+                  myAjax.ajaxTpl("/api/admin/common/role/list","role_list",false,function (dataJson) {
+                      
+                  })
                 });
                 form.on('submit(save)', function (data) {
                     saveInfo();
