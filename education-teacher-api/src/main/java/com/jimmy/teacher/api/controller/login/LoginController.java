@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 import java.util.UUID;
 
-@Api(tags = "ç™»å½•/é€€å‡º", description = "ç™»å½•ä»¥åŠé€€å‡ºAPI")
+@Api(tags = "µÇÂ¼/ÍË³ö", description = "µÇÂ¼ÒÔ¼°ÍË³öAPI")
 @Controller
 @RequestMapping("/login")
 public class LoginController extends BaseController {
@@ -45,7 +45,7 @@ public class LoginController extends BaseController {
 
     @ResponseBody
     @PostMapping("/room/list")
-    @ApiOperation("è·å–æ‰€æœ‰çš„æ•™å®¤")
+    @ApiOperation("»ñÈ¡ËùÓĞµÄ½ÌÊÒ")
     public Result<List<ClassRoomDTO>> listRoom() {
         List<ClassRoomInfo> classRoomInfoList=classRoomService.list(null);
         return ResultBuilder.ok(ClassRoomDTOTransfer.INSTANCE.toClassRoomDTOList(classRoomInfoList));
@@ -54,7 +54,7 @@ public class LoginController extends BaseController {
 
     @ResponseBody
     @PostMapping("/out")
-    @ApiOperation("ç®¡ç†åå°é€€å‡ºæ¥å£")
+    @ApiOperation("¹ÜÀíºóÌ¨ÍË³ö½Ó¿Ú")
     public Result<Void> out() {
         teacherStaffInfoService.updateAppToken(LoginLocalThread.get(), "", null);
         return ResultBuilder.ok(null);
@@ -62,10 +62,10 @@ public class LoginController extends BaseController {
 
     @ResponseBody
     @PostMapping("/in")
-    @ApiOperation("ç®¡ç†åå°ç™»å½•æ¥å£")
-    @ApiImplicitParams({@ApiImplicitParam(value = "ç”¨æˆ·åç§°", name = "userName", paramType = "query", required = true),
-            @ApiImplicitParam(value = "å¯†ç ", name = "password", paramType = "query", required = true),
-            @ApiImplicitParam(value = "æ•™å®¤çš„ID", name = "roomId", paramType = "query", required = true),
+    @ApiOperation("¹ÜÀíºóÌ¨µÇÂ¼½Ó¿Ú")
+    @ApiImplicitParams({@ApiImplicitParam(value = "ÓÃ»§Ãû³Æ", name = "userName", paramType = "query", required = true),
+            @ApiImplicitParam(value = "ÃÜÂë", name = "password", paramType = "query", required = true),
+            @ApiImplicitParam(value = "½ÌÊÒµÄID", name = "roomId", paramType = "query", required = true),
     })
     public Result<String> in(@RequestParam String userName, @RequestParam String password, @RequestParam Long roomId) {
         TeacherStaffInfo teacherStaffInfo = teacherStaffInfoService.findByName(userName);
