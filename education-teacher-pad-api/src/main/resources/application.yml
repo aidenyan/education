@@ -11,7 +11,7 @@ upload:
    config:
       filePath: C:\work\upload
 server:
-  port: 8088
+  port: 8503
 
 logging:
   config: classpath:log.xml
