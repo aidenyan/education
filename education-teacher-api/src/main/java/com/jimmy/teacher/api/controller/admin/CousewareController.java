@@ -70,7 +70,7 @@ public class CousewareController extends BaseController {
     @GetMapping("/detail")
     public Result<CourseInfoDTO> detail() {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
-        List<CourseInfo> courseInfoList = courseInfoService.listCouldUsed(teacherStaffInfo.getRoomId(), teacherStaffInfo.getId(), 1);
+        List<CourseInfo> courseInfoList = courseInfoService.listCouldUsed(teacherStaffInfo.getAppRoomId(), teacherStaffInfo.getId(), 1);
         if (CollectionUtils.isEmpty(courseInfoList)) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
@@ -82,7 +82,7 @@ public class CousewareController extends BaseController {
     @GetMapping("/list")
     public Result<List<CourseInfoDTO>> list() {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
-        List<CourseInfo> courseInfoList = courseInfoService.listCouldUsed(teacherStaffInfo.getRoomId(), teacherStaffInfo.getId(), MAX_COURSE_NUM);
+        List<CourseInfo> courseInfoList = courseInfoService.listCouldUsed(teacherStaffInfo.getAppRoomId(), teacherStaffInfo.getId(), MAX_COURSE_NUM);
         if (CollectionUtils.isEmpty(courseInfoList)) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
@@ -98,10 +98,10 @@ public class CousewareController extends BaseController {
         if (courseInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
-        if (courseInfo.getRoomId().equals(teacherStaffInfo.getRoomId())) {
+        if (courseInfo.getRoomId().equals(teacherStaffInfo.getAppRoomId())) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
-        courseInfoService.useCourse(teacherStaffInfo.getId(), courseId, UsedStatusEnum.USING.getValue(), teacherStaffInfo.getRoomId());
+        courseInfoService.useCourse(teacherStaffInfo.getId(), courseId, UsedStatusEnum.USING.getValue(), teacherStaffInfo.getAppRoomId());
         return ResultBuilder.error(ResultCodeEnum.OK);
     }
 
@@ -114,7 +114,7 @@ public class CousewareController extends BaseController {
         if (courseInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
-        if (courseInfo.getRoomId().equals(teacherStaffInfo.getRoomId())) {
+        if (courseInfo.getRoomId().equals(teacherStaffInfo.getAppRoomId())) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
         courseInfoService.useCourse(teacherStaffInfo.getId(), courseId, UsedStatusEnum.ALREADY_USED.getValue(), null);
@@ -130,7 +130,7 @@ public class CousewareController extends BaseController {
         if (courseInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
-        if (courseInfo.getRoomId().equals(teacherStaffInfo.getRoomId())) {
+        if (courseInfo.getRoomId().equals(teacherStaffInfo.getAppRoomId())) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
         courseInfoService.useCourse(null, courseId, UsedStatusEnum.ALREADY_USED.getValue(), null);

@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.ClassRoomInfo">
         <id column="id" property="id" jdbcType="BIGINT"/>
         <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="sn" property="sn" jdbcType="VARCHAR"/>
         <result column="address" property="address" jdbcType="VARCHAR"/>
         <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
         <result column="create_id" property="createId" jdbcType="BIGINT"/>
@@ -16,7 +17,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, name, address,description,is_deleted, create_id, modify_id, create_time, modify_time, site_id
+    id, name, sn,address,description,is_deleted, create_id, modify_id, create_time, modify_time, site_id
   </sql>
 
     <select id="findById" resultMap="BaseResultMap">
@@ -35,21 +36,22 @@
         <include refid="Base_Column_List"/>
         from t_class_room_info
         where is_deleted=0
+        <if test=" name != null">
+            AND name LIKE concat('%',#{name},'%')
+        </if>
         and site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
-        <if test=" name != null">
-            AND name LIKE concat('%','#{name}','%')
-        </if>
+
     </select>
 
     <insert id="insert" parameterType="com.jimmy.dao.entity.ClassRoomInfo"  keyProperty="id" useGeneratedKeys="true">
-        insert into t_class_room_info (is_deleted, name, address,
+        insert into t_class_room_info (sn,is_deleted, name, address,
         create_id, modify_id, create_time,
         modify_time, site_id, description
         )
-        values (#{isDeleted}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+        values (#{sn},#{isDeleted}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
         #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
         #{modifyTime,jdbcType=TIMESTAMP}, #{siteId,jdbcType=BIGINT}, #{description,jdbcType=LONGVARCHAR}
         )
@@ -58,6 +60,7 @@
     <update id="update" parameterType="com.jimmy.dao.entity.ClassRoomInfo">
         update t_class_room_info
         set name = #{name,jdbcType=VARCHAR},
+        sn = #{sn,jdbcType=VARCHAR},
         address = #{address,jdbcType=VARCHAR},
         modify_id = #{modifyId,jdbcType=BIGINT},
         modify_time = now(),

@@ -39,7 +39,7 @@ public class BaseWebFilter implements Filter {
         try {
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-
+              e.printStackTrace();
             Result<Void> resultModel = new Result<>(ResultCoreEnum.RESULT_EXCEPTION_SYS);
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");

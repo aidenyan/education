@@ -21,6 +21,8 @@ import com.jimmy.teacher.api.config.TeacherConfig;
 import com.jimmy.teacher.api.controller.BaseController;
 import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -40,11 +42,11 @@ import java.util.Map;
  * @author: aiden
  * @date: 2019/6/11/011.
  */
-@Api(tags = "老师相关信息接口", description = "老师相关信息接口API")
+@Api(value = "老师相关信息接口", description = "老师相关信息接口API")
 @Controller
 @RequestMapping("/admin/teacher")
 @EnableConfigurationProperties(TeacherConfig.class)
-public class TeacherController  extends BaseController {
+public class TeacherController extends BaseController {
 
     @Autowired
     private TeacherConfig teacherConfig;
@@ -67,6 +69,7 @@ public class TeacherController  extends BaseController {
     @ApiOperation("获取老师的基本信息接口")
     @ResponseBody
     @GetMapping("/detail")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<TeacherStaffInfoDTO> detail() {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
         TeacherStaffInfoDTO teacherStaffInfoDTO = TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfoDTO(teacherStaffInfo);
@@ -77,6 +80,7 @@ public class TeacherController  extends BaseController {
     @ApiOperation("保存老师对象学生图纸作品的答案")
     @ResponseBody
     @PostMapping("/answer/save/{courseId}/{machineId}")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> save(@PathVariable("courseId") Long courseId,
                                 @PathVariable("machineId") Long machineId,
                                 CourseAnswerDTO[] courseAnswerDTOArray) {
@@ -106,6 +110,7 @@ public class TeacherController  extends BaseController {
     @ApiOperation("获取课程下课件中所有需要评价项")
     @ResponseBody
     @PostMapping("/appraise/list/{courseId}")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<AppraiseItemDTO>> listAppraiseItem(@PathVariable("courseId") Long courseId) {
         List<AppraiseItemDTO> appraiseItemDTOList = new ArrayList<>();
         List<DictionaryItem> itemList = dictionaryService.list(teacherConfig.getDictionaryId());
@@ -134,6 +139,7 @@ public class TeacherController  extends BaseController {
     @ApiOperation("获取课程下课件中所有需要评价项")
     @ResponseBody
     @PostMapping("/appraise/save/{courseId}/{machineId}")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> listAppraiseItem(@PathVariable("courseId") Long courseId,
                                             @PathVariable("machineId") Long machineId, AppraiseItemDTO[] appraiseItemDTOArray) {
         if (appraiseItemDTOArray == null || appraiseItemDTOArray.length == 0) {

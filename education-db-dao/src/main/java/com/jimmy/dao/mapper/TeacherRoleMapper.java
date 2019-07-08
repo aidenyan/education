@@ -17,9 +17,9 @@ public interface TeacherRoleMapper {
     /**
      * 删除角色关系
      *
-     * @param teacherId 教师ID
+     * @param staffId 教师ID
      */
-    void deleted(@Param("teacherId") Long teacherId);
+    void deleted(@Param("staffId") Long staffId);
 
     /**
      * 保存角色和教师的关系信息

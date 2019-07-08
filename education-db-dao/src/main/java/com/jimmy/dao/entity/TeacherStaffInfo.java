@@ -55,5 +55,6 @@ public class TeacherStaffInfo extends BaseEntity {
 
     private String headerInfo;
 
-    private Long roomId;
+
+    private Long appRoomId;
 }

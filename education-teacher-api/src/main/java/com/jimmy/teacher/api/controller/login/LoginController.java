@@ -8,6 +8,7 @@ import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.ClassRoomDTO;
+import com.jimmy.mvc.common.model.dto.LoginDTO;
 import com.jimmy.mvc.common.model.transfer.ClassRoomDTOTransfer;
 import com.jimmy.mvc.common.utils.PasswordUtils;
 import com.jimmy.service.ClassRoomService;
@@ -20,15 +21,13 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
 
-@Api(tags = "ç™»å½•/é€€å‡º", description = "ç™»å½•ä»¥åŠé€€å‡ºAPI")
+@Api(value = "µÇÂ¼/ÍË³ö", description = "µÇÂ¼ÒÔ¼°ÍË³öAPI")
 @Controller
 @RequestMapping("/login")
 public class LoginController extends BaseController {
@@ -44,38 +43,28 @@ public class LoginController extends BaseController {
     private TeacherStaffInfoService teacherStaffInfoService;
 
     @ResponseBody
-    @PostMapping("/room/list")
-    @ApiOperation("è·å–æ‰€æœ‰çš„æ•™å®¤")
-    public Result<List<ClassRoomDTO>> listRoom() {
-        List<ClassRoomInfo> classRoomInfoList=classRoomService.list(null);
+    @GetMapping("/room/list")
+    @ApiOperation("»ñÈ¡ËùÓĞµÄ½ÌÊÒ")
+    public Result<List<ClassRoomDTO>> listRoom(String name) {
+        List<ClassRoomInfo> classRoomInfoList = classRoomService.list(name);
         return ResultBuilder.ok(ClassRoomDTOTransfer.INSTANCE.toClassRoomDTOList(classRoomInfoList));
     }
 
 
-    @ResponseBody
-    @PostMapping("/out")
-    @ApiOperation("ç®¡ç†åå°é€€å‡ºæ¥å£")
-    public Result<Void> out() {
-        teacherStaffInfoService.updateAppToken(LoginLocalThread.get(), "", null);
-        return ResultBuilder.ok(null);
-    }
+
 
     @ResponseBody
     @PostMapping("/in")
-    @ApiOperation("ç®¡ç†åå°ç™»å½•æ¥å£")
-    @ApiImplicitParams({@ApiImplicitParam(value = "ç”¨æˆ·åç§°", name = "userName", paramType = "query", required = true),
-            @ApiImplicitParam(value = "å¯†ç ", name = "password", paramType = "query", required = true),
-            @ApiImplicitParam(value = "æ•™å®¤çš„ID", name = "roomId", paramType = "query", required = true),
-    })
-    public Result<String> in(@RequestParam String userName, @RequestParam String password, @RequestParam Long roomId) {
-        TeacherStaffInfo teacherStaffInfo = teacherStaffInfoService.findByName(userName);
+    @ApiOperation("¹ÜÀíºóÌ¨µÇÂ¼½Ó¿Ú")
+    public Result<String> in(@Validated @RequestBody LoginDTO loginDTO) {
+        TeacherStaffInfo teacherStaffInfo = teacherStaffInfoService.findByName(loginDTO.getUserName());
         if (teacherStaffInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.ACCOUNT_NOT_EXIST);
         }
-        if (!PasswordUtils.isEquals(password, teacherStaffInfo.getPassword())) {
+        if (!PasswordUtils.isEquals(loginDTO.getPassword(), teacherStaffInfo.getPassword())) {
             return ResultBuilder.error(ResultCodeEnum.PASSWORD_ERROR);
         }
-        ClassRoomInfo classRoomInfo = classRoomService.detail(roomId);
+        ClassRoomInfo classRoomInfo = classRoomService.detail(loginDTO.getRoomId());
         if (classRoomInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.ROOM_NOT_EXIST);
         }

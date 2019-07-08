@@ -91,7 +91,8 @@ public class TeacherStaffInfoServiceImpl implements TeacherStaffInfoService {
             teacherStaffInfo.setModifyId(LoginLocalThread.get());
         }
         teacherStaffInfo.setSiteId(SiteLocalThread.getSiteId());
-        teacherStaffInfo.setRoomId(roomId);
+        teacherStaffInfo.setAppRoomId(roomId);
+
         teacherStaffInfoMapper.updateProperty(teacherStaffInfo);
     }
 

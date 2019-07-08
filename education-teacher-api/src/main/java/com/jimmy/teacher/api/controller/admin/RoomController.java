@@ -37,7 +37,7 @@ public class RoomController  extends BaseController {
     @GetMapping("/detail")
     public Result<ClassRoomVoDTO> detail() {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
-        ClassRoomVO classRoomVO = classRoomService.find(teacherStaffInfo.getRoomId());
+        ClassRoomVO classRoomVO = classRoomService.find(teacherStaffInfo.getAppRoomId());
         return ResultBuilder.error(ResultCodeEnum.OK, ClassRoomVoDTOTransfer.INSTANCE.toClassRoomVoDTO(classRoomVO));
     }
 }
