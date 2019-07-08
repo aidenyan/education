@@ -15,7 +15,7 @@ upload:
    config:
       filePath: C:\work\upload
 server:
-  port: 8082
+  port: 8052
 
 logging:
   config: classpath:log.xml
@@ -24,7 +24,7 @@ teacher:
    config:
      dictionaryId: 12
      token: dsfsasredserwersdfdsf
-     studentUrl: http://localhost:8085/student/student/common/command
+     studentUrl: http://localhost:8501/student/student/common/command
 
 
 
