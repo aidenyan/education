@@ -39,6 +39,9 @@ public class BaseWebFilter implements Filter {
         SysLogUuidLocalThread.set(UUID.randomUUID().toString());
         try {
             filterChain.doFilter(request, response);
+            ((HttpServletResponse) response).setHeader("Access-Control-Allow-Origin", "*");
+            ((HttpServletResponse) response).setHeader("Access-Control-Allow-Credentials", "true");
+
         } catch (Exception e) {
             e.printStackTrace();
             Result<Void> resultModel = new Result<>(ResultCoreEnum.RESULT_EXCEPTION_SYS);
