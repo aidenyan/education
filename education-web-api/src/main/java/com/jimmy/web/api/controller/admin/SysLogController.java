@@ -1,4 +1,4 @@
-package com.jimmy.web.api.controller.admin.sys;
+package com.jimmy.web.api.controller.admin;
 
 
 import com.jimmy.core.base.Page;
@@ -21,7 +21,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-@Api(tags = "系统信息日志模块", description = "系统信息日志模块API")
+@Api(value = "系统信息日志模块", description = "系统信息日志模块API")
 @Controller
 @RequestMapping("/admin/sys/log")
 public class SysLogController extends BaseController {

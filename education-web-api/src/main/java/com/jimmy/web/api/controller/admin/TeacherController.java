@@ -1,4 +1,4 @@
-package com.jimmy.web.api.controller.admin.teacher;
+package com.jimmy.web.api.controller.admin;
 
 
 import com.jimmy.core.base.Page;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
-@Api(tags = "老师信息模块", description = "老师信息模块API")
+@Api(value = "老师信息模块", description = "老师信息模块API")
 @Controller
 @RequestMapping("/admin/teacher")
 public class TeacherController extends BaseController {

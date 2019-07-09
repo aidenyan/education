@@ -1,13 +1,14 @@
-package com.jimmy.web.api.controller.admin.common;
+package com.jimmy.web.api.controller.admin;
 
 import com.jimmy.dao.entity.MenuInfo;
-import com.jimmy.dao.entity.RoleInfo;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.MenuDTO;
+import com.jimmy.mvc.common.model.dto.RoleDTO;
 import com.jimmy.mvc.common.model.transfer.MenuDTOTransfer;
+import com.jimmy.mvc.common.model.transfer.RoleDTOTransfer;
 import com.jimmy.mvc.common.utils.PasswordUtils;
 import com.jimmy.service.RoleInfoService;
 import com.jimmy.service.TeacherStaffInfoService;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = "需要登录的公共处理", description = "需要登录的公共处理API")
+@Api(value = "需要登录的公共处理", description = "需要登录的公共处理API")
 @Controller
 @RequestMapping("/admin/common")
 public class AdminCommonController extends BaseController {
@@ -65,8 +66,8 @@ public class AdminCommonController extends BaseController {
     @ResponseBody
     @GetMapping("/role/list")
     @ApiOperation("角色信息列表")
-    public Result<List<RoleInfo>> roleList() {
-        return ResultBuilder.ok(roleInfoService.list(""));
+    public Result<List<RoleDTO>> roleList() {
+        return ResultBuilder.ok(RoleDTOTransfer.INSTANCE.toRoleDTOList(roleInfoService.list("")));
     }
 
     @ResponseBody

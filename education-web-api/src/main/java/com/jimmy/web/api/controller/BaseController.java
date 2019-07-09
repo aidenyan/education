@@ -28,7 +28,7 @@ public class BaseController {
         PageHelper.startPage(pageNo, pageSize);
     }
 
-    public  <T>Page<T> getPageResult(List<T> resultList) {
+    public <T> Page<T> getPageResult(List<T> resultList) {
         Page<T> resultPage = new Page();
         if (resultList instanceof com.github.pagehelper.Page) {
             com.github.pagehelper.Page page = (com.github.pagehelper.Page) resultList;
@@ -42,6 +42,19 @@ public class BaseController {
     }
 
 
+    public <T, E> Page<T> getPageResult(List<E> resultList,Convert<E,T> convert) {
+        Page<T> resultPage = new Page();
+        if (resultList instanceof com.github.pagehelper.Page) {
+            com.github.pagehelper.Page page = (com.github.pagehelper.Page) resultList;
+            resultPage.setPageNo(page.getPageNum());
+            resultPage.setPageSize(page.getPageSize());
+            resultPage.setTotal(page.getTotal());
+            resultPage.setTotalPage(page.getPages());
+        }
+        resultPage.setResult(convert.convert(resultList));
+        return resultPage;
+    }
+
     public <T> Result<T> addAuthorityCodeList(Result<T> result) {
         List<MenuInfo> menuInfoList = MenuInfoLocalThread.get();
         List<String> authorityCodeList = new ArrayList<String>();
@@ -50,5 +63,11 @@ public class BaseController {
         }
         result.setAuthorityCodeList(authorityCodeList);
         return result;
+    }
+
+    ;
+
+    public interface Convert<T,E> {
+        List<E> convert(List<T> target);
     }
 }
