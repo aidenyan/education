@@ -53,12 +53,15 @@ public class StudentStarInfoServiceImpl implements StudentStarInfoService {
             });
         }
         SysInfoDTO sysInfoDTO = SysInfoLocalThread.get();
-        List<StudentTotalFaction> studentFractionList = studentFractionService.listByFraction(sysInfoDTO.getFraction(), theWeekStart, theWeekEnd);
-        if (!CollectionUtils.isEmpty(studentFractionList)) {
-            studentFractionList.forEach(studentFraction -> {
-                studentIdList.add(studentFraction.getStudentId());
-            });
+        if(sysInfoDTO!=null){
+            List<StudentTotalFaction> studentFractionList = studentFractionService.listByFraction(sysInfoDTO.getFraction(), theWeekStart, theWeekEnd);
+            if (!CollectionUtils.isEmpty(studentFractionList)) {
+                studentFractionList.forEach(studentFraction -> {
+                    studentIdList.add(studentFraction.getStudentId());
+                });
+            }
         }
+
         if (CollectionUtils.isEmpty(studentIdList)) {
             return Collections.EMPTY_LIST;
         }

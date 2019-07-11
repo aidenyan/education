@@ -15,6 +15,8 @@ import com.jimmy.service.StudentInfoService;
 import com.jimmy.service.StudentStarInfoService;
 import com.jimmy.teacher.api.controller.BaseController;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +32,7 @@ import java.util.List;
  * @author: aiden
  * @date: 2019/6/12/012.
  */
-@Api(tags = "学生信息相关接口", description = "学生信息相关接口API")
+@Api(value = "学生信息相关接口", description = "学生信息相关接口API")
 @Controller
 @RequestMapping("/admin/student")
 public class StudentController extends BaseController {
@@ -49,6 +51,7 @@ public class StudentController extends BaseController {
     @ApiOperation("获取本周学习之星接口")
     @ResponseBody
     @GetMapping("/star")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<StudentInfoDTO>> list() {
         List<StudentInfo> staffInfoDTOList = studentStarInfoService.listStar();
         return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(staffInfoDTOList));
@@ -57,6 +60,7 @@ public class StudentController extends BaseController {
     @ApiOperation("获取某个机床的所有学生信息")
     @ResponseBody
     @GetMapping("/machine/list")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<StudentInfoDTO>> listMachine(Long courseId, Long machineId) {
 
         List<CourseStudent> courseStudentList = courseStudentService.list(courseId, machineId);
@@ -72,6 +76,7 @@ public class StudentController extends BaseController {
     @ApiOperation("签到")
     @ResponseBody
     @PostMapping("/register")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> using(@RequestBody RegisterDTO registerDTO) {
         List<CourseStudent> courseStudentList = courseStudentService.find(registerDTO.getCourseId(), registerDTO.getStudentId(), null);
         if (CollectionUtils.isEmpty(courseStudentList)) {
@@ -93,6 +98,7 @@ public class StudentController extends BaseController {
     @ApiOperation("签到")
     @ResponseBody
     @PostMapping("/register/batch")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> using(List<Long> studentIdList, Long courseId, Long commandId) {
         if (CollectionUtils.isEmpty(studentIdList)) {
             return ResultBuilder.ok(Boolean.FALSE);

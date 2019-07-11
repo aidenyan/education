@@ -67,7 +67,7 @@
             #{siteId}
         </foreach>
         and classmate_id  IN
-        <foreach collection="idList" separator="," item="id" close=")" open="(">
+        <foreach collection="classMateIdList" separator="," item="id" close=")" open="(">
             #{id}
         </foreach>
     </select>
