@@ -1,6 +1,7 @@
 package com.jimmy.service.impl;
 
 import com.jimmy.core.local.thread.LoginLocalThread;
+import com.jimmy.dao.entity.ClassRoomInfo;
 import com.jimmy.dao.entity.CourseInfo;
 import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.mapper.CourseInfoMapper;
@@ -81,4 +82,5 @@ public class CourseInfoServiceImpl implements CourseInfoService {
     public List<CourseInfo> listCouldUsed(Long roomId, Long teacherId, Integer size) {
         return courseInfoMapper.listCouldUsed(roomId, teacherId, size, SiteLocalThread.getSiteIdList());
     }
+
 }

@@ -5,6 +5,7 @@ import com.jimmy.mvc.common.model.enums.StaffTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Date;
@@ -18,6 +19,7 @@ public class TeacherStaffInfoDTO extends BaseDTO {
      */
     @ApiModelProperty("IC卡")
     private String idCard;
+    @NotBlank(message = "老师的姓名不能为空")
     @ApiModelProperty("老师的姓名")
     private String name;
     @ApiModelProperty("性别：0:表示男，1:表示女")

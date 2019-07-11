@@ -93,4 +93,20 @@ public class StudentInfoServiceImpl implements StudentInfoService {
         studentInfo.setId(id);
         return studentInfoMapper.updateProperty(studentInfo);
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void delete( Long id) {
+        Assert.notNull(id, "id is null");
+        StudentInfo studentInfo = new StudentInfo();
+        studentInfo.setId(id);
+        studentInfo.setIsDeleted(true);
+        if (LoginLocalThread.get() == null) {
+            studentInfo.setModifyId(id);
+        } else {
+            studentInfo.setModifyId(LoginLocalThread.get());
+        }
+        studentInfo.setSiteId(SiteLocalThread.getSiteId());
+        studentInfoMapper.updateProperty(studentInfo);
+    }
 }

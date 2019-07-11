@@ -13,9 +13,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,14 +45,23 @@ public class TeacherController extends BaseController {
     @ResponseBody
     @GetMapping("/save")
     @ApiOperation("保存老师信息")
-    public Result<Void> save(TeacherStaffInfoDTO teacherStaffInfoDTO) {
+    public Result<Void> save(@RequestBody @Validated TeacherStaffInfoDTO teacherStaffInfoDTO) {
         teacherStaffInfoService.save(TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfo(teacherStaffInfoDTO), teacherStaffInfoDTO.getRoleIdList());
         return ResultBuilder.ok(null);
     }
+
     @ResponseBody
     @GetMapping("/info")
     @ApiOperation("保存老师信息")
     public Result<TeacherStaffInfoDTO> info(Long id) {
         return ResultBuilder.ok(TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfoDTO(teacherStaffInfoService.findById(id)));
+    }
+
+    @ResponseBody
+    @PostMapping("/deleted/{id}")
+    @ApiOperation("删除老师信息")
+    public Result<Void> deleted(@PathVariable("id") Long id) {
+        teacherStaffInfoService.deleted(id);
+        return ResultBuilder.ok(null);
     }
 }

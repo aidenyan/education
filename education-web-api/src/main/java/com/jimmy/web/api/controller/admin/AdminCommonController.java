@@ -1,15 +1,19 @@
 package com.jimmy.web.api.controller.admin;
 
+import com.jimmy.dao.entity.ClassMate;
 import com.jimmy.dao.entity.MenuInfo;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
+import com.jimmy.mvc.common.model.dto.ClassMateDTO;
 import com.jimmy.mvc.common.model.dto.MenuDTO;
 import com.jimmy.mvc.common.model.dto.RoleDTO;
+import com.jimmy.mvc.common.model.transfer.ClassMateDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.MenuDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.RoleDTOTransfer;
 import com.jimmy.mvc.common.utils.PasswordUtils;
+import com.jimmy.service.ClassMateService;
 import com.jimmy.service.RoleInfoService;
 import com.jimmy.service.TeacherStaffInfoService;
 import com.jimmy.web.api.controller.BaseController;
@@ -33,9 +37,20 @@ public class AdminCommonController extends BaseController {
 
     @Autowired
     private RoleInfoService roleInfoService;
+    @Autowired
+    private ClassMateService classMateService;
 
     @Autowired
     private TeacherStaffInfoService teacherStaffInfoService;
+
+
+    @ResponseBody
+    @GetMapping("/class_mate/list")
+    @ApiOperation("获取班级的相关信息列表")
+    public Result<List<ClassMateDTO>> list(String name) {
+        List<ClassMate> classMateList = classMateService.list(name);
+        return ResultBuilder.ok(ClassMateDTOTransfer.INSTANCE.toClassMateDTOList(classMateList));
+    }
 
     @ResponseBody
     @GetMapping("/account/check_password")

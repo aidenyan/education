@@ -68,4 +68,10 @@ public interface StudentInfoService {
      */
     int updateHeader(String headerInfo, Long id);
 
+    /**
+     * 删除
+     *
+     * @param id
+     */
+    void delete(Long id);
 }
