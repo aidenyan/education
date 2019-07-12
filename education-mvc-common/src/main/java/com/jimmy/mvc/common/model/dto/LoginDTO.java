@@ -19,19 +19,29 @@ public class LoginDTO {
     /**
      * 登录的密码
      */
-    @NotBlank(message = "登录的密码不能为空")
+    @NotBlank(message = "登录的密码不能为空", groups = {LoginDTO.Pad.class, LoginDTO.Teacher.class})
     @ApiModelProperty("登录的密码")
     private String password;
     /**
      * 房间的ID
      */
-    @NotNull(message = "房间的ID不能为空")
+    @NotNull(message = "房间的ID不能为空", groups = {LoginDTO.Teacher.class})
     @ApiModelProperty("房间的ID")
     private Long roomId;
+
     /**
      * 登录的账号
      */
-    @NotBlank(message = "登录的账号不能为空")
+    @NotBlank(message = "登录的账号不能为空", groups = {LoginDTO.Pad.class, LoginDTO.Teacher.class})
     @ApiModelProperty("登录的账号")
     private String userName;
+
+    public interface Pad {
+    }
+
+
+    public interface Teacher {
+    }
+    public interface Student {
+    }
 }

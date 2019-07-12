@@ -29,7 +29,7 @@
         <foreach collection="studentIdList" separator="," item="studentId" close=")" open="(">
             #{studentId}
         </foreach>
-             <if test=" machinaId != null">
+             <if test=" machineId != null">
                  and machine_id=#{machineId}
              </if>
 

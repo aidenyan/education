@@ -56,7 +56,7 @@ public class LoginController extends BaseController {
     @ResponseBody
     @PostMapping("/in")
     @ApiOperation("管理后台登录接口")
-    public Result<String> in(@Validated @RequestBody LoginDTO loginDTO) {
+    public Result<String> in(@Validated(LoginDTO.Teacher.class) @RequestBody LoginDTO loginDTO) {
         TeacherStaffInfo teacherStaffInfo = teacherStaffInfoService.findByName(loginDTO.getUserName());
         if (teacherStaffInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.ACCOUNT_NOT_EXIST);

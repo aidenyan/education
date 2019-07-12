@@ -68,6 +68,12 @@ public interface StudentInfoService {
      */
     int updateHeader(String headerInfo, Long id);
 
+
+    /**
+     * 保存学生头部图片
+     */
+    int updateHeaderImg(String headerImg, Long id);
+
     /**
      * 删除
      *

@@ -16,7 +16,10 @@ import com.jimmy.service.CourseStudentService;
 import com.jimmy.service.StudentInfoService;
 import com.jimmy.service.StudentStarInfoService;
 import com.jimmy.student.api.local.thread.CourseStudentLocalThread;
+import com.jimmy.student.api.local.thread.StudentLocalThread;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -35,7 +38,7 @@ import java.util.stream.Collectors;
  * @author: aiden
  * @date: 2019/6/12/012.
  */
-@Api(tags = "学生信息相关接口", description = "学生信息相关接口API")
+@Api(value = "学生信息相关接口", description = "学生信息相关接口API")
 @Controller
 @RequestMapping("/admin/student")
 public class StudentController {
@@ -52,9 +55,21 @@ public class StudentController {
     @Autowired
     private StudentStarInfoService studentStarInfoService;
 
+
+    @ApiOperation("获取学生的基本信息接口")
+    @ResponseBody
+    @GetMapping("/detail")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<StudentInfoDTO> detail() {
+        StudentInfo studentInfo = StudentLocalThread.get();
+        StudentInfoDTO studentInfoDTO = StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTO(studentInfo);
+        return ResultBuilder.error(ResultCodeEnum.OK, studentInfoDTO);
+    }
+
     @ApiOperation("获取本周学习之星接口")
     @ResponseBody
     @GetMapping("/star")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<StudentInfoDTO>> list() {
         List<StudentInfo> staffInfoDTOList = studentStarInfoService.listStar();
         return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(staffInfoDTOList));
@@ -63,6 +78,7 @@ public class StudentController {
     @ApiOperation("获取某个机床的所有学生信息")
     @ResponseBody
     @GetMapping("/machine/list")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<StudentInfoDTO>> listMachine() {
         CourseStudent courseStudent = CourseStudentLocalThread.get();
         List<CourseStudent> courseStudentList = courseStudentService.list(courseStudent.getCourseId(), courseStudent.getMachineId());
@@ -74,6 +90,7 @@ public class StudentController {
         List<StudentInfo> studentInfoList = studentInfoService.list(studentIdList);
         return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
     }
+
     @ApiOperation("保存老师对象学生图纸作品的答案")
     @ResponseBody
     @PostMapping("/answer/save/{courseId}/{machineId}")
@@ -88,16 +105,16 @@ public class StudentController {
             itemIdList.add(courseAnswerDTO.getCoursewareItemId());
         }
         List<CourseAnswer> courseAnswerList = courseAnswerService.listMachineAnswer(courseId, machineId, itemIdList);
-        if (courseAnswerList == null ) {
-            courseAnswerList=new ArrayList<>();
+        if (courseAnswerList == null) {
+            courseAnswerList = new ArrayList<>();
         }
         Map<Long, CourseAnswer> courseAnswerMap = new HashMap<>();
         courseAnswerList.forEach(courseAnswer -> courseAnswerMap.put(courseAnswer.getCoursewareItemId(), courseAnswer));
         for (CourseAnswerDTO courseAnswerDTO : courseAnswerDTOArray) {
             CourseAnswer courseAnswer = courseAnswerMap.get(courseAnswerDTO.getCoursewareItemId());
-            if(courseAnswer==null){
-                courseAnswer=new CourseAnswer();
-                courseAnswerMap.put(courseAnswerDTO.getCoursewareItemId(),courseAnswer);
+            if (courseAnswer == null) {
+                courseAnswer = new CourseAnswer();
+                courseAnswerMap.put(courseAnswerDTO.getCoursewareItemId(), courseAnswer);
             }
             courseAnswer.setCourseId(courseId);
             courseAnswer.setCoursewareId(courseAnswerDTO.getCoursewareId());

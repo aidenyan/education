@@ -114,6 +114,7 @@ public class TeacherStaffInfoServiceImpl implements TeacherStaffInfoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updateHeader(String headerInfo, Long id) {
         Assert.notNull(id, "id is null");
         Assert.isTrue(StringUtils.isNotBlank(headerInfo), "headerInfo is null");
@@ -126,6 +127,20 @@ public class TeacherStaffInfoServiceImpl implements TeacherStaffInfoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int updateHeaderImg(String headerImg, Long id) {
+        Assert.notNull(id, "id is null");
+        Assert.isTrue(StringUtils.isNotBlank(headerImg), "headerImg is null");
+        TeacherStaffInfo teacherStaffInfo = new TeacherStaffInfo();
+        teacherStaffInfo.setSiteId(SiteLocalThread.getSiteId());
+        teacherStaffInfo.setModifyId(LoginLocalThread.get());
+        teacherStaffInfo.setHeaderUrl(headerImg);
+        teacherStaffInfo.setId(id);
+        return teacherStaffInfoMapper.updateProperty(teacherStaffInfo);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleted(Long id) {
         Assert.notNull(id, "id is null");
         TeacherStaffInfo teacherStaffInfo = new TeacherStaffInfo();

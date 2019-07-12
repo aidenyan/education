@@ -18,6 +18,7 @@ public enum ResultCodeEnum implements ResultEnum {
     COURSE_NOT_START("-10008","还没有开始上课","还没有开始上课"),
     OLD_PASSWORD_ERROR("-10009","原密码错误","原密码错误"),
 
+
     ;
     private String code;
     private String message;

@@ -42,6 +42,17 @@
             #{siteId}
         </foreach>
     </select>
+    <select id="findByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_student_info
+        where  is_deleted=0 AND
+        site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        and name =#{name}
+    </select>
     <select id="listByIdList" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

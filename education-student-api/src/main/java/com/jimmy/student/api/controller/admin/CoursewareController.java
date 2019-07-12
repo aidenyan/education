@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
-@Api(tags = "课件信息", description = "课件信息API")
+@Api(value = "课件信息", description = "课件信息API")
 @Controller
 @RequestMapping("/admin/courseware")
 public class CoursewareController extends BaseController {

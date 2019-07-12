@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author: aiden
  * @date: 2019/6/17/017.
  */
-@Api(tags = "指令信息", description = "指令信息API")
+@Api(value = "指令信息", description = "指令信息API")
 @Controller
 @RequestMapping("/admin/command")
 @EnableConfigurationProperties(StudentConfig.class)

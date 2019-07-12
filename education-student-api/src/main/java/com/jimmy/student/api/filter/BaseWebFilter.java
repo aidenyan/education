@@ -3,6 +3,7 @@ package com.jimmy.student.api.filter;
 import com.alibaba.fastjson.JSON;
 import com.jimmy.core.enums.OperationSysEnum;
 import com.jimmy.core.enums.ResultCoreEnum;
+import com.jimmy.core.exception.AuthorException;
 import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.core.local.thread.OperationSysLocalThread;
 import com.jimmy.core.local.thread.SysLogUuidLocalThread;
@@ -40,7 +41,11 @@ public class BaseWebFilter implements Filter {
         try {
             filterChain.doFilter(request, response);
         } catch (Exception e) {
+            e.printStackTrace();
             Result<Void> resultModel = new Result<>(ResultCoreEnum.RESULT_EXCEPTION_SYS);
+            if (e.getCause() instanceof AuthorException) {
+                resultModel = new Result<>(ResultCoreEnum.RESULT_AUTHORITY_NOT_LOGIN);
+            }
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json; charset=utf-8");
             PrintWriter out = response.getWriter();
