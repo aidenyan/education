@@ -18,6 +18,12 @@ public enum ResultCodeEnum implements ResultEnum {
     COURSE_NOT_START("-10008","还没有开始上课","还没有开始上课"),
     OLD_PASSWORD_ERROR("-10009","原密码错误","原密码错误"),
 
+    QUESTION_RESULT_IS_BLANK("-10010","问答题的回答不能为空","问答题的回答不能为空"),
+
+    QUESTION_ITEM_IS_EMPTY("-10011","选择题的选项不能空","选择题的选项不能空"),
+    QUESTION_ITEM_ANSWER_EMPTY("-10012","选择题的答案不能没有","选择题的答案不能没有"),
+    QUESTION_ITEM_ANSWER_SIMPLE("-10013","单选题的答案只能有一个","单选题的答案只能有一个")
+
 
     ;
     private String code;
