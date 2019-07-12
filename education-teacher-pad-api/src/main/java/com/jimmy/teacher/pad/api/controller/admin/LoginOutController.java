@@ -1,43 +1,39 @@
 package com.jimmy.teacher.pad.api.controller.admin;
 
-import com.jimmy.dao.entity.ClassMate;
+import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
-import com.jimmy.mvc.common.enums.ResultCodeEnum;
-import com.jimmy.service.ClassMateService;
+import com.jimmy.service.TeacherStaffInfoService;
+import com.jimmy.teacher.pad.api.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
-
 /**
- * @ClassName: StudentController
+ * @ClassName: LoginOutController
  * @Description:
  * @author: aiden
- * @date: 2019/6/16/016.
+ * @date: 2019/7/8/008.
  */
-
-@Api(value = "班级信息", description = "班级信息")
+@Api(value = "课程课件信息", description = "课程课件信息API")
 @Controller
-@RequestMapping("/admin/class_mate")
-public class ClassMateController {
+@RequestMapping("/admin/login")
+public class LoginOutController extends BaseController {
     @Autowired
-    private ClassMateService classMateService;
+    private TeacherStaffInfoService teacherStaffInfoService;
 
-
-    @ApiOperation("获取班级信息列表")
     @ResponseBody
-    @GetMapping("/list")
+    @PostMapping("/out")
+    @ApiOperation("管理后台退出接口")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<List<ClassMate>> list(String name) {
-        List<ClassMate> classMateList = classMateService.list(name);
-        return ResultBuilder.error(ResultCodeEnum.OK, classMateList);
+    public Result<Void> out() {
+        teacherStaffInfoService.updatePadAppToken(LoginLocalThread.get(), "");
+        return ResultBuilder.ok(null);
     }
 }

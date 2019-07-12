@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = {"com.jimmy.core","com.jimmy.service","com.jimmy.mvc","com.jimmy.teacher.pad.api"})
 public class Application {
     public static void main(String[] args) {
-
         SpringApplication.run(Application.class, args);
     }
 }
