@@ -8,7 +8,7 @@ public class QuestionItem extends BaseEntity {
 
     private String content;
 
-    private Byte isResult;
+    private Boolean isResult;
 
 
 }

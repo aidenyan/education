@@ -18,21 +18,16 @@
         <module name="education-web-api" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="educaion-service" target="1.8" />
+    <bytecodeTargetLevel target="1.8">
       <module name="education" target="1.8" />
       <module name="education-common" target="1.8" />
       <module name="education-core" target="1.8" />
-      <module name="education-dao" target="1.8" />
-      <module name="education-dao-1" target="1.8" />
       <module name="education-db-dao" target="1.8" />
       <module name="education-mvc-common" target="1.8" />
       <module name="education-service" target="1.8" />
       <module name="education-student-api" target="1.8" />
       <module name="education-teacher-api" target="1.8" />
-      <module name="education-teacher-mobile-api" target="1.8" />
       <module name="education-teacher-pad-api" target="1.8" />
-      <module name="education-test-api" target="1.8" />
       <module name="education-web-api" target="1.8" />
     </bytecodeTargetLevel>
   </component>
