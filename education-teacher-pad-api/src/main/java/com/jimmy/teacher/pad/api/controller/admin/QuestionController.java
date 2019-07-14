@@ -12,6 +12,8 @@ import com.jimmy.mvc.common.model.transfer.QuestionItemDTOTransfer;
 import com.jimmy.service.QuestionItemService;
 import com.jimmy.service.QuestionService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Api(tags = "题库信息", description = "题库信息")
+@Api(value = "题库信息", description = "题库信息")
 @Controller
 @RequestMapping("/admin/question")
 public class QuestionController {
@@ -36,6 +38,8 @@ public class QuestionController {
     @ResponseBody
     @GetMapping("/list")
     @ApiOperation("教室列表")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+
     public Result<List<QuestionDTO>> list(String title) {
         List<Question> questionList = questionService.list(title);
 

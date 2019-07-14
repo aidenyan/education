@@ -9,18 +9,18 @@ import com.jimmy.mvc.common.model.enums.ResourceTypeEnum;
 import com.jimmy.mvc.common.model.transfer.ResourceInfoDTOTransfer;
 import com.jimmy.service.ResourceInfoService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Api(tags = "资源信息", description = "资源信息")
+@Api(value = "资源信息", description = "资源信息")
 @Controller
 @RequestMapping("/admin/resource")
 public class ResourceController {
@@ -30,6 +30,7 @@ public class ResourceController {
     @ResponseBody
     @GetMapping("/list/type")
     @ApiOperation("资源类型的列表")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<ResourceTypeEnum>> listType() {
         return ResultBuilder.ok(Arrays.asList(ResourceTypeEnum.values()));
     }
@@ -37,6 +38,7 @@ public class ResourceController {
     @ResponseBody
     @GetMapping("/list/resource")
     @ApiOperation("根据资源类型获取资源列表")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<ResourceInfoDTO>> listType(ResourceTypeEnum resourceType) {
         if (resourceType == null) {
             return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
@@ -46,9 +48,10 @@ public class ResourceController {
     }
 
     @ResponseBody
-    @GetMapping("/save")
-    @ApiOperation("根据资源类型获取资源列表")
-    public Result<Boolean> listType(@RequestBody ResourceInfoDTO resourceInfoDTO) {
+    @PostMapping("/save")
+    @ApiOperation("保存资源信息")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Boolean> listType(@Validated @RequestBody ResourceInfoDTO resourceInfoDTO) {
         if (resourceInfoDTO == null) {
             return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
         }

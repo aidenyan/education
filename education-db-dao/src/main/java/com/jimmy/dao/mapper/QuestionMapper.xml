@@ -37,7 +37,7 @@
             #{siteId}
         </foreach>
         <if test=" question != null">
-            AND question LIKE concat('%','#{question}','%')
+            AND question LIKE concat('%',#{question},'%')
         </if>
     </select>
 

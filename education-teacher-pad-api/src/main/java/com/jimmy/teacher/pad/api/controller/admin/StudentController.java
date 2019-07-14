@@ -28,7 +28,7 @@ import java.util.List;
  * @date: 2019/6/16/016.
  */
 
-@Api(tags = "学生信息", description = "学生信息")
+@Api(value = "学生信息", description = "学生信息")
 @Controller
 @RequestMapping("/admin/student")
 public class StudentController {
