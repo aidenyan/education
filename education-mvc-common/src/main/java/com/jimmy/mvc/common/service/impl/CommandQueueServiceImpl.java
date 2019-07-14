@@ -57,6 +57,12 @@ public class CommandQueueServiceImpl implements CommandQueueService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+
             push(commandMessageDTO);
         }
 

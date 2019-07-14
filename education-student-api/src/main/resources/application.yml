@@ -19,5 +19,5 @@ logging:
 student:
    config:
      token: dsfsasredserwersdfdsf
-     studentUrl: http://localhost:8502/teacher/teacher/common/command
+     studentUrl: http://localhost:8052/teacher/teacher/common/command
 

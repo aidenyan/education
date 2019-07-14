@@ -1,6 +1,5 @@
 package com.jimmy.student.api.controller.admin;
 
-import com.alibaba.fastjson.JSON;
 import com.jimmy.common.utils.StringUtils;
 import com.jimmy.dao.entity.CommandInfo;
 import com.jimmy.dao.entity.CourseInfo;
@@ -24,12 +23,13 @@ import com.jimmy.student.api.config.StudentConfig;
 import com.jimmy.student.api.controller.BaseController;
 import com.jimmy.student.api.local.thread.CourseStudentLocalThread;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -64,8 +64,10 @@ public class CommandController extends BaseController {
     @ApiOperation("æŸ ÷")
     @ResponseBody
     @PostMapping("/raise_hand")
-    public Result<Long> raiseHand(@RequestBody CommandDetailDTO<Void> commandDetailDTO) {
-        commandDetailDTO.setCommandType(CommandTypeEnum.INTERACTIVE);
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Long> raiseHand() {
+        CommandDetailDTO<RaiseHandDTO> commandDetailDTO = new CommandDetailDTO<>();
+        commandDetailDTO.setCommandType(CommandTypeEnum.RAISE_HAND);
         CourseStudent courseStudent = CourseStudentLocalThread.get();
         CourseInfo courseInfo = courseInfoService.findById(courseStudent.getCourseId());
         if (courseInfo.getUsedTeacherId() == null) {
@@ -74,6 +76,8 @@ public class CommandController extends BaseController {
         RaiseHandDTO raiseHandDTO = new RaiseHandDTO();
         raiseHandDTO.setMachineId(courseStudent.getMachineId());
         raiseHandDTO.setTeacherId(courseInfo.getTeacherId());
+        commandDetailDTO.setDetail(raiseHandDTO);
+        commandDetailDTO.setCourseId(courseInfo.getId());
         Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
         return ResultBuilder.ok(id);
     }
