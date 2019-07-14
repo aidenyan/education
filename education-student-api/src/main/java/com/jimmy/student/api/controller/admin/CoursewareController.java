@@ -13,6 +13,8 @@ import com.jimmy.service.CoursewareService;
 import com.jimmy.student.api.controller.BaseController;
 import com.jimmy.student.api.local.thread.CourseStudentLocalThread;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,6 +40,7 @@ public class CoursewareController extends BaseController {
     @ApiOperation("获取该课程的课件信息")
     @ResponseBody
     @GetMapping("/info")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<CoursewareDetailDTO>> info() {
         CourseStudent courseStudent = CourseStudentLocalThread.get();
         List<CoursewareDetailVO> coursewareDetailVOList = coursewareService.list(courseStudent.getCourseId());

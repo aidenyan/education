@@ -27,7 +27,7 @@ import java.util.Arrays;
  * @author: aiden
  * @date: 2019/6/17/017.
  */
-@Api(tags = "教师部分的公共功能", description = "教师部分的公共功能API")
+@Api(tags = "学生部分的公共功能", description = "学部分的公共功能API")
 @Controller
 @RequestMapping("/student/common")
 @EnableConfigurationProperties(StudentConfig.class)

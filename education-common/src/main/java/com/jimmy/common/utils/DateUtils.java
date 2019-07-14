@@ -70,45 +70,45 @@ public class DateUtils {
 
     public static Date getNextDate(Integer nextHouse) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.HOUR,0-nextHouse);
+        calendar.add(Calendar.HOUR, 0 - nextHouse);
         return calendar.getTime();
 
     }
+
     public static Date getWeekStart() {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.DAY_OF_WEEK, 2);
+        if (calendar.getTime().compareTo(new Date()) > 0) {
+            calendar.add(Calendar.DAY_OF_YEAR, -7);
+        }
         return calendar.getTime();
     }
 
     public static Date getWeekEnd() {
+        Date time = getWeekStart();
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        calendar.set(Calendar.DAY_OF_WEEK, 1);
+        calendar.setTime(time);
         calendar.add(Calendar.DAY_OF_YEAR, 7);
+        calendar.add(Calendar.SECOND, -1);
         return calendar.getTime();
     }
 
     public static Date getPreWeekStart() {
+        Date time = getWeekStart();
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.DAY_OF_WEEK, 2);
+        calendar.setTime(time);
         calendar.add(Calendar.DAY_OF_YEAR, -7);
         return calendar.getTime();
     }
 
     public static Date getPreWeekEnd() {
+        Date time = getWeekEnd();
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 23);
-        calendar.set(Calendar.MINUTE, 59);
-        calendar.set(Calendar.SECOND, 59);
-        calendar.set(Calendar.DAY_OF_WEEK, 1);
+        calendar.setTime(time);
+        calendar.add(Calendar.DAY_OF_YEAR, -7);
         return calendar.getTime();
     }
 }

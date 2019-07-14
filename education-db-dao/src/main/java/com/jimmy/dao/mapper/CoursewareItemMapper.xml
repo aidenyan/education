@@ -6,7 +6,7 @@
         <result column="type" property="type" jdbcType="TINYINT"/>
         <result column="content_type" property="contentType" jdbcType="TINYINT"/>
         <result column="resource_id" property="resourceId" jdbcType="BIGINT"/>
-        <result column="courseware_id" property="coursewareId" jdbcType="BIGINT"/>
+        <result column="courseware_id" property="coursewareId"/>
         <result column="order_num" property="orderNum"/>
         <result column="create_id" property="createId" jdbcType="BIGINT"/>
         <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
@@ -49,7 +49,7 @@
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
-        ORDER BY coursewareId ASC ,order_num DESC ;
+        ORDER BY courseware_id ASC ,order_num DESC ;
     </select>
     <delete id="deleted">
         delete from t_courseware_item
