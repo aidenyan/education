@@ -30,7 +30,9 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     @Transactional(rollbackFor = Exception.class)
     public void save(List<CourseStudent> courseStudentList) {
         Assert.notEmpty(courseStudentList);
-        courseStudentList.forEach(courseStudent -> save(courseStudent));
+        CourseStudent courseStudent=courseStudentList.stream().findFirst().get();
+        courseStudentMapper.deletedByMachineId(courseStudent.getCourseId(), courseStudent.getMachineId(), SiteLocalThread.getSiteId());
+        courseStudentList.forEach(courseStudentInfo -> save(courseStudentInfo));
     }
 
     @Override
@@ -40,7 +42,7 @@ public class CourseStudentServiceImpl implements CourseStudentService {
         Assert.notNull(courseStudent.getCourseId());
         Assert.notNull(courseStudent.getMachineId());
         Assert.notNull(courseStudent.getStudentId());
-        courseStudentMapper.deleted(courseStudent.getCourseId(), courseStudent.getStudentId(), SiteLocalThread.getSiteId());
+
         courseStudent.setModifyId(LoginLocalThread.get());
         courseStudent.setCreateId(LoginLocalThread.get());
         courseStudent.setSiteId(SiteLocalThread.getSiteId());

@@ -44,7 +44,7 @@
       create_time, modify_time, site_id, 
       description)
     values ( #{name,jdbcType=VARCHAR}, #{courseId,jdbcType=BIGINT},
-      #{isDeleted,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
+     0, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT},
     now(),now(), #{siteId,jdbcType=BIGINT},
       #{description,jdbcType=LONGVARCHAR})
   </insert>

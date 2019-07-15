@@ -11,4 +11,6 @@ public class TemporaryClassMate extends BaseEntity {
 
     private String description;
 
+    private Boolean isDeleted;
+
 }

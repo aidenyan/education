@@ -68,8 +68,11 @@
         </foreach>
     </select>
     <delete id="deleted">
-       DELETE from t_course_student where site_id=#{siteId} and course_id=#{courseId} and student_id=#{studentId}
-   </delete>
+    DELETE from t_course_student where site_id=#{siteId} and course_id=#{courseId} and student_id=#{studentId}
+</delete>
+    <delete id="deletedByMachineId">
+        DELETE from t_course_student where site_id=#{siteId} and machine_id=#{machineId} and course_id=#{courseId}
+    </delete>
     <update id="updateCourseStudentStatus">
              update t_course_student SET status=#{status}
         where site_id=#{siteId} and course_id=#{courseId} and machine_id=#{machineId}

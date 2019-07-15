@@ -48,6 +48,8 @@ public interface CourseStudentMapper {
      */
     int deleted(@Param("courseId") Long courseId, @Param("studentId") Long studentId, @Param("siteId") Long siteId);
 
+    int deletedByMachineId(@Param("courseId") Long courseId, @Param("machineId") Long machineId, @Param("siteId") Long siteId);
+
     /**
      * 删除
      *
@@ -59,7 +61,7 @@ public interface CourseStudentMapper {
     /**
      * 查找机床等路的信息
      */
-    List<CourseStudent> find(@Param("courseId") Long courseId, @Param("studentIdList") List<Long> studentIdList , @Param("machineId") Long machineId, @Param("siteIdList") List<Long> siteIdList);
+    List<CourseStudent> find(@Param("courseId") Long courseId, @Param("studentIdList") List<Long> studentIdList, @Param("machineId") Long machineId, @Param("siteIdList") List<Long> siteIdList);
 
     /**
      * 查找机床等路的信息
