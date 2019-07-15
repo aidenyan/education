@@ -1,6 +1,8 @@
 package com.jimmy.service.impl;
 
+import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.dao.entity.CourseStudentRegister;
+import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.mapper.CourseStudentRegisterMapper;
 import com.jimmy.service.CourseStudentRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class CourseStudentRegisterServiceImpl implements CourseStudentRegisterSe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(CourseStudentRegister register) {
+        register.setSiteId(SiteLocalThread.getSiteId());
+        register.setModifyId(LoginLocalThread.get());
+        register.setCreateId(LoginLocalThread.get());
         courseStudentRegisterMapper.insert(register);
     }
 

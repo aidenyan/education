@@ -23,7 +23,7 @@ public interface DictionaryItemMapper {
      * @param dictionaryId
      * @return
      */
-    List<DictionaryItem> listByDictionaryId(@Param("dictionaryId(") Long dictionaryId, @Param("siteIdList") List<Long> siteIdList);
+    List<DictionaryItem> listByDictionaryId(@Param("dictionaryId") Long dictionaryId, @Param("siteIdList") List<Long> siteIdList);
 
     /**
      * 更新字典详细信息

@@ -3,7 +3,6 @@ package com.jimmy.mvc.common.model.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
@@ -11,14 +10,14 @@ import java.util.List;
 
 @Data
 @ApiModel("签到信息")
-public class RegisterDTO {
+public class RegisterBatchDTO {
 
     /**
      * 学生ID
      */
-    @NotNull(message = "学生ID不能未空")
+    @NotEmpty(message = "学生ID不能未空")
     @ApiModelProperty("学生ID")
-    private Long studentId;
+    private List<Long> studentIdList;
     /**
      * 课程ID
      */

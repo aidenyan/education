@@ -6,6 +6,7 @@ import com.jimmy.dao.entity.StudentInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
+import com.jimmy.mvc.common.model.dto.RegisterBatchDTO;
 import com.jimmy.mvc.common.model.dto.RegisterDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
@@ -21,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -77,7 +79,7 @@ public class StudentController extends BaseController {
     @ResponseBody
     @PostMapping("/register")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> using(@RequestBody RegisterDTO registerDTO) {
+    public Result<Boolean> using(@RequestBody @Validated RegisterDTO registerDTO) {
         List<CourseStudent> courseStudentList = courseStudentService.find(registerDTO.getCourseId(), registerDTO.getStudentId(), null);
         if (CollectionUtils.isEmpty(courseStudentList)) {
             return ResultBuilder.ok(Boolean.FALSE);
@@ -99,11 +101,9 @@ public class StudentController extends BaseController {
     @ResponseBody
     @PostMapping("/register/batch")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> using(List<Long> studentIdList, Long courseId, Long commandId) {
-        if (CollectionUtils.isEmpty(studentIdList)) {
-            return ResultBuilder.ok(Boolean.FALSE);
-        }
-        List<CourseStudent> courseStudentList = courseStudentService.find(courseId, studentIdList, null);
+    public Result<Boolean> using(@Validated @RequestBody RegisterBatchDTO registerBatchDTO) {
+
+        List<CourseStudent> courseStudentList = courseStudentService.find(registerBatchDTO.getCourseId(), registerBatchDTO.getStudentIdList(), null);
         if (CollectionUtils.isEmpty(courseStudentList)) {
             return ResultBuilder.ok(Boolean.FALSE);
         }
@@ -111,7 +111,7 @@ public class StudentController extends BaseController {
         CourseStudentRegister courseStudentRegister;
         for (CourseStudent courseStudent : courseStudentList) {
             courseStudentRegister = new CourseStudentRegister();
-            courseStudentRegister.setCommandId(commandId);
+            courseStudentRegister.setCommandId(registerBatchDTO.getCommandId());
             courseStudentRegister.setIsRegister(true);
             courseStudentRegister.setCourseStudentId(courseStudent.getId());
             registerList.add(courseStudentRegister);
