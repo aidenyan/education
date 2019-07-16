@@ -44,7 +44,6 @@
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
-
         <if test=" roomId != null ">
             AND room_id=#{roomId}
         </if>
@@ -53,7 +52,7 @@
         </if>
         and (used_status=0 or used_status=1)
         ORDER BY start_time ASC
-        limit #{SIZE}
+        limit #{limitSize}
     </select>
 
     <select id="findById" resultMap="BaseResultMap">
@@ -79,12 +78,12 @@
 
     <insert id="insert" parameterType="com.jimmy.dao.entity.CourseInfo" keyProperty="id" useGeneratedKeys="true">
     insert into t_course_info ( name, start_time,
-      time_long, room_id, tearcher_id,
+      time_long, room_id, teacher_id,
       used_status, create_id, modify_id,
       create_time, modify_time, site_id, 
       description)
     values (#{name,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP},
-      #{timeLong,jdbcType=INTEGER}, #{roomId,jdbcType=BIGINT}, #{tearcherId,jdbcType=BIGINT},
+      #{timeLong,jdbcType=INTEGER}, #{roomId,jdbcType=BIGINT}, #{teacherId,jdbcType=BIGINT},
       #{usedStatus,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT},
      now(), now(), #{siteId,jdbcType=BIGINT},
       #{description,jdbcType=LONGVARCHAR})
@@ -105,8 +104,8 @@
             <if test="roomId != null">
                 room_id = #{roomId,jdbcType=BIGINT},
             </if>
-            <if test="tearcherId != null">
-                tearcher_id = #{tearcherId,jdbcType=BIGINT},
+            <if test="teacherId != null">
+                teacher_id = #{teacherId,jdbcType=BIGINT},
             </if>
             <if test="usedTeacherId != null">
                 used_teacher_id = #{usedTeacherId,jdbcType=BIGINT},
@@ -121,12 +120,12 @@
                 description = #{description,jdbcType=LONGVARCHAR},
             </if>
         </set>
-        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId,jdbcType=BIGINT} and used_status=0
+        where id = #{id,jdbcType=BIGINT} and site_id = #{siteId,jdbcType=BIGINT} and (used_status=0 or used_status=1)
     </update>
     <update id="updateUsedStatus">
     update t_course_info
     set used_status=2
-    where site_id = #{siteId} and used_status=1 and room_id=#{roomId} and course_id!=#{courseId}
+    where site_id = #{siteId} and used_status=1 and room_id=#{roomId} and id!=#{courseId}
   </update>
 
 </mapper>

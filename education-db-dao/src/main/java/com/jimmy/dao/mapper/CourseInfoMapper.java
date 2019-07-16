@@ -65,10 +65,10 @@ public interface CourseInfoMapper {
      *
      * @param roomId    教室ID
      * @param teacherId 老师ID
-     * @param size      数量
+     * @param limitSize      数量
      * @return List<课程></>
      */
     List<CourseInfo> listCouldUsed(@Param("roomId") Long roomId, @Param("teacherId") Long teacherId,
-                                   @Param("size") Integer size, @Param("siteIdList") List<Long> siteIdList
+                                   @Param("limitSize") Integer limitSize, @Param("siteIdList") List<Long> siteIdList
     );
 }
