@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
  * @date: 2019/7/8/008.
  */
 @Data
-@ApiModel("课程详细信息")
+@ApiModel("登录信息")
 public class LoginDTO {
     /**
      * 登录的密码

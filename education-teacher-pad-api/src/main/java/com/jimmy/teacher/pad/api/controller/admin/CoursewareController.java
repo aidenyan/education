@@ -11,16 +11,19 @@ import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
 import com.jimmy.service.CoursewareService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(tags = "课程信息", description = "课程信息")
+@Api(value = "课件信息", description = "课件信息")
 @Controller
 @RequestMapping("/admin/course_ware")
 public class CoursewareController {
@@ -30,7 +33,8 @@ public class CoursewareController {
     @ResponseBody
     @PostMapping("/save")
     @ApiOperation("保存课件信息信息")
-    public Result<Boolean> save(@RequestBody CoursewareDetailDTO coursewareDetailDTO) {
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Boolean> save(@RequestBody @Validated CoursewareDetailDTO coursewareDetailDTO) {
         coursewareService.save(CoursewareDTOTransfer.INSTANCE.toCourseware(coursewareDetailDTO.getCourseware()),
                 CoursewareItemDTOTransfer.INSTANCE.toCoursewareItemList(coursewareDetailDTO.getCoursewareItemList()),
                 coursewareDetailDTO.getCourseId()
@@ -41,6 +45,7 @@ public class CoursewareController {
     @ResponseBody
     @PostMapping("/course/bind")
     @ApiOperation("绑定课程课件关系")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> bind(@RequestBody CourseCoursewareDTO courseCoursewareDTO) {
         if (courseCoursewareDTO.getCourseId() == null || CollectionUtils.isEmpty(courseCoursewareDTO.getCoursewareIdList())) {
             ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
@@ -52,6 +57,7 @@ public class CoursewareController {
     @ResponseBody
     @PostMapping("/course/unbind")
     @ApiOperation("解绑课程课件关系")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> unbind(@RequestBody CourseCoursewareDTO courseCoursewareDTO) {
         if (courseCoursewareDTO.getCourseId() == null || CollectionUtils.isEmpty(courseCoursewareDTO.getCoursewareIdList())) {
             ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
@@ -63,6 +69,7 @@ public class CoursewareController {
     @ResponseBody
     @GetMapping("/course/list")
     @ApiOperation("获取该课程下所有的课件信息")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<CoursewareDetailDTO>> list(Long courseId) {
         if (courseId == null) {
             ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
