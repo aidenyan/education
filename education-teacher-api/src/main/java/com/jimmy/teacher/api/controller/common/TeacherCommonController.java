@@ -25,7 +25,7 @@ import java.util.Arrays;
  * @author: aiden
  * @date: 2019/6/17/017.
  */
-@Api(tags = "教师部分的公共功能", description = "教师部分的公共功能API")
+@Api(value = "教师部分的公共功能", description = "教师部分的公共功能API")
 @Controller
 @RequestMapping("/teacher/common")
 @EnableConfigurationProperties(TeacherConfig.class)
@@ -34,7 +34,7 @@ public class TeacherCommonController {
     @Autowired
     private TeacherConfig teacherConfig;
 
-    @ApiOperation("命令接口信息")
+    @ApiOperation("命令接口接收信息（接收学生端发送过来的信息）")
     @ResponseBody
     @PostMapping("/command/{token}")
     public Result<Boolean> command(@RequestBody CommandDTO commandDTO, @PathVariable("token") String token) {
@@ -45,9 +45,6 @@ public class TeacherCommonController {
         if (!encryptToken.equals(token)) {
             return ResultBuilder.ok(false);
         }
-        /**
-         * 命令相关的处理
-         */
         /**
          * 命令相关的处理
          */

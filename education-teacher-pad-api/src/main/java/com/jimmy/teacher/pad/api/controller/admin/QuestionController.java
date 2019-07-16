@@ -37,7 +37,7 @@ public class QuestionController {
 
     @ResponseBody
     @GetMapping("/list")
-    @ApiOperation("教室列表")
+    @ApiOperation("题库信息列表")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
 
     public Result<List<QuestionDTO>> list(String title) {

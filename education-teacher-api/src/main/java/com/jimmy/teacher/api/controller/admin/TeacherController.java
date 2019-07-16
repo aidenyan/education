@@ -8,10 +8,7 @@ import com.jimmy.model.vo.StudentFractionVo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
-import com.jimmy.mvc.common.model.dto.AppraiseItemDTO;
-import com.jimmy.mvc.common.model.dto.CourseAnswerDTO;
-import com.jimmy.mvc.common.model.dto.DrawingDTO;
-import com.jimmy.mvc.common.model.dto.TeacherStaffInfoDTO;
+import com.jimmy.mvc.common.model.dto.*;
 import com.jimmy.mvc.common.model.enums.ContentTypeEnum;
 import com.jimmy.mvc.common.model.enums.FractionTypeEnum;
 import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
@@ -28,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -109,7 +107,7 @@ public class TeacherController extends BaseController {
 
     @ApiOperation("获取课程下课件中所有需要评价项")
     @ResponseBody
-    @PostMapping("/appraise/list/{courseId}")
+    @GetMapping("/appraise/list/{courseId}")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<AppraiseItemDTO>> listAppraiseItem(@PathVariable("courseId") Long courseId) {
         List<AppraiseItemDTO> appraiseItemDTOList = new ArrayList<>();
@@ -136,15 +134,13 @@ public class TeacherController extends BaseController {
         return ResultBuilder.ok(appraiseItemDTOList);
     }
 
-    @ApiOperation("获取课程下课件中所有需要评价项")
+    @ApiOperation("保存课程中所有需要评价项")
     @ResponseBody
     @PostMapping("/appraise/save/{courseId}/{machineId}")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> listAppraiseItem(@PathVariable("courseId") Long courseId,
-                                            @PathVariable("machineId") Long machineId, AppraiseItemDTO[] appraiseItemDTOArray) {
-        if (appraiseItemDTOArray == null || appraiseItemDTOArray.length == 0) {
-            return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
-        }
+                                            @PathVariable("machineId") Long machineId, @RequestBody @Validated ListDTO<AppraiseItemDTO> itemDTOListDTO) {
+
         List<CourseStudent> courseStudentList = courseStudentService.list(courseId, machineId);
         if (CollectionUtils.isEmpty(courseStudentList)) {
             return ResultBuilder.error(ResultCodeEnum.MACHINE_STUDENT_NOT_EXIST);
@@ -162,7 +158,7 @@ public class TeacherController extends BaseController {
             List<StudentFractionItem> studentFractionItemList = new ArrayList<>();
             BigDecimal totalFration = BigDecimal.ZERO;
             StudentFractionItem studentFractionItem;
-            for (AppraiseItemDTO appraiseItemDTO : appraiseItemDTOArray) {
+            for (AppraiseItemDTO appraiseItemDTO : itemDTOListDTO.getResult()) {
                 studentFractionItem = new StudentFractionItem();
                 studentFractionItem.setFraction(appraiseItemDTO.getFraction());
                 studentFractionItem.setName(appraiseItemDTO.getName());

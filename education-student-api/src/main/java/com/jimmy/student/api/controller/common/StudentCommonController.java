@@ -38,7 +38,7 @@ public class StudentCommonController {
 
     @ApiOperation("命令接口信息")
     @ResponseBody
-    @GetMapping("/command/{token}")
+    @PostMapping("/command/{token}")
     public Result<Boolean> command(@RequestBody CommandDTO commandDTO, @PathVariable("token") String token) {
         if (StringUtils.isBlank(commandDTO.getSn())) {
             return ResultBuilder.ok(false);

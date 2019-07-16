@@ -1,5 +1,6 @@
 package com.jimmy.service.impl;
 
+import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.dao.entity.StudentFraction;
 import com.jimmy.dao.entity.StudentFractionItem;
 import com.jimmy.dao.entity.StudentTotalFaction;
@@ -55,12 +56,18 @@ public class StudentFractionServiceImpl implements StudentFractionService {
         studentFractionVos.forEach(studentFractionVo -> {
             StudentFraction studentFraction = studentFractionVo.getStudentFraction();
             Assert.isNull(studentFraction.getId());
+            studentFraction.setModifyId(LoginLocalThread.get());
+            studentFraction.setSiteId(SiteLocalThread.getSiteId());
+            studentFraction.setCreateId(LoginLocalThread.get());
             studentFractionMapper.insert(studentFraction);
             List<StudentFractionItem> itemList = studentFractionVo.getStudentFractionItemList();
             Assert.notEmpty(itemList);
             itemList.forEach(studentFractionItem -> {
                 studentFractionItem.setFractionId(studentFraction.getId());
                 Assert.isNull(studentFractionItem.getId());
+                studentFractionItem.setModifyId(LoginLocalThread.get());
+                studentFractionItem.setSiteId(SiteLocalThread.getSiteId());
+                studentFractionItem.setCreateId(LoginLocalThread.get());
                 studentFractionItemMapper.insert(studentFractionItem);
             });
         });
