@@ -45,9 +45,13 @@ public class StudentInfoServiceImpl implements StudentInfoService {
     @Override
     public List<StudentInfo> listByClassMate(List<Long> classMateIdList) {
         Assert.notEmpty(classMateIdList);
-        return studentInfoMapper.listByClassMate(classMateIdList, SiteLocalThread.getSiteIdList());
+        return studentInfoMapper.listByClassMate(classMateIdList,null, SiteLocalThread.getSiteIdList());
     }
-
+    @Override
+    public List<StudentInfo> listByClassMate(List<Long> classMateIdList,String realName) {
+        Assert.notEmpty(classMateIdList);
+        return studentInfoMapper.listByClassMate(classMateIdList,realName, SiteLocalThread.getSiteIdList());
+    }
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateToken(String token, Long id) {
@@ -92,6 +96,13 @@ public class StudentInfoServiceImpl implements StudentInfoService {
         studentInfo.setHeaderInfo(headerInfo);
         studentInfo.setId(id);
         return studentInfoMapper.updateProperty(studentInfo);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateHeader(String headerInfo, String headerImg, Long id) {
+        updateHeaderImg(headerImg,id);
+        updateHeader(headerInfo,id);
     }
 
     @Override

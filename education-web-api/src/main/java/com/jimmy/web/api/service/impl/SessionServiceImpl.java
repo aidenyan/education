@@ -34,7 +34,7 @@ public class SessionServiceImpl implements SessionService {
     private static final Integer MAX_TIME = 30;
     private static final String ENCRY_SECRET_KEY = SessionService.class.getName();
 
-    private static final boolean isCookie = true;
+    private static final boolean isCookie = false;
 
 
     @Autowired

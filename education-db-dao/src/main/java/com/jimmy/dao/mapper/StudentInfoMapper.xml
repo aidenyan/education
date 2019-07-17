@@ -77,6 +77,9 @@
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
+        <if test=" realName != null and realName != '' ">
+            and real_name like concat('%',#{realName},'%')
+        </if>
         and classmate_id  IN
         <foreach collection="classMateIdList" separator="," item="id" close=")" open="(">
             #{id}

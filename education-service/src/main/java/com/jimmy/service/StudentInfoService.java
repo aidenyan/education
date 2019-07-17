@@ -46,6 +46,14 @@ public interface StudentInfoService {
     List<StudentInfo> listByClassMate(List<Long> classMateIdList);
 
     /**
+     * 根据班级ID获取学生信息
+     *
+     * @param classMateIdList 班级ID
+     * @return List<学生信息>
+     */
+    List<StudentInfo> listByClassMate(List<Long> classMateIdList, String realName);
+
+    /**
      * 更新token
      *
      * @param token token
@@ -68,6 +76,10 @@ public interface StudentInfoService {
      */
     int updateHeader(String headerInfo, Long id);
 
+    /**
+     * 保存学生头部特征
+     */
+    void updateHeader(String headerInfo, String headerImg, Long id);
 
     /**
      * 保存学生头部图片

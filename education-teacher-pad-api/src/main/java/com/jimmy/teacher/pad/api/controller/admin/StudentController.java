@@ -6,6 +6,7 @@ import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.HeaderDTO;
+import com.jimmy.mvc.common.model.dto.HeaderDetailDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
 import com.jimmy.service.StudentInfoService;
@@ -40,12 +41,13 @@ public class StudentController {
     @ResponseBody
     @GetMapping("/list")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token"),
-            @ApiImplicitParam(required = true, paramType = "query", value = "班级ID", name = "classMateId")})
-    public Result<List<StudentInfoDTO>> listStudent(@Validated Long classMateId) {
+            @ApiImplicitParam(required = true, paramType = "query", value = "班级ID", name = "classMateId"),
+            @ApiImplicitParam(paramType = "query", value = "真实的姓名", name = "realName")})
+    public Result<List<StudentInfoDTO>> listStudent(Long classMateId, String realName) {
         if (classMateId == null) {
             return ResultBuilder.error(ResultCoreEnum.RESULT_EXCEPTION_SYS);
         }
-        List<StudentInfo> studentInfoList = studentInfoService.listByClassMate(Arrays.asList(classMateId));
+        List<StudentInfo> studentInfoList = studentInfoService.listByClassMate(Arrays.asList(classMateId), realName);
         return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
     }
 
@@ -55,6 +57,16 @@ public class StudentController {
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> saveHeader(@Validated(HeaderDTO.Student.class) @RequestBody HeaderDTO headerDTO) {
         studentInfoService.updateHeader(headerDTO.getHeader(), headerDTO.getUserId());
+        return ResultBuilder.ok(Boolean.TRUE);
+    }
+
+
+    @ResponseBody
+    @PostMapping("/save/header_detail")
+    @ApiOperation("保存学生头部详细信息")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Boolean> saveHeader(@Validated @RequestBody HeaderDetailDTO headerDTO) {
+        studentInfoService.updateHeader(headerDTO.getHeader(), headerDTO.getHeaderImg(), headerDTO.getUserId());
         return ResultBuilder.ok(Boolean.TRUE);
     }
 

@@ -41,7 +41,7 @@ public interface StudentInfoMapper {
      * @param classMateIdList 班级ID
      * @return List<学生信息>
      */
-    List<StudentInfo> listByClassMate(@Param("classMateIdList") List<Long> classMateIdList,@Param("siteIdList") List<Long> siteIdList);
+    List<StudentInfo> listByClassMate(@Param("classMateIdList") List<Long> classMateIdList,@Param("realName")String realName,@Param("siteIdList") List<Long> siteIdList);
     /**
      * 保存学生信息
      *
