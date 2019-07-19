@@ -27,11 +27,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -105,7 +103,7 @@ public class ClassMateController extends BaseController {
     @ResponseBody
     @PostMapping("/list/assign")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Void> listAssign(@RequestBody @Validated  AssignMachineDTO assignMachineDTO) {
+    public Result<Void> listAssign(@RequestBody @Validated AssignMachineDTO assignMachineDTO) {
 
         List<CourseStudent> courseStudentList = new ArrayList<>();
         CourseStudent courseStudent;
@@ -129,9 +127,9 @@ public class ClassMateController extends BaseController {
 
     @ApiOperation("单个调整学生和机器信息")
     @ResponseBody
-    @PostMapping("/single/assign")
+    @PostMapping("/single/assign/{courseId}")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Void> listAssign(MachineStudentDTO machineStudent, Long courseId) {
+    public Result<Void> listAssign(@Validated @RequestBody MachineStudentDTO machineStudent, @PathVariable("courseId") Long courseId) {
         if (machineStudent == null || CollectionUtils.isEmpty(machineStudent.getStudentIdList())) {
             return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
         }
