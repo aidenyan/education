@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.jimmy.core.enums.ResultCoreEnum;
 import com.jimmy.dao.entity.CourseAnswer;
 import com.jimmy.dao.entity.CourseStudent;
+import com.jimmy.dao.entity.CourseStudentRegister;
 import com.jimmy.dao.entity.StudentInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
@@ -11,10 +12,7 @@ import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.CourseAnswerDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
-import com.jimmy.service.CourseAnswerService;
-import com.jimmy.service.CourseStudentService;
-import com.jimmy.service.StudentInfoService;
-import com.jimmy.service.StudentStarInfoService;
+import com.jimmy.service.*;
 import com.jimmy.student.api.local.thread.CourseStudentLocalThread;
 import com.jimmy.student.api.local.thread.StudentLocalThread;
 import io.swagger.annotations.Api;
@@ -55,7 +53,30 @@ public class StudentController {
     @Autowired
     private StudentStarInfoService studentStarInfoService;
 
-
+    @Autowired
+    private CourseStudentRegisterService courseStudentRegisterService;
+    @ApiOperation("签到")
+    @ResponseBody
+    @PostMapping("/register/{commandId}")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Boolean> using(@PathVariable("commandId")  Long commandId) {
+        CourseStudent detailCourseStudent=CourseStudentLocalThread.get();
+        List<CourseStudent> courseStudentList = courseStudentService.find(detailCourseStudent.getCourseId(), detailCourseStudent.getStudentId(), null);
+        if (CollectionUtils.isEmpty(courseStudentList)) {
+            return ResultBuilder.ok(Boolean.FALSE);
+        }
+        List<CourseStudentRegister> registerList = new ArrayList<>();
+        CourseStudentRegister courseStudentRegister;
+        for (CourseStudent courseStudent : courseStudentList) {
+            courseStudentRegister = new CourseStudentRegister();
+            courseStudentRegister.setCommandId(commandId);
+            courseStudentRegister.setIsRegister(true);
+            courseStudentRegister.setCourseStudentId(courseStudent.getId());
+            registerList.add(courseStudentRegister);
+        }
+        courseStudentRegisterService.save(registerList);
+        return ResultBuilder.ok(Boolean.TRUE);
+    }
     @ApiOperation("获取学生的基本信息接口")
     @ResponseBody
     @GetMapping("/detail")
