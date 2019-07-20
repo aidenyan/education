@@ -1,4 +1,4 @@
-package com.jimmy.teacher.pad.api.controller.admin;
+package com.jimmy.teacher.pad.api.controller.common;
 
 import com.jimmy.dao.entity.ClassRoomInfo;
 import com.jimmy.mvc.common.base.Result;
@@ -18,7 +18,7 @@ import java.util.List;
 
 @Api(value = "教室信息", description = "教室信息")
 @Controller
-@RequestMapping("/admin/room")
+@RequestMapping("/common/room")
 public class RoomController {
     @Autowired
     private ClassRoomService classRoomService;
