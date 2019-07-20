@@ -18,7 +18,7 @@
     <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="real_name" property="realName" jdbcType="VARCHAR" />
-    <result column="header_url" property="headerUrl" jdbcType="VARCHAR" />
+    <result column="header_url" property="headerUrl"  />
     <result column="birth_time" property="birthTime" jdbcType="TIMESTAMP" />
     <result column="mobile" property="mobile" jdbcType="VARCHAR" />
     <result column="app_room_id" property="appRoomId" jdbcType="BIGINT" />
@@ -32,7 +32,7 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="site_id" property="siteId" jdbcType="BIGINT" />
-    <result column="header_info" property="headerInfo" jdbcType="VARCHAR" />
+    <result column="header_info" property="headerInfo" />
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -96,12 +96,12 @@
       #{staffType,jdbcType=TINYINT}, #{staffName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{isEnabled,jdbcType=BIT}, #{isLocked,jdbcType=BIT}, #{lockedDate,jdbcType=TIMESTAMP}, 
       #{loginDate,jdbcType=TIMESTAMP}, #{loginFailureCount,jdbcType=INTEGER}, #{loginIp,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{headerUrl,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{headerUrl},
       #{birthTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
       #{webToken,jdbcType=VARCHAR}, #{appToken,jdbcType=VARCHAR}, #{padAppToken,jdbcType=VARCHAR}, 
       #{isDeleted,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
       now(), now(), #{siteId,jdbcType=BIGINT},
-      #{headerInfo,jdbcType=VARCHAR})
+      #{headerInfo})
   </insert>
 
   <update id="updateProperty" parameterType="com.jimmy.dao.entity.TeacherStaffInfo" >
@@ -153,7 +153,7 @@
         real_name = #{realName,jdbcType=VARCHAR},
       </if>
       <if test="headerUrl != null" >
-        header_url = #{headerUrl,jdbcType=VARCHAR},
+        header_url = #{headerUrl},
       </if>
       <if test="birthTime != null" >
         birth_time = #{birthTime,jdbcType=TIMESTAMP},
@@ -179,7 +179,7 @@
         modify_id = #{modifyId,jdbcType=BIGINT},
         modify_time = now(),
       <if test="headerInfo != null" >
-        header_info = #{headerInfo,jdbcType=VARCHAR},
+        header_info = #{headerInfo},
       </if>
       <if test="faceVersion != null">
         face_version = #{faceVersion,jdbcType=VARCHAR},
@@ -197,7 +197,7 @@
       email = #{email,jdbcType=VARCHAR},
       is_enabled = #{isEnabled,jdbcType=BIT},
       real_name = #{realName,jdbcType=VARCHAR},
-      header_url = #{headerUrl,jdbcType=VARCHAR},
+      header_url = #{headerUrl},
       birth_time = #{birthTime,jdbcType=TIMESTAMP},
       mobile = #{mobile,jdbcType=VARCHAR},
       telephone = #{telephone,jdbcType=VARCHAR},

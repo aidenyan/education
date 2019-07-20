@@ -17,7 +17,7 @@ public class SpringWebConfig {
     public ServletRegistrationBean servletRegistrationBean(DispatcherServlet dispatcherServlet) {
         ServletRegistrationBean servletServletRegistrationBean = new ServletRegistrationBean(dispatcherServlet);
         servletServletRegistrationBean.addUrlMappings("/teacher/*");
-
+        servletServletRegistrationBean.addUrlMappings("/api/*");
         return servletServletRegistrationBean;
     }
 

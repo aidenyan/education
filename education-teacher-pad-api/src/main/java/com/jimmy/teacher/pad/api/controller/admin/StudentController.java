@@ -58,17 +58,18 @@ public class StudentController {
     @PostMapping("/save/header_detail")
     @ApiOperation("保存学生头部详细信息")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> saveHeader(@Validated @RequestBody HeaderDetailDTO headerDTO) {
+    public Result<StudentInfoDTO> saveHeader(@Validated @RequestBody HeaderDetailDTO headerDTO) {
         studentInfoService.updateHeader(headerDTO.getHeader(), headerDTO.getHeaderImg(),headerDTO.getFaceVersion(), headerDTO.getUserId());
-        return ResultBuilder.ok(Boolean.TRUE);
+        return ResultBuilder.ok(StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTO(studentInfoService.findById(headerDTO.getUserId())));
+
     }
 
     @ResponseBody
     @PostMapping("/save/header_img")
     @ApiOperation("保存学生头部图片信息")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> saveImg(@Validated(HeaderDTO.Student.class) @RequestBody HeaderDTO headerDTO) {
+    public Result<StudentInfoDTO> saveImg(@Validated(HeaderDTO.Student.class) @RequestBody HeaderDTO headerDTO) {
         studentInfoService.updateHeaderImg(headerDTO.getHeader(), headerDTO.getUserId());
-        return ResultBuilder.ok(Boolean.TRUE);
+        return ResultBuilder.ok(StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTO(studentInfoService.findById(headerDTO.getUserId())));
     }
 }

@@ -3,11 +3,13 @@ package com.jimmy.teacher.api.controller.common;
 import com.alibaba.fastjson.JSON;
 import com.jimmy.common.utils.EncryptUtil;
 import com.jimmy.common.utils.StringUtils;
+import com.jimmy.dao.entity.AppVersion;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.model.dto.CommandDTO;
 import com.jimmy.mvc.common.model.dto.RaiseHandDTO;
 import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
+import com.jimmy.service.AppVersionService;
 import com.jimmy.teacher.api.config.TeacherConfig;
 import com.jimmy.teacher.api.websocket.WebSocketUtils;
 import io.swagger.annotations.Api;
@@ -30,6 +32,12 @@ import java.util.Arrays;
 @RequestMapping("/teacher/common")
 @EnableConfigurationProperties(TeacherConfig.class)
 public class TeacherCommonController {
+
+
+    private final static String APP_NAME = "app_teacher";
+
+    @Autowired
+    private AppVersionService appVersionService;
 
     @Autowired
     private TeacherConfig teacherConfig;
@@ -54,5 +62,12 @@ public class TeacherCommonController {
             WebSocketUtils.push(raiseHandDTO, CommandTypeEnum.INTERACTIVE, Arrays.asList(raiseHandDTO.getTeacherId()));
         }
         return ResultBuilder.ok(true);
+    }
+
+    @ApiOperation("获取app版本信息")
+    @ResponseBody
+    @GetMapping("/app/version")
+    public Result<AppVersion> findAppVersion() {
+        return ResultBuilder.ok(appVersionService.find(APP_NAME));
     }
 }

@@ -6,6 +6,7 @@ import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.HeaderTeacherDTO;
 import com.jimmy.mvc.common.model.dto.TeacherStaffInfoDTO;
+import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.TeacherStaffInfoDTOTransfer;
 import com.jimmy.service.TeacherStaffInfoService;
 import com.jimmy.teacher.pad.api.local.thread.TeacherLocalThread;
@@ -46,10 +47,10 @@ public class TeacherStaffController {
     @PostMapping("/save/header")
     @ApiOperation("保存老师头部详细信息")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> saveHeader(@Validated @RequestBody HeaderTeacherDTO headerTeacherDTO) {
+    public Result<TeacherStaffInfoDTO> saveHeader(@Validated @RequestBody HeaderTeacherDTO headerTeacherDTO) {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
         teacherStaffInfoService.updateHeader(headerTeacherDTO.getHeader(), headerTeacherDTO.getHeaderImg(), headerTeacherDTO.getFaceVersion(), teacherStaffInfo.getId());
-        return ResultBuilder.ok(Boolean.TRUE);
+        return ResultBuilder.ok(TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfoDTO(teacherStaffInfoService.findById(teacherStaffInfo.getId())));
     }
 
 }

@@ -3,6 +3,7 @@ package com.jimmy.student.api.controller.common;
 import com.alibaba.fastjson.JSON;
 import com.jimmy.common.utils.EncryptUtil;
 import com.jimmy.common.utils.StringUtils;
+import com.jimmy.dao.entity.AppVersion;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.model.dto.BroadcastDTO;
@@ -10,6 +11,7 @@ import com.jimmy.mvc.common.model.dto.CommandDTO;
 import com.jimmy.mvc.common.model.dto.InteractiveDTO;
 import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.mvc.common.model.enums.ReceiveTypeEnum;
+import com.jimmy.service.AppVersionService;
 import com.jimmy.student.api.config.StudentConfig;
 import com.jimmy.student.api.websocket.WebSocketUtils;
 import io.swagger.annotations.Api;
@@ -33,8 +35,11 @@ import java.util.Arrays;
 @EnableConfigurationProperties(StudentConfig.class)
 public class StudentCommonController {
 
+    private final static String APP_NAME = "app_student";
     @Autowired
     private StudentConfig studentConfig;
+    @Autowired
+    private AppVersionService appVersionService;
 
     @ApiOperation("命令接口信息")
     @ResponseBody
@@ -69,5 +74,12 @@ public class StudentCommonController {
             WebSocketUtils.push(null, commandDTO.getCommandType(), WebSocketUtils.listMachineId());
         }
         return ResultBuilder.ok(true);
+    }
+
+    @ApiOperation("获取app版本信息")
+    @ResponseBody
+    @GetMapping("/app/version")
+    public Result<AppVersion> findAppVersion() {
+        return ResultBuilder.ok(appVersionService.find(APP_NAME));
     }
 }
