@@ -26,7 +26,6 @@ public class RoomController {
     @ResponseBody
     @GetMapping("/list")
     @ApiOperation("ΩÃ “¡–±Ì")
-    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<ClassRoomInfo>> list(String name) {
         List<ClassRoomInfo> classRoomInfoList = classRoomService.list(name);
         return ResultBuilder.ok(classRoomInfoList);

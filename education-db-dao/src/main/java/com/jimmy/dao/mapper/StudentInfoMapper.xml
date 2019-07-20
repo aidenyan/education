@@ -14,6 +14,7 @@
         <result column="header_url" property="headerUrl" jdbcType="VARCHAR"/>
         <result column="birth_time" property="birthTime" jdbcType="TIMESTAMP"/>
         <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="face_version" property="faceVersion"/>
         <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
         <result column="app_token" property="appToken" jdbcType="VARCHAR"/>
         <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
@@ -27,7 +28,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, classmate_id, name,machine_id, sex, email, is_enabled, password, real_name, header_url,
+    id, classmate_id, face_version,name,machine_id, sex, email, is_enabled, password, real_name, header_url,
     birth_time, mobile, telephone, app_token, id_card,is_deleted, create_id, modify_id, create_time,
     modify_time,  header_info, site_id
   </sql>
@@ -101,14 +102,14 @@
 
 
     <insert id="insert" parameterType="com.jimmy.dao.entity.StudentInfo"  useGeneratedKeys="true" keyProperty="id">
-    insert into t_student_info (id_card,machine_id,classmate_id, name,
+    insert into t_student_info (face_version,id_card,machine_id,classmate_id, name,
       sex, email, is_enabled, 
       password, real_name, header_url, 
       birth_time, mobile, telephone, 
       app_token, is_deleted, create_id, 
       modify_id, create_time, modify_time, 
       site_id, header_info)
-    values (#{idCard},#{machineId}, #{classmateId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+    values (#{faceVersion},#{idCard},#{machineId}, #{classmateId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
       #{sex,jdbcType=TINYINT}, #{email,jdbcType=VARCHAR}, #{isEnabled,jdbcType=BIT}, 
       #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{headerUrl,jdbcType=VARCHAR}, 
       #{birthTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
@@ -170,6 +171,9 @@
             modify_time = now(),
             <if test="headerInfo != null">
                 header_info = #{headerInfo,jdbcType=VARCHAR},
+            </if>
+            <if test="faceVersion != null">
+                face_version = #{faceVersion,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT} and is_deleted=0 and  site_id=#{siteId}

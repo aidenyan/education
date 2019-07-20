@@ -48,7 +48,7 @@ public class TeacherStaffController {
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> saveHeader(@Validated @RequestBody HeaderTeacherDTO headerTeacherDTO) {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
-        teacherStaffInfoService.updateHeader(headerTeacherDTO.getHeader(), headerTeacherDTO.getHeaderImg(), teacherStaffInfo.getId());
+        teacherStaffInfoService.updateHeader(headerTeacherDTO.getHeader(), headerTeacherDTO.getHeaderImg(), headerTeacherDTO.getFaceVersion(), teacherStaffInfo.getId());
         return ResultBuilder.ok(Boolean.TRUE);
     }
 

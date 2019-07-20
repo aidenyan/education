@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+	<body>
+		<div class="content">
+			<div class="top">
+				<div class="top_w">
+					<div class="blue"></div>
+					<span class="sp_text">教室信息</span>
+				</div>
+			</div>
+			<form action="index.html" method="get">
+				<table cellpadding="10">
+					<tr>
+						<th width="160" class="Ri"><span>*</span>教室名称:</th>
+						<th width="180" class="Le"><input type="text" maxlength="30" required name="name" placeholder="请输入教室名称" /></th>
+						<th width="130" class="Ri"><span>*</span>教室编号:</th>
+						<th width="180" class="Le"><input type="text" maxlength="30" required name="sn" placeholder="请输入教室名称" /></th>
+					</tr>
+					<tr>
+						<th class="Ri">教室的描述:</th>
+						<th class="Le" colspan="3">
+							<textarea rows="5" cols="77" maxlength="200" name=" description"></textarea>
+						</th>
+						
+					</tr>
+					<tr>
+						<th class="Ri">教室的具体位置:</th>
+						<th class="Le" colspan="3">
+							<textarea rows="5" cols="77" maxlength="200" name=" address"></textarea>
+						</th>
+						
+					</tr>
+					<tr>
+						<th class="Ri">教室内的机器的位置:</th>
+						<th class="Le" id="juese" colspan="3"></th>
+					</tr>
+					<tr>
+						<th class="Ri"><span>*</span>机床的内容:</th>
+						<th class="Le"  colspan="3">
+							<div class="stes">机床的编码:<input class="sts" type="text" required maxlength="30" name="sn" /></div>
+							<div class="stes">第<input class="ste" type="number" step="1" min="0" max="100" value="0" required name="row_num" />行</div>
+							<div class="stes">第<input class="ste" type="number" step="1" min="0" max="100" value="0" required name="row_num" />列</div>
+						</th>
+					</tr>
+					<tr>
+						<th colspan="2" style="text-align: right;"><button type="submit">提交</button></th>
+						<th colspan="2" style="text-align: left;"><button type="reset">重置</button></th>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<script>
+			var jues = document.getElementById("juese");
+			var json = [{"value":"1","label":"第一项"},{"value":"2","label":"第二项"},{"value":"3","label":"第三项"},{"value":"4","label":"第四项"}
+			,{"value":"5","label":"第五项"}];
+			var htm = '';
+			for(var i=0;i<json.length;i++){
+			    htm += '<input type="checkbox" name="machineList" value="'+json[i].value+'">'+json[i].label;
+			}
+			jues.innerHTML = htm;
+		</script>
+	</body>
+</html>

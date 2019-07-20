@@ -13,6 +13,7 @@
     <result column="is_locked" property="isLocked" jdbcType="BIT" />
     <result column="locked_date" property="lockedDate" jdbcType="TIMESTAMP" />
     <result column="login_date" property="loginDate" jdbcType="TIMESTAMP" />
+    <result column="face_version" property="faceVersion"/>
     <result column="login_failure_count" property="loginFailureCount" jdbcType="INTEGER" />
     <result column="login_ip" property="loginIp" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -35,7 +36,7 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, name, sex, staff_type, staff_name, email, is_enabled, is_locked, locked_date, 
+    id, name, face_version,sex, staff_type, staff_name, email, is_enabled, is_locked, locked_date,
     login_date, login_failure_count, login_ip, password, real_name, header_url, birth_time, 
     mobile, telephone, web_token, app_token,app_room_id, pad_app_token,header_info, id_card,is_deleted, create_id, modify_id,
     create_time, modify_time, site_id
@@ -81,7 +82,7 @@
 
 
   <insert id="insert" parameterType="com.jimmy.dao.entity.TeacherStaffInfo"  useGeneratedKeys="true" keyProperty="id">
-    insert into t_teacher_staff_info (id_card, app_room_id,name, sex,
+    insert into t_teacher_staff_info (face_version,id_card, app_room_id,name, sex,
       staff_type, staff_name, email, 
       is_enabled, is_locked, locked_date, 
       login_date, login_failure_count, login_ip, 
@@ -91,7 +92,7 @@
       is_deleted, create_id, modify_id, 
       create_time, modify_time, site_id, 
       header_info)
-    values ( #{idCard},#{appRoomId},#{name,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT},
+    values (#{faceVersion}, #{idCard},#{appRoomId},#{name,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT},
       #{staffType,jdbcType=TINYINT}, #{staffName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{isEnabled,jdbcType=BIT}, #{isLocked,jdbcType=BIT}, #{lockedDate,jdbcType=TIMESTAMP}, 
       #{loginDate,jdbcType=TIMESTAMP}, #{loginFailureCount,jdbcType=INTEGER}, #{loginIp,jdbcType=VARCHAR}, 
@@ -179,6 +180,9 @@
         modify_time = now(),
       <if test="headerInfo != null" >
         header_info = #{headerInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="faceVersion != null">
+        face_version = #{faceVersion,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT} and is_deleted=0 and  site_id=#{siteId}

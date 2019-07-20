@@ -79,7 +79,7 @@ public interface StudentInfoService {
     /**
      * 保存学生头部特征
      */
-    void updateHeader(String headerInfo, String headerImg, Long id);
+    void updateHeader(String headerInfo, String headerImg, String faceVersion, Long id);
 
     /**
      * 保存学生头部图片

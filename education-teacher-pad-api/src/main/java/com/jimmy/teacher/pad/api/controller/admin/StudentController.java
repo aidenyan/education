@@ -51,14 +51,7 @@ public class StudentController {
         return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
     }
 
-    @ResponseBody
-    @PostMapping("/save/header_info")
-    @ApiOperation("保存学生头部特征信息")
-    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> saveHeader(@Validated(HeaderDTO.Student.class) @RequestBody HeaderDTO headerDTO) {
-        studentInfoService.updateHeader(headerDTO.getHeader(), headerDTO.getUserId());
-        return ResultBuilder.ok(Boolean.TRUE);
-    }
+
 
 
     @ResponseBody
@@ -66,7 +59,7 @@ public class StudentController {
     @ApiOperation("保存学生头部详细信息")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> saveHeader(@Validated @RequestBody HeaderDetailDTO headerDTO) {
-        studentInfoService.updateHeader(headerDTO.getHeader(), headerDTO.getHeaderImg(), headerDTO.getUserId());
+        studentInfoService.updateHeader(headerDTO.getHeader(), headerDTO.getHeaderImg(),headerDTO.getFaceVersion(), headerDTO.getUserId());
         return ResultBuilder.ok(Boolean.TRUE);
     }
 

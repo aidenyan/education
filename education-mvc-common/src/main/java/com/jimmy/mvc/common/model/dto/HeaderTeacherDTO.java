@@ -23,4 +23,8 @@ public class HeaderTeacherDTO implements Serializable {
     @ApiModelProperty("头部特征信息")
     @NotBlank(message = "头部特征信息不能为空")
     private String headerImg;
+    @ApiModelProperty("头部特征信息版本")
+    @NotBlank(message = "头部特征信息版本不能为空")
+    private String faceVersion;
+
 }

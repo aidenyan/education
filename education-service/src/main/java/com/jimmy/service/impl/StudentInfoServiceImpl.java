@@ -100,9 +100,21 @@ public class StudentInfoServiceImpl implements StudentInfoService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateHeader(String headerInfo, String headerImg, Long id) {
-        updateHeaderImg(headerImg,id);
-        updateHeader(headerInfo,id);
+    public void updateHeader(String headerInfo, String headerImg, String faceVersion,Long id) {
+        Assert.notNull(id, "id is null");
+        Assert.isTrue(StringUtils.isNotBlank(headerImg), "headerImg is null");
+        Assert.isTrue(StringUtils.isNotBlank(headerInfo), "headerInfo is null");
+
+        Assert.isTrue(StringUtils.isNotBlank(faceVersion), "faceVersion is null");
+
+        StudentInfo studentInfo = new StudentInfo();
+        studentInfo.setSiteId(SiteLocalThread.getSiteId());
+        studentInfo.setModifyId(LoginLocalThread.get());
+        studentInfo.setHeaderUrl(headerImg);
+        studentInfo.setHeaderInfo(headerInfo);
+        studentInfo.setFaceVersion(faceVersion);
+        studentInfo.setId(id);
+         studentInfoMapper.updateProperty(studentInfo);
     }
 
     @Override
