@@ -61,4 +61,13 @@ public interface CourseInfoService {
     List<CourseInfo> listCouldUsed(Long roomId, Long teacherId,
                                    Integer size);
 
+    /**
+     * 查找可以使用这个教室以及老师的课程信息
+     *
+     * @param roomId    教室ID
+     * @param teacherId 老师ID
+     * @param name      名字
+     * @return List<课程></>
+     */
+    List<CourseInfo> listCouldUsedByName(Long roomId, Long teacherId,String name);
 }

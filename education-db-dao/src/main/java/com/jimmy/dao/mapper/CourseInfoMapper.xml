@@ -55,6 +55,30 @@
         limit #{limitSize}
     </select>
 
+
+    <select id="listCouldUsedByName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_course_info
+        where site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        <if test=" roomId != null ">
+            AND room_id=#{roomId}
+        </if>
+        <if test=" teacherId != null ">
+            AND teacher_id=#{teacherId}
+        </if>
+        <if test=" name != null and name != '' ">
+            and name like concat('%',#{name},'%')
+        </if>
+        and (used_status=0 or used_status=1)
+        ORDER BY start_time ASC
+
+    </select>
+
+
     <select id="findById" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

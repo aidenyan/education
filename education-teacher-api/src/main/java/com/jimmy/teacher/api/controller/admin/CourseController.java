@@ -1,14 +1,17 @@
 package com.jimmy.teacher.api.controller.admin;
 
+import com.jimmy.core.base.Page;
 import com.jimmy.dao.entity.CourseInfo;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.model.vo.CoursewareDetailVO;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
+import com.jimmy.mvc.common.model.dto.ClassMateDTO;
 import com.jimmy.mvc.common.model.dto.CourseInfoDTO;
 import com.jimmy.mvc.common.model.dto.CoursewareDetailDTO;
 import com.jimmy.mvc.common.model.enums.UsedStatusEnum;
+import com.jimmy.mvc.common.model.transfer.ClassMateDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
@@ -34,10 +37,10 @@ import java.util.List;
  * @author: aiden
  * @date: 2019/6/12/012.
  */
-@Api(value = "课程课件信息", description = "课程课件信息API")
+@Api(value = "课程相关的信息", description = "课程相关的信息API")
 @Controller
-@RequestMapping("/admin/couseware")
-public class CousewareController extends BaseController {
+@RequestMapping("/admin/course")
+public class CourseController extends BaseController {
     public final static Integer MAX_COURSE_NUM = 100000;
     @Autowired
     private CourseInfoService courseInfoService;
@@ -85,13 +88,15 @@ public class CousewareController extends BaseController {
     @ResponseBody
     @GetMapping("/list")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<List<CourseInfoDTO>> list() {
+    public Result<Page<CourseInfoDTO>> list(String name, Integer pageNo, Integer pageSize) {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
-        List<CourseInfo> courseInfoList = courseInfoService.listCouldUsed(teacherStaffInfo.getAppRoomId(), teacherStaffInfo.getId(), MAX_COURSE_NUM);
+        this.setPage(pageNo, pageSize);
+        List<CourseInfo> courseInfoList = courseInfoService.listCouldUsedByName(teacherStaffInfo.getAppRoomId(), teacherStaffInfo.getId(), name);
         if (CollectionUtils.isEmpty(courseInfoList)) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
-        return ResultBuilder.error(ResultCodeEnum.OK, CourseInfoDTOTransfer.INSTANCE.toCourseInfoDTOList(courseInfoList));
+        Page<CourseInfoDTO> resultList = getPageResult(courseInfoList, target -> CourseInfoDTOTransfer.INSTANCE.toCourseInfoDTOList(target));
+        return ResultBuilder.ok(resultList);
     }
 
     @ApiOperation("修改课程状态改为正在使用")

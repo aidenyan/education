@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author: aiden
  * @date: 2019/7/8/008.
  */
-@Api(value = "课程课件信息", description = "课程课件信息API")
+@Api(value = "退出信息", description = "退出信息API")
 @Controller
 @RequestMapping("/admin/login")
 public class LoginOutController extends BaseController {

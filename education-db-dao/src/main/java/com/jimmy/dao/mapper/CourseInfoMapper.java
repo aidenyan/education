@@ -71,4 +71,16 @@ public interface CourseInfoMapper {
     List<CourseInfo> listCouldUsed(@Param("roomId") Long roomId, @Param("teacherId") Long teacherId,
                                    @Param("limitSize") Integer limitSize, @Param("siteIdList") List<Long> siteIdList
     );
+
+    /**
+     * 查找可以使用这个教室以及老师的课程信息
+     *
+     * @param roomId    教室ID
+     * @param teacherId 老师ID
+     * @param name      姓名
+     * @return List<课程></>
+     */
+    List<CourseInfo> listCouldUsedByName(@Param("roomId") Long roomId, @Param("teacherId") Long teacherId,
+                                   @Param("name") String name, @Param("siteIdList") List<Long> siteIdList
+    );
 }
