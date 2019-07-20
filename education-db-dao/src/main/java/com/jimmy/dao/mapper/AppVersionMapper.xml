@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.AppVersionMapper">
+    <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.AppVersion">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="app_name" property="appName" jdbcType="VARCHAR"/>
+        <result column="download_url" property="downloadUrl" jdbcType="VARCHAR"/>
+        <result column="version_code" property="versionCode" jdbcType="VARCHAR"/>
+        <result column="version_name" property="versionName" jdbcType="VARCHAR"/>
+        <result column="create_id" property="createId" jdbcType="BIGINT"/>
+        <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
+        <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+        <result column="release_note" property="releaseNote"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, app_name, download_url,version_name,version_code, release_note,create_id, modify_id, create_time, modify_time, site_id
+  </sql>
+    <select id="findByAppName" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_app_version
+        where app_name = #{appName} and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        ORDER BY id desc
+        limit 1
+    </select>
+    <select id="list" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_app_version
+        where site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        <if test=" name != null">
+            AND app_name LIKE concat('%',#{name},'%')
+        </if>
+    </select>
+
+
+    <insert id="insert" parameterType="com.jimmy.dao.entity.AppVersion" keyProperty="id" useGeneratedKeys="true">
+    insert into t_app_version (app_name, download_url, version_code,version_name,
+      create_id, modify_id, create_time, 
+      modify_time, site_id, release_note
+      )
+    values ( #{appName},#{downloadUrl}, #{versionCode},#{versionName}
+      #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, now(),
+     now(), #{siteId,jdbcType=BIGINT}, #{releaseName}
+      )
+  </insert>
+
+    <update id="updateProperty" parameterType="com.jimmy.dao.entity.AppVersion">
+        update t_app_version
+        <set>
+            <if test="appName != null">
+                app_name = #{appName},
+            </if>
+            <if test="downloadUrl != null">
+                download_url = #{downloadUrl},
+            </if>
+            modify_id = #{modifyId},
+            modify_time =now(),
+            <if test="versionCode != null">
+                version_code = #{versionCode},
+            </if>
+            <if test="versionName != null">
+                version_name = #{versionName},
+            </if>
+        </set>
+        where id = #{id} and site_id = #{siteId}
+    </update>
+</mapper>
