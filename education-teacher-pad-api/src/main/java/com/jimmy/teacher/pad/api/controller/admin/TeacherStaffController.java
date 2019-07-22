@@ -4,8 +4,9 @@ import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
-import com.jimmy.mvc.common.model.dto.HeaderDTO;
+import com.jimmy.mvc.common.model.dto.HeaderTeacherDTO;
 import com.jimmy.mvc.common.model.dto.TeacherStaffInfoDTO;
+import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.TeacherStaffInfoDTOTransfer;
 import com.jimmy.service.TeacherStaffInfoService;
 import com.jimmy.teacher.pad.api.local.thread.TeacherLocalThread;
@@ -44,21 +45,12 @@ public class TeacherStaffController {
 
     @ResponseBody
     @PostMapping("/save/header")
-    @ApiOperation("保存老师头部特征信息")
+    @ApiOperation("保存老师头部详细信息")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> saveHeader(@Validated(HeaderDTO.Teacher.class) @RequestBody HeaderDTO headerDTO) {
+    public Result<TeacherStaffInfoDTO> saveHeader(@Validated @RequestBody HeaderTeacherDTO headerTeacherDTO) {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
-        teacherStaffInfoService.updateHeader(headerDTO.getHeader(), teacherStaffInfo.getId());
-        return ResultBuilder.ok(Boolean.TRUE);
+        teacherStaffInfoService.updateHeader(headerTeacherDTO.getHeader(), headerTeacherDTO.getHeaderImg(), headerTeacherDTO.getFaceVersion(), teacherStaffInfo.getId());
+        return ResultBuilder.ok(TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfoDTO(teacherStaffInfoService.findById(teacherStaffInfo.getId())));
     }
 
-    @ResponseBody
-    @PostMapping("/save/header_img")
-    @ApiOperation("保存老师头部图片信息")
-    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> saveHeaderImg(@Validated(HeaderDTO.Teacher.class) @RequestBody HeaderDTO headerDTO) {
-        TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
-        teacherStaffInfoService.updateHeaderImg(headerDTO.getHeader(), teacherStaffInfo.getId());
-        return ResultBuilder.ok(Boolean.TRUE);
-    }
 }

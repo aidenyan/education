@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+	<body>
+		<div class="content">
+			<div class="top">
+				<div class="top_w">
+					<div class="blue"></div>
+					<span class="sp_text">班级编辑</span>
+				</div>
+			</div>
+			<form action="index.html" method="get">
+				<table cellpadding="10">
+					<tr>
+						<th width="160" class="Ri"><span>*</span>班级名称:</th>
+						<th width="180" class="Le"><input type="text" maxlength="30" required name="name" placeholder="请输入班级名称" /></th>
+						<th width="130" class="Ri"><span>*</span>教室编号:</th>
+						<th width="180" class="Le"><input type="text" maxlength="30" required name="sn" placeholder="请输入班级编号" /></th>
+					</tr>
+					<tr>
+						<th class="Ri"><p>班级的描述:</p></th>
+						<th class="Le" colspan="3">
+							<textarea rows="5" cols="77" maxlength="200" name=" description"></textarea>
+						</th>
+					</tr>
+					<tr>
+						<th colspan="2" style="text-align: right;"><button type="submit">提交</button></th>
+						<th colspan="2" style="text-align: left;"><button type="reset">重置</button></th>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</body>
+</html>

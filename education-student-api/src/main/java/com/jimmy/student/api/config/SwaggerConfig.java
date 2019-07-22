@@ -66,6 +66,7 @@ public class SwaggerConfig extends WebConfig {
         authorInterceptor.setTokenService(tokenService);
         authorInterceptor.setCourseStudentService(courseStudentService);
         registry.addInterceptor(authorInterceptor).addPathPatterns("/admin/**");
+
     }
 
 }

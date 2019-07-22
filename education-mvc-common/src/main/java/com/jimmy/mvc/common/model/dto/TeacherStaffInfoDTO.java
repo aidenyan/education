@@ -62,4 +62,9 @@ public class TeacherStaffInfoDTO extends BaseDTO {
     private List<Long> roleIdList;
     @ApiModelProperty("老师上的课教室")
     private Long appRoomId;
+    /**
+     * 特征版本
+     */
+    @ApiModelProperty("特征版本")
+    private String faceVersion;
 }

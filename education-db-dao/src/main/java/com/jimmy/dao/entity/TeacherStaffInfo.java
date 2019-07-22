@@ -57,4 +57,8 @@ public class TeacherStaffInfo extends BaseEntity {
 
 
     private Long appRoomId;
+    /**
+     * ÌØÕ÷°æ±¾
+     */
+    private String faceVersion;
 }

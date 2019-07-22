@@ -140,6 +140,22 @@ public class TeacherStaffInfoServiceImpl implements TeacherStaffInfoService {
     }
 
     @Override
+    public int updateHeader(String headerInfo, String headerImg,String faceVersion, Long id) {
+        Assert.notNull(id, "id is null");
+        Assert.isTrue(StringUtils.isNotBlank(headerInfo), "headerInfo is null");
+        Assert.isTrue(StringUtils.isNotBlank(faceVersion), "faceVersion is null");
+        Assert.isTrue(StringUtils.isNotBlank(headerImg), "headerImg is null");
+        TeacherStaffInfo teacherStaffInfo = new TeacherStaffInfo();
+        teacherStaffInfo.setSiteId(SiteLocalThread.getSiteId());
+        teacherStaffInfo.setModifyId(LoginLocalThread.get());
+        teacherStaffInfo.setHeaderInfo(headerInfo);
+        teacherStaffInfo.setHeaderUrl(headerImg);
+        teacherStaffInfo.setFaceVersion(faceVersion);
+        teacherStaffInfo.setId(id);
+        return teacherStaffInfoMapper.updateProperty(teacherStaffInfo);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleted(Long id) {
         Assert.notNull(id, "id is null");

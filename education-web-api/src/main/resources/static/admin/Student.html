@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/new_file.css" />
+	</head>
+	<body>
+		<div class="content">
+			<div class="top">
+				<div class="top_w">
+					<div class="blue"></div>
+					<span class="sp_text">学生编辑</span>
+				</div>
+			</div>
+			<form action="index.html" method="get">
+				<table cellpadding="10">
+					<tr>
+						<th width="130" class="Ri"><span>*</span>学生登录名:</th>
+						<th width="180" class="Le"><input type="text" maxlength="30" required name="name" required placeholder="请输入学生登录名" /></th>
+						<th width="130" class="Ri"><span>*</span>性别:</th>
+						<th width="180" class="Le">男<input type="radio" name="sex" value="0" checked="checked" />
+							女<input type="radio" name="sex" value="1" />
+						</th>
+					</tr>
+					<tr>
+						<th class="Ri"><span>*</span>所在班级:</th>
+						<th class="Le">
+							<select name="classmateId">
+								<option value="0">1</option>
+								<option value="1">2</option>
+							</select>
+						</th>
+						<th class="Ri">学生卡:</th>
+						<th class="Le"><input type="text" name="idCark" placeholder="请输入学生卡" /></th>
+					</tr>
+					<tr>
+						<th class="Ri"><span>*</span>邮件:</th>
+						<th class="Le"><input type="email" name="email" maxlength="200" required placeholder="请输入邮件" /></th>
+						<th class="Ri">是否可用:</th>
+						<th class="Le"><input name="isEnabled" value="true" type="radio" checked />是
+							<input name="isEnabled" value="false" type="radio" />否
+						</th>
+					</tr>
+					<tr>
+						<th class="Ri"><span>*</span>密码</th>
+						<th class="Le"><input type="password" required pattern="[A-Za-z0-9]{6,30}" name="password" placeholder="请输入密码" maxlength="30" /></th>
+						<th class="Ri"><span>*</span>真实的姓名</th>
+						<th class="Le"><input type="text" required name="real_name" pattern="[\u4e00-\u9fa5]{2,}" placeholder="请输入真实姓名" /></th>
+					</tr>
+					<tr>
+						<th class="Ri"><span>*</span>手机号码:</th>
+						<th class="Le"><input name="mobile" type="text"  required  pattern="1[34578]\d{9}$" placeholder="请输入手机号码" /></th>
+						<th class="Ri"><span>*</span>电话号码:</th>
+						<th class="Le"><input name="telephone" type="text"  required onkeyup="value=value.replace(/[^\d\-\d]/g,'')" maxlength=20 placeholder="请输入电话号码" /></th>
+					</tr>
+					
+					<tr>
+						<th class="Ri">头像图片:</th>
+						<th class="Le"><input name="headerUrl" /></th>
+					</tr>
+					<tr>
+						<th colspan="2" style="text-align: right;"><button type="submit">提交</button></th>
+						<th colspan="2" style="text-align: left;"><button type="reset">重置</button></th>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</body>
+</html>

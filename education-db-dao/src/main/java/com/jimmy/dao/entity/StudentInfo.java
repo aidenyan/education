@@ -72,4 +72,8 @@ public class StudentInfo extends BaseEntity {
      * »ú´²ID
      */
     private Long machineId;
+    /**
+     * ÌØÕ÷°æ±¾
+     */
+    private String faceVersion;
 }

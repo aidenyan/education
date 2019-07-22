@@ -1,5 +1,6 @@
 package com.jimmy.teacher.api.controller.admin;
 
+import com.jimmy.core.base.Page;
 import com.jimmy.core.enums.ResultCoreEnum;
 import com.jimmy.dao.entity.ClassMate;
 import com.jimmy.dao.entity.CourseStudent;
@@ -40,7 +41,7 @@ import java.util.List;
  * @author: aiden
  * @date: 2019/6/12/012.
  */
-@Api(value = "班级/临时班级信息", description = "课程课件信息API")
+@Api(value = "班级/临时班级信息", description = "班级/临时班级信息API")
 @Controller
 @RequestMapping("/admin/class_mate")
 public class ClassMateController extends BaseController {
@@ -62,9 +63,11 @@ public class ClassMateController extends BaseController {
     @ResponseBody
     @GetMapping("/list")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<List<ClassMate>> list(String name) {
+    public Result<Page<ClassMate>> list(String name, Integer pageNo, Integer pageSize) {
+        this.setPage(pageNo, pageSize);
         List<ClassMate> classMateList = classMateService.list(name);
-        return ResultBuilder.error(ResultCodeEnum.OK, classMateList);
+        Page<ClassMate> resultList = getPageResult(classMateList);
+        return ResultBuilder.ok(resultList);
     }
 
     @ApiOperation("根据班级获取学生的信息列表")

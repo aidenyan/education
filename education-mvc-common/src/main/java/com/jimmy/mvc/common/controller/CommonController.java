@@ -6,16 +6,15 @@ import com.jimmy.core.exception.ParamterException;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.config.FilePathConfig;
+import com.jimmy.mvc.common.model.dto.StreamDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -26,10 +25,27 @@ import org.springframework.web.multipart.MultipartFile;
  */
 @Api(value = "公共信息接口", description = "公共信息接口")
 @Controller
-@RequestMapping("/admin/common")
+@RequestMapping("/education/common")
 public class CommonController {
     @Autowired
     private FilePathConfig filePathConfig;
+
+
+    @ApiOperation("上传文件")
+    @PostMapping("/update_stream")
+    @ResponseBody
+    public Result<String> updateFile(@RequestBody @Validated StreamDTO streamDTO) {
+        Result<String> result = null;
+
+        try {
+            String headerUrl = FileUtils.saveFile(filePathConfig.getFilePath(), "/base/" + DateUtils.getCurrentDateString() + "/", streamDTO.getContent(), streamDTO.getType());
+            result = ResultBuilder.ok(headerUrl);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ParamterException("写入文件失败！");
+        }
+        return result;
+    }
 
     @ApiOperation("上传文件")
     @PostMapping("/update_file")
