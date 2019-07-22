@@ -108,8 +108,10 @@
         </td>
         <td class="state_uhandle">
             <div class="datagrid-cell datagrid-cell-c1-w70">
-                <button class=" view" value="{{item.id}}" title="查看"><i class="icon-uniE602"></i></button>
-                <button class=" edit" value="{{item.id}}" title="编辑"><i class="icon-bianji"></i></button>
+                <button class="view" value="{{item.id}}" title="查看"><i class="icon-uniE602"></i></button>
+                <button class="edit" value="{{item.id}}" title="编辑"><i class="icon-bianji"></i></button>
+                <button class="delete" value="{{item.id}}" name="{{item.name}}" title="删除"><i class="icon-delete"></i>
+                </button>
             </div>
         </td>
     </tr>
@@ -163,10 +165,17 @@
         pageOrder();
 
         $("#page_tbody").on("click", ".view", function () {
-            callParent.openTab("teacher_view", 0, "查看教师", "/static/admin/teacher/edit.html?tab_id=teacher_view&id=" + $(this).val()+"&isRead=true", true);
+            callParent.openTab("teacher_view", 0, "查看教师", "/static/admin/teacher/edit.html?tab_id=teacher_view&id=" + $(this).val() + "&isRead=true", true);
         })
         $("#page_tbody").on("click", ".edit", function () {
             callParent.openTab("teacher_edit", 0, "编辑教师", "/static/admin/teacher/edit.html?tab_id=teacher_edit&id=" + $(this).val(), true);
+        });
+        $("#page_tbody").on("click", ".delete", function () {
+            if (confirm("你确定要删除" + $(this).attr("name") + "?")) {
+               ajax(null,"/api/admin/teacher/deleted/"+$(this).val(),function (result) {
+                 alert("删除成功！");
+               },"post");
+            }
         })
 
         callParent.isLoadEnd("member_page");

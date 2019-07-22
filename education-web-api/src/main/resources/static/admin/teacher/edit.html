@@ -107,6 +107,11 @@
 				$("#form_id").submit(function () {
                     var data=formWrite("form_id");
                     ajaxsend(data,"/api/admin/teacher/save",function (result) {
+                        if(Utils.isNotNull(Utils.getHrefValue("id"))){
+                            alert("更新教室信息成功")
+						}else{
+                            alert("更新教室信息失败")
+                        }
                         callParent.closeTab(Utils.getHrefValue("tab_id"))
                     },"post")
 				    return false;
