@@ -41,7 +41,7 @@ public enum ResourceTypeEnum implements BaseEnum {
     }
 
     @Override
-    public String getMessage(String message) {
+    public String getMessage() {
         return message;
     }
 }

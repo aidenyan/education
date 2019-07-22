@@ -8,6 +8,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -19,11 +20,15 @@ public class TeacherStaffInfoDTO extends BaseDTO {
      */
     @ApiModelProperty("IC卡")
     private String idCard;
-    @NotBlank(message = "老师的姓名不能为空")
+    @NotBlank(message = "老师的姓名不能为空" )
     @ApiModelProperty("老师的姓名")
     private String name;
+
+    @NotNull(message = "老师的姓名不能为空" )
     @ApiModelProperty("性别：0:表示男，1:表示女")
     private SexEnum sex;
+
+    @NotNull(message = "职位类型不能为空" )
     @ApiModelProperty("职位类型，0:校长，1:老师")
     private StaffTypeEnum staffType;
     @ApiModelProperty("职位名称")

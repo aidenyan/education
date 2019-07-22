@@ -41,7 +41,7 @@ public enum OperationSysEnum implements BaseEnum {
     }
 
     @Override
-    public String getMessage(String message) {
+    public String getMessage() {
         return message;
     }
 }

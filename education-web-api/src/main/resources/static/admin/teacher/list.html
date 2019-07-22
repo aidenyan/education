@@ -163,10 +163,10 @@
         pageOrder();
 
         $("#page_tbody").on("click", ".view", function () {
-            callParent.openTab("teacher_view", 0, "查看教师", "/static/admin/teacher/view.html?id=" + $(this).val(), true);
+            callParent.openTab("teacher_view", 0, "查看教师", "/static/admin/teacher/edit.html?tab_id=teacher_view&id=" + $(this).val()+"&isRead=true", true);
         })
         $("#page_tbody").on("click", ".edit", function () {
-            callParent.openTab("teacher_edit", 0, "编辑教师", "/static/admin/teacher/edit.html?id=" + $(this).val(), true);
+            callParent.openTab("teacher_edit", 0, "编辑教师", "/static/admin/teacher/edit.html?tab_id=teacher_edit&id=" + $(this).val(), true);
         })
 
         callParent.isLoadEnd("member_page");
@@ -174,7 +174,7 @@
             refresh();
         }, "refresh");
         $("#add_teacher").on("click", function () {
-            callParent.openTab("teacher_add", 0, "编辑教师", "/static/admin/teacher/edit.html", true);
+            callParent.openTab("teacher_add", 0, "新增教师", "/static/admin/teacher/edit.html?tab_id=teacher_add", true);
 
         })
     });

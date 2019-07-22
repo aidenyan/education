@@ -307,7 +307,7 @@
                 }
             }
         })
-        ajaxsend("", "/api/admin/common/account/name", function (dataJson) {
+        ajaxsend("", "/api/admin/common/account/find_name", function (dataJson) {
             dataJson = dataJson.result;
             $("#name_id").html(dataJson);
         })

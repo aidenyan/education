@@ -7,6 +7,6 @@ package com.jimmy.mvc.common.model.enums;
 public interface BaseEnum {
     int getValue();
 
-    String getMessage(String message);
+    String getMessage();
 
 }

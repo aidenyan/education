@@ -37,7 +37,7 @@ public enum StaffTypeEnum implements BaseEnum {
     }
 
     @Override
-    public String getMessage(String message) {
+    public String getMessage() {
         return message;
     }
 }

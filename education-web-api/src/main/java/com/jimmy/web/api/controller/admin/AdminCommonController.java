@@ -74,7 +74,6 @@ public class AdminCommonController extends BaseController {
     @ApiOperation("菜单信息列表")
     public Result<List<MenuDTO>> menuList() {
         List<MenuInfo> menuInfoList = MenuInfoLocalThread.get();
-
         return ResultBuilder.ok(MenuDTOTransfer.INSTANCE.toMenuDTOList(menuInfoList));
     }
 

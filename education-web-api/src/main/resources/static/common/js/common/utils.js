@@ -12,6 +12,10 @@
     Utils.isBlank = function (obj) {
         return !Utils.isNotBlack(obj);
     }
+    Utils.isArray=function (obj) {
+        return obj instanceof Array
+    }
+
     Utils.isNotBlack = function (obj) {
         if (obj == undefined || obj == null) {
             return false;

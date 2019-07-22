@@ -4,19 +4,9 @@
     var opacityDiv = '<div id="opacity_div" class="box" style=" position:fixed;     top: 0px;    left: 0px;    height: 100%;   width: 100%;  background-color:#000; filter:alpha(opacity=1);  -moz-opacity:0.01;   -khtml-opacity: 0.01;  opacity: 0.01; z-index: 99999999;"></div>';
     var map;
     function getHtmlBaseUrl(){
-        var htmlBaseUrl="/mizone-static/";
-        var href=Utils.getBaseUrl();
-        if(href.indexOf(htmlBaseUrl)>=0){
-            if(href.indexOf("/pda/")>=0){
-               return htmlBaseUrl+"pda/";
-            }
-            return htmlBaseUrl;
-        }else{
-            if(href.indexOf("/pda/")>=0){
-                return "/pda/";
-            }
-            return "/"
-        }
+        var htmlBaseUrl="/static/";
+        return htmlBaseUrl;
+
     }
     function ajaxsend(data, url, backFun, type, sync,errorFun) {
         var opacityUuidDive = Utils.uuid(8, 16);
@@ -92,16 +82,16 @@
                 }
                 if (dataJson.code == "0") {
                     backFun.call(this, dataJson);
-                } else if (dataJson.code == "-10002"||dataJson.code=="-60003") {
+                } else if (dataJson.code == "-10004") {
                     if(Utils.isNotNull(errorFun)){
                         errorFun.call(this);
                     }
                     try {
                         window.layer.alert(dataJson.message, {}, function (index) {
-                            window.top.location = baseUrl+getHtmlBaseUrl()+"static/login.html";
+                            window.top.location = baseUrl+getHtmlBaseUrl()+"login.html";
                         });
                     } catch (e) {
-                        window.top.location = baseUrl+getHtmlBaseUrl()+ "static/login.html";
+                        window.top.location = baseUrl+getHtmlBaseUrl()+ "login.html";
                     }
                 } else {
                     if(Utils.isNotNull(errorFun)){
@@ -146,13 +136,14 @@
             type = "post";
             ajaxParamter.traditional = undefined;
             ajaxParamter.contentType = undefined;
-        } else if (type != "post") {
-            type = "get";
-        } else if(type=="post_other") {
+        }  else if(type=="post_other") {
             type = "post";
             ajaxParamter.traditional = true;
             ajaxParamter.contentType = undefined;
+        }else if (type != "post") {
+            type = "get";
         }else{
+            ajaxParamter.traditional = true;
             data = JSON.stringify(data);
         }
         if (!Utils.isNotNull(sync)) {

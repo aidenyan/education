@@ -63,7 +63,7 @@ public class SwaggerConfig extends WebConfig {
         registry.addInterceptor(teacherInterceptor).addPathPatterns("/**");
         AuthorInterceptor authorInterceptor = new AuthorInterceptor();
         authorInterceptor.setSessionService(sessionService);
-        registry.addInterceptor(teacherInterceptor).addPathPatterns("/admin/**");
+        registry.addInterceptor(authorInterceptor).addPathPatterns("/admin/**");
     }
 
 }

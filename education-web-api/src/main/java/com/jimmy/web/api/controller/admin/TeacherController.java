@@ -7,6 +7,7 @@ import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.model.dto.TeacherStaffInfoDTO;
 import com.jimmy.mvc.common.model.transfer.TeacherStaffInfoDTOTransfer;
+import com.jimmy.service.TeacherRoleService;
 import com.jimmy.service.TeacherStaffInfoService;
 import com.jimmy.web.api.controller.BaseController;
 import io.swagger.annotations.Api;
@@ -25,6 +26,8 @@ public class TeacherController extends BaseController {
 
     @Autowired
     private TeacherStaffInfoService teacherStaffInfoService;
+    @Autowired
+    private TeacherRoleService teacherRoleService;
 
     @ResponseBody
     @GetMapping("/page")
@@ -43,9 +46,11 @@ public class TeacherController extends BaseController {
     }
 
     @ResponseBody
-    @GetMapping("/save")
+    @PostMapping("/save")
     @ApiOperation("保存老师信息")
     public Result<Void> save(@RequestBody @Validated TeacherStaffInfoDTO teacherStaffInfoDTO) {
+        teacherStaffInfoDTO.setIsEnabled(teacherStaffInfoDTO.getIsEnabled()==null?false:teacherStaffInfoDTO.getIsEnabled());
+        teacherStaffInfoDTO.setStaffName(teacherStaffInfoDTO.getStaffType().getMessage());
         teacherStaffInfoService.save(TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfo(teacherStaffInfoDTO), teacherStaffInfoDTO.getRoleIdList());
         return ResultBuilder.ok(null);
     }
@@ -54,7 +59,11 @@ public class TeacherController extends BaseController {
     @GetMapping("/info")
     @ApiOperation("保存老师信息")
     public Result<TeacherStaffInfoDTO> info(Long id) {
-        return ResultBuilder.ok(TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfoDTO(teacherStaffInfoService.findById(id)));
+        TeacherStaffInfoDTO teacherStaffInfoDTO = TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfoDTO(teacherStaffInfoService.findById(id));
+        if (teacherStaffInfoDTO != null) {
+            teacherStaffInfoDTO.setRoleIdList(teacherRoleService.list(id));
+        }
+        return ResultBuilder.ok(teacherStaffInfoDTO);
     }
 
     @ResponseBody
