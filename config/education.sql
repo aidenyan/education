@@ -2,18 +2,37 @@
 Navicat MySQL Data Transfer
 
 Source Server         : 94.191.60.104
-Source Server Version : 50722
+Source Server Version : 50644
 Source Host           : 94.191.60.104:3306
 Source Database       : education
 
 Target Server Type    : MYSQL
-Target Server Version : 50722
+Target Server Version : 50644
 File Encoding         : 65001
 
-Date: 2019-06-25 15:48:22
+Date: 2019-07-22 12:52:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for t_app_version
+-- ----------------------------
+DROP TABLE IF EXISTS `t_app_version`;
+CREATE TABLE `t_app_version` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `app_name` varchar(50) NOT NULL COMMENT 'app的名字',
+  `download_url` varchar(255) NOT NULL,
+  `version_code` int(11) NOT NULL,
+  `version_name` varchar(80) NOT NULL,
+  `release_note` text NOT NULL,
+  `create_id` bigint(11) DEFAULT NULL COMMENT '创建人',
+  `modify_id` bigint(11) DEFAULT NULL COMMENT '修改人',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `site_id` bigint(20) NOT NULL COMMENT '站点信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_class_mate
@@ -31,11 +50,7 @@ CREATE TABLE `t_class_mate` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='班级信息';
-
--- ----------------------------
--- Records of t_class_mate
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='班级信息';
 
 -- ----------------------------
 -- Table structure for t_class_room_info
@@ -46,17 +61,16 @@ CREATE TABLE `t_class_room_info` (
   `name` varchar(50) NOT NULL COMMENT '班级名称',
   `description` text COMMENT '描述',
   `address` varchar(255) NOT NULL COMMENT '教室位置的具体信息',
+  `sn` varchar(50) NOT NULL COMMENT '班级编号',
   `create_id` bigint(11) DEFAULT NULL COMMENT '创建人',
   `modify_id` bigint(11) DEFAULT NULL COMMENT '修改人',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='教室内容信息';
-
--- ----------------------------
--- Records of t_class_room_info
--- ----------------------------
+  `is_deleted` tinyint(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `sn` (`sn`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='教室内容信息';
 
 -- ----------------------------
 -- Table structure for t_command_info
@@ -77,11 +91,7 @@ CREATE TABLE `t_command_info` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='信息交互表主要用于各种命令的信息交互';
-
--- ----------------------------
--- Records of t_command_info
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='信息交互表主要用于各种命令的信息交互';
 
 -- ----------------------------
 -- Table structure for t_course_answer
@@ -105,10 +115,6 @@ CREATE TABLE `t_course_answer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生具体分数信息结果表';
 
 -- ----------------------------
--- Records of t_course_answer
--- ----------------------------
-
--- ----------------------------
 -- Table structure for t_course_info
 -- ----------------------------
 DROP TABLE IF EXISTS `t_course_info`;
@@ -128,11 +134,7 @@ CREATE TABLE `t_course_info` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课程基本信息表';
-
--- ----------------------------
--- Records of t_course_info
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='课程基本信息表';
 
 -- ----------------------------
 -- Table structure for t_course_link
@@ -143,10 +145,6 @@ CREATE TABLE `t_course_link` (
   `courseware_id` bigint(20) NOT NULL COMMENT '课件ID',
   PRIMARY KEY (`course_id`,`courseware_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课件与课程关系表';
-
--- ----------------------------
--- Records of t_course_link
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_course_student
@@ -164,12 +162,9 @@ CREATE TABLE `t_course_student` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_course_student
--- ----------------------------
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `course_id` (`course_id`,`machine_id`,`student_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_course_student_register
@@ -177,6 +172,7 @@ CREATE TABLE `t_course_student` (
 DROP TABLE IF EXISTS `t_course_student_register`;
 CREATE TABLE `t_course_student_register` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `course_student_id` bigint(20) DEFAULT NULL,
   `command_id` bigint(20) NOT NULL COMMENT '命令ID',
   `is_register` tinyint(4) NOT NULL COMMENT '是否已经签到',
   `create_id` bigint(11) DEFAULT NULL COMMENT '创建人',
@@ -185,11 +181,7 @@ CREATE TABLE `t_course_student_register` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_course_student_register
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_courseware
@@ -206,11 +198,7 @@ CREATE TABLE `t_courseware` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课件信息表';
-
--- ----------------------------
--- Records of t_courseware
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='课件信息表';
 
 -- ----------------------------
 -- Table structure for t_courseware_item
@@ -230,11 +218,7 @@ CREATE TABLE `t_courseware_item` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课件详细内容';
-
--- ----------------------------
--- Records of t_courseware_item
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='课件详细内容';
 
 -- ----------------------------
 -- Table structure for t_couseware_student_answer
@@ -257,10 +241,6 @@ CREATE TABLE `t_couseware_student_answer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生课件回答表';
 
 -- ----------------------------
--- Records of t_couseware_student_answer
--- ----------------------------
-
--- ----------------------------
 -- Table structure for t_dictionary
 -- ----------------------------
 DROP TABLE IF EXISTS `t_dictionary`;
@@ -276,11 +256,7 @@ CREATE TABLE `t_dictionary` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='字典信息表';
-
--- ----------------------------
--- Records of t_dictionary
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='字典信息表';
 
 -- ----------------------------
 -- Table structure for t_dictionary_item
@@ -296,11 +272,7 @@ CREATE TABLE `t_dictionary_item` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`,`dictionary_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_dictionary_item
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_machine_info
@@ -318,11 +290,7 @@ CREATE TABLE `t_machine_info` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='机床位置信息表';
-
--- ----------------------------
--- Records of t_machine_info
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='机床位置信息表';
 
 -- ----------------------------
 -- Table structure for t_menu_info
@@ -332,7 +300,7 @@ CREATE TABLE `t_menu_info` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `url_path` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '相对路径url',
   `code` varchar(30) COLLATE utf8_bin DEFAULT NULL COMMENT '权限代码',
-  `menu_type` tinyint(4) DEFAULT NULL COMMENT '权限类型,1:菜单，2：连接，3：按钮级别,4:子权限，表示没有单独的按钮或者链接，5：登陆权限：表示只要登陆用户既可以访问',
+  `menu_type` tinyint(4) DEFAULT NULL COMMENT '权限类型,0:模块菜单,1:菜单，2：连接，3：按钮级别,4:子权限，表示没有单独的按钮或者链接，5：登陆权限：表示只要登陆用户既可以访问',
   `parent_menu_id` smallint(6) DEFAULT NULL COMMENT '上级权限',
   `name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '菜单名字',
   `menu_url` varchar(255) COLLATE utf8_bin DEFAULT NULL COMMENT '菜单路径',
@@ -345,11 +313,7 @@ CREATE TABLE `t_menu_info` (
   `modify_id` int(20) DEFAULT NULL COMMENT '修改人',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=228 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='菜单表';
-
--- ----------------------------
--- Records of t_menu_info
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=230 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='菜单表';
 
 -- ----------------------------
 -- Table structure for t_question
@@ -367,11 +331,7 @@ CREATE TABLE `t_question` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='题库信息表\r\n';
-
--- ----------------------------
--- Records of t_question
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='题库信息表\r\n';
 
 -- ----------------------------
 -- Table structure for t_question_item
@@ -382,17 +342,13 @@ CREATE TABLE `t_question_item` (
   `content` varchar(255) NOT NULL COMMENT '单选或者多选的的选择项',
   `is_result` tinyint(4) NOT NULL COMMENT '是为答案',
   `question_id` bigint(20) NOT NULL COMMENT '问题ID',
-  `create_id` bigint(11) NOT NULL COMMENT '创建人',
-  `modify_id` bigint(11) NOT NULL COMMENT '修改人',
+  `create_id` bigint(11) DEFAULT NULL COMMENT '创建人',
+  `modify_id` bigint(11) DEFAULT NULL COMMENT '修改人',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_question_item
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_resource_info
@@ -409,11 +365,7 @@ CREATE TABLE `t_resource_info` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源信息表';
-
--- ----------------------------
--- Records of t_resource_info
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='资源信息表';
 
 -- ----------------------------
 -- Table structure for t_role_info
@@ -430,11 +382,7 @@ CREATE TABLE `t_role_info` (
   `modify_id` bigint(11) DEFAULT NULL COMMENT '修改人',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色表';
-
--- ----------------------------
--- Records of t_role_info
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='角色表';
 
 -- ----------------------------
 -- Table structure for t_site_info
@@ -453,12 +401,7 @@ CREATE TABLE `t_site_info` (
   `create_id` bigint(20) DEFAULT NULL COMMENT '创建人',
   `modify_id` bigint(20) DEFAULT NULL COMMENT '修改人',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='站点信息';
-
--- ----------------------------
--- Records of t_site_info
--- ----------------------------
-INSERT INTO `t_site_info` VALUES ('1', 'http://localhost:8085/', '1', '1', ',1,', '1', '0', '2019-06-25 15:16:16', '2019-06-25 15:48:13', null, null);
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='站点信息';
 
 -- ----------------------------
 -- Table structure for t_student_fraction
@@ -475,11 +418,7 @@ CREATE TABLE `t_student_fraction` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_student_fraction
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_student_fraction_item
@@ -491,17 +430,14 @@ CREATE TABLE `t_student_fraction_item` (
   `type` tinyint(4) DEFAULT NULL COMMENT '类型0：表示资源的ID,1:表示对应的字典表',
   `dictionary_item_id` bigint(20) DEFAULT NULL COMMENT '对应的ID',
   `fraction` decimal(10,2) DEFAULT NULL COMMENT '分数',
+  `name` varchar(80) DEFAULT NULL COMMENT '项目的名字',
   `create_id` bigint(11) DEFAULT NULL COMMENT '创建人',
   `modify_id` bigint(11) DEFAULT NULL COMMENT '修改人',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of t_student_fraction_item
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_student_info
@@ -509,16 +445,16 @@ CREATE TABLE `t_student_fraction_item` (
 DROP TABLE IF EXISTS `t_student_info`;
 CREATE TABLE `t_student_info` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `id_card` varchar(80) DEFAULT NULL COMMENT '身份ID',
+  `id_card` varchar(80) DEFAULT NULL COMMENT 'ID卡',
   `classmate_id` bigint(20) NOT NULL COMMENT '所在的班级',
-  `name` varchar(50) NOT NULL COMMENT 'sex	tinyint	4	0	0	0	0	0	0		0	0:表示男，1:表示女				-1	0',
+  `name` varchar(50) NOT NULL COMMENT '班级的名字',
   `sex` tinyint(4) NOT NULL COMMENT '0:表示男，1:表示女',
   `email` varchar(255) NOT NULL COMMENT '邮件',
   `is_enabled` bit(1) NOT NULL COMMENT '是否可用',
   `password` varchar(255) NOT NULL COMMENT '密码',
   `real_name` varchar(100) NOT NULL COMMENT '真实的姓名',
-  `header_url` varchar(255) DEFAULT NULL COMMENT '头像图片',
-  `header_info` text COMMENT '头像特征信息',
+  `header_url` longtext COMMENT '头像图片',
+  `header_info` longtext COMMENT '头像特征信息',
   `birth_time` timestamp NULL DEFAULT NULL COMMENT '生日',
   `mobile` varchar(20) DEFAULT NULL COMMENT '手机号码',
   `telephone` varchar(20) DEFAULT NULL COMMENT '电话好吗',
@@ -530,12 +466,26 @@ CREATE TABLE `t_student_info` (
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
-  PRIMARY KEY (`id`,`name`,`sex`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生信息表';
+  `face_version` int(10) DEFAULT NULL COMMENT '头部特征版本号',
+  PRIMARY KEY (`id`,`name`,`sex`),
+  UNIQUE KEY `name` (`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8 COMMENT='学生信息表';
 
 -- ----------------------------
--- Records of t_student_info
+-- Table structure for t_student_star_info
 -- ----------------------------
+DROP TABLE IF EXISTS `t_student_star_info`;
+CREATE TABLE `t_student_star_info` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `student_id` bigint(20) NOT NULL COMMENT '学生ID',
+  `tearcher_id` bigint(20) NOT NULL COMMENT '老师ID',
+  `create_id` bigint(11) DEFAULT NULL COMMENT '创建人',
+  `modify_id` bigint(11) DEFAULT NULL COMMENT '修改人',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `site_id` bigint(20) NOT NULL COMMENT '站点信息',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for t_sys_info
@@ -552,10 +502,6 @@ CREATE TABLE `t_sys_info` (
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统信息表';
-
--- ----------------------------
--- Records of t_sys_info
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_sys_log_info
@@ -585,10 +531,6 @@ CREATE TABLE `t_sys_log_info` (
 ) ENGINE=InnoDB AUTO_INCREMENT=792668 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='日志信息表';
 
 -- ----------------------------
--- Records of t_sys_log_info
--- ----------------------------
-
--- ----------------------------
 -- Table structure for t_teacher_role
 -- ----------------------------
 DROP TABLE IF EXISTS `t_teacher_role`;
@@ -597,10 +539,6 @@ CREATE TABLE `t_teacher_role` (
   `staff_id` bigint(20) NOT NULL COMMENT '账号ID',
   PRIMARY KEY (`role_id`,`staff_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='账号角色信息关联表';
-
--- ----------------------------
--- Records of t_teacher_role
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_teacher_staff_info
@@ -622,8 +560,8 @@ CREATE TABLE `t_teacher_staff_info` (
   `login_ip` varchar(255) DEFAULT NULL COMMENT '登录IP',
   `password` varchar(255) NOT NULL COMMENT '密码',
   `real_name` varchar(100) NOT NULL COMMENT '真实的姓名',
-  `header_url` varchar(255) DEFAULT NULL COMMENT '头像图片',
-  `header_info` text COMMENT '头像特征信息',
+  `header_url` longtext COMMENT '头像图片',
+  `header_info` longtext COMMENT '头像特征信息',
   `birth_time` timestamp NULL DEFAULT NULL COMMENT '生日',
   `mobile` varchar(20) DEFAULT NULL COMMENT '手机号码',
   `app_room_id` bigint(20) DEFAULT NULL COMMENT 'app对应的教室',
@@ -637,12 +575,9 @@ CREATE TABLE `t_teacher_staff_info` (
   `web_token` varchar(80) DEFAULT NULL COMMENT '登录的TOKEN',
   `pad_app_token` varchar(80) DEFAULT NULL COMMENT '登录的TOKEN',
   `app_token` varchar(80) DEFAULT NULL COMMENT '登录的TOKEN',
+  `face_version` int(10) DEFAULT NULL COMMENT '头部特征版本号',
   PRIMARY KEY (`id`,`name`,`sex`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='教职工表';
-
--- ----------------------------
--- Records of t_teacher_staff_info
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='教职工表';
 
 -- ----------------------------
 -- Table structure for t_temporary_class_mate
@@ -660,11 +595,7 @@ CREATE TABLE `t_temporary_class_mate` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`,`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='课程临时班级';
-
--- ----------------------------
--- Records of t_temporary_class_mate
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='课程临时班级';
 
 -- ----------------------------
 -- Table structure for t_temporary_student_class_mate
@@ -681,8 +612,4 @@ CREATE TABLE `t_temporary_student_class_mate` (
   `modify_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `site_id` bigint(20) NOT NULL COMMENT '站点信息',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='临时班级与学员信息';
-
--- ----------------------------
--- Records of t_temporary_student_class_mate
--- ----------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8 COMMENT='临时班级与学员信息';
