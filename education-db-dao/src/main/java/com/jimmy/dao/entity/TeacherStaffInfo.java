@@ -60,5 +60,5 @@ public class TeacherStaffInfo extends BaseEntity {
     /**
      * ÌØÕ÷°æ±¾
      */
-    private String faceVersion;
+    private Integer faceVersion;
 }

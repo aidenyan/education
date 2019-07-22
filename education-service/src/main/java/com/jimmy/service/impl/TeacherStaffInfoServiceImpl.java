@@ -140,10 +140,10 @@ public class TeacherStaffInfoServiceImpl implements TeacherStaffInfoService {
     }
 
     @Override
-    public int updateHeader(String headerInfo, String headerImg,String faceVersion, Long id) {
+    public int updateHeader(String headerInfo, String headerImg,Integer faceVersion, Long id) {
         Assert.notNull(id, "id is null");
         Assert.isTrue(StringUtils.isNotBlank(headerInfo), "headerInfo is null");
-        Assert.isTrue(StringUtils.isNotBlank(faceVersion), "faceVersion is null");
+        Assert.notNull(faceVersion, "faceVersion is null");
         Assert.isTrue(StringUtils.isNotBlank(headerImg), "headerImg is null");
         TeacherStaffInfo teacherStaffInfo = new TeacherStaffInfo();
         teacherStaffInfo.setSiteId(SiteLocalThread.getSiteId());

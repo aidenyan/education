@@ -75,7 +75,7 @@ public interface TeacherStaffInfoService {
     /**
      * 保存老师头部特征
      */
-    int updateHeader(String headerInfo, String headerImg, String faceVersion,Long id);
+    int updateHeader(String headerInfo, String headerImg, Integer faceVersion,Long id);
 
     /**
      * 删除教师

@@ -18,7 +18,7 @@ public class AppVersion extends BaseEntity {
     /**
      * 版本时间
      */
-    private String versionCode;
+    private Integer versionCode;
     /**
      * 版本名字
      */

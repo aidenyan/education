@@ -66,5 +66,5 @@ public class TeacherStaffInfoDTO extends BaseDTO {
      * 特征版本
      */
     @ApiModelProperty("特征版本")
-    private String faceVersion;
+    private Integer faceVersion;
 }

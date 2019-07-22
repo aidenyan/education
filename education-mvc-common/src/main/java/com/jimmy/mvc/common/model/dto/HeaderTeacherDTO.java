@@ -2,9 +2,11 @@ package com.jimmy.mvc.common.model.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.models.auth.In;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -24,7 +26,7 @@ public class HeaderTeacherDTO implements Serializable {
     @NotBlank(message = "头部特征信息不能为空")
     private String headerImg;
     @ApiModelProperty("头部特征信息版本")
-    @NotBlank(message = "头部特征信息版本不能为空")
-    private String faceVersion;
+    @NotNull(message = "头部特征信息版本不能为空")
+    private Integer faceVersion;
 
 }
