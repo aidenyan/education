@@ -17,7 +17,7 @@
                         <div class="layui-inline po-r">
                             <a href="javascript:void(-1);" id="add_teacher"
                                class="layui-btn layui-btn-small product_save"> <i class="layui-icon"
-                                                                                  style="vertical-align: middle"></i>新增教师</a>
+                                                                                  style="vertical-align: middle"></i>新增学生</a>
                             <span>姓名</span>
                             <input type="text" name="inputStr" id="searchParam" autocomplete="off"
                                    class="layui-input small mizo-srarch-input">
@@ -43,7 +43,7 @@
                                 <div class="datagrid-cell datagrid-cell-c1-w100">姓名</div>
                             </td>
                             <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">职位</div>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">班级名称</div>
                             </td>
                             <td>
                                 <div class="datagrid-cell datagrid-cell-c1-w100">性别</div>
@@ -88,8 +88,7 @@
             <div class="datagrid-cell datagrid-cell-c1-w100">{{item.realName}}</div>
         </td>
         <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.staffType=='SCHOOL_MASTER'){ }}校长 {{# }else{
-                }}老师{{# } }}
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.classmateName}}
             </div>
         </td>
         <td>
@@ -143,7 +142,7 @@
 
         function pageOrder(data) {
 
-            myAjax.ajaxPage('/api/admin/teacher/page', 'pageNum', 'page_tbody', 'pageTpl', data);
+            myAjax.ajaxPage('/api/admin/student/page', 'pageNum', 'page_tbody', 'pageTpl', data);
         }
 
         form.on('submit(search)', function () {
@@ -155,14 +154,14 @@
         pageOrder();
 
         $("#page_tbody").on("click", ".view", function () {
-            callParent.openTab("teacher_view", 0, "查看教师", "/static/admin/teacher/edit.html?tab_id=teacher_view&id=" + $(this).val() + "&isRead=true", true);
+            callParent.openTab("student_view", 0, "查看学生", "/static/admin/student/edit.html?tab_id=student_view&id=" + $(this).val() + "&isRead=true", true);
         })
         $("#page_tbody").on("click", ".edit", function () {
-            callParent.openTab("teacher_edit", 0, "编辑教师", "/static/admin/teacher/edit.html?tab_id=teacher_edit&id=" + $(this).val(), true);
+            callParent.openTab("student_edit", 0, "编辑学生", "/static/admin/student/edit.html?tab_id=student_edit&id=" + $(this).val(), true);
         });
         $("#page_tbody").on("click", ".delete", function () {
-            if (confirm("你确定要删除“" + $(this).attr("name") + "”教师?")) {
-               ajax(null,"/api/admin/teacher/deleted/"+$(this).val(),function (result) {
+            if (confirm("你确定要删除“" + $(this).attr("name") + "”学生?")) {
+               ajax(null,"/api/admin/student/deleted/"+$(this).val(),function (result) {
                  alert("删除成功！");
                },"post");
             }
@@ -173,7 +172,7 @@
             refresh();
         }, "refresh");
         $("#add_teacher").on("click", function () {
-            callParent.openTab("teacher_add", 0, "新增教师", "/static/admin/teacher/edit.html?tab_id=teacher_add", true);
+            callParent.openTab("student_add", 0, "新增学生", "/static/admin/student/edit.html?tab_id=student_add", true);
 
         })
     });

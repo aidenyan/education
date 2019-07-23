@@ -45,4 +45,17 @@ public interface ClassMateMapper {
      * @return List<班级信息>
      */
     List<ClassMate> list(@Param("name") String name, @Param("siteIdList") List<Long> siteIdList);
+
+    /**
+     *全部信息
+     * @return  List<班级信息>
+     */
+    List<ClassMate> listAll(@Param("siteIdList")List<Long> siteIdList);
+    /**
+     * 根据ID查找班级信息
+     *
+     * @param idList ID
+     * @return 班级信息
+     */
+    List<ClassMate>  listById(@Param("idList") List<Long> idList, @Param("siteIdList") List<Long> siteIdList);
 }

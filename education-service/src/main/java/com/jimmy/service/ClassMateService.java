@@ -14,6 +14,18 @@ public interface ClassMateService {
     ClassMate findById(Long id);
 
     /**
+     *  根据ID查找班级信息
+     * @param idList id列表
+     * @return 班级信息
+     */
+    List<ClassMate> listById(List<Long> idList);
+    /**
+     *  查找班级信息
+     * @return 班级信息
+     */
+    List<ClassMate> listAll();
+
+    /**
      * 保存班级信息
      *
      * @param classMate 班级信息

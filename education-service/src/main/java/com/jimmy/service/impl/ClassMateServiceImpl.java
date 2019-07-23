@@ -26,6 +26,17 @@ public class ClassMateServiceImpl implements ClassMateService {
     }
 
     @Override
+    public  List<ClassMate>  listById(List<Long> idList) {
+        Assert.notEmpty(idList, "idList is null");
+        return classMateMapper.listById(idList, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
+    public List<ClassMate> listAll() {
+        return classMateMapper.listAll(SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public int insert(ClassMate classMate) {
         Assert.notNull(classMate, "classMate is null");

@@ -22,6 +22,11 @@ public class StudentInfoDTO extends BaseDTO {
     @ApiModelProperty("班级ID")
     private Long classmateId;
     /**
+     * 班级名称
+     */
+    @ApiModelProperty("班级名称")
+    private String classmateName;
+    /**
      * 名字
      */
     @ApiModelProperty("名字")

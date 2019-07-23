@@ -64,7 +64,7 @@
         if (Utils.isNotBlack(id)) {
             $("#password").removeAttr("required");
             $("#password_style").hide();
-            ajaxget("/api/admin/classroom/detail/" + id, function (result) {
+            ajaxget("/api/admin/classroom/info?id=" + id, function (result) {
                 formRead("form_id", result.result);
             });
         }
