@@ -90,6 +90,6 @@ public class StudentInfoDTO extends BaseDTO {
      * ÌØÕ÷°æ±¾
      */
     @ApiModelProperty("ÃÜÂë")
-    private String nPw;
+    private String npw;
 
 }

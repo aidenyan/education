@@ -72,8 +72,9 @@ public class StudentController extends BaseController {
     @ApiOperation("保存学生信息")
     public Result<Void> save(@Validated @RequestBody StudentInfoDTO studentInfoDTO) {
         StudentInfo studentInfo=StudentInfoDTOTransfer.INSTANCE.toStudentInfo(studentInfoDTO);
-        if(StringUtils.isNotBlank(studentInfoDTO.getNPw())){
-            studentInfo.setPassword(studentInfoDTO.getNPw());
+
+        if(StringUtils.isNotBlank(studentInfoDTO.getNpw())){
+            studentInfo.setPassword(studentInfoDTO.getNpw());
         }
         studentInfoService.save(studentInfo);
         return ResultBuilder.ok(null);
