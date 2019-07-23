@@ -17,8 +17,8 @@
                         <div class="layui-inline po-r">
                             <a href="javascript:void(-1);" id="add_teacher"
                                class="layui-btn layui-btn-small product_save"> <i class="layui-icon"
-                                                                                  style="vertical-align: middle"></i>新增班级</a>
-                            <span>姓名</span>
+                                                                                  style="vertical-align: middle"></i>新增教室</a>
+                            <span>教室名字</span>
                             <input type="text" name="inputStr" id="searchParam" autocomplete="off"
                                    class="layui-input small mizo-srarch-input">
                             <button id="btnSearch" class="layui-btn layui-btn-small" lay-submit="" lay-filter="search">
@@ -40,7 +40,10 @@
                                 <div class="datagrid-cell datagrid-cell-c1-w100">编号</div>
                             </td>
                             <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">姓名</div>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">教室名字</div>
+                            </td>
+                            <td>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">教室地址</div>
                             </td>
                             <td>
                                 <div class="datagrid-cell datagrid-cell-c1-time">创建日期</div>
@@ -74,6 +77,9 @@
         </td>
         <td>
             <div class="datagrid-cell datagrid-cell-c1-w100">{{item.name}}</div>
+        </td>
+        <td>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.address}}</div>
         </td>
         <td>
             <div class="datagrid-cell datagrid-cell-c1-time">{{laydate.now(item.createTime)}}</div>
@@ -113,7 +119,7 @@
 
         function pageOrder(data) {
 
-            myAjax.ajaxPage('/api/admin/classmate/page', 'pageNum', 'page_tbody', 'pageTpl', data);
+            myAjax.ajaxPage('/api/admin/classroom/page', 'pageNum', 'page_tbody', 'pageTpl', data);
         }
 
         form.on('submit(search)', function () {
@@ -123,10 +129,10 @@
         pageOrder();
 
         $("#page_tbody").on("click", ".view", function () {
-            callParent.openTab("class_view", 0, "查看班级", "/static/admin/class/edit.html?tab_id=class_view&id=" + $(this).val() + "&isRead=true", true);
+            callParent.openTab("room_view", 0, "查看教师", "/static/admin/room/edit.html?tab_id=room_view&id=" + $(this).val() + "&isRead=true", true);
         })
         $("#page_tbody").on("click", ".edit", function () {
-            callParent.openTab("class_edit", 0, "编辑班级", "/static/admin/class/edit.html?tab_id=class_edit&id=" + $(this).val(), true);
+            callParent.openTab("room_edit", 0, "编辑教师", "/static/admin/room/edit.html?tab_id=room_edit&id=" + $(this).val(), true);
         });
         $("#page_tbody").on("click", ".delete", function () {
             if (confirm("你确定要删除" + $(this).attr("name") + "?")) {
@@ -141,7 +147,7 @@
             refresh();
         }, "refresh");
         $("#add_teacher").on("click", function () {
-            callParent.openTab("class_add", 0, "新增班级", "/static/admin/class/edit.html?tab_id=class_add", true);
+            callParent.openTab("room_add", 0, "新增教师", "/static/admin/room/edit.html?tab_id=room_add", true);
 
         })
     });
