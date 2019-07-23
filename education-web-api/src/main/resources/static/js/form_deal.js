@@ -76,6 +76,9 @@
         })
         $("#" + formId).find("select").each(function () {
             selectDeal($(this), data);
+        });
+        $("#" + formId).find("textArea").each(function () {
+            textInput($(this), data);
         })
     }
     var textInputWrite = function (documentObj, data) {
@@ -118,6 +121,9 @@
         $("#" + formId).find("select").each(function () {
             selectWrite($(this), data);
         })
+        $("#" + formId).find("textArea").each(function () {
+            textInputWrite($(this), data);
+        })
         return data;
     }
 
@@ -127,6 +133,9 @@
             $(this).attr("disabled", "disabled")
         })
         $("#" + formId).find("select").each(function () {
+            $(this).attr("disabled", "disabled")
+        })
+        $("#" + formId).find("textArea").each(function () {
             $(this).attr("disabled", "disabled")
         })
     }

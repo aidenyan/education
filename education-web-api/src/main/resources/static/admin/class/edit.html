@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../../css/new_file.css"/>
+    <script type="text/javascript" src="../../common/lib/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="../../common/js/common/map.js"></script>
+    <script type="text/javascript" src="../../common/js/common/ajaxsend.js"></script>
+    <script type="text/javascript" src="../../common/js/common/utils.js"></script>
+    <script type="text/javascript" src="../../common/lib/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="../../common/js/parent.js"></script>
+    <script type="text/javascript" src="../../common/js/child.js"></script>
+    <script type="text/javascript" src="../../js/form_deal.js"></script>
+</head>
+<body>
+<div class="content">
+    <div class="top">
+        <div class="top_w">
+            <div class="blue"></div>
+            <span class="sp_text">班级信息</span>
+        </div>
+    </div>
+    <form id="form_id">
+        <input type="hidden" name="id" value="" temp-value="id"/>
+        <table cellpadding="10">
+            <tr>
+                <th width="130" class="Ri"><span>*</span>班级信息名字:</th>
+                <th width="180" class="Le"><input type="text" maxlength="30" temp-value="name" required name="name"
+                                                  id="name" placeholder="请输入班级信息名字"/></th>
+                <th width="130" class="Ri"><span>*</span>班级编号:</th>
+                <th width="180" class="Le"><input type="text" maxlength="10" temp-value="sn" required name="sn"
+                                                  id="sn" placeholder="班级编号"/>
+                </th>
+            </tr>
+            <tr>
+                <th class="Ri"><span>*</span>班级信息描述:</th>
+                <th class="Le" colspan="3">
+                    <textarea maxlength="200" temp-value="description"></textarea>
+                </th>
+            </tr>
+
+            <tr>
+                <th colspan="2" style="text-align: right;">
+                    <button id="submit" type="submit">提交</button>
+                </th>
+                <th colspan="2" style="text-align: left;">
+                    <button type="button" id="close">关闭</button>
+                </th>
+
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    $(function () {
+        var id = Utils.getHrefValue("id");
+        if (Utils.isNotBlack(id)) {
+            $("#password").removeAttr("required");
+            $("#password_style").hide();
+            ajaxget("/api/admin/classmate/detail/" + id, function (result) {
+                formRead("form_id", result.result);
+            });
+        }
+        $("#close").click(function () {
+            callParent.closeTab(Utils.getHrefValue("tab_id"))
+        })
+        if (Utils.isNotNull(Utils.getHrefValue("isRead"))) {
+            if (Utils.getHrefValue("isRead") == "true") {
+                isRead("form_id")
+                $("#submit").hide();
+            }
+        }
+        $("#form_id").submit(function () {
+            var data = formWrite("form_id");
+            ajaxsend(data, "/api/admin/classmate/save", function (result) {
+                if (Utils.isNotNull(Utils.getHrefValue("id"))) {
+                    alert("更新班级信息成功")
+                } else {
+                    alert("保存班级信息成功")
+                }
+                callParent.closeTab(Utils.getHrefValue("tab_id"))
+            }, "post")
+            return false;
+        })
+    })
+</script>
+</body>
+</html>

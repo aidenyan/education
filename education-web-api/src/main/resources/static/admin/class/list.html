@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>班级列表</title>
+    <title>会员列表</title>
     <link rel="stylesheet" href="../../layui/css/layui.css"/>
     <link rel="stylesheet" href="../../common/css/common.css">
     <link rel="stylesheet" href="../../common/css/font-style.css">
@@ -17,7 +17,7 @@
                         <div class="layui-inline po-r">
                             <a href="javascript:void(-1);" id="add_teacher"
                                class="layui-btn layui-btn-small product_save"> <i class="layui-icon"
-                                                                                  style="vertical-align: middle"></i>新增教师</a>
+                                                                                  style="vertical-align: middle"></i>新增班级</a>
                             <span>姓名</span>
                             <input type="text" name="inputStr" id="searchParam" autocomplete="off"
                                    class="layui-input small mizo-srarch-input">
@@ -37,22 +37,10 @@
                         <tbody>
                         <tr class="datagrid-header-row">
                             <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">登录账号</div>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">序号</div>
                             </td>
                             <td>
                                 <div class="datagrid-cell datagrid-cell-c1-w100">姓名</div>
-                            </td>
-                            <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">职位</div>
-                            </td>
-                            <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">性别</div>
-                            </td>
-                            <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">email</div>
-                            </td>
-                            <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">是否可用</div>
                             </td>
                             <td>
                                 <div class="datagrid-cell datagrid-cell-c1-time">创建日期</div>
@@ -82,26 +70,10 @@
     {{#  layui.each(d.result, function(index, item){ }}
     <tr>
         <td>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{index+1}}</div>
+        </td>
+        <td>
             <div class="datagrid-cell datagrid-cell-c1-w100">{{item.name}}</div>
-        </td>
-        <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.realName}}</div>
-        </td>
-        <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.staffType=='SCHOOL_MASTER'){ }}校长 {{# }else{
-                }}老师{{# } }}
-            </div>
-        </td>
-        <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.sex=='WOMAN'){ }}女 {{# }else{ }}男{{# } }}</div>
-        </td>
-        <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.email}}</div>
-        </td>
-        <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.isEnabled==null||!item.isEnabled){ }}否 {{#
-                }else{ }}是{{# } }}
-            </div>
         </td>
         <td>
             <div class="datagrid-cell datagrid-cell-c1-time">{{laydate.now(item.createTime)}}</div>
@@ -110,7 +82,8 @@
             <div class="datagrid-cell datagrid-cell-c1-w200">
                 <button class="view" value="{{item.id}}" title="查看"><i class="icon-uniE602"></i></button>
                 <button class="edit" value="{{item.id}}" title="编辑"><i class="icon-bianji"></i></button>
-                <button class="delete" value="{{item.id}}" name="{{item.name}}" title="删除"><i class="icon-delete"></i></button>
+                <button class="delete" value="{{item.id}}" name="{{item.name}}" title="删除"><i class="icon-delete"></i>
+                </button>
             </div>
         </td>
     </tr>
@@ -135,34 +108,29 @@
             , myAjax = layui.myAjax, laytpl = layui.laytpl;
 
 
-        //查询、排序
-        var vSeaData;
-        var orderObj = new Order(function () {
-            pageOrder(orderObj.setOption(vSeaData));
-        });
+
+
 
         function pageOrder(data) {
 
-            myAjax.ajaxPage('/api/admin/teacher/page', 'pageNum', 'page_tbody', 'pageTpl', data);
+            myAjax.ajaxPage('/api/admin/classmate/page', 'pageNum', 'page_tbody', 'pageTpl', data);
         }
 
         form.on('submit(search)', function () {
-
-
-            pageOrder({teacherName:$("#searchParam").val()})
+            pageOrder({name:$("#searchParam").val()})
             return false;
         });
         pageOrder();
 
         $("#page_tbody").on("click", ".view", function () {
-            callParent.openTab("teacher_view", 0, "查看教师", "/static/admin/teacher/edit.html?tab_id=teacher_view&id=" + $(this).val() + "&isRead=true", true);
+            callParent.openTab("class_view", 0, "查看教师", "/static/admin/class/edit.html?tab_id=class_view&id=" + $(this).val() + "&isRead=true", true);
         })
         $("#page_tbody").on("click", ".edit", function () {
-            callParent.openTab("teacher_edit", 0, "编辑教师", "/static/admin/teacher/edit.html?tab_id=teacher_edit&id=" + $(this).val(), true);
+            callParent.openTab("class_edit", 0, "编辑教师", "/static/admin/class/edit.html?tab_id=class_edit&id=" + $(this).val(), true);
         });
         $("#page_tbody").on("click", ".delete", function () {
-            if (confirm("你确定要删除“" + $(this).attr("name") + "”班级?")) {
-               ajax(null,"/api/admin/classmate/deleted/"+$(this).val(),function (result) {
+            if (confirm("你确定要删除" + $(this).attr("name") + "?")) {
+               ajax(null,"/api/admin/teacher/deleted/"+$(this).val(),function (result) {
                  alert("删除成功！");
                },"post");
             }
@@ -173,7 +141,7 @@
             refresh();
         }, "refresh");
         $("#add_teacher").on("click", function () {
-            callParent.openTab("teacher_add", 0, "新增教师", "/static/admin/teacher/edit.html?tab_id=teacher_add", true);
+            callParent.openTab("class_add", 0, "新增教师", "/static/admin/class/edit.html?tab_id=class_add", true);
 
         })
     });

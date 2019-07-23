@@ -19,6 +19,8 @@ public class ClassMateDTO extends BaseDTO {
     private String name;
     @ApiModelProperty("°à¼¶ÃèÊö")
     private String description;
+    @ApiModelProperty("°à¼¶±àºÅ")
+    private String sn;
     @ApiModelProperty("ÊÇ·ñÉ¾³ý")
     private Boolean isDeleted;
 }

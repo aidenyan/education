@@ -75,7 +75,7 @@
       #{siteId}
     </foreach>
     <if test=" name != null">
-      and name like concat('%','#{name}','%')
+      and name like concat('%',#{name},'%')
     </if>
   </select>
 
