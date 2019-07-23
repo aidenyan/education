@@ -86,5 +86,10 @@ public class StudentInfoDTO extends BaseDTO {
      */
     @ApiModelProperty("特征版本")
     private Integer faceVersion;
+    /**
+     * 特征版本
+     */
+    @ApiModelProperty("密码")
+    private String nPw;
 
 }

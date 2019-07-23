@@ -1,5 +1,6 @@
 package com.jimmy.web.api.controller.admin;
 
+import com.jimmy.common.utils.StringUtils;
 import com.jimmy.core.base.Page;
 import com.jimmy.dao.entity.ClassMate;
 import com.jimmy.dao.entity.StudentInfo;
@@ -67,10 +68,14 @@ public class StudentController extends BaseController {
     }
 
     @ResponseBody
-    @GetMapping("/save")
+    @PostMapping("/save")
     @ApiOperation("保存学生信息")
     public Result<Void> save(@Validated @RequestBody StudentInfoDTO studentInfoDTO) {
-        studentInfoService.save(StudentInfoDTOTransfer.INSTANCE.toStudentInfo(studentInfoDTO));
+        StudentInfo studentInfo=StudentInfoDTOTransfer.INSTANCE.toStudentInfo(studentInfoDTO);
+        if(StringUtils.isNotBlank(studentInfoDTO.getNPw())){
+            studentInfo.setPassword(studentInfoDTO.getNPw());
+        }
+        studentInfoService.save(studentInfo);
         return ResultBuilder.ok(null);
     }
 

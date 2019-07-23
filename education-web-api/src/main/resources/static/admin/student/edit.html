@@ -11,7 +11,7 @@
 		<script type="text/javascript" src="../../common/lib/ajaxfileupload.js"></script>
 		<script type="text/javascript" src="../../common/js/parent.js"></script>
 		<script type="text/javascript" src="../../common/js/child.js"></script>
-		<script type="text/javascript" src="../../js/form_deal.js"></script>
+		<script type="text/javascript" src="../../js/form_deal.js?v=1"></script>
 	</head>
 	<body>
 		<div class="content">
@@ -28,14 +28,14 @@
 						<th width="130" class="Ri"><span>*</span>学生登录名:</th>
 						<th width="180" class="Le"><input type="text" maxlength="30" temp-value="name" required name="name" id="name" placeholder="请输入学生登录名" /></th>
 						<th width="130" class="Ri"><span>*</span>性别:</th>
-						<th width="180" class="Le">男<input type="radio" name="sex" value="MAN"  temp-value="sex" checked="checked"/>
+						<th width="180" class="Le">男<input type="radio" name="sex" value="MAN"  temp-value="sex"/>
 							女<input type="radio" name="sex" value="WOMAN"  temp-value="sex"/>
 						</th>
 					</tr>
 					<tr>
 						<th class="Ri"><span>*</span>所在班级:</th>
 						<th class="Le">
-							<select name="classmateId" temp-value="classmateId">
+							<select name="classmateId" id="classmateId" temp-value="classmateId">
 
 							</select>
 						</th>
@@ -52,7 +52,7 @@
 					</tr>
 					<tr>
 						<th class="Ri"><span id="password_style">*</span>密码</th>
-						<th class="Le"><input type="password" id="password" required temp-value="password" pattern="[A-Za-z0-9]{6,30}" name="password" placeholder="请输入密码" maxlength="30" /></th>
+						<th class="Le"><input type="nPw" id="nPw"  temp-value="nPw" pattern="[A-Za-z0-9]{6,30}" name="password" placeholder="请输入密码" maxlength="30" /></th>
 						<th class="Ri"><span>*</span>真实的姓名</th>
 						<th class="Le"><input type="text" temp-value="realName" required name="real_name" pattern="[\u4e00-\u9fa5]{2,}" placeholder="请输入真实姓名" /></th>
 					</tr>
@@ -75,8 +75,9 @@
 			$(function () {
                 ajaxget("/api/admin/student/class/list_all",function(result){
                    var classList=result.result;
+
                     for(var i=0;i<classList.length;i++){
-                      $("#classmateId").appendHtml("<option value='"+classList[i].id+"'>"+classList[i].name+"</option>")
+                      $("#classmateId").append("<option value='"+classList[i].id+"'>"+classList[i].name+"</option>")
                     }
                     var id=Utils.getHrefValue("id");
                     if(Utils.isNotBlack(id)){

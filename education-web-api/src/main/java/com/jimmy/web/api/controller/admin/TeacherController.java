@@ -1,6 +1,7 @@
 package com.jimmy.web.api.controller.admin;
 
 
+import com.jimmy.common.utils.StringUtils;
 import com.jimmy.core.base.Page;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
@@ -51,7 +52,11 @@ public class TeacherController extends BaseController {
     public Result<Void> save(@RequestBody @Validated TeacherStaffInfoDTO teacherStaffInfoDTO) {
         teacherStaffInfoDTO.setIsEnabled(teacherStaffInfoDTO.getIsEnabled()==null?false:teacherStaffInfoDTO.getIsEnabled());
         teacherStaffInfoDTO.setStaffName(teacherStaffInfoDTO.getStaffType().getMessage());
-        teacherStaffInfoService.save(TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfo(teacherStaffInfoDTO), teacherStaffInfoDTO.getRoleIdList());
+        TeacherStaffInfo teacherStaffInfo=TeacherStaffInfoDTOTransfer.INSTANCE.toTeacherStaffInfo(teacherStaffInfoDTO);
+        if(StringUtils.isNotBlank(teacherStaffInfoDTO.getNpw())){
+            teacherStaffInfo.setPassword(teacherStaffInfoDTO.getNpw());
+        }
+        teacherStaffInfoService.save(teacherStaffInfo, teacherStaffInfoDTO.getRoleIdList());
         return ResultBuilder.ok(null);
     }
 

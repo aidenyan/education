@@ -87,7 +87,7 @@
     }
     var checkBoxWrite = function (documentObj, data) {
         var attrValue = $(documentObj).attr("temp-value");
-        if ($(documentObj).attr("checked") == "checked") {
+        if ($(documentObj).is(":checked")) {
             if ($(documentObj).attr("type") == "radio") {
                 writeValue(attrValue, data, $(documentObj).val());
             } else if($(documentObj).attr("signle")=="signle"){

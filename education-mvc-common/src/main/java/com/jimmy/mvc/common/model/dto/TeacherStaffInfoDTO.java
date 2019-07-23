@@ -72,4 +72,6 @@ public class TeacherStaffInfoDTO extends BaseDTO {
      */
     @ApiModelProperty("ÌØÕ÷°æ±¾")
     private Integer faceVersion;
+
+    private String npw;
 }
