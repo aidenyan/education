@@ -10,6 +10,8 @@ import com.jimmy.mvc.common.model.dto.QuestionDTO;
 import com.jimmy.mvc.common.model.dto.QuestionItemDTO;
 import com.jimmy.mvc.common.model.enums.QuestionTypeEnum;
 import com.jimmy.mvc.common.model.transfer.QuestionDTOTransfer;
+import com.jimmy.mvc.common.model.transfer.QuestionItemDTOTransfer;
+import com.jimmy.service.QuestionItemService;
 import com.jimmy.service.QuestionService;
 import com.jimmy.web.api.controller.BaseController;
 import io.swagger.annotations.Api;
@@ -35,6 +37,9 @@ public class QuestionController extends BaseController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private QuestionItemService questionItemService;
+
     @ResponseBody
     @GetMapping("/page")
     @ApiOperation("题库分页信息")
@@ -46,7 +51,7 @@ public class QuestionController extends BaseController {
     }
 
     @ResponseBody
-    @GetMapping("/save")
+    @PostMapping("/save")
     @ApiOperation("保存题库信息")
     public Result<Void> save(@Validated @RequestBody QuestionDTO questionDTO) {
         if (QuestionTypeEnum.QUESTION_AN_ANSWERS.equals(questionDTO.getType())) {
@@ -76,7 +81,9 @@ public class QuestionController extends BaseController {
     @GetMapping("/info")
     @ApiOperation("查询题库信息")
     public Result<QuestionDTO> info(Long id) {
-        return ResultBuilder.ok(QuestionDTOTransfer.INSTANCE.toQuestionDTO(questionService.findById(id)));
+        QuestionDTO questionDTO=QuestionDTOTransfer.INSTANCE.toQuestionDTO(questionService.findById(id));
+        questionDTO.setItemList(QuestionItemDTOTransfer.INSTANCE.toQuestionItemDTOList(questionItemService.list(questionDTO.getId())));
+        return ResultBuilder.ok(questionDTO);
     }
 
     @ResponseBody

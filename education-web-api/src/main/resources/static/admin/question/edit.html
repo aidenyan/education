@@ -21,12 +21,12 @@
             <span class="sp_text">题库信息编辑</span>
         </div>
     </div>
-    <form action="index.html" method="get">
+    <form id="form_id">
         <table cellpadding="10">
             <tr>
                 <th width="160" class="Ri"><span>*</span>问题类型:</th>
                 <th width="80" class="Le">
-                    <select name="type" id="sele" style="width: 80px;height: 23px; position: relative; top:0px ;"
+                    <select name="type" id="type" style="width: 80px;height: 23px; position: relative; top:0px ;"
                             onChange="changeType(this.value)">
                         <option value="QUESTION_AN_ANSWERS">问答题</option>
                         <option value="SINGLE_CHOICE">单选题</option>
@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <th width="160" class="Ri"><span>*</span>问题:</th>
-                <th width="300" class="Le" ><textarea id="question" required maxlength="200"></textarea></th>
+                <th width="300" class="Le"><textarea id="question" required maxlength="200"></textarea></th>
             </tr>
             <tr>
                 <th width="160" class="Ri" id="result_title"><span>*</span>答案:</th>
@@ -56,7 +56,8 @@
 </div>
 <script language="javascript" type="text/javascript">
 
-    var i=0;
+    var i = 0;
+
     function changeType(type) {
         if (type == "QUESTION_AN_ANSWERS") {
             $("#result_title").html("<span>*</span>答案:");
@@ -64,17 +65,28 @@
         } else if (type == "SINGLE_CHOICE") {
             $("#result_title").html("<div style='vertical-align: top'><span>*</span>选项:</div>");
             $("#result").html('<div><button onclick="addRadio()">添加选项</button><div id="result_div"></div></div>');
-        }else if (type == "MULTIPLE_CHOICE") {
+        } else if (type == "MULTIPLE_CHOICE") {
             $("#result_title").html("<div style='vertical-align: top'><span>*</span>选项:</div>");
             $("#result").html('<div><button onclick="addCheck()">添加选项</button><div id="result_div"></div></div>');
         }
     }
+
     function addRadio() {
-        $("#result_div").append("<input type='radio' name='radio"+i+"'><input type='text' required maxlength='200'  name='radio"+i+"'><br/>");
+        if(Utils.getHrefValue("isRead") == "true"){
+            return;
+        }
+        i++
+        $("#result_div").append("<input type='radio' name='radio' id='radio" + i + "'><input type='text' required maxlength='200'  name='radio" + i + "'><br/>");
     }
+
     function addCheck() {
-        $("#result_div").append("<input type='checkbox'  name='checkbox"+i+"'><input type='text' required maxlength='200'  name='checkbox"+i+"'><br/>");
+        if(Utils.getHrefValue("isRead") == "true"){
+            return;
+        }
+        i++
+        $("#result_div").append("<input type='checkbox'  name='checkbox'  id='checkbox" + i + "'><input type='text' required maxlength='200'  name='checkbox" + i + "'><br/>");
     }
+
     $(function () {
         changeType("QUESTION_AN_ANSWERS");
         $("#close").click(function () {
@@ -83,18 +95,65 @@
         var id = Utils.getHrefValue("id");
         if (Utils.isNotBlack(id)) {
             ajaxget("/api/admin/question/info?id=" + id, function (result) {
-                var questionObj=result.result;
+                var questionObj = result.result;
+                $("#type").val(questionObj.type)
                 changeType(questionObj.type);
-                $("#question").html(questionObj.content);
-                if (type == "QUESTION_AN_ANSWERS") {
+                $("#question").html(questionObj.question);
+                if (questionObj.type == "QUESTION_AN_ANSWERS") {
                     $("#result_content").html(questionObj.result);
-                } else{
+                } else {
+                    if (!Utils.isArray(questionObj.itemList)) {
+                        return;
+                    }
+                    for(var k=0;k<questionObj.itemList.length;k++){
+                        var itemObj=questionObj.itemList[k];
+                        var contnetStr;
+                        var checkedContent=itemObj.isResult?" checked='checked' ":"";
+                        i++;
+                        if(questionObj.type=="SINGLE_CHOICE"){
+                             contnetStr="<input name='radio' type='radio' "+checkedContent+" id='radio" + i + "'><input type='text' required maxlength='200'  value='"+itemObj.content+"' name='radio" + i + "'><br/>";
 
+                        }else{
+                            contnetStr="<input  name='checkbox' type='checkbox'  "+checkedContent +" id='checkbox" + i + "'><input type='text' required maxlength='200'  value='"+itemObj.content+"' name='checkbox" + i + "'><br/>";
+                        }
+                        $("#result_div").append(contnetStr);
+                    }
+
+                }
+                if (Utils.getHrefValue("isRead") == "true") {
+                    isRead("form_id")
+                    $("#submit").hide();
                 }
             });
         }
-
-
+        $("#form_id").submit(function () {
+           var questionObj={};
+            questionObj.type=$("#type").val();
+            questionObj.question=$("#question").val();
+            if (questionObj.type == "QUESTION_AN_ANSWERS") {
+                questionObj.result= $("#result_content").val();
+            }else{
+                var itemList=new Array();
+                $("#result_div").find("input[type='text']").each(function () {
+                    var name=$(this).attr("name");
+                   var isResult= $("#"+name).is(":checked")
+                    itemList.push({isResult:isResult,content:$(this).val()})
+                })
+                questionObj.itemList=itemList;
+            }
+            if (Utils.isNotBlack(id)) {
+                questionObj.id=id;
+            }
+            ajaxsend(questionObj, "/api/admin/question/save", function (result) {
+                if (Utils.isNotNull(Utils.getHrefValue("id"))) {
+                    alert("更新问题信息成功")
+                } else {
+                    alert("保存问题信息成功")
+                }
+                callParent.closeTab(Utils.getHrefValue("tab_id"))
+            }, "post")
+            return false;
+        })
     })
 </script>
 </body>
