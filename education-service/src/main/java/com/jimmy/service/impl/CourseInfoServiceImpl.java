@@ -44,6 +44,10 @@ public class CourseInfoServiceImpl implements CourseInfoService {
         }
     }
 
+    public boolean isExitByRoomId(Long roomId){
+        return courseInfoMapper.countByRoomId(roomId,SiteLocalThread.getSiteIdList())>0;
+    }
+
     @Override
     public CourseInfo findByRoomId(Long roomId) {
         Assert.notNull(roomId);

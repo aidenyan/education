@@ -1,5 +1,6 @@
 package com.jimmy.mvc.common.model.dto;
 
+import com.jimmy.common.utils.StringUtils;
 import com.jimmy.mvc.common.model.enums.QuestionTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,6 +14,11 @@ import java.util.List;
 @ApiModel("问题信息")
 public class QuestionDTO extends BaseDTO {
 
+    /**
+     * 选择项
+     */
+    @ApiModelProperty("选择项")
+    List<QuestionItemDTO> itemList;
     /**
      * 问题
      */
@@ -36,9 +42,20 @@ public class QuestionDTO extends BaseDTO {
     @ApiModelProperty("是否删除")
     private Boolean isDeleted;
     /**
-     * 选择项
+     * 问题的节选
      */
-    @ApiModelProperty("选择项")
-    List<QuestionItemDTO> itemList;
+    @ApiModelProperty("问题的节选")
+    private String questionAbridge;
 
+    public String getQuestionAbridge() {
+        if (StringUtils.isBlank(question)) {
+            return question;
+        }
+        if (question.length() > 15) {
+            questionAbridge = question.substring(0, 15) + "...";
+        } else {
+            questionAbridge = question;
+        }
+        return questionAbridge;
+    }
 }

@@ -23,6 +23,14 @@
     create_time, modify_time, site_id
   </sql>
 
+    <select id="countByRoomId" resultType="java.lang.Integer">
+        select COUNT (id) from t_course_info
+        where site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        and room_id=#{roomId}
+    </select>
     <select id="list" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

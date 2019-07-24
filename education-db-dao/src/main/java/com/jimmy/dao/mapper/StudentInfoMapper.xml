@@ -32,7 +32,15 @@
     birth_time, mobile, telephone, app_token, id_card,is_deleted, create_id, modify_id, create_time,
     modify_time,  header_info, site_id
   </sql>
-
+    <select id="countByClassmateId" resultType="java.lang.Integer">
+       SELECT  count(id) from  t_student_info WHERE
+        site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        and is_deleted=0
+        and classmate_id=#{classmateId}
+    </select>
     <select id="findById" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

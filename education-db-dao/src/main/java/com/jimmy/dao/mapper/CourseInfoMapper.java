@@ -16,6 +16,12 @@ public interface CourseInfoMapper {
     int insert(CourseInfo record);
 
     /**
+     * 统计门店的信息
+     * @return
+     */
+    int countByRoomId(@Param("roomId") Long roomId, @Param("siteIdList") List<Long> siteIdList);
+
+    /**
      * 查找课程信息
      *
      * @param id ID

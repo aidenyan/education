@@ -25,6 +25,10 @@ public class StudentInfoServiceImpl implements StudentInfoService {
         return studentInfoMapper.findById(id, SiteLocalThread.getSiteIdList());
     }
 
+    public boolean isExistClassmate(Long classmateId){
+        Assert.notNull(classmateId, "classmateId is null");
+       return studentInfoMapper.countByClassmateId(classmateId,SiteLocalThread.getSiteIdList())>0;
+    }
     @Override
     public StudentInfo findByName(String name) {
         Assert.isTrue(StringUtils.isNotBlank(name), "name is null");

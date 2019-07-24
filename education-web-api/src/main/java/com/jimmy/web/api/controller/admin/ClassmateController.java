@@ -4,9 +4,11 @@ import com.jimmy.core.base.Page;
 import com.jimmy.dao.entity.ClassMate;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
+import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.ClassMateDTO;
 import com.jimmy.mvc.common.model.transfer.ClassMateDTOTransfer;
 import com.jimmy.service.ClassMateService;
+import com.jimmy.service.StudentInfoService;
 import com.jimmy.web.api.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +34,9 @@ public class ClassmateController extends BaseController {
     @Autowired
     private ClassMateService classMateService;
 
+    @Autowired
+    private StudentInfoService studentInfoService;
+
     @ResponseBody
     @GetMapping("/page")
     @ApiOperation("班级信息")
@@ -54,6 +59,9 @@ public class ClassmateController extends BaseController {
     @PostMapping("/deleted/{id}")
     @ApiOperation("班级信息")
     public Result<Void> deleted(@PathVariable("id") Long id) {
+        if (!studentInfoService.isExistClassmate(id)) {
+            return ResultBuilder.error(ResultCodeEnum.CLASSMATE_IS_USING);
+        }
         classMateService.deleted(id);
         return ResultBuilder.ok(null);
     }

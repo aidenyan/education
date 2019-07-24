@@ -22,6 +22,11 @@ public interface StudentInfoService {
     StudentInfo findByName(String name);
 
     /**
+     * 判断班级是否已经被使用
+     */
+    boolean isExistClassmate(Long classmateId);
+
+    /**
      * 根据名字搜索
      *
      * @param name 学生名字

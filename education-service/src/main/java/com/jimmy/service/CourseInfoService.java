@@ -20,6 +20,13 @@ public interface CourseInfoService {
      * @return 保存信息
      */
     void save(CourseInfo record);
+
+    /**
+     * 检查门店是否存在
+     * @param roomId 教室ID
+     * @return true:已经使用，false:未使用
+     */
+    boolean isExitByRoomId(Long roomId);
     /**
      * 查找课程信息
      *

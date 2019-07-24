@@ -6,6 +6,13 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface StudentInfoMapper {
+
+    /**
+     * 统计数量根据班级
+     * @return
+     */
+
+    Integer countByClassmateId(@Param("classmateId") Long classmateId, @Param("siteIdList") List<Long> siteIdList);
     /**
      * 根据的ID查找学生信息
      *

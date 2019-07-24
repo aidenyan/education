@@ -22,9 +22,10 @@ public enum ResultCodeEnum implements ResultEnum {
 
     QUESTION_ITEM_IS_EMPTY("-10011","选择题的选项不能空","选择题的选项不能空"),
     QUESTION_ITEM_ANSWER_EMPTY("-10012","选择题的答案不能没有","选择题的答案不能没有"),
-    QUESTION_ITEM_ANSWER_SIMPLE("-10013","单选题的答案只能有一个","单选题的答案只能有一个")
+    QUESTION_ITEM_ANSWER_SIMPLE("-10013","单选题的答案只能有一个","单选题的答案只能有一个"),
+    ROOM_IS_USING("-10014","教室已经被使用","教室已经被使用"),
 
-
+    CLASSMATE_IS_USING("-10015","班级已经被使用","班级已经被使用"),
     ;
     private String code;
     private String message;

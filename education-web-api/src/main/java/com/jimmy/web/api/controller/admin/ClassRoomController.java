@@ -5,12 +5,14 @@ import com.jimmy.dao.entity.ClassRoomInfo;
 import com.jimmy.model.vo.ClassRoomVO;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
+import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.ClassRoomDTO;
 import com.jimmy.mvc.common.model.dto.ClassRoomVoDTO;
 import com.jimmy.mvc.common.model.transfer.ClassRoomDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.ClassRoomVoDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.MachineInfoTOTransfer;
 import com.jimmy.service.ClassRoomService;
+import com.jimmy.service.CourseInfoService;
 import com.jimmy.web.api.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,6 +35,9 @@ import java.util.List;
 public class ClassRoomController extends BaseController {
     @Autowired
     private ClassRoomService classRoomService;
+
+    @Autowired
+    private CourseInfoService courseInfoService;
 
     @ResponseBody
     @GetMapping("/page")
@@ -59,10 +64,14 @@ public class ClassRoomController extends BaseController {
         ClassRoomVO classRoomVo = classRoomService.find(id);
         return ResultBuilder.ok(ClassRoomVoDTOTransfer.INSTANCE.toClassRoomVoDTO(classRoomVo));
     }
+
     @ResponseBody
     @PostMapping("/deleted/{id}")
     @ApiOperation("…æ≥˝ΩÃ “–≈œ¢")
     public Result<Void> deleted(@PathVariable("id") Long id) {
+        if (!courseInfoService.isExitByRoomId(id)) {
+            return ResultBuilder.error(ResultCodeEnum.ROOM_IS_USING);
+        }
         classRoomService.deleted(id);
         return ResultBuilder.ok(null);
     }
