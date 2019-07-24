@@ -3,6 +3,7 @@ package com.jimmy.web.api.controller.admin;
 import com.jimmy.common.utils.StringUtils;
 import com.jimmy.core.base.Page;
 import com.jimmy.dao.entity.Question;
+import com.jimmy.dao.entity.QuestionItem;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
@@ -73,7 +74,8 @@ public class QuestionController extends BaseController {
                 return ResultBuilder.error(ResultCodeEnum.QUESTION_ITEM_ANSWER_SIMPLE);
             }
         }
-        questionService.save(QuestionDTOTransfer.INSTANCE.toQuestion(questionDTO));
+        questionService.save(QuestionDTOTransfer.INSTANCE.toQuestion(questionDTO),
+                QuestionItemDTOTransfer.INSTANCE.toQuestionItemList(questionDTO.getItemList()));
         return ResultBuilder.ok(null);
     }
 

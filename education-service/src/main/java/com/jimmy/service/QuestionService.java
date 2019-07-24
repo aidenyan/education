@@ -1,6 +1,7 @@
 package com.jimmy.service;
 
 import com.jimmy.dao.entity.Question;
+import com.jimmy.dao.entity.QuestionItem;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface QuestionService {
      * @param record 问题
      * @return 保存结果
      */
-    void save(Question record);
+    void save(Question record, List<QuestionItem> questionItemList);
 
     /**
      * 根据ID查找问题

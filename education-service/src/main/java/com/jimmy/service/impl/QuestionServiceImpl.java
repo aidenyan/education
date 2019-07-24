@@ -2,6 +2,7 @@ package com.jimmy.service.impl;
 
 import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.dao.entity.Question;
+import com.jimmy.dao.entity.QuestionItem;
 import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.mapper.QuestionMapper;
 import com.jimmy.service.QuestionItemService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -37,7 +39,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(Question question) {
+    public void save(Question question, List<QuestionItem> questionItemList) {
         Assert.notNull(question);
         question.setModifyId(LoginLocalThread.get());
         question.setSiteId(SiteLocalThread.getSiteId());
@@ -53,6 +55,11 @@ public class QuestionServiceImpl implements QuestionService {
             question.setIsDeleted(Boolean.FALSE);
             questionMapper.insert(question);
         }
+        if(CollectionUtils.isEmpty(questionItemList)){
+            return;
+        }
+        questionItemService.save(questionItemList,question.getId());
+
 
 
     }
