@@ -46,4 +46,13 @@ table span{
 	margin-left: 5px;
 }
 
-
+.imgs{
+	width: 300px;
+	float: left;
+}
+.box div{
+	margin-top: 15px;
+}
+.duox input{
+	margin-top: 15px;
+}
