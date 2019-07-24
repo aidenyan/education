@@ -37,10 +37,10 @@
         </foreach>
     </delete>
     <insert id="insert" parameterType="com.jimmy.dao.entity.QuestionItem"  keyProperty="id" useGeneratedKeys="true">
-    insert into t_question_item (content, is_result,
+    insert into t_question_item (content, is_result,question_id,
       create_id, modify_id, create_time, 
       modify_time, site_id)
-    values ( #{content,jdbcType=VARCHAR}, #{isResult,jdbcType=TINYINT},
+    values ( #{content,jdbcType=VARCHAR}, #{isResult,jdbcType=TINYINT},#{questionId},
       #{createId,jdbcType=BIGINT},  #{modifyId,jdbcType=BIGINT},now(),now(),
        #{siteId,jdbcType=BIGINT})
   </insert>

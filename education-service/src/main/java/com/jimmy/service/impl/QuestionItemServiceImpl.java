@@ -49,6 +49,6 @@ public class QuestionItemServiceImpl implements QuestionItemService {
     @Transactional(rollbackFor = Exception.class)
     public void deleted(Long questionId) {
         Assert.notNull(questionId);
-        questionItemMapper.deleted(questionId, SiteLocalThread.getSiteIdList());
+        questionItemMapper.deleteByPrimaryKey(questionId, SiteLocalThread.getSiteIdList());
     }
 }

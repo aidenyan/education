@@ -32,7 +32,7 @@ public interface QuestionItemMapper {
      * @return 删除数量
      */
 
-    int deleted(@Param("questionId") Long questionId, @Param("siteIdList") List<Long> siteIdList);
+    int deleteByPrimaryKey(@Param("questionId") Long questionId, @Param("siteIdList") List<Long> siteIdList);
 
 
 }
