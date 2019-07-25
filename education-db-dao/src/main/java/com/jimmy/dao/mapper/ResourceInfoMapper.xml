@@ -6,6 +6,7 @@
         <result column="type" property="type" jdbcType="TINYINT"/>
         <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
         <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+        <result column="title" property="title" />
         <result column="create_id" property="createId" jdbcType="BIGINT"/>
         <result column="modify_id" property="modifyId" jdbcType="BIGINT"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
@@ -14,7 +15,7 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, type,   content,is_deleted, create_id, modify_id, create_time, modify_time, site_id
+    id, type,  title, content,is_deleted, create_id, modify_id, create_time, modify_time, site_id
   </sql>
 
     <select id="findById" resultMap="BaseResultMap">
@@ -41,10 +42,10 @@
         and type =#{type}
     </select>
     <insert id="insert" parameterType="com.jimmy.dao.entity.ResourceInfo"  keyProperty="id" useGeneratedKeys="true">
-    insert into t_resource_info (is_deleted, type, create_id,
+    insert into t_resource_info (title,is_deleted, type, create_id,
       modify_id, create_time, modify_time, 
       site_id, content)
-    values (#{isDeleted}, #{type,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT},
+    values (#{title},#{isDeleted}, #{type,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT},
       #{modifyId,jdbcType=BIGINT}, now(), now(),
       #{siteId,jdbcType=BIGINT}, #{content,jdbcType=LONGVARCHAR})
   </insert>
@@ -54,6 +55,9 @@
         <set>
             <if test="type != null">
                 type = #{type,jdbcType=TINYINT},
+            </if>
+            <if test="title != null">
+                title = #{title},
             </if>
 
             modify_id = #{modifyId,jdbcType=BIGINT},
@@ -74,6 +78,7 @@
     set type = #{type,jdbcType=TINYINT},
       modify_id = #{modifyId,jdbcType=BIGINT},
       modify_time = now(),
+      title = #{title},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT} and site_id = #{siteId,jdbcType=BIGINT} and is_deleted=0
   </update>

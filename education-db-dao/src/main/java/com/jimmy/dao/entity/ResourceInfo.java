@@ -10,5 +10,5 @@ public class ResourceInfo extends BaseEntity {
     private Boolean isDeleted;
 
     private String content;
-
+    private String title;
 }

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<link rel="stylesheet" href="css/new_file.css" />
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
+	</head>
+	<body>
+		<div class="content">
+			<div class="top">
+				<div class="top_w">
+					<div class="blue"></div>
+					<span class="sp_text">资源信息编辑</span>
+				</div>
+			</div>
+			<form action="index.html" method="get">
+				<table cellpadding="10">
+					<tr>
+						<th width="160" class="Ri"><span>*</span>资源类型:</th>
+						<th width="80" class="Le">
+							<select name="type" id="sele" style="width: 80px;height: 23px; position: relative; top:0px ;"
+								onChange="test('mune_x'+this.value)"
+								>
+								<option value="0">图片</option>
+								<option value="1">视频</option>
+								<option value="2">文字</option>
+								<option value="3">图纸</option>
+								<option value="4">图纸答案</option>
+							</select>
+						</th>
+						<th width="200" height="200" colspan="2" class="Ri">
+							<div id="x0" style="display: block;" name="contentObj">
+								<input type="file" id="btn_file" style="display: none;" />
+								<input type="file" class="imgInput1" placeholder="  " />
+								<img src="" class="img1 imgs" />
+							</div>
+							<div id="x1" style="display: none;" name="contentObj">
+								<input type="file" id="btn_file" style="display: none;" />
+								<input type="file" class="imgInput2" placeholder="  " />
+								<img src="" class="img2 imgs" />
+							</div>
+							<div id="x2" style="display: none;" name="contentObj">
+								<input type="text" placeholder="请输入内容" />
+							</div>
+							<div id="x3" style="display: none;" name="contentObj">
+								
+								<input type="file" class="imgInput" placeholder="  " />
+								<img src="" class="img imgs" />
+								
+								<div style="margin-top: 20px;">
+									<div id="iut">图纸测量点:<input type="text"  /></div>
+									<button type="button" class="but">
+										增加
+									</button>	
+								</div>
+							</div>
+							<div id="x4" style="display: none;text-align: left;" class="box" name="contentObj">
+								<div>答案:<input type="text" /></div>
+								<div>长度:<input type="text" /></div>
+								<div>误差:<input type="text" /></div>
+								<div>单位:<input type="text" /></div>
+							</div>
+						</th>
+						<th width="180" class="Le"></th>
+					</tr>
+					<tr>
+						<th colspan="4" style="text-align: center;">
+							<button type="submit">提交</button>
+						</th>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<script language="javascript" type="text/javascript">
+			function test(Names){
+				var Name
+				for (var i=0;i<5;i++){
+					var tempname="mune_x"+i
+					var NewsHot="x"+i
+					if (Names==tempname){
+						Nnews=document.getElementById(NewsHot)
+						Nnews.style.display='';
+					}else{
+						Nnews=document.getElementById(NewsHot)
+						Nnews.style.display='none'; 
+					}
+				}
+			}
+			/*点击弹出选择路径*/
+			function F_Open_dialog(){ 
+				document.getElementById("btn_file").click(); 
+			}
+			
+			
+			function F_Open_dialogs(){ 
+				document.getElementById("btn_files").click(); 
+			}
+			
+			$(".imgInput").change(function(){
+			    $(".img").attr("src",URL.createObjectURL($(this)[0].files[0]));
+			});
+			
+			$(".imgInput1").change(function(){
+			    $(".img1").attr("src",URL.createObjectURL($(this)[0].files[0]));
+			});
+			$(".imgInput2").change(function(){
+			    $(".img2").attr("src",URL.createObjectURL($(this)[0].files[0]));
+			});
+			
+			/*增加文本框*/
+			$(".but").click(function(){
+				$("#iut").append("<input type='text'></input>")
+			})
+				
+		</script>
+	</body>
+</html>

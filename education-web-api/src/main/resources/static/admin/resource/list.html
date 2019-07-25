@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>资源列表</title>
+    <title>题库列表</title>
     <link rel="stylesheet" href="../../layui/css/layui.css"/>
     <link rel="stylesheet" href="../../common/css/common.css">
     <link rel="stylesheet" href="../../common/css/font-style.css">
@@ -17,7 +17,10 @@
                         <div class="layui-inline po-r">
                             <a href="javascript:void(-1);" id="add_teacher"
                                class="layui-btn layui-btn-small product_save"> <i class="layui-icon"
-                                                                                  style="vertical-align: middle"></i>新增资源</a>
+                                                                                  style="vertical-align: middle"></i>新增题库</a>
+                            <span>姓名</span>
+                            <input type="text" name="inputStr" id="searchParam" autocomplete="off"
+                                   class="layui-input small mizo-srarch-input">
                             <button id="btnSearch" class="layui-btn layui-btn-small" lay-submit="" lay-filter="search">
                                 搜索
                             </button>
@@ -34,7 +37,7 @@
                         <tbody>
                         <tr class="datagrid-header-row">
                             <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">标题</div>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">题目</div>
                             </td>
                             <td>
                                 <div class="datagrid-cell datagrid-cell-c1-w100">类型</div>
@@ -67,15 +70,12 @@
     {{#  layui.each(d.result, function(index, item){ }}
     <tr>
         <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.title}}</div>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.questionAbridge}}</div>
         </td>
 
         <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.type=='IMG'){
-                }}图片 {{# }else if(item.type=='VIDEO'){
-                }}视频 {{# }else if(item.type=='TEXT'){
-                }}文字 {{# }else if(item.type=='BLUEPRINT'){
-                }}图纸{{#}else{}}图纸的答案{{# } }}
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.type=='QUESTION_AN_ANSWERS'){ }}问答题 {{# }else if(item.type=='SINGLE_CHOICE'){
+                }}单选题{{#}else{}}多选题{{# } }}
             </div>
         </td>
         <td>
@@ -116,28 +116,28 @@
             pageOrder(orderObj.setOption(vSeaData));
         });
 
-        function pageOrder() {
+        function pageOrder(data) {
 
-            myAjax.ajaxPage('/api/admin/resource/page', 'pageNum', 'page_tbody', 'pageTpl');
+            myAjax.ajaxPage('/api/admin/question/page', 'pageNum', 'page_tbody', 'pageTpl', data);
         }
 
         form.on('submit(search)', function () {
 
 
-            pageOrder()
+            pageOrder({name:$("#searchParam").val()})
             return false;
         });
         pageOrder();
 
         $("#page_tbody").on("click", ".view", function () {
-            callParent.openTab("resource_view", 0, "查看资源", "/static/admin/resource/edit.html?tab_id=resource_view&id=" + $(this).val() + "&isRead=true", true);
+            callParent.openTab("question_view", 0, "查看问题", "/static/admin/question/edit.html?tab_id=question_view&id=" + $(this).val() + "&isRead=true", true);
         })
         $("#page_tbody").on("click", ".edit", function () {
-            callParent.openTab("resource_edit", 0, "编辑资源", "/static/admin/resource/edit.html?tab_id=resource_edit&id=" + $(this).val(), true);
+            callParent.openTab("question_edit", 0, "编辑问题", "/static/admin/question/edit.html?tab_id=question_edit&id=" + $(this).val(), true);
         });
         $("#page_tbody").on("click", ".delete", function () {
-            if (confirm("你确定要删除“" + $(this).attr("name") + "”资源?")) {
-               ajax(null,"/api/admin/resource/deleted/"+$(this).val(),function (result) {
+            if (confirm("你确定要删除“" + $(this).attr("name") + "”问题?")) {
+               ajax(null,"/api/admin/question/deleted/"+$(this).val(),function (result) {
                  alert("删除成功！");
                },"post");
             }
@@ -148,7 +148,7 @@
             refresh();
         }, "refresh");
         $("#add_teacher").on("click", function () {
-            callParent.openTab("resource_add", 0, "新增资源", "/static/admin/resource/edit.html?tab_id=resource_add", true);
+            callParent.openTab("question_add", 0, "新增问题", "/static/admin/question/edit.html?tab_id=question_add", true);
         })
     });
 </script>
