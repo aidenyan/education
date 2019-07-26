@@ -41,7 +41,7 @@ public class ResourceController extends BaseController {
     }
 
     @ResponseBody
-    @GetMapping("/save")
+    @PostMapping("/save")
     @ApiOperation("保存资源信息")
     public Result<Void> save(@Validated @RequestBody ResourceInfoDTO resourceInfoDTO) {
         resourceInfoService.save(ResourceInfoDTOTransfer.INSTANCE.toResourceInfo(resourceInfoDTO));

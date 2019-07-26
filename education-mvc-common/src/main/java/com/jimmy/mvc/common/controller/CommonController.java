@@ -8,8 +8,6 @@ import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.config.FilePathConfig;
 import com.jimmy.mvc.common.model.dto.StreamDTO;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,7 +48,6 @@ public class CommonController {
     @ApiOperation("上传文件")
     @PostMapping("/update_file")
     @ResponseBody
-    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<String> updateFile(@RequestParam("file") MultipartFile multipartFile, String name) {
         Result<String> result = null;
         if (multipartFile != null) {

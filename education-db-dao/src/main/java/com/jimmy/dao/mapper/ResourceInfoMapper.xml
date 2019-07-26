@@ -39,7 +39,10 @@
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
-        and type =#{type}
+        <if test="type != null">
+            and type =#{type}
+        </if>
+
     </select>
     <insert id="insert" parameterType="com.jimmy.dao.entity.ResourceInfo"  keyProperty="id" useGeneratedKeys="true">
     insert into t_resource_info (title,is_deleted, type, create_id,

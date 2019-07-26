@@ -24,23 +24,28 @@
     <form id="form_id">
         <table cellpadding="10">
             <tr>
-                <th width="160" class="Ri"><span>*</span>问题类型:</th>
+                <th width="160" class="Ri"><span>*</span>标题:</th>
                 <th width="80" class="Le">
-                    <select name="type" id="type" style="width: 80px;height: 23px; position: relative; top:0px ;"
-                            onChange="changeType(this.value)">
-                        <option value="QUESTION_AN_ANSWERS">问答题</option>
-                        <option value="SINGLE_CHOICE">单选题</option>
-                        <option value="MULTIPLE_CHOICE">多选题</option>
+                    <input type="text" id="title" required maxlength="30"/>
+                </th>
+            </tr>
+            <tr>
+                <th width="160" class="Ri"><span>*</span>资源类型:</th>
+                <th width="80" class="Le">
+                    <select name="type" id="type_select" style="width: 80px;height: 23px; position: relative; top:0px ;"
+                            onChange="selectType(this.value)">
+                        <option value="IMG">图片</option>
+                        <option value="VIDEO">视频</option>
+                        <option value="TEXT">文字</option>
+                        <option value="BLUEPRINT">图纸</option>
+                        <option value="BLUEPRINT_ANSWER">图纸答案</option>
                     </select>
                 </th>
             </tr>
             <tr>
-                <th width="160" class="Ri"><span>*</span>问题:</th>
-                <th width="300" class="Le"><textarea id="question" required maxlength="200"></textarea></th>
-            </tr>
-            <tr>
-                <th width="160" class="Ri" id="result_title"><span>*</span>答案:</th>
-                <th width="300" class="Le" id="result"></th>
+                <th width="160" class="Ri"><span>*</span>资源内容:</th>
+                <th width="380" class="Le" id="content">
+                </th>
             </tr>
             <tr>
                 <th colspan="1" style="text-align: right;">
@@ -55,106 +60,158 @@
     </form>
 </div>
 <script language="javascript" type="text/javascript">
-
-    var i = 0;
-
-    function changeType(type) {
-        if (type == "QUESTION_AN_ANSWERS") {
-            $("#result_title").html("<span>*</span>答案:");
-            $("#result").html('<textarea id="result_content" required maxlength="200"></textarea>');
-        } else if (type == "SINGLE_CHOICE") {
-            $("#result_title").html("<div style='vertical-align: top'><span>*</span>选项:</div>");
-            $("#result").html('<div><button onclick="addRadio()">添加选项</button><div id="result_div"></div></div>');
-        } else if (type == "MULTIPLE_CHOICE") {
-            $("#result_title").html("<div style='vertical-align: top'><span>*</span>选项:</div>");
-            $("#result").html('<div><button onclick="addCheck()">添加选项</button><div id="result_div"></div></div>');
+    function selectType(typeValue) {
+        var html;
+        if (typeValue == "IMG") {
+            html = '<input type="hidden" id="url_hidden"><input type="file" class="imgInput1" onchange="updateFile(\'img_update_id\',this)" id="img_update_id" placeholder="  " accept="image/*"/><a id="down_id" style="display: none" target="_blank">下载</a>'
+        } else if (typeValue == "VIDEO") {
+            html = ' <input type="hidden" id="url_hidden"> <input type="file" class="imgInput2" placeholder="  "   id="img_update_id" onchange="updateFile(\'img_update_id\',this)" accept="video/*" /><a id="down_id" style="display: none" target="_blank">下载</a>'
+        } else if (typeValue == "TEXT") {
+            html = '  <input type="text" id="content_id" placeholder="请输入内容" />';
+        } else if (typeValue == "BLUEPRINT") {
+            html = ' <input type="hidden" id="url_hidden"><input type="file" class="imgInput" placeholder="  " id="img_update_id"  onchange="updateFile(\'img_update_id\',this)"  accept="image/*"/><a id="down_id" style="display: none" target="_blank">下载</a>' +
+                '\n' +
+                '                        <div style="margin-top: 20px;">\n' +
+                '                            <div id="iut">图纸测量点:<br/><input type="text" class="point" /></div>\n' +
+                '                            <button type="button" onclick="addPoint()" class="but">\n' +
+                '                                增加\n' +
+                '                            </button>\n' +
+                '                        </div>'
+        } else {
+            html = '<div>长度:<input type="text" id="answer_length"/></div>\n' +
+                '  <div>误差:<input type="text" id="answer_error" /></div>\n' +
+                ' <div>单位:<input type="text" id="answer_unit" /></div>';
         }
+        $("#content").html(html);
     }
 
-    function addRadio() {
-        if(Utils.getHrefValue("isRead") == "true"){
-            return;
-        }
-        i++
-        $("#result_div").append("<input type='radio' name='radio' id='radio" + i + "'><input type='text' required maxlength='200'  name='radio" + i + "'><br/>");
-    }
-
-    function addCheck() {
-        if(Utils.getHrefValue("isRead") == "true"){
-            return;
-        }
-        i++
-        $("#result_div").append("<input type='checkbox'  name='checkbox'  id='checkbox" + i + "'><input type='text' required maxlength='200'  name='checkbox" + i + "'><br/>");
-    }
-
+    selectType("IMG");
     $(function () {
-        changeType("QUESTION_AN_ANSWERS");
-        $("#close").click(function () {
-            callParent.closeTab(Utils.getHrefValue("tab_id"))
-        })
-        var id = Utils.getHrefValue("id");
-        if (Utils.isNotBlack(id)) {
-            ajaxget("/api/admin/question/info?id=" + id, function (result) {
-                var questionObj = result.result;
-                $("#type").val(questionObj.type)
-                changeType(questionObj.type);
-                $("#question").html(questionObj.question);
-                if (questionObj.type == "QUESTION_AN_ANSWERS") {
-                    $("#result_content").html(questionObj.result);
-                } else {
-                    if (!Utils.isArray(questionObj.itemList)) {
-                        return;
-                    }
-                    for(var k=0;k<questionObj.itemList.length;k++){
-                        var itemObj=questionObj.itemList[k];
-                        var contnetStr;
-                        var checkedContent=itemObj.isResult?" checked='checked' ":"";
-                        i++;
-                        if(questionObj.type=="SINGLE_CHOICE"){
-                             contnetStr="<input name='radio' type='radio' "+checkedContent+" id='radio" + i + "'><input type='text' required maxlength='200'  value='"+itemObj.content+"' name='radio" + i + "'><br/>";
 
-                        }else{
-                            contnetStr="<input  name='checkbox' type='checkbox'  "+checkedContent +" id='checkbox" + i + "'><input type='text' required maxlength='200'  value='"+itemObj.content+"' name='checkbox" + i + "'><br/>";
-                        }
-                        $("#result_div").append(contnetStr);
-                    }
-
-                }
-                if (Utils.getHrefValue("isRead") == "true") {
-                    isRead("form_id")
-                    $("#submit").hide();
-                }
-            });
-        }
         $("#form_id").submit(function () {
-           var questionObj={};
-            questionObj.type=$("#type").val();
-            questionObj.question=$("#question").val();
-            if (questionObj.type == "QUESTION_AN_ANSWERS") {
-                questionObj.result= $("#result_content").val();
-            }else{
-                var itemList=new Array();
-                $("#result_div").find("input[type='text']").each(function () {
-                    var name=$(this).attr("name");
-                   var isResult= $("#"+name).is(":checked")
-                    itemList.push({isResult:isResult,content:$(this).val()})
+            var resourceObj={};
+            resourceObj.title=$("#title").val();
+            resourceObj.type=$("#type_select").val();
+           var typeValue=$("#type_select").val();
+            if (typeValue == "IMG" || typeValue == "VIDEO") {
+                resourceObj.content=  $("#url_hidden").val()
+            } else if (typeValue == "TEXT") {
+                resourceObj.content=$("#content_id").val();
+            } else if (typeValue == "BLUEPRINT") {
+               var  jsonObj={url:  $("#url_hidden").val()};
+                var pointList=new Array();
+                $(".point").each(function(){
+                    pointList.push($(this).val());
                 })
-                questionObj.itemList=itemList;
+                jsonObj.pointList=pointList;
+                resourceObj.content=JSON.stringify(jsonObj);
+            }else{
+                var  jsonObj={answer:  $("#answer_length").val(),
+                    error:$("#answer_error").val(),
+                    unit:$("#answer_unit").val()
+                };
+                resourceObj.content=JSON.stringify(jsonObj);
             }
             if (Utils.isNotBlack(id)) {
-                questionObj.id=id;
+                resourceObj.id=id;
             }
-            ajaxsend(questionObj, "/api/admin/question/save", function (result) {
+            ajaxsend(resourceObj, "/api/admin/resource/save", function (result) {
                 if (Utils.isNotNull(Utils.getHrefValue("id"))) {
-                    alert("更新问题信息成功")
+                    alert("更新资源信息成功")
                 } else {
-                    alert("保存问题信息成功")
+                    alert("保存资源信息成功")
                 }
                 callParent.closeTab(Utils.getHrefValue("tab_id"))
             }, "post")
             return false;
         })
-    })
+
+
+        $("#close").click(function () {
+            callParent.closeTab(Utils.getHrefValue("tab_id"))
+        })
+        var id = Utils.getHrefValue("id");
+        if (Utils.isNotBlack(id)) {
+            ajaxget("/api/admin/resource/info?id=" + id, function (result) {
+                var resourceObj = result.result;
+                $("#title").val(resourceObj.title)
+                selectType(resourceObj.type);
+                $("#type_select").val(resourceObj.type);
+                if (Utils.getHrefValue("isRead") == "true") {
+                    isRead("form_id")
+                    $("#submit").hide();
+                }
+                var typeValue = resourceObj.type;
+                if (typeValue == "IMG" || typeValue == "VIDEO") {
+                    $("#url_hidden").val(resourceObj.content)
+                    $("#down_id").attr("href", resourceObj.content);
+                    $("#down_id").show();
+                } else if (typeValue == "TEXT") {
+                    $("#content_id").val(resourceObj.content);
+                } else if (typeValue == "BLUEPRINT") {
+                    var jsonObj = JSON.parse(resourceObj.content);
+                    $("#url_hidden").val(jsonObj.url)
+                    $("#down_id").attr("href", jsonObj.url);
+                    $("#down_id").show();
+                    var pointList=jsonObj.pointList;
+                    if(Utils.isNotNull(pointList)){
+                        for(var k=0;k<pointList.length;k++){
+                            if(k>0){
+                                addPoint();
+                            }
+                            $(".point:eq("+k+")").val(pointList[k]);
+                        }
+                    }
+                }else{
+                    var jsonObj = JSON.parse(resourceObj.content);
+                    $("#answer_length").val(jsonObj.answer);
+                    $("#answer_error").val(jsonObj.error)
+                    $("#answer_unit").val(jsonObj.unit)
+                }
+            });
+        }
+    });
+
+    function updateFile(id, obj) {
+        if ($.trim($(obj).val()) != "") {
+            var list = new Array();
+            list.push({name: "name", value: "resource"})
+            updateFileAjax(id, "/api/education/common/update_file", function (result) {
+                $("#url_hidden").val(result.result);
+                $("#down_id").attr("href", result.result);
+                $("#down_id").show();
+            }, list);
+        }
+    }
+
+    function updateFileAjax(id, url, backFun, list) {
+        var type = "file";          //后台接收时需要的参数名称，自定义即可
+        //即input的id，用来寻找值
+        var formData = new FormData();
+        formData.append(type, $("#" + id)[0].files[0]);
+        if (Utils.isNotNull(list)) {
+            for (var i = 0; i < list.length; i++) {
+                formData.append(list[i].name, list[i].value);
+            }
+        }//生成一对表单属性
+        $.ajax({
+            type: "POST",           //因为是传输文件，所以必须是post
+            url: url,         //对应的后台处理类的地址
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                if (Utils.isNotNull(backFun)) {
+                    backFun.call(this, data);
+                }
+            }
+        });
+    }
+
+    function addPoint() {
+        $("#iut").append("<input type='text' class='point' ></input>")
+    }
+
 </script>
 </body>
 </html>

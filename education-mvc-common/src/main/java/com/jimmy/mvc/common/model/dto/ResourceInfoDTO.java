@@ -23,11 +23,7 @@ public class ResourceInfoDTO extends BaseDTO {
     private Object contentObj;
     @ApiModelProperty("资源标题")
     private String title;
-    /**
-     * 问题的节选
-     */
-    @ApiModelProperty("问题的节选")
-    private String questionAbridge;
+
 
 
 }

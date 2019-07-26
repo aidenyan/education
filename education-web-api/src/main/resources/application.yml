@@ -11,6 +11,9 @@ spring:
     view:
       suffix: .html
       prefix: /login.html
+  http:
+    multipart:
+      enabled: true
 upload:
    config:
       filePath: C:\work\upload
@@ -22,6 +25,7 @@ server:
 
 logging:
   config: classpath:log.xml
+
 
 
 
