@@ -26,6 +26,10 @@ public interface CourseStudentService {
     void save(CourseStudent courseStudent);
 
     /**
+     * 获取该课程所有分配的学生
+     */
+    List<CourseStudent> list(Long courseId);
+    /**
      * 获取该课程已经结束的学生
      */
     List<CourseStudent> list(Long courseId, Integer status);

@@ -27,7 +27,6 @@ public class TempClassmateSaveDTO implements Serializable {
     @NotNull(message = "选定的课程不能为空")
     @ApiModelProperty("选定的课程")
     private Long courseId;
-    @NotBlank(message = "临时班级的名称不能为空")
     @ApiModelProperty("临时班级的名称")
     private String name;
 }

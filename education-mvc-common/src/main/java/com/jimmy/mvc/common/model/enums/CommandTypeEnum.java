@@ -21,6 +21,8 @@ public enum CommandTypeEnum implements BaseEnum {
     INTERACTIVE(4, "交互", true),
     MIDDLE_SIGN_IN(5, "中途签到", true),
     RAISE_HAND(6,"举手",true),
+    ASK_LEVEL(7,"请假",true),
+    ASK_LEVEL_END(8,"请假结束",true),
     ;
     private static Map<Integer, CommandTypeEnum> ELEMENTS_MAP;
 

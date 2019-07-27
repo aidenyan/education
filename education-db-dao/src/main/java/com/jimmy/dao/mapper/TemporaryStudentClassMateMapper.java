@@ -31,5 +31,12 @@ public interface TemporaryStudentClassMateMapper {
      */
     List<TemporaryStudentClassMate> list(@Param("tempClassMateId") Long tempClassMateId, @Param("siteIdList") List<Long> siteIdList);
 
+    /**
+     * 查找对应的班级的ID
+     * @param tempClassMateId
+     * @param siteIdList
+     * @return
+     */
 
+    List<Long> listClassMateId(@Param("tempClassMateId") Long tempClassMateId, @Param("siteIdList") List<Long> siteIdList);
 }

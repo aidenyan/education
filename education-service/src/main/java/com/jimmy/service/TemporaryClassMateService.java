@@ -15,7 +15,7 @@ public interface TemporaryClassMateService {
     /**
      * 保存临时表
      */
-    void save(TemporaryClassMate temporaryClassMate, List<StudentInfo> studentList) ;
+    void save(TemporaryClassMate temporaryClassMate, List<StudentInfo> studentList);
 
     /**
      * 根据课程ID获取学生信息
@@ -24,5 +24,21 @@ public interface TemporaryClassMateService {
      * @return List<学生信息>
      */
     List<StudentInfo> findStudentId(Long courseId);
+
+    /**
+     * 根据课程ID获取临时的班级
+     *
+     * @param courseId 课程ID
+     * @return List<学生信息>
+     */
+    TemporaryClassMate findTempClassMate(Long courseId);
+
+    /**
+     * 查找临时班级的组成的班级
+     *
+     * @param tempClassMateId
+     * @return
+     */
+    List<Long> listClassMateId(Long tempClassMateId);
 
 }

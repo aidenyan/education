@@ -28,6 +28,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -87,7 +88,17 @@ public class ClassMateController extends BaseController {
     public Result<List<StudentInfoDTO>> saveTemClass(@RequestBody @Validated TempClassmateSaveDTO tempClassmateSaveDTO) {
         TemporaryClassMate temporaryClassMate = new TemporaryClassMate();
         temporaryClassMate.setCourseId(tempClassmateSaveDTO.getCourseId());
-        temporaryClassMate.setName(tempClassmateSaveDTO.getName());
+        if (StringUtils.isEmpty(tempClassmateSaveDTO.getName())) {
+            List<ClassMate> classMateList = classMateService.listById(tempClassmateSaveDTO.getClassMateIdList());
+            StringBuffer nameBuffer = new StringBuffer();
+            for (ClassMate classMate : classMateList) {
+                nameBuffer.append(classMate.getName() + " ");
+            }
+            temporaryClassMate.setName(nameBuffer.toString());
+        } else {
+            temporaryClassMate.setName(tempClassmateSaveDTO.getName());
+        }
+
         List<StudentInfo> studentInfoList = studentInfoService.listByClassMate(tempClassmateSaveDTO.getClassMateIdList());
         temporaryClassMateService.save(temporaryClassMate, studentInfoList);
         return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
@@ -149,7 +160,7 @@ public class ClassMateController extends BaseController {
         }
 
         courseStudentService.save(courseStudentList);
-        return ResultBuilder.error(ResultCodeEnum.OK);
+        return ResultBuilder.ok(null);
     }
 
     @ApiOperation("获取课程已经结束的学生的ID")

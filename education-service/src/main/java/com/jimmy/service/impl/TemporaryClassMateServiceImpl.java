@@ -80,4 +80,18 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
         classMateList.forEach(classMate -> studentIdList.add(classMate.getStudentId()));
         return studentInfoService.list(studentIdList);
     }
+
+    @Override
+    public TemporaryClassMate findTempClassMate(Long courseId) {
+        Assert.notNull(courseId);
+        TemporaryClassMate tempClass = temporaryClassMateMapper.find(courseId, SiteLocalThread.getSiteIdList());
+        return tempClass;
+    }
+
+    @Override
+    public List<Long> listClassMateId(Long tempClassMateId) {
+        Assert.notNull(tempClassMateId);
+        return temporaryStudentClassMateMapper.listClassMateId(tempClassMateId, SiteLocalThread.getSiteIdList());
+
+    }
 }

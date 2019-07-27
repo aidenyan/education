@@ -30,7 +30,7 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     @Transactional(rollbackFor = Exception.class)
     public void save(List<CourseStudent> courseStudentList) {
         Assert.notEmpty(courseStudentList);
-        CourseStudent courseStudent=courseStudentList.stream().findFirst().get();
+        CourseStudent courseStudent = courseStudentList.stream().findFirst().get();
         courseStudentMapper.deletedByMachineId(courseStudent.getCourseId(), courseStudent.getMachineId(), SiteLocalThread.getSiteId());
         courseStudentList.forEach(courseStudentInfo -> save(courseStudentInfo));
     }
@@ -50,6 +50,13 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     }
 
     @Override
+    public List<CourseStudent> list(Long courseId) {
+        Assert.notNull(courseId);
+        return courseStudentMapper.listByCourseId(courseId, null, null, SiteLocalThread.getSiteIdList());
+
+    }
+
+    @Override
     public List<CourseStudent> list(Long courseId, Integer status) {
         Assert.notNull(courseId);
         return courseStudentMapper.listByCourseId(courseId, status, null, SiteLocalThread.getSiteIdList());
@@ -63,22 +70,22 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     }
 
     @Override
-    public List<CourseStudent> find(Long courseId, Long studentId,  Long machinaId) {
+    public List<CourseStudent> find(Long courseId, Long studentId, Long machinaId) {
         Assert.notNull(courseId);
         Assert.notNull(studentId);
-        return find(courseId, Arrays.asList(studentId),machinaId);
+        return find(courseId, Arrays.asList(studentId), machinaId);
     }
 
     @Override
     public List<CourseStudent> find(Long courseId, List<Long> studentIdList, Long machinaId) {
         Assert.notNull(courseId);
         Assert.notEmpty(studentIdList);
-        return courseStudentMapper.find(courseId, studentIdList,machinaId,SiteLocalThread.getSiteIdList());
+        return courseStudentMapper.find(courseId, studentIdList, machinaId, SiteLocalThread.getSiteIdList());
     }
 
     @Override
     public CourseStudent find(Long courseStudentId) {
-        return courseStudentMapper.findById(courseStudentId,SiteLocalThread.getSiteIdList());
+        return courseStudentMapper.findById(courseStudentId, SiteLocalThread.getSiteIdList());
     }
 
     @Override
