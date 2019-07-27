@@ -1,21 +1,17 @@
 package com.jimmy.teacher.api.controller.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.jimmy.core.enums.ResultCoreEnum;
 import com.jimmy.dao.entity.*;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
-import com.jimmy.mvc.common.model.dto.ClassMateDTO;
-import com.jimmy.mvc.common.model.dto.CourseInfoDTO;
-import com.jimmy.mvc.common.model.dto.MachineAssignDTO;
-import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
+import com.jimmy.mvc.common.model.dto.*;
+import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.mvc.common.model.transfer.ClassMateDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
-import com.jimmy.service.ClassMateService;
-import com.jimmy.service.CourseInfoService;
-import com.jimmy.service.CourseStudentService;
-import com.jimmy.service.TemporaryClassMateService;
+import com.jimmy.service.*;
 import com.jimmy.teacher.api.controller.BaseController;
 import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
 import io.swagger.annotations.Api;
@@ -36,6 +32,9 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/restart/login")
 public class RestartController extends BaseController {
+
+    @Autowired
+    private CommandService commandService;
 
     @Autowired
     private ClassMateService classMateService;
@@ -128,6 +127,129 @@ public class RestartController extends BaseController {
 
         });
         return ResultBuilder.ok(machineAssignDTOMap.values().stream().collect(Collectors.toList()));
+    }
 
+    @ApiOperation("获取正在请假的信息")
+    @ResponseBody
+    @GetMapping("/ask_level/list")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<List<CommandStudentDTO>> listAskLevel() {
+        TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
+        CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
+        if (courseInfo == null) {
+            return ResultBuilder.error(ResultCoreEnum.RESULT_NOT_COURSE);
+        }
+        List<Integer> typeList = new ArrayList<>();
+        typeList.add(CommandTypeEnum.ASK_LEVEL.getValue());
+        typeList.add(CommandTypeEnum.ASK_LEVEL_END.getValue());
+        List<CommandInfo> commandInfoList = commandService.list(courseInfo.getId(), typeList);
+        if (CollectionUtils.isEmpty(commandInfoList)) {
+            return ResultBuilder.ok(Collections.EMPTY_LIST);
+        }
+        Map<Long, CommandStudentDTO> machineIdMap = new HashMap<>();
+        Map<Long, CommandStudentDTO> studentIdMap = new HashMap<>();
+        commandInfoList.forEach(commandInfo -> {
+            CommandStudentDTO commandStudentDTO = JSON.parseObject(commandInfo.getContent(), CommandStudentDTO.class);
+            if (CommandTypeEnum.ASK_LEVEL.getValue() == commandInfo.getCommandType()) {
+                machineIdMap.put(commandStudentDTO.getMachineId(), commandStudentDTO);
+                if (commandStudentDTO.getStudentId() != null) {
+                    studentIdMap.put(commandStudentDTO.getStudentId(), commandStudentDTO);
+                }
+            } else if (CommandTypeEnum.ASK_LEVEL_END.getValue() == commandInfo.getCommandType()) {
+                CommandStudentDTO tempCommandStudentDTO = machineIdMap.get(commandStudentDTO.getMachineId());
+                if (tempCommandStudentDTO != null) {
+                    machineIdMap.remove(commandStudentDTO.getMachineId());
+                }
+                if (commandStudentDTO.getStudentId() != null) {
+                    tempCommandStudentDTO = studentIdMap.get(commandStudentDTO.getStudentId());
+                    if (tempCommandStudentDTO != null) {
+                        studentIdMap.remove(commandStudentDTO.getStudentId());
+                    }
+                }
+            }
+        });
+        Set<Long> machineIdSet = new HashSet<>();
+        Set<Long> studentIdSet = new HashSet<>();
+        List<CommandStudentDTO> resultList = new ArrayList<>();
+        machineIdMap.keySet().forEach(machineId -> {
+            if (!machineIdSet.contains(machineId)) {
+                CommandStudentDTO tempCommanStudentDTO = machineIdMap.get(machineId);
+                resultList.add(machineIdMap.get(machineId));
+                if (tempCommanStudentDTO.getStudentId() != null) {
+                    studentIdSet.add(tempCommanStudentDTO.getStudentId());
+                }
+            }
+            machineIdSet.add(machineId);
+        });
+
+        studentIdMap.keySet().forEach(studentId -> {
+            if (!studentIdSet.contains(studentId)) {
+                resultList.add(studentIdMap.get(studentId));
+            }
+            studentIdSet.add(studentId);
+        });
+        return ResultBuilder.ok(resultList);
+    }
+
+    @ApiOperation("获取正在举手的信息")
+    @ResponseBody
+    @GetMapping("/raise_hand/list")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<List<CommandStudentDTO>> raiseHand() {
+        TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
+        CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
+        if (courseInfo == null) {
+            return ResultBuilder.error(ResultCoreEnum.RESULT_NOT_COURSE);
+        }
+        List<Integer> typeList = new ArrayList<>();
+        typeList.add(CommandTypeEnum.RAISE_HAND.getValue());
+        typeList.add(CommandTypeEnum.RAISE_HAND_END.getValue());
+        List<CommandInfo> commandInfoList = commandService.list(courseInfo.getId(), typeList);
+        if (CollectionUtils.isEmpty(commandInfoList)) {
+            return ResultBuilder.ok(Collections.EMPTY_LIST);
+        }
+        Map<Long, CommandStudentDTO> machineIdMap = new HashMap<>();
+        Map<Long, CommandStudentDTO> studentIdMap = new HashMap<>();
+        commandInfoList.forEach(commandInfo -> {
+            CommandStudentDTO commandStudentDTO = JSON.parseObject(commandInfo.getContent(), CommandStudentDTO.class);
+            if (CommandTypeEnum.RAISE_HAND.getValue() == commandInfo.getCommandType()) {
+                machineIdMap.put(commandStudentDTO.getMachineId(), commandStudentDTO);
+                if (commandStudentDTO.getStudentId() != null) {
+                    studentIdMap.put(commandStudentDTO.getStudentId(), commandStudentDTO);
+                }
+            } else if (CommandTypeEnum.RAISE_HAND_END.getValue() == commandInfo.getCommandType()) {
+                CommandStudentDTO tempCommandStudentDTO = machineIdMap.get(commandStudentDTO.getMachineId());
+                if (tempCommandStudentDTO != null) {
+                    machineIdMap.remove(commandStudentDTO.getMachineId());
+                }
+                if (commandStudentDTO.getStudentId() != null) {
+                    tempCommandStudentDTO = studentIdMap.get(commandStudentDTO.getStudentId());
+                    if (tempCommandStudentDTO != null) {
+                        studentIdMap.remove(commandStudentDTO.getStudentId());
+                    }
+                }
+            }
+        });
+        Set<Long> machineIdSet = new HashSet<>();
+        Set<Long> studentIdSet = new HashSet<>();
+        List<CommandStudentDTO> resultList = new ArrayList<>();
+        machineIdMap.keySet().forEach(machineId -> {
+            if (!machineIdSet.contains(machineId)) {
+                CommandStudentDTO tempCommanStudentDTO = machineIdMap.get(machineId);
+                resultList.add(machineIdMap.get(machineId));
+                if (tempCommanStudentDTO.getStudentId() != null) {
+                    studentIdSet.add(tempCommanStudentDTO.getStudentId());
+                }
+            }
+            machineIdSet.add(machineId);
+        });
+
+        studentIdMap.keySet().forEach(studentId -> {
+            if (!studentIdSet.contains(studentId)) {
+                resultList.add(studentIdMap.get(studentId));
+            }
+            studentIdSet.add(studentId);
+        });
+        return ResultBuilder.ok(resultList);
     }
 }

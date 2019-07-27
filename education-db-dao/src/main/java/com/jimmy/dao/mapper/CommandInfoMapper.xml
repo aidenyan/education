@@ -27,6 +27,17 @@
 
         from t_command_info
         where course_id = #{courseId,jdbcType=BIGINT}
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        <if test="typeList != null and typeList.size()>0">
+            and command_type IN
+            <foreach collection="typeList" separator="," item="type" close=")" open="(">
+                #{type}
+            </foreach>
+        </if>
+        order by create_time asc
     </select>
 
     <insert id="insert" parameterType="com.jimmy.dao.entity.CommandInfo" useGeneratedKeys="true" keyProperty="id">

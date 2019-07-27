@@ -23,6 +23,7 @@ public enum CommandTypeEnum implements BaseEnum {
     RAISE_HAND(6,"举手",true),
     ASK_LEVEL(7,"请假",true),
     ASK_LEVEL_END(8,"请假结束",true),
+    RAISE_HAND_END(9,"举手结束",true),
     ;
     private static Map<Integer, CommandTypeEnum> ELEMENTS_MAP;
 

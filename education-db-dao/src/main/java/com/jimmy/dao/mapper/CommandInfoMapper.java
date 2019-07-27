@@ -10,7 +10,7 @@ public interface CommandInfoMapper {
     int insert(CommandInfo record);
 
 
-    List<CommandInfo> list(@Param("courseId") Long courseId);
+    List<CommandInfo> list(@Param("courseId") Long courseId,@Param("typeList") List<Integer> typeList,@Param("siteIdList")List<Long> siteIdList);
 
 
 }
