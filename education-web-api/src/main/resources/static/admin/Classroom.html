@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
-		<link rel="stylesheet" href="css/new_file.css" />
+		<link rel="stylesheet" href="../css/new_file.css" />
+		<script type="text/javascript" src="js/jquery-3.3.1.min.js" ></script>
 	</head>
 	<body>
 		<div class="content">
@@ -17,14 +18,14 @@
 				<table cellpadding="10">
 					<tr>
 						<th width="160" class="Ri"><span>*</span>教室名称:</th>
-						<th width="180" class="Le"><input type="text" maxlength="30" required name="name" placeholder="请输入教室名称" /></th>
+						<th width="180" class="Le"><input type="text" temp-value="name" maxlength="30" required name="name" placeholder="请输入教室名称" /></th>
 						<th width="130" class="Ri"><span>*</span>教室编号:</th>
-						<th width="180" class="Le"><input type="text" maxlength="30" required name="sn" placeholder="请输入教室名称" /></th>
+						<th width="180" class="Le"><input type="text" temp-value="sn" maxlength="30" required name="sn" placeholder="请输入教室名称" /></th>
 					</tr>
 					<tr>
 						<th class="Ri">教室的描述:</th>
 						<th class="Le" colspan="3">
-							<textarea rows="5" cols="77" maxlength="200" name=" description"></textarea>
+							<textarea rows="5" cols="77" maxlength="200"  temp-value="sn" ame=" description"></textarea>
 						</th>
 						
 					</tr>
@@ -41,10 +42,27 @@
 					</tr>
 					<tr>
 						<th class="Ri"><span>*</span>机床的内容:</th>
-						<th class="Le"  colspan="3">
-							<div class="stes">机床的编码:<input class="sts" type="text" required maxlength="30" name="sn" /></div>
-							<div class="stes">第<input class="ste" type="number" step="1" min="0" max="100" value="0" required name="row_num" />行</div>
-							<div class="stes">第<input class="ste" type="number" step="1" min="0" max="100" value="0" required name="row_num" />列</div>
+						<th class="Le el"  colspan="3">
+							<table border="1" style="border: 1px solid #D8E0E6;" cellpadding="1" cellspacing="0">
+				            <tbody id="test" class="tests">
+				 				<tr>
+				 					<th>机床编码</th>
+				 					<th></th>
+				 					<th></th>
+				 				</tr>
+				            </tbody>
+				        </table>
+				 
+				        <table style="display: none;">
+				            <tbody id="modo" class="tests">
+				                <tr>
+				 				
+				                </tr>
+				            </tbody>
+				        </table>
+				 
+				        <button id="add_row">添加行</button>
+				        <button id="add_col">添加列</button>
 						</th>
 					</tr>
 					<tr>
@@ -63,6 +81,27 @@
 			    htm += '<input type="checkbox" name="machineList" value="'+json[i].value+'">'+json[i].label;
 			}
 			jues.innerHTML = htm;
+			
+			
+			
+			$("#add_row").click(add_row)
+            $("#add_col").click(add_col)
+ 
+            function add_row() { //添加行方法
+                var mode_tr = $("#test tr:first").clone();
+                $("#test").append(mode_tr);
+            }
+ 
+ 
+            function add_col() { //添加列方法
+                var tr = $("#test tr"); //所有tr元素
+                $("#test tr").each(function(index) {
+                    var td = $("<td></td>").addClass("tee")
+                    //td.click(up)
+                    $(this).append(td)
+                })
+            }
+			
 		</script>
 	</body>
 </html>

@@ -50,7 +50,7 @@ public class ClassRoomController extends BaseController {
     }
 
     @ResponseBody
-    @GetMapping("/save")
+    @PostMapping("/save")
     @ApiOperation("保存教室信息")
     public Result<Void> save(@Validated @RequestBody ClassRoomVoDTO classRoomVoDTO) {
         classRoomService.save(ClassRoomDTOTransfer.INSTANCE.toClassRoom(classRoomVoDTO.getClassRoomInfo()), MachineInfoTOTransfer.INSTANCE.toMachineInfoList(classRoomVoDTO.getMachineInfoList()));

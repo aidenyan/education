@@ -22,26 +22,49 @@
         </div>
     </div>
     <form id="form_id">
-        <input type="hidden" name="id" value="" temp-value="id"/>
+        <input type="hidden" name="id" value="" temp-value="classRoomInfo.id"/>
         <table cellpadding="10">
             <tr>
                 <th width="130" class="Ri"><span>*</span>教室名字:</th>
-                <th width="180" class="Le"><input type="text" maxlength="30" temp-value="name" required name="name"
+                <th width="180" class="Le"><input type="text" maxlength="30" temp-value="classRoomInfo.name" required
+                                                  name="name"
                                                   id="name" placeholder="请输入教室名字"/></th>
                 <th width="130" class="Ri"><span>*</span>教室编号:</th>
-                <th width="180" class="Le"><input type="text" maxlength="10" temp-value="sn" required name="sn"
+                <th width="180" class="Le"><input type="text" maxlength="10" temp-value="classRoomInfo.sn" required
+                                                  name="classRoomInfo.sn"
                                                   id="sn" placeholder="教室编号"/>
                 </th>
             </tr>
             <tr>
                 <th width="130" class="Ri"><span>*</span>教室具体位置:</th>
-                <th width="500" colspan="3" class="Le"><input type="text" maxlength="100" temp-value="address" required name="address"
-                                                  id="address" placeholder="请输入教室具体位置"/></th>
+                <th width="500" colspan="3" class="Le"><input type="text" maxlength="100"
+                                                              temp-value="classRoomInfo.address" required
+                                                              name="address"
+                                                              id="address" placeholder="请输入教室具体位置"/></th>
             </tr>
             <tr>
                 <th class="Ri"><span>*</span>教室信息描述:</th>
                 <th class="Le" colspan="3">
-                    <textarea maxlength="200" temp-value="description"></textarea>
+                    <textarea maxlength="200" temp-value="classRoomInfo.description"></textarea>
+                </th>
+            </tr>
+            <tr id="row_hidden">
+                <th class="Le" colspan="4">
+                    机床行数：<input type="text" id="table_cols">机床的列数：<input type="text" id="table_rows">
+                    <button onclick="addTable()">确定</button>
+                </th>
+            </tr>
+            <tr id="row_show" style="display: none">
+                <th class="Ri"><span>*</span>机床:</th>
+                <th class="Le el" colspan="3">
+                    <table id="table_tr">
+
+
+                    </table>
+                    <button onclick="addRow()">添加一行</button>
+                    <button onclick="addCol()">添加一列</button>
+                    <button onclick="removeRow()">减少一行</button>
+                    <button onclick="removeCol()">减少一列</button>
                 </th>
             </tr>
 
@@ -58,13 +81,110 @@
     </form>
 </div>
 <script>
+    function addTable() {
+        $("#test").show();
+        var colsValue = $("#table_cols").val();
+        if (!Utils.checkIsNumber(colsValue)) {
+            alert("请填写正确的行数");
+            return;
+        }
+        var rowsValue = $("#table_rows").val();
+        if (!Utils.checkIsNumber(rowsValue)) {
+            alert("请填写正确的列数");
+            return;
+        }
+        dealTr(rowsValue, colsValue);
+    }
+
+    function dealTr(rowsValue, colsValue) {
+        $("#row_hidden").remove();
+        $("#row_show").show();
+        var html = '<tr>';
+        for (var j = 0; j < rowsValue; j++) {
+            html += '<th><input type="text" style="height: 100%;width: 100%"></th>';
+        }
+        html += '</tr>';
+        for (var i = 0; i < colsValue; i++) {
+            $("#table_tr").append(html);
+        }
+    }
+
+    function addRow() { //添加行方法
+        if (Utils.getHrefValue("isRead") == "true") {
+            return;
+        }
+        var mode_tr = $("#table_tr tr:first").clone();
+        $("#table_tr").append(mode_tr);
+    }
+
+    function removeRow() {
+        if (Utils.getHrefValue("isRead") == "true") {
+            return;
+        }
+        if ($("#table_tr tr").length == 1) {
+            alert("已经到最后一行了不能在减少了")
+            return;
+        }
+        $("#table_tr tr:last").remove();
+    }
+
+    function removeCol() {
+        if (Utils.getHrefValue("isRead") == "true") {
+            return;
+        }
+        if ($("#table_tr tr:first").find("th").length == 1) {
+            alert("已经到最后一列了不能在减少了")
+            return;
+        }
+        $("#table_tr tr").each(function () {
+            $(this).find("th:last").remove();
+        })
+    }
+
+    function addCol() { //添加列方法
+        if (Utils.getHrefValue("isRead") == "true") {
+            return;
+        }
+        var tr = $("#table_tr tr"); //所有tr元素
+        $("#table_tr tr").each(function (index) {
+            $(this).append('<th><input type="text"  style="height: 100%;width: 100%"></th>')
+        })
+    }
+
+    function writeSn(sn, row, col) {
+        $("#table_tr").find("tr:eq(" + row + ")").find("th:eq(" + col + ")").find("input").val(sn);
+
+    }
+
     $(function () {
         var id = Utils.getHrefValue("id");
         if (Utils.isNotBlack(id)) {
-            $("#password").removeAttr("required");
-            $("#password_style").hide();
             ajaxget("/api/admin/classroom/info?id=" + id, function (result) {
-                formRead("form_id", result.result);
+                var result = result.result;
+                formRead("form_id", result);
+                var machineInfoList = result.machineInfoList;
+                if (Utils.isNotNull(machineInfoList)) {
+                    var rowNum = 0;
+                    var colNum = 0
+                    for (var k = 0; k < machineInfoList.length; k++) {
+                        if (rowNum < machineInfoList[k].rowNum) {
+                            rowNum = machineInfoList[k].rowNum;
+                        }
+                        if (colNum < machineInfoList[k].columnNum) {
+                            colNum = machineInfoList[k].columnNum;
+                        }
+                    }
+                    dealTr(colNum + 1, rowNum + 1);
+                    for (var k = 0; k < machineInfoList.length; k++) {
+                        writeSn(machineInfoList[k].sn, machineInfoList[k].rowNum, machineInfoList[k].columnNum);
+                    }
+                }
+                if (Utils.isNotNull(Utils.getHrefValue("isRead"))) {
+                    if (Utils.getHrefValue("isRead") == "true") {
+                        isRead("form_id")
+                        $("#submit").hide();
+                    }
+                }
             });
         }
         $("#close").click(function () {
@@ -77,15 +197,35 @@
             }
         }
         $("#form_id").submit(function () {
-            var data = formWrite("form_id");
-            ajaxsend(data, "/api/admin/classroom/save", function (result) {
-                if (Utils.isNotNull(Utils.getHrefValue("id"))) {
-                    alert("更新教室信息成功")
-                } else {
-                    alert("保存教室信息成功")
+            try {
+                var data = formWrite("form_id");
+                data.machineInfoList = new Array();
+                if (Utils.getHrefValue("id")) {
+                    data.classRoomInfo.id = Utils.getHrefValue("id");
                 }
-                callParent.closeTab(Utils.getHrefValue("tab_id"))
-            }, "post")
+                var row = 0;
+                $("#table_tr").find("tr").each(function () {
+                    var col = 0;
+                    $(this).find("th").each(function () {
+                        if (Utils.isBlank($(this).find("input").val())) {
+                            return false;
+                        }
+                        data.machineInfoList.push({rowNum: row, columnNum: col, sn: $(this).find("input").val()})
+                        col++;
+                    })
+                    row++;
+                })
+                ajaxsend(data, "/api/admin/classroom/save", function (result) {
+                    if (Utils.isNotNull(Utils.getHrefValue("id"))) {
+                        alert("更新教室信息成功")
+                    } else {
+                        alert("保存教室信息成功")
+                    }
+                    callParent.closeTab(Utils.getHrefValue("tab_id"))
+                }, "post");
+            } catch (e) {
+                console.log(e)
+            }
             return false;
         })
     })

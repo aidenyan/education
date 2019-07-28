@@ -7,6 +7,7 @@
         if (Utils.isBlank(attrValue)) {
             return null;
         }
+        console.log(attrValue);
         var indexStart = attrValue.indexOf(".");
         if (indexStart < 0) {
             return data[attrValue];
@@ -14,16 +15,22 @@
             return getValue(attrValue.substring(indexStart + 1), data[attrValue.substring(0, indexStart)])
         }
     }
-    var writeValue = function (attrValue, data,value) {
-        if(value==""){
+    var writeValue = function (attrValue, data, value) {
+        if (value == "") {
+            return;
+        }
+        if (Utils.isBlank(attrValue)) {
             return;
         }
         var indexStart = attrValue.indexOf(".");
         if (indexStart < 0) {
             data[attrValue] = value;
         } else {
-            data[attrValue] = {};
-            writeValue(attrValue.substring(indexStart + 1), data[attrValue], value);
+            var attrValueObj=attrValue.substring(0,indexStart);
+            if(!Utils.isNotNull(data[attrValueObj])){
+                data[attrValueObj] = {};
+            }
+            writeValue(attrValue.substring(indexStart + 1), data[attrValueObj], value);
         }
     }
 
@@ -50,7 +57,7 @@
                 if (Utils.isContain(value, $(documentObj).val())) {
                     $(documentObj).attr("checked", "checked");
                 }
-            } else if (value+"" == $(documentObj).val()) {
+            } else if (value + "" == $(documentObj).val()) {
                 $(documentObj).attr("checked", "checked");
             }
         }
@@ -90,15 +97,15 @@
         if ($(documentObj).is(":checked")) {
             if ($(documentObj).attr("type") == "radio") {
                 writeValue(attrValue, data, $(documentObj).val());
-            } else if($(documentObj).attr("signle")=="signle"){
+            } else if ($(documentObj).attr("signle") == "signle") {
                 writeValue(attrValue, data, $(documentObj).val());
-            }else{
+            } else {
                 var value = getValue(attrValue, data);
-                if(value==null){
-                    value=new Array();
+                if (value == null) {
+                    value = new Array();
                 }
                 value.push($(documentObj).val())
-                writeValue(attrValue, data,value);
+                writeValue(attrValue, data, value);
             }
         }
 

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 
 /**
  * @ClassName: CommandServiceImpl
@@ -33,5 +35,10 @@ public class CommandServiceImpl implements CommandService {
         commandInfo.setSiteId(SiteLocalThread.getSiteId());
         commandInfoMapper.insert(commandInfo);
         return commandInfo.getId();
+    }
+
+    @Override
+    public List<CommandInfo> list(Long courseId, List<Integer> typeList) {
+        return commandInfoMapper.list(courseId, typeList, SiteLocalThread.getSiteIdList());
     }
 }
