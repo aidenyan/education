@@ -11,6 +11,7 @@ import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.mvc.common.model.transfer.ClassMateDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
+import com.jimmy.mvc.common.service.CommonService;
 import com.jimmy.service.*;
 import com.jimmy.teacher.api.controller.BaseController;
 import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
@@ -35,6 +36,9 @@ public class RestartController extends BaseController {
 
     @Autowired
     private CommandService commandService;
+
+    @Autowired
+    private CommonService commonService;
 
     @Autowired
     private ClassMateService classMateService;
@@ -95,7 +99,20 @@ public class RestartController extends BaseController {
             return ResultBuilder.error(ResultCoreEnum.RESULT_NOT_COURSE);
         }
         List<StudentInfo> studentInfoList = temporaryClassMateService.findStudentId(courseInfo.getId());
-        return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
+        return ResultBuilder.ok( StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
+    }
+    @ApiOperation("获取所有上课的学生详细信息包含注册等信息")
+    @ResponseBody
+    @GetMapping("/student/detail/list")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<List<StudentDetailDTO>> listStudentDetail() {
+        TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
+        CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
+        if (courseInfo == null) {
+            return ResultBuilder.error(ResultCoreEnum.RESULT_NOT_COURSE);
+        }
+        List<StudentDetailDTO> studentDetailDTOList = commonService.list(courseInfo.getId());
+        return ResultBuilder.ok(studentDetailDTOList);
     }
 
     @ApiOperation("获取机床信息并且包含那些人分配")

@@ -2,6 +2,7 @@ package com.jimmy.service;
 
 import com.jimmy.dao.entity.StudentInfo;
 import com.jimmy.dao.entity.TemporaryClassMate;
+import com.jimmy.dao.entity.TemporaryStudentClassMate;
 
 import java.util.List;
 
@@ -12,6 +13,15 @@ import java.util.List;
  * @date: 2019/6/12/012.
  */
 public interface TemporaryClassMateService {
+
+    /**
+     * 根据临时表查找学生信息
+     *
+     * @param tempClassMateId
+     * @return
+     */
+    List<TemporaryStudentClassMate> list(Long tempClassMateId);
+
     /**
      * 保存临时表
      */
@@ -41,4 +51,24 @@ public interface TemporaryClassMateService {
      */
     List<Long> listClassMateId(Long tempClassMateId);
 
+    /**
+     * 更新临时班级中的机器信息
+     */
+    void updateMachineId(Long machineId, Long studentId, Long tempClassMateId);
+
+    /**
+     * 更新临时班级中的签到
+     */
+    void updateRegister(Long studentId, Long tempClassMateId);
+
+
+    /**
+     * 更新临时班级中的签到
+     */
+    void updateAskLevelByStudent(Boolean isAskLevel, Long studentId, Long tempClassMateId);
+
+    /**
+     * 更新临时班级中的签到
+     */
+    void updateAskLevelByMachine(Boolean isAskLevel, Long machine, Long tempClassMateId);
 }

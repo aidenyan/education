@@ -39,4 +39,13 @@ public interface TemporaryStudentClassMateMapper {
      */
 
     List<Long> listClassMateId(@Param("tempClassMateId") Long tempClassMateId, @Param("siteIdList") List<Long> siteIdList);
+
+
+    /**
+     * 保存班级临时学生信息
+     *
+     * @param record 班级临时学生关系表
+     * @return 保存数量
+     */
+    int updateByCourseStatus(TemporaryStudentClassMate record);
 }

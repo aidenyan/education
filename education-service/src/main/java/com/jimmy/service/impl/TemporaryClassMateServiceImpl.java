@@ -37,6 +37,13 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
     private TemporaryStudentClassMateMapper temporaryStudentClassMateMapper;
 
     @Override
+    public List<TemporaryStudentClassMate> list(Long tempClassMateId) {
+        Assert.notNull(tempClassMateId);
+        return temporaryStudentClassMateMapper.list(tempClassMateId, SiteLocalThread.getSiteIdList());
+
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(TemporaryClassMate temporaryClassMate, List<StudentInfo> studentList) {
         Assert.notNull(temporaryClassMate);
@@ -93,5 +100,56 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
         Assert.notNull(tempClassMateId);
         return temporaryStudentClassMateMapper.listClassMateId(tempClassMateId, SiteLocalThread.getSiteIdList());
 
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateMachineId(Long machineId, Long studentId, Long tempClassMateId) {
+        Assert.notNull(machineId);
+        Assert.notNull(studentId);
+        Assert.notNull(tempClassMateId);
+        TemporaryStudentClassMate temporaryStudentClassMate = new TemporaryStudentClassMate();
+        temporaryStudentClassMate.setTemporaryClassId(tempClassMateId);
+        temporaryStudentClassMate.setMachineId(machineId);
+        temporaryStudentClassMate.setStudentId(studentId);
+        temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateRegister(Long studentId, Long tempClassMateId) {
+        Assert.notNull(studentId);
+        Assert.notNull(tempClassMateId);
+        TemporaryStudentClassMate temporaryStudentClassMate = new TemporaryStudentClassMate();
+        temporaryStudentClassMate.setTemporaryClassId(tempClassMateId);
+        temporaryStudentClassMate.setIsRegister(Boolean.TRUE);
+        temporaryStudentClassMate.setStudentId(studentId);
+        temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateAskLevelByStudent(Boolean isAskLevel, Long studentId, Long tempClassMateId) {
+        Assert.notNull(studentId);
+        Assert.notNull(tempClassMateId);
+        Assert.notNull(isAskLevel);
+        TemporaryStudentClassMate temporaryStudentClassMate = new TemporaryStudentClassMate();
+        temporaryStudentClassMate.setTemporaryClassId(tempClassMateId);
+        temporaryStudentClassMate.setIsAskLevel(isAskLevel);
+        temporaryStudentClassMate.setStudentId(studentId);
+        temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void updateAskLevelByMachine(Boolean isAskLevel, Long machineId, Long tempClassMateId) {
+        Assert.notNull(machineId);
+        Assert.notNull(tempClassMateId);
+        Assert.notNull(isAskLevel);
+        TemporaryStudentClassMate temporaryStudentClassMate = new TemporaryStudentClassMate();
+        temporaryStudentClassMate.setTemporaryClassId(tempClassMateId);
+        temporaryStudentClassMate.setIsAskLevel(isAskLevel);
+        temporaryStudentClassMate.setMachineId(machineId);
+        temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
     }
 }

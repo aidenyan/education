@@ -12,4 +12,9 @@ public class TemporaryStudentClassMate extends BaseEntity {
 
     private Long studentId;
 
+    private Boolean isAskLevel;
+
+    private Boolean isRegister;
+
+    private Long machineId;
 }

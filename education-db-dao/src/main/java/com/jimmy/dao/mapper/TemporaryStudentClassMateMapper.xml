@@ -11,9 +11,12 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
         <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+        <result column="is_register" property="isRegister" />
+        <result column="is_ask_level" property="isAskLevel" />
+        <result column="machine_id" property="machineId" />
     </resultMap>
     <sql id="Base_Column_List">
-    id, temporary_class_id, classmate_id, student_id, create_id, modify_id, create_time, 
+    id, temporary_class_id, is_register,is_ask_level,machine_id,classmate_id, student_id, create_id, modify_id, create_time,
     modify_time, site_id
   </sql>
     <select id="list" resultMap="BaseResultMap">
@@ -57,4 +60,30 @@
             #{siteId}
         </foreach>
     </select>
+
+    <update id="updateByCourseStatus" parameterType="com.jimmy.dao.entity.TemporaryStudentClassMate" >
+        update t_temporary_student_class_mate
+        <set >
+            <if test="isRegister != null">
+                is_register = #{isRegister},
+            </if>
+            <if test="isAskLevel != null" >
+                is_ask_level = #{isAskLevel},
+            </if>
+            <if test="machineId != null" >
+                machine_id = #{machineId},
+            </if>
+            modify_id = #{modifyId,jdbcType=BIGINT},
+            modify_time = now(),
+        </set>
+        where temporary_class_id = #{tempClassMateId}
+        <if test="machineId">
+            and machine_id=#{machineId}
+        </if>
+        <if test="student_id">
+            and student_id=#{studentId}
+        </if>
+        and  site_id=#{siteId}
+    </update>
+
 </mapper>
