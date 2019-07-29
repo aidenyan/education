@@ -26,6 +26,8 @@ public enum ResultCodeEnum implements ResultEnum {
     ROOM_IS_USING("-10014","教室已经被使用","教室已经被使用"),
 
     CLASSMATE_IS_USING("-10015","班级已经被使用","班级已经被使用"),
+    STUDENT_NOT_EXIST("-10016","还没有选择上课的学生","还没有选择上课的学生"),
+
     ;
     private String code;
     private String message;

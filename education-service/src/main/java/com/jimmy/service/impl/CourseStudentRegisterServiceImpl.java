@@ -39,5 +39,6 @@ public class CourseStudentRegisterServiceImpl implements CourseStudentRegisterSe
     public void save(List<CourseStudentRegister> registerList) {
         Assert.notNull(registerList);
         registerList.forEach(register -> save(register));
+
     }
 }
