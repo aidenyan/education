@@ -15,4 +15,8 @@ public class StudentDetailDTO {
     private Boolean isAskLevel;
     @ApiModelProperty("所属机床")
     private Long machineId;
+    @ApiModelProperty("课程的名字")
+    private String courseName;
+    @ApiModelProperty("课程的Id")
+    private Long courseId;
 }

@@ -42,6 +42,8 @@ public interface StudentInfoService {
      */
     List<StudentInfo> list(List<Long> idList);
 
+    List<StudentInfo> listBase(List<Long> idList);
+
     /**
      * 根据班级ID获取学生信息
      *

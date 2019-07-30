@@ -2,10 +2,7 @@ package com.jimmy.student.api.controller.admin;
 
 import com.alibaba.fastjson.JSON;
 import com.jimmy.core.enums.ResultCoreEnum;
-import com.jimmy.dao.entity.CourseAnswer;
-import com.jimmy.dao.entity.CourseStudent;
-import com.jimmy.dao.entity.CourseStudentRegister;
-import com.jimmy.dao.entity.StudentInfo;
+import com.jimmy.dao.entity.*;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
@@ -53,6 +50,10 @@ public class StudentController {
     @Autowired
     private StudentStarInfoService studentStarInfoService;
 
+
+    @Autowired
+    private TemporaryClassMateService temporaryClassMateService;
+
     @Autowired
     private CourseStudentRegisterService courseStudentRegisterService;
     @ApiOperation("签到")
@@ -65,6 +66,9 @@ public class StudentController {
         if (CollectionUtils.isEmpty(courseStudentList)) {
             return ResultBuilder.ok(Boolean.FALSE);
         }
+        TemporaryClassMate temporaryClassMate = temporaryClassMateService.findTempClassMate(detailCourseStudent.getCourseId());
+        Map<Long,Long> studentIdMap=new HashMap<>();
+
         List<CourseStudentRegister> registerList = new ArrayList<>();
         CourseStudentRegister courseStudentRegister;
         for (CourseStudent courseStudent : courseStudentList) {
@@ -73,8 +77,9 @@ public class StudentController {
             courseStudentRegister.setIsRegister(true);
             courseStudentRegister.setCourseStudentId(courseStudent.getId());
             registerList.add(courseStudentRegister);
+            studentIdMap.put(courseStudent.getId(),courseStudent.getStudentId());
         }
-        courseStudentRegisterService.save(registerList);
+        courseStudentRegisterService.save(registerList,temporaryClassMate.getId(),studentIdMap);
         return ResultBuilder.ok(Boolean.TRUE);
     }
     @ApiOperation("获取学生的基本信息接口")

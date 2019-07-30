@@ -17,5 +17,5 @@ public interface CommonService {
      * @param courseId
      * @return
      */
-    Page<StudentDetailDTO> page(Long courseId);
+    Page<StudentDetailDTO> page(Long courseId,Long pageNo,Long pageSize);
 }

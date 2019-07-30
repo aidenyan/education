@@ -23,7 +23,7 @@ public interface CourseStudentService {
      *
      * @param courseStudent 课程学ID
      */
-    void save(CourseStudent courseStudent);
+    void save(CourseStudent courseStudent,Long temporaryClassMateId);
 
     /**
      * 获取该课程所有分配的学生

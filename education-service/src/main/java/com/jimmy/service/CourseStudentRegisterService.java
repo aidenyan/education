@@ -3,6 +3,7 @@ package com.jimmy.service;
 import com.jimmy.dao.entity.CourseStudentRegister;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName: CourseStudentRegisterService
@@ -16,12 +17,12 @@ public interface CourseStudentRegisterService {
      *
      * @param register
      */
-    void save(CourseStudentRegister register);
+    void save(CourseStudentRegister register,Long tempClassId,Long studentId);
 
     /**
      * ±£´æ
      *
      * @param registerList
      */
-    void save(List<CourseStudentRegister> registerList);
+    void save(List<CourseStudentRegister> registerList,Long tempClassId,Map<Long,Long> courseStudentMap);
 }

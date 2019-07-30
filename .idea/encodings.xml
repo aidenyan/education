@@ -55,6 +55,7 @@
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/ResourceInfoDTOTransfer.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/StudentInfoDTOTransfer.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-mvc-common/src/main/java/com/jimmy/mvc/common/model/transfer/TeacherStaffInfoDTOTransfer.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/education-service/src/main/java/com/jimmy/service/CourseStudentRegisterService.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-student-api/src/main/java/com/jimmy/student/api/controller/login/LoginController.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-teacher-api/src/main/java/com/jimmy/teacher/api/controller/admin/ClassMateController.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-teacher-api/src/main/java/com/jimmy/teacher/api/controller/login/LoginController.java" charset="GBK" />
@@ -63,6 +64,10 @@
     <file url="file://$PROJECT_DIR$/education-web-api/src/main/java/com/jimmy/web/api/controller/login/LoginController.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/class/list.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/common/home.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/course/list.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/course/list.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/course/register.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/course/register.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/question/list.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/resource/list.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/education-web-api/src/main/resources/static/admin/room/list.html" charset="UTF-8" />

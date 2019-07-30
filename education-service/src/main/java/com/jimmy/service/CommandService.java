@@ -18,6 +18,15 @@ public interface CommandService {
     Long save(CommandInfo commandInfo);
 
     /**
+     * 处理请假指令
+     *
+     * @param commandInfo
+     * @param isAskLeve
+     * @return
+     */
+    Long saveAskLevelByMachine(CommandInfo commandInfo, Boolean isAskLeve);
+
+    /**
      * 获取某个类型的命令信息
      */
     List<CommandInfo> list(Long courseId, List<Integer> typeList);

@@ -44,6 +44,20 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
     }
 
     @Override
+    public List<TemporaryStudentClassMate> listBySize(Long tempClassMateId, Long startNum, Long limitNum) {
+        Assert.notNull(tempClassMateId);
+        Assert.notNull(startNum);
+        Assert.notNull(limitNum);
+        return temporaryStudentClassMateMapper.listBySize(tempClassMateId, startNum, limitNum, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
+    public Long count(Long tempClassMateId) {
+        Assert.notNull(tempClassMateId);
+        return temporaryStudentClassMateMapper.count(tempClassMateId, SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(TemporaryClassMate temporaryClassMate, List<StudentInfo> studentList) {
         Assert.notNull(temporaryClassMate);

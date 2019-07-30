@@ -3,6 +3,7 @@ package com.jimmy.teacher.api.controller.admin;
 import com.jimmy.dao.entity.CourseStudent;
 import com.jimmy.dao.entity.CourseStudentRegister;
 import com.jimmy.dao.entity.StudentInfo;
+import com.jimmy.dao.entity.TemporaryClassMate;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
@@ -10,10 +11,7 @@ import com.jimmy.mvc.common.model.dto.RegisterBatchDTO;
 import com.jimmy.mvc.common.model.dto.RegisterDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
-import com.jimmy.service.CourseStudentRegisterService;
-import com.jimmy.service.CourseStudentService;
-import com.jimmy.service.StudentInfoService;
-import com.jimmy.service.StudentStarInfoService;
+import com.jimmy.service.*;
 import com.jimmy.teacher.api.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -26,7 +24,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName: StudentController
@@ -44,8 +44,12 @@ public class StudentController extends BaseController {
     @Autowired
     private CourseStudentService courseStudentService;
 
+
     @Autowired
     private StudentStarInfoService studentStarInfoService;
+
+    @Autowired
+    private TemporaryClassMateService temporaryClassMateService;
 
     @Autowired
     private CourseStudentRegisterService courseStudentRegisterService;
@@ -86,14 +90,20 @@ public class StudentController extends BaseController {
         }
         List<CourseStudentRegister> registerList = new ArrayList<>();
         CourseStudentRegister courseStudentRegister;
+        Map<Long,Long> studentIdMap=new HashMap<>();
         for (CourseStudent courseStudent : courseStudentList) {
             courseStudentRegister = new CourseStudentRegister();
             courseStudentRegister.setCommandId(registerDTO.getCommandId());
             courseStudentRegister.setIsRegister(true);
             courseStudentRegister.setCourseStudentId(courseStudent.getId());
             registerList.add(courseStudentRegister);
+            studentIdMap.put(courseStudent.getId(),courseStudent.getStudentId());
         }
-        courseStudentRegisterService.save(registerList);
+        TemporaryClassMate temporaryClassMate = temporaryClassMateService.findTempClassMate(registerDTO.getCourseId());
+        if (temporaryClassMate == null) {
+            return ResultBuilder.error(ResultCodeEnum.STUDENT_NOT_EXIST);
+        }
+        courseStudentRegisterService.save(registerList, temporaryClassMate.getCourseId(),studentIdMap);
         return ResultBuilder.ok(Boolean.TRUE);
     }
 
@@ -102,21 +112,26 @@ public class StudentController extends BaseController {
     @PostMapping("/register/batch")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> using(@Validated @RequestBody RegisterBatchDTO registerBatchDTO) {
-
         List<CourseStudent> courseStudentList = courseStudentService.find(registerBatchDTO.getCourseId(), registerBatchDTO.getStudentIdList(), null);
         if (CollectionUtils.isEmpty(courseStudentList)) {
             return ResultBuilder.ok(Boolean.FALSE);
         }
         List<CourseStudentRegister> registerList = new ArrayList<>();
         CourseStudentRegister courseStudentRegister;
+        Map<Long,Long> studentIdMap=new HashMap<>();
         for (CourseStudent courseStudent : courseStudentList) {
             courseStudentRegister = new CourseStudentRegister();
             courseStudentRegister.setCommandId(registerBatchDTO.getCommandId());
             courseStudentRegister.setIsRegister(true);
             courseStudentRegister.setCourseStudentId(courseStudent.getId());
+            studentIdMap.put(courseStudent.getId(),courseStudent.getStudentId());
             registerList.add(courseStudentRegister);
         }
-        courseStudentRegisterService.save(registerList);
+        TemporaryClassMate temporaryClassMate = temporaryClassMateService.findTempClassMate(registerBatchDTO.getCourseId());
+        if (temporaryClassMate == null) {
+            return ResultBuilder.error(ResultCodeEnum.STUDENT_NOT_EXIST);
+        }
+        courseStudentRegisterService.save(registerList, temporaryClassMate.getCourseId(),studentIdMap);
         return ResultBuilder.ok(Boolean.TRUE);
     }
 }

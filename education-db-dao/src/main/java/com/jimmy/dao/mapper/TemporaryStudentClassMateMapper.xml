@@ -61,6 +61,30 @@
         </foreach>
     </select>
 
+    <select id="count" resultType="java.lang.Long">
+        select
+        count(id)
+        from t_temporary_student_class_mate
+        where temporary_class_id = #{tempClassMateId,jdbcType=BIGINT}
+        AND
+        site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+    <select id="listBySize" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_temporary_student_class_mate
+        where temporary_class_id = #{tempClassMateId,jdbcType=BIGINT}
+        AND
+        site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        ORDER BY create_time DESC
+        limit #{startNum},#{limitNum}
+    </select>
     <update id="updateByCourseStatus" parameterType="com.jimmy.dao.entity.TemporaryStudentClassMate" >
         update t_temporary_student_class_mate
         <set >

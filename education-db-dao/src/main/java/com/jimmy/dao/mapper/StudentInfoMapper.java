@@ -44,6 +44,12 @@ public interface StudentInfoMapper {
      */
     List<StudentInfo> listByIdList(@Param("idList")List<Long> idList, @Param("siteIdList") List<Long> siteIdList);
     /**
+     * 根据id获取学生信息
+     * @param idList ID列表
+     * @return List<学生信息>
+     */
+    List<StudentInfo> listBaseByIdList(@Param("idList")List<Long> idList, @Param("siteIdList") List<Long> siteIdList);
+    /**
      * 根据班级ID获取学生信息
      * @param classMateIdList 班级ID
      * @return List<学生信息>

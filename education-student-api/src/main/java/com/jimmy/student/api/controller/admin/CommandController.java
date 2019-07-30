@@ -168,7 +168,15 @@ public class CommandController extends BaseController {
 
         commandDTO.setDirection(DirectionEnum.TO_TEACHER);
         commandDTO.setSn(commandInfo.getSn());
-        Long id = commandService.save(commandInfo);
+        Long id = null;
+        if (CommandTypeEnum.ASK_LEVEL.equals(commandDTO.getCommandType())) {
+            id = commandService.saveAskLevelByMachine(commandInfo, Boolean.TRUE);
+        } else if (CommandTypeEnum.ASK_LEVEL_END.equals(commandDTO.getCommandType())) {
+            id = commandService.saveAskLevelByMachine(commandInfo, Boolean.FALSE);
+
+        } else {
+            id = commandService.save(commandInfo);
+        }
         CommandMessageDTO commandMessageDTO = new CommandMessageDTO();
         commandMessageDTO.setSendUrl(studentConfig.getStudentUrl());
         commandMessageDTO.setToken(studentConfig.getToken());
