@@ -17,4 +17,5 @@ public class TemporaryStudentClassMate extends BaseEntity {
     private Boolean isRegister;
 
     private Long machineId;
+    private Long registerCommandId;
 }

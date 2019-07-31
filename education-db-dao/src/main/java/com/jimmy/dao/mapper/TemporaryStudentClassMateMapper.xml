@@ -14,9 +14,10 @@
         <result column="is_register" property="isRegister" />
         <result column="is_ask_level" property="isAskLevel" />
         <result column="machine_id" property="machineId" />
+        <result column="register_command_id" property="registerCommandId" />
     </resultMap>
     <sql id="Base_Column_List">
-    id, temporary_class_id, is_register,is_ask_level,machine_id,classmate_id, student_id, create_id, modify_id, create_time,
+    id, temporary_class_id, register_command_id,is_register,is_ask_level,machine_id,classmate_id, student_id, create_id, modify_id, create_time,
     modify_time, site_id
   </sql>
     <select id="list" resultMap="BaseResultMap">
@@ -93,6 +94,9 @@
             </if>
             <if test="isAskLevel != null" >
                 is_ask_level = #{isAskLevel},
+            </if>
+            <if test="registerCommandId != null" >
+                register_command_id = #{registerCommandId},
             </if>
             <if test="machineId != null" >
                 machine_id = #{machineId},

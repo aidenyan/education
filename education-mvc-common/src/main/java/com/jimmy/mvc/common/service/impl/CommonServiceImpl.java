@@ -63,6 +63,7 @@ public class CommonServiceImpl implements CommonService {
             studentDetailDTO.setMachineId(temporaryStudentClassMate.getMachineId());
             studentDetailDTO.setStudentInfoDTO(StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTO(studentInfo));
             studentDetailDTO.setCourseId(courseId);
+            studentDetailDTO.setRegisterCommandId(temporaryStudentClassMate.getRegisterCommandId());
             studentDetailDTO.setCourseName(courseInfo.getName());
             studentDetailDTOList.add(studentDetailDTO);
         });
@@ -117,11 +118,13 @@ public class CommonServiceImpl implements CommonService {
         studentInfoList.forEach(studentInfo -> {
             StudentDetailDTO studentDetailDTO = new StudentDetailDTO();
             TemporaryStudentClassMate temporaryStudentClassMate = studentIdMap.get(studentInfo.getId());
+            studentDetailDTO.setRegisterCommandId(temporaryStudentClassMate.getRegisterCommandId());
             studentDetailDTO.setIsAskLevel(temporaryStudentClassMate.getIsAskLevel());
             studentDetailDTO.setIsRegister(temporaryStudentClassMate.getIsRegister());
             studentDetailDTO.setMachineId(temporaryStudentClassMate.getMachineId());
             studentDetailDTO.setStudentInfoDTO(StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTO(studentInfo));
             studentDetailDTO.setCourseId(courseId);
+
             studentDetailDTO.setCourseName(courseInfo.getName());
             studentDetailDTOList.add(studentDetailDTO);
         });

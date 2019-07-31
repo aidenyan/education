@@ -40,7 +40,7 @@ public class CourseStudentRegisterServiceImpl implements CourseStudentRegisterSe
         register.setModifyId(LoginLocalThread.get());
         register.setCreateId(LoginLocalThread.get());
         courseStudentRegisterMapper.insert(register);
-        temporaryClassMateService.updateRegister(tempClassId,studentId);
+        temporaryClassMateService.updateRegister(tempClassId,register.getCommandId(),studentId);
     }
 
     @Override

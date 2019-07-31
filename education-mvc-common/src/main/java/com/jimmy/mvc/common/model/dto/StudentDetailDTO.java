@@ -9,7 +9,7 @@ import lombok.Data;
 public class StudentDetailDTO {
     @ApiModelProperty("学生的信息")
     private StudentInfoDTO studentInfoDTO;
-    @ApiModelProperty("是否注册")
+    @ApiModelProperty("是否命令")
     private Boolean isRegister;
     @ApiModelProperty("是否请假")
     private Boolean isAskLevel;
@@ -19,4 +19,6 @@ public class StudentDetailDTO {
     private String courseName;
     @ApiModelProperty("课程的Id")
     private Long courseId;
+    @ApiModelProperty("签到命令ID")
+    private Long registerCommandId;
 }

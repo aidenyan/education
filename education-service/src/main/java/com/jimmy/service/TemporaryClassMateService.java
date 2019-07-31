@@ -69,7 +69,7 @@ public interface TemporaryClassMateService {
     /**
      * 更新临时班级中的签到
      */
-    void updateRegister(Long studentId, Long tempClassMateId);
+    void updateRegister(Long studentId, Long registerCommandId, Long tempClassMateId);
 
 
     /**

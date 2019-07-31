@@ -131,13 +131,14 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateRegister(Long studentId, Long tempClassMateId) {
+    public void updateRegister(Long studentId, Long registerCommandId,Long tempClassMateId) {
         Assert.notNull(studentId);
         Assert.notNull(tempClassMateId);
         TemporaryStudentClassMate temporaryStudentClassMate = new TemporaryStudentClassMate();
         temporaryStudentClassMate.setTemporaryClassId(tempClassMateId);
         temporaryStudentClassMate.setIsRegister(Boolean.TRUE);
         temporaryStudentClassMate.setStudentId(studentId);
+        temporaryStudentClassMate.setRegisterCommandId(registerCommandId);
         temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
     }
 
