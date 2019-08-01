@@ -7,11 +7,9 @@ import com.jimmy.model.vo.CoursewareDetailVO;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
-import com.jimmy.mvc.common.model.dto.ClassMateDTO;
 import com.jimmy.mvc.common.model.dto.CourseInfoDTO;
 import com.jimmy.mvc.common.model.dto.CoursewareDetailDTO;
 import com.jimmy.mvc.common.model.enums.UsedStatusEnum;
-import com.jimmy.mvc.common.model.transfer.ClassMateDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
@@ -79,9 +77,9 @@ public class CourseController extends BaseController {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
         List<CourseInfo> courseInfoList = courseInfoService.listCouldUsed(teacherStaffInfo.getAppRoomId(), teacherStaffInfo.getId(), 1);
         if (CollectionUtils.isEmpty(courseInfoList)) {
-            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
+            return ResultBuilder.ok(null);
         }
-        return ResultBuilder.error(ResultCodeEnum.OK, CourseInfoDTOTransfer.INSTANCE.toCourseInfoDTO(courseInfoList.get(0)));
+        return ResultBuilder.ok(CourseInfoDTOTransfer.INSTANCE.toCourseInfoDTO(courseInfoList.get(0)));
     }
 
     @ApiOperation("获得所有没有上过的课程(包含正在上的这个教室)")
