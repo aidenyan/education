@@ -1,7 +1,6 @@
 package com.jimmy.service;
 
 import com.jimmy.dao.entity.CourseInfo;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,10 +22,12 @@ public interface CourseInfoService {
 
     /**
      * 检查门店是否存在
+     *
      * @param roomId 教室ID
      * @return true:已经使用，false:未使用
      */
     boolean isExitByRoomId(Long roomId);
+
     /**
      * 查找课程信息
      *
@@ -34,6 +35,7 @@ public interface CourseInfoService {
      * @return 课程信息
      */
     CourseInfo findByRoomId(Long roomId);
+
     /**
      * 查找课程信息
      *
@@ -55,7 +57,7 @@ public interface CourseInfoService {
      *
      * @param courseId 课程ID
      */
-    void useCourse(Long teacherId,Long courseId,Integer usedStatus,Long roomId);
+    void useCourse(Long teacherId, Long courseId, Integer usedStatus, Long roomId);
 
     /**
      * 查找可以使用这个教室以及老师的课程信息
@@ -69,6 +71,15 @@ public interface CourseInfoService {
                                    Integer size);
 
     /**
+     * 获取没有使用过的课程
+     *
+     * @param teacherId
+     * @param name
+     * @return
+     */
+    List<CourseInfo> listByNotUsed(Long teacherId, String name);
+
+    /**
      * 查找可以使用这个教室以及老师的课程信息
      *
      * @param roomId    教室ID
@@ -76,5 +87,5 @@ public interface CourseInfoService {
      * @param name      名字
      * @return List<课程></>
      */
-    List<CourseInfo> listCouldUsedByName(Long roomId, Long teacherId,String name);
+    List<CourseInfo> listCouldUsedByName(Long roomId, Long teacherId, String name);
 }

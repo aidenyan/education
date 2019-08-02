@@ -86,6 +86,10 @@ public class CourseInfoServiceImpl implements CourseInfoService {
     public List<CourseInfo> listCouldUsed(Long roomId, Long teacherId, Integer size) {
         return courseInfoMapper.listCouldUsed(roomId, teacherId, size, SiteLocalThread.getSiteIdList());
     }
+    @Override
+    public List<CourseInfo> listByNotUsed(Long teacherId, String name) {
+        return courseInfoMapper.listByNotUsed(teacherId, name, SiteLocalThread.getSiteIdList());
+    }
 
     @Override
     public List<CourseInfo> listCouldUsedByName(Long roomId, Long teacherId, String name) {

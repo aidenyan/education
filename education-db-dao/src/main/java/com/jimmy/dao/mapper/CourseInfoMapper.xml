@@ -86,7 +86,24 @@
 
     </select>
 
+    <select id="listByNotUsed" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_course_info
+        where site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        <if test=" teacherId != null ">
+            AND teacher_id=#{teacherId}
+        </if>
+        <if test=" name != null and name != '' ">
+            and name like concat('%',#{name},'%')
+        </if>
+        and used_status=0
+        ORDER BY start_time ASC
 
+    </select>
     <select id="findById" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
