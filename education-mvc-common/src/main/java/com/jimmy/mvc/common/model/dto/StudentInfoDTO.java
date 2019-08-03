@@ -91,5 +91,9 @@ public class StudentInfoDTO extends BaseDTO {
      */
     @ApiModelProperty("密码")
     private String npw;
-
+    /**
+     * 本周之星名字
+     */
+    @ApiModelProperty("本周之星名字")
+    private String starName;
 }

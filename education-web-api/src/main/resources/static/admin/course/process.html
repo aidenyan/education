@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>课程列表</title>
+    <title>签到列表</title>
     <link rel="stylesheet" href="../../layui/css/layui.css"/>
     <link rel="stylesheet" href="../../common/css/common.css">
     <link rel="stylesheet" href="../../common/css/font-style.css">
@@ -15,9 +15,6 @@
                 <div class="content-search layui-form">
                     <div class="layui-form-item hasNext">
                         <div class="layui-inline po-r">
-                            <span>课程名字</span>
-                            <input type="text" name="inputStr" id="searchParam" autocomplete="off"
-                                   class="layui-input small mizo-srarch-input">
                             <button id="btnSearch" class="layui-btn layui-btn-small" lay-submit="" lay-filter="search">
                                 搜索
                             </button>
@@ -34,19 +31,28 @@
                         <tbody>
                         <tr class="datagrid-header-row">
                             <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">课程名字</div>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">学生名字</div>
                             </td>
                             <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">课程开始时间</div>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">学生真实姓名</div>
                             </td>
                             <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w100">课程时长(分钟)</div>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">性别</div>
+                            </td>
+                            <td>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">email</div>
+                            </td>
+                            <td>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">课程的名字</div>
+                            </td>
+                            <td>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">进程步骤</div>
+                            </td>
+                            <td>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">进程名称</div>
                             </td>
                             <td>
                                 <div class="datagrid-cell datagrid-cell-c1-time">创建日期</div>
-                            </td>
-                            <td>
-                                <div class="datagrid-cell datagrid-cell-c1-w200" style="">操作</div>
                             </td>
                         </tr>
                         </tbody>
@@ -70,24 +76,34 @@
     {{#  layui.each(d.result, function(index, item){ }}
     <tr>
         <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.name}}</div>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.studentInfoDTO.name}}</div>
         </td>
         <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{laydate.now(item.startTime)}}</div>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.studentInfoDTO.realName}}
+            </div>
         </td>
         <td>
-            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.createTime}}
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.studentInfoDTO.sex=='WOMAN'){ }}女 {{# }else{
+                }}男{{# } }}
+            </div>
+        </td>
+        <td>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.studentInfoDTO.email}}</div>
+        </td>
+        <td>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.courseInfoDTO.name}}
+            </div>
+        </td>
+        <td>
+            <div class="datagrid-cell datagrid-cell-c1-w100">第{{item.stepNum}}步
+            </div>
+        </td>
+        <td>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.coursewareItemName}}
             </div>
         </td>
         <td>
             <div class="datagrid-cell datagrid-cell-c1-time">{{laydate.now(item.createTime)}}</div>
-        </td>
-        <td class="state_uhandle">
-            <div class="datagrid-cell datagrid-cell-c1-w200">
-                <button class="view" value="{{item.id}}" title="查看签到"><i class="icon-uniE602"></i></button>
-                <button class="view_process" value="{{item.id}}" title="查看进程"><i class="icon-uniE602"></i></button>
-
-            </div>
         </td>
     </tr>
     {{#  }); }}
@@ -111,21 +127,14 @@
             , myAjax = layui.myAjax, laytpl = layui.laytpl;
 
         function pageOrder() {
-
-            myAjax.ajaxPage('/api/admin/course/page', 'pageNum', 'page_tbody', 'pageTpl');
+            myAjax.ajaxPage('/api/admin/courseprocess/page?courseId=' + Utils.getHrefValue("courseId"), 'pageNum', 'page_tbody', 'pageTpl');
         }
+
         form.on('submit(search)', function () {
             pageOrder()
             return false;
         });
         pageOrder();
-
-        $("#page_tbody").on("click", ".view", function () {
-            callParent.openTab("course_register", 0, "查看签到", "/static/admin/course/register.html?courseId=" + $(this).val(), true);
-        })
-        $("#page_tbody").on("click", ".view_process", function () {
-            callParent.openTab("course_process", 0, "查看进程", "/static/admin/course/process.html?courseId=" + $(this).val(), true);
-        })
         callParent.isLoadEnd("member_page");
         callParent.register(function () {
             refresh();
@@ -134,3 +143,4 @@
 </script>
 </body>
 </html>
+<!---->

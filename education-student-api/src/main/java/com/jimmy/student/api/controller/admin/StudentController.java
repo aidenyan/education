@@ -8,7 +8,9 @@ import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.CourseAnswerDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
+import com.jimmy.mvc.common.model.dto.StudentInfoStarDTO;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
+import com.jimmy.mvc.common.service.CommonService;
 import com.jimmy.service.*;
 import com.jimmy.student.api.local.thread.CourseStudentLocalThread;
 import com.jimmy.student.api.local.thread.StudentLocalThread;
@@ -48,7 +50,7 @@ public class StudentController {
     private CourseAnswerService courseAnswerService;
 
     @Autowired
-    private StudentStarInfoService studentStarInfoService;
+    private CommonService commonService;
 
 
     @Autowired
@@ -56,18 +58,19 @@ public class StudentController {
 
     @Autowired
     private CourseStudentRegisterService courseStudentRegisterService;
+
     @ApiOperation("签到")
     @ResponseBody
     @PostMapping("/register/{commandId}")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> using(@PathVariable("commandId")  Long commandId) {
-        CourseStudent detailCourseStudent=CourseStudentLocalThread.get();
+    public Result<Boolean> using(@PathVariable("commandId") Long commandId) {
+        CourseStudent detailCourseStudent = CourseStudentLocalThread.get();
         List<CourseStudent> courseStudentList = courseStudentService.find(detailCourseStudent.getCourseId(), detailCourseStudent.getStudentId(), null);
         if (CollectionUtils.isEmpty(courseStudentList)) {
             return ResultBuilder.ok(Boolean.FALSE);
         }
         TemporaryClassMate temporaryClassMate = temporaryClassMateService.findTempClassMate(detailCourseStudent.getCourseId());
-        Map<Long,Long> studentIdMap=new HashMap<>();
+        Map<Long, Long> studentIdMap = new HashMap<>();
 
         List<CourseStudentRegister> registerList = new ArrayList<>();
         CourseStudentRegister courseStudentRegister;
@@ -77,11 +80,12 @@ public class StudentController {
             courseStudentRegister.setIsRegister(true);
             courseStudentRegister.setCourseStudentId(courseStudent.getId());
             registerList.add(courseStudentRegister);
-            studentIdMap.put(courseStudent.getId(),courseStudent.getStudentId());
+            studentIdMap.put(courseStudent.getId(), courseStudent.getStudentId());
         }
-        courseStudentRegisterService.save(registerList,temporaryClassMate.getId(),studentIdMap);
+        courseStudentRegisterService.save(registerList, temporaryClassMate.getId(), studentIdMap);
         return ResultBuilder.ok(Boolean.TRUE);
     }
+
     @ApiOperation("获取学生的基本信息接口")
     @ResponseBody
     @GetMapping("/detail")
@@ -89,16 +93,16 @@ public class StudentController {
     public Result<StudentInfoDTO> detail() {
         StudentInfo studentInfo = StudentLocalThread.get();
         StudentInfoDTO studentInfoDTO = StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTO(studentInfo);
-        return ResultBuilder.error(ResultCodeEnum.OK, studentInfoDTO);
+        return ResultBuilder.ok(studentInfoDTO);
     }
 
     @ApiOperation("获取本周学习之星接口")
     @ResponseBody
     @GetMapping("/star")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<List<StudentInfoDTO>> list() {
-        List<StudentInfo> staffInfoDTOList = studentStarInfoService.listStar();
-        return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(staffInfoDTOList));
+    public Result<List<StudentInfoStarDTO>> list() {
+        List<StudentInfoStarDTO> studentInfoStarDTOList = commonService.listStar();
+        return ResultBuilder.ok(studentInfoStarDTOList);
     }
 
     @ApiOperation("获取某个机床的所有学生信息")
@@ -114,7 +118,7 @@ public class StudentController {
         List<Long> studentIdList = new ArrayList<>();
         courseStudentList.forEach(tempCourseStudent -> studentIdList.add(tempCourseStudent.getStudentId()));
         List<StudentInfo> studentInfoList = studentInfoService.list(studentIdList);
-        return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
+        return ResultBuilder.ok(StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
     }
 
     @ApiOperation("保存老师对象学生图纸作品的答案")

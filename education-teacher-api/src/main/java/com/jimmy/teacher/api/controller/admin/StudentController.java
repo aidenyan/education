@@ -10,7 +10,9 @@ import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.RegisterBatchDTO;
 import com.jimmy.mvc.common.model.dto.RegisterDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
+import com.jimmy.mvc.common.model.dto.StudentInfoStarDTO;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
+import com.jimmy.mvc.common.service.CommonService;
 import com.jimmy.service.*;
 import com.jimmy.teacher.api.controller.BaseController;
 import io.swagger.annotations.Api;
@@ -46,7 +48,7 @@ public class StudentController extends BaseController {
 
 
     @Autowired
-    private StudentStarInfoService studentStarInfoService;
+    private CommonService commonService;
 
     @Autowired
     private TemporaryClassMateService temporaryClassMateService;
@@ -58,9 +60,9 @@ public class StudentController extends BaseController {
     @ResponseBody
     @GetMapping("/star")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<List<StudentInfoDTO>> list() {
-        List<StudentInfo> staffInfoDTOList = studentStarInfoService.listStar();
-        return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(staffInfoDTOList));
+    public Result<List<StudentInfoStarDTO>> list() {
+        List<StudentInfoStarDTO> studentInfoStarDTOList = commonService.listStar();
+        return ResultBuilder.ok(studentInfoStarDTOList);
     }
 
     @ApiOperation("获取某个机床的所有学生信息")

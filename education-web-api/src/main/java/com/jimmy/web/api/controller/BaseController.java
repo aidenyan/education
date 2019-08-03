@@ -4,16 +4,22 @@ import com.github.pagehelper.PageHelper;
 import com.jimmy.core.base.Page;
 import com.jimmy.core.consts.PageConst;
 import com.jimmy.dao.entity.MenuInfo;
+import com.jimmy.dao.entity.StudentInfo;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
+import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
 import com.jimmy.web.api.local.thread.MenuInfoLocalThread;
 import com.jimmy.web.api.local.thread.TeacherLocalThread;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BaseController {
 
+
+    public static Map<Long,String> starMap=null;
+    public static Integer weekNum=null;
     public TeacherStaffInfo getTeacherStaffInfo() {
         return TeacherLocalThread.get();
     }

@@ -2,6 +2,7 @@ package com.jimmy.mvc.common.service;
 
 import com.jimmy.core.base.Page;
 import com.jimmy.mvc.common.model.dto.StudentDetailDTO;
+import com.jimmy.mvc.common.model.dto.StudentInfoStarDTO;
 
 import java.util.List;
 
@@ -17,5 +18,12 @@ public interface CommonService {
      * @param courseId
      * @return
      */
-    Page<StudentDetailDTO> page(Long courseId,Long pageNo,Long pageSize);
+    Page<StudentDetailDTO> page(Long courseId, Long pageNo, Long pageSize);
+
+    /**
+     * 获取所有学校之星信息
+     *
+     * @return
+     */
+    List<StudentInfoStarDTO> listStar();
 }

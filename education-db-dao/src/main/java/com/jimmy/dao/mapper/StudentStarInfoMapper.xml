@@ -10,9 +10,10 @@
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
         <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+        <result column="name" property="name" />
     </resultMap>
     <sql id="Base_Column_List">
-    id, tearcher_id, student_id, create_id, modify_id, create_time, modify_time, site_id
+    id, tearcher_id, student_id, create_id, modify_id, create_time, modify_time, site_id,name
   </sql>
     <select id="list" resultMap="BaseResultMap">
         select
@@ -35,10 +36,10 @@
         </foreach>
     </delete>
     <insert id="insert" parameterType="com.jimmy.dao.entity.StudentStarInfo"  keyProperty="id" useGeneratedKeys="true">
-    insert into t_student_star_info ( tearcher_id, student_id,
+    insert into t_student_star_info ( name,tearcher_id, student_id,
       create_id, modify_id, create_time, 
       modify_time, site_id)
-    values ( #{tearcherId,jdbcType=BIGINT}, #{studentId,jdbcType=BIGINT},
+    values ( #{name},#{tearcherId,jdbcType=BIGINT}, #{studentId,jdbcType=BIGINT},
       #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, now(),
       now(), #{siteId,jdbcType=BIGINT})
   </insert>

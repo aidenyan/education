@@ -39,6 +39,8 @@
                         <option value="TEXT">文字</option>
                         <option value="BLUEPRINT">图纸</option>
                         <option value="BLUEPRINT_ANSWER">图纸答案</option>
+                        <option value="WORD">word文档</option>
+
                     </select>
                 </th>
             </tr>
@@ -65,7 +67,11 @@
         if (typeValue == "IMG") {
             html = '<input type="hidden" id="url_hidden"><input type="file" class="imgInput1" onchange="updateFile(\'img_update_id\',this)" id="img_update_id" placeholder="  " accept="image/*"/><a id="down_id" style="display: none" target="_blank">下载</a>'
         } else if (typeValue == "VIDEO") {
-            html = ' <input type="hidden" id="url_hidden"> <input type="file" class="imgInput2" placeholder="  "   id="img_update_id" onchange="updateFile(\'img_update_id\',this)" accept="video/*" /><a id="down_id" style="display: none" target="_blank">下载</a>'
+            html="<div>";
+            html+= ' <span style="color:black">视频内容</span><input type="hidden" id="url_hidden"> <input type="file" class="imgInput2" placeholder="  "   id="img_update_id" onchange="updateFile(\'img_update_id\',this)" accept="video/*" /><a id="down_id" style="display: none" target="_blank">下载</a><br/>'
+            html += '<span style="color:black">视频首页</span><input type="hidden" id="url_hidden_first"><input type="file" class="imgInput1" onchange="updateFile(\'img_first_update_id\',this,\'first_img\')" id="img_first_update_id" placeholder="  " accept="image/*"/><a id="first_down_id" style="display: none" target="_blank">下载</a>'
+
+            html+="</div>"
         } else if (typeValue == "TEXT") {
             html = '  <input type="text" id="content_id" placeholder="请输入内容" />';
         } else if (typeValue == "BLUEPRINT") {
@@ -77,10 +83,13 @@
                 '                                增加\n' +
                 '                            </button>\n' +
                 '                        </div>'
-        } else {
+        } else if(typeValue=="BLUEPRINT_ANSWER") {
             html = '<div>长度:<input type="text" id="answer_length"/></div>\n' +
                 '  <div>误差:<input type="text" id="answer_error" /></div>\n' +
                 ' <div>单位:<input type="text" id="answer_unit" /></div>';
+        }else{
+            html = '<input type="hidden" id="url_hidden"><input type="file" class="imgInput1" onchange="updateFile(\'img_update_id\',this)" id="img_update_id" placeholder="  " accept="*/msword"/><a id="down_id" style="display: none" target="_blank">下载</a>'
+
         }
         $("#content").html(html);
     }
@@ -93,8 +102,11 @@
             resourceObj.title=$("#title").val();
             resourceObj.type=$("#type_select").val();
            var typeValue=$("#type_select").val();
-            if (typeValue == "IMG" || typeValue == "VIDEO") {
+            if (typeValue == "IMG"||typeValue =="WORD"){
                 resourceObj.content=  $("#url_hidden").val()
+            }else if(typeValue == "VIDEO") {
+                var jsonObj={videoUrl:$("#url_hidden").val(),imgUrl:$("#url_hidden_first").val()}
+                resourceObj.content= JSON.stringify(jsonObj);
             } else if (typeValue == "TEXT") {
                 resourceObj.content=$("#content_id").val();
             } else if (typeValue == "BLUEPRINT") {
@@ -142,10 +154,19 @@
                     $("#submit").hide();
                 }
                 var typeValue = resourceObj.type;
-                if (typeValue == "IMG" || typeValue == "VIDEO") {
+                if (typeValue == "IMG" ||typeValue =="WORD"){
                     $("#url_hidden").val(resourceObj.content)
                     $("#down_id").attr("href", resourceObj.content);
                     $("#down_id").show();
+
+                }else if( typeValue == "VIDEO") {
+                    var jsonObj = JSON.parse(resourceObj.content);
+                    $("#url_hidden").val(jsonObj.videoUrl)
+                    $("#down_id").attr("href", jsonObj.videoUrl);
+                    $("#down_id").show();
+                    $("#url_hidden_first").val(jsonObj.imgUrl)
+                    $("#first_down_id").attr("href", jsonObj.imgUrl);
+                    $("#first_down_id").show();
                 } else if (typeValue == "TEXT") {
                     $("#content_id").val(resourceObj.content);
                 } else if (typeValue == "BLUEPRINT") {
@@ -172,14 +193,21 @@
         }
     });
 
-    function updateFile(id, obj) {
+    function updateFile(id, obj,firstImg) {
         if ($.trim($(obj).val()) != "") {
             var list = new Array();
             list.push({name: "name", value: "resource"})
             updateFileAjax(id, "/api/education/common/update_file", function (result) {
-                $("#url_hidden").val(result.result);
-                $("#down_id").attr("href", result.result);
-                $("#down_id").show();
+                if(firstImg=="first_img"){
+                    $("#url_hidden_first").val(result.result);
+                    $("#first_down_id").attr("href", result.result);
+                    $("#first_down_i").show();
+                }else{
+                    $("#url_hidden").val(result.result);
+                    $("#down_id").attr("href", result.result);
+                    $("#down_id").show();
+                }
+
             }, list);
         }
     }

@@ -17,21 +17,15 @@ import java.util.List;
  * @date: 2019年5月15日 下午1:51:07
  */
 @Mapper()
-public interface StudentInfoDTOTransfer {
+public interface StudentInfoStarDTOTransfer {
 
-    StudentInfoDTOTransfer INSTANCE = Mappers.getMapper(StudentInfoDTOTransfer.class);
 
-    @Mappings({@Mapping(target = "sex", expression = "java(studentInfoDTO.getSex()==null?null:studentInfoDTO.getSex().getValue())"),
-    })
-    StudentInfo toStudentInfo(StudentInfoDTO studentInfoDTO);
-
-    List<StudentInfo> toStudentInfoList(List<StudentInfoDTO> studentInfoDTOList);
+    StudentInfoStarDTOTransfer INSTANCE = Mappers.getMapper(StudentInfoStarDTOTransfer.class);
 
     @Mappings({
             @Mapping(target = "sex", expression = "java(studentInfo.getSex()==null?null:com.jimmy.mvc.common.model.enums.SexEnum.valueOf(studentInfo.getSex()))"),
     })
-    StudentInfoDTO toStudentInfoDTO(StudentInfo studentInfo);
+    StudentInfoStarDTO toStudentInfoStarDTO(StudentInfo studentInfo);
 
-    List<StudentInfoDTO> toStudentInfoDTOList(List<StudentInfo> studentInfoList);
-
+    List<StudentInfoStarDTO> toStudentInfoStarDTOList(List<StudentInfo> studentInfoList);
 }
