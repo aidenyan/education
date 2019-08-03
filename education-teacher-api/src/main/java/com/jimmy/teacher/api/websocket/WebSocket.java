@@ -54,12 +54,16 @@ public class WebSocket {
     @OnMessage
     public void onMessage(String message, Session session) {
         Assert.isTrue(StringUtils.isNotBlank(message));
-        SocketMessage socketMessage = JSON.parseObject(message, SocketMessage.class);
-        if (CommandTypeEnum.INIT == socketMessage.getSocketType()) {
-            this.teacherId = (Long) socketMessage.getResult();
-            WebSocketUtils.add(teacherId, this);
-        } else {
-            webSocketService.dealMessage(teacherId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
+        try {
+            SocketMessage socketMessage = JSON.parseObject(message, SocketMessage.class);
+            if (CommandTypeEnum.INIT == socketMessage.getSocketType()) {
+                this.teacherId = (Long) socketMessage.getResult();
+                WebSocketUtils.add(teacherId, this);
+            } else {
+                webSocketService.dealMessage(teacherId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -71,7 +75,7 @@ public class WebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-         error.printStackTrace();
+        error.printStackTrace();
     }
 
     /**
