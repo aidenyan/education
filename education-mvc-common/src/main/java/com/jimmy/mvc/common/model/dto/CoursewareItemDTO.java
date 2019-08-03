@@ -1,7 +1,6 @@
 package com.jimmy.mvc.common.model.dto;
 
 import com.alibaba.fastjson.JSON;
-import com.jimmy.common.utils.StringUtils;
 import com.jimmy.mvc.common.model.enums.ContentTypeEnum;
 import com.jimmy.mvc.common.model.enums.CoursewareItemTypeEnum;
 import io.swagger.annotations.ApiModel;
@@ -33,8 +32,6 @@ public class CoursewareItemDTO extends BaseDTO {
     @ApiModelProperty("内容对象为具体内容的一个JSON对象")
     private String content;
 
-    @ApiModelProperty("具体信息对像")
-    private Object contentObj;
     /**
      * 排序
      */
@@ -46,42 +43,70 @@ public class CoursewareItemDTO extends BaseDTO {
     @ApiModelProperty("课件ID")
     private Long coursewareId;
 
-    @ApiModelProperty("图片视频地址")
-    private String imgVideoText;
+    @ApiModelProperty("图片word文档以及文本")
+    private String imgWordText;
+    @ApiModelProperty("video信息")
+    private VideoDTO videoDTO;
+    @ApiModelProperty("图纸的详细信息")
+    private BlueprintDetailDTO blueprintDetailDTO;
+    @ApiModelProperty("问题的详细")
+    private QuestionDTO questionDTO;
 
-    
-
-    public String getImgVideoText() {
-        return imgVideoText;
-    }
-
-    public void setImgVideoText(String imgVideoText) {
-        this.imgVideoText = imgVideoText;
-    }
-
-    public Object getContentObj() {
-        if (StringUtils.isBlank(content)) {
-            return null;
+    public QuestionDTO getQuestionDTO() {
+        if (ContentTypeEnum.QUESTION == contentType || ContentTypeEnum.RADIO == contentType || ContentTypeEnum.CHECK_BOX == contentType) {
+            questionDTO = JSON.parseObject(content, QuestionDTO.class);
         }
-        if (ContentTypeEnum.BLUEPRINT == getContentType()) {
-            contentObj = JSON.parseObject(content, DrawingDTO.class);
-        }
-        return contentObj;
+        return questionDTO;
     }
 
-    public void setContentObj(Object contentObj) {
-        this.contentObj = contentObj;
-        if (contentObj != null) {
-            content = JSON.toJSONString(contentObj);
+    public void setQuestionDTO(QuestionDTO questionDTO) {
+        if (ContentTypeEnum.QUESTION == contentType || ContentTypeEnum.RADIO == contentType || ContentTypeEnum.CHECK_BOX == contentType) {
+            content = JSON.toJSONString(questionDTO);
         }
     }
 
-    public <T> T convert(Class<T> tClass) {
-        if (StringUtils.isBlank(content)) {
-            return null;
+    public BlueprintDetailDTO getBlueprintDetailDTO() {
+        if (ContentTypeEnum.BLUEPRINT == contentType) {
+            blueprintDetailDTO = JSON.parseObject(content, BlueprintDetailDTO.class);
         }
-
-        return JSON.parseObject(content, tClass);
+        return blueprintDetailDTO;
     }
 
+    public void setBlueprintDetailDTO(BlueprintDetailDTO blueprintDetailDTO) {
+        if (ContentTypeEnum.BLUEPRINT == contentType) {
+            content = JSON.toJSONString(blueprintDetailDTO);
+        }
+    }
+
+    public VideoDTO getVideoDTO() {
+        if (ContentTypeEnum.VIDEO == contentType) {
+            videoDTO = JSON.parseObject(content, VideoDTO.class);
+        }
+        return videoDTO;
+    }
+
+    public void setVideoDTO(VideoDTO videoDTO) {
+        if (ContentTypeEnum.VIDEO == contentType) {
+            content = JSON.toJSONString(videoDTO);
+        }
+
+    }
+
+    public String getImgWordText() {
+        if (ContentTypeEnum.TEXT == contentType || ContentTypeEnum.IMG == contentType || ContentTypeEnum.WORD == contentType) {
+            imgWordText = content;
+        }
+        return imgWordText;
+
+    }
+
+    public void setImgWordText(String imgWordText) {
+        if (ContentTypeEnum.TEXT == contentType || ContentTypeEnum.IMG == contentType || ContentTypeEnum.WORD == contentType) {
+            content = imgWordText;
+        }
+    }
+
+    public void setContent(String content) {
+
+    }
 }
