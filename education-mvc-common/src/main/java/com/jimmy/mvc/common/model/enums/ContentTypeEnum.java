@@ -14,8 +14,7 @@ public enum ContentTypeEnum implements BaseEnum {
     IMG(0, "图片"),
     VIDEO(1, "视频"),
     TEXT(2, "文字"),
-    BLUEPRINT(3, "图纸"),
-    BLUEPRINT_ANSWER(4, "图纸的答案"),
+    BLUEPRINT(3, "图纸以及图纸答案"),
     QUESTION(5, "问答题"),
     RADIO(6, "单选题"),
     CHECK_BOX(7, "多选题"),;

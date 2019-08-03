@@ -20,7 +20,7 @@ public class CoursewareItemDTO extends BaseDTO {
     /**
      * 如果type为0，0：图片，1：视频，2:文字；3：图纸；如果未1：5：问答题，6:单选题，7.多选题
      */
-    @ApiModelProperty("0：图片，1：视频，2:文字；3：图纸;5：问答题，6:单选题，7.多选题")
+    @ApiModelProperty("0：图片，1：视频，2:文字；3：：问答题，6:单选题图纸;5，7.多选题")
     private ContentTypeEnum contentType;
     /**
      * 如果type为0则为资源ID,为1则为题库ID
@@ -45,6 +45,19 @@ public class CoursewareItemDTO extends BaseDTO {
      */
     @ApiModelProperty("课件ID")
     private Long coursewareId;
+
+    @ApiModelProperty("图片视频地址")
+    private String imgVideoText;
+
+    
+
+    public String getImgVideoText() {
+        return imgVideoText;
+    }
+
+    public void setImgVideoText(String imgVideoText) {
+        this.imgVideoText = imgVideoText;
+    }
 
     public Object getContentObj() {
         if (StringUtils.isBlank(content)) {

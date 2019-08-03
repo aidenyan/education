@@ -71,7 +71,7 @@ public class WebSocket {
      */
     @OnError
     public void onError(Session session, Throwable error) {
-
+         error.printStackTrace();
     }
 
     /**

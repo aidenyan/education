@@ -4,6 +4,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,7 +23,10 @@ public class SpringWebConfig {
         servletServletRegistrationBean.addUrlMappings("/api/*");
         return servletServletRegistrationBean;
     }
-
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter() {
+        return new ServerEndpointExporter();
+    }
     @Bean
     public ExecutorService executorService() {
         return Executors.newCachedThreadPool();
