@@ -48,7 +48,7 @@ public class CoursewareItemDTO extends BaseDTO {
     private ResoureceStrDTO imgWordText;
     @ApiModelProperty("video信息")
     private VideoDTO videoDTO;
-    @ApiModelProperty("图纸详细信息")
+    @ApiModelProperty("图纸的详细信息")
     private BlueprintDetailDTO blueprintDetailDTO;
     @ApiModelProperty("问题的详细")
     private QuestionDTO questionDTO;
@@ -109,7 +109,9 @@ public class CoursewareItemDTO extends BaseDTO {
     }
 
     public void setContent(String content) {
-
+        if (StringUtils.isNotBlank(content)) {
+           this.content=content;
+        }
     }
 
     public <T> T convert(Class<T> tClass) {

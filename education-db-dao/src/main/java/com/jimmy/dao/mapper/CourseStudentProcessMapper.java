@@ -17,4 +17,6 @@ public interface CourseStudentProcessMapper {
     List<CourseStudentProcess> list(@Param("courseId") Long courseId, @Param("siteIdList") List<Long> siteIdList);
 
     int endProcess(@Param("machineId") Long machineId, @Param("courseId") Long courseId, @Param("siteId") Long siteId);
+
+    List<CourseStudentProcess> listByMachine(@Param("courseId") Long courseId, @Param("machineId") Long machineId,@Param("siteIdList") List<Long> siteIdList);
 }

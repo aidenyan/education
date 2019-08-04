@@ -13,6 +13,11 @@ public interface CommonService {
     List<StudentDetailDTO> list(Long courseId);
 
     /**
+     * 学生的详细信息
+     */
+    List<StudentDetailDTO> list(Long courseId, Long machineId);
+
+    /**
      * 获取分页信息
      *
      * @param courseId

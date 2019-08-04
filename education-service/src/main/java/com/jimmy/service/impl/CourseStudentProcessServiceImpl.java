@@ -80,4 +80,11 @@ public class CourseStudentProcessServiceImpl implements CourseStudentProcessServ
         Assert.notNull(courseId);
         return courseStudentProcessMapper.list(courseId, SiteLocalThread.getSiteIdList());
     }
+
+    @Override
+    public List<CourseStudentProcess> listByMachine(Long courseId, Long machineId) {
+        Assert.notNull(courseId);
+        Assert.notNull(machineId);
+        return courseStudentProcessMapper.listByMachine(courseId,machineId, SiteLocalThread.getSiteIdList());
+    }
 }

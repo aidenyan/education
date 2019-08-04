@@ -81,6 +81,51 @@ public class CommonServiceImpl implements CommonService {
     }
 
     @Override
+    public List<StudentDetailDTO> list(Long courseId, Long machineId) {
+        CourseInfo courseInfo = courseInfoService.findById(courseId);
+        TemporaryClassMate tempClass = temporaryClassMateService.findTempClassMate(courseId);
+        if (tempClass == null) {
+            return null;
+        }
+        List<TemporaryStudentClassMate> classMateList = temporaryClassMateService.listByMachine(tempClass.getId(), machineId);
+        if (CollectionUtils.isEmpty(classMateList)) {
+            return null;
+        }
+        List<Long> studentIdList = new ArrayList<>();
+        Map<Long, TemporaryStudentClassMate> studentIdMap = new HashMap<>();
+        classMateList.forEach(classMate -> {
+            studentIdList.add(classMate.getStudentId());
+            studentIdMap.put(classMate.getStudentId(), classMate);
+        });
+        List<StudentInfo> studentInfoList = studentInfoService.list(studentIdList);
+        List<StudentDetailDTO> studentDetailDTOList = new ArrayList<>();
+        if (CollectionUtils.isEmpty(studentInfoList)) {
+            return studentDetailDTOList;
+        }
+        List<CourseStudentProcess> courseStudentProcessList = courseStudentProcessService.listByMachine(courseId, machineId);
+        Map<Long, CourseStudentProcess> processIdMap = new HashMap<>();
+        if (!CollectionUtils.isEmpty(courseStudentProcessList)) {
+            courseStudentProcessList.forEach(courseStudentProcess -> {
+                processIdMap.put(courseStudentProcess.getStudentId(), courseStudentProcess);
+            });
+        }
+        studentInfoList.forEach(studentInfo -> {
+            StudentDetailDTO studentDetailDTO = new StudentDetailDTO();
+            TemporaryStudentClassMate temporaryStudentClassMate = studentIdMap.get(studentInfo.getId());
+            studentDetailDTO.setIsAskLevel(temporaryStudentClassMate.getIsAskLevel());
+            studentDetailDTO.setIsRegister(temporaryStudentClassMate.getIsRegister());
+            studentDetailDTO.setMachineId(temporaryStudentClassMate.getMachineId());
+            studentDetailDTO.setStudentInfoDTO(StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTO(studentInfo));
+            studentDetailDTO.setCourseId(courseId);
+            studentDetailDTO.setRegisterCommandId(temporaryStudentClassMate.getRegisterCommandId());
+            studentDetailDTO.setCourseName(courseInfo.getName());
+            studentDetailDTO.setProcess(CourseStudentProcessRestartDTOTransfer.INSTANCE.toCourseStudentProcessRestartDTO(processIdMap.get(studentInfo.getId())));
+            studentDetailDTOList.add(studentDetailDTO);
+        });
+        return studentDetailDTOList;
+    }
+
+    @Override
     public Page<StudentDetailDTO> page(Long courseId, Long pageNo, Long pageSize) {
         if (pageNo == null) {
             pageNo = PageConst.PAGE_FIRST.longValue();

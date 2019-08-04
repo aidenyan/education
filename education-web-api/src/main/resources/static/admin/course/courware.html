@@ -40,11 +40,37 @@
                 </th>
             </tr>
             <tr>
-                <th colspan="1" style="text-align: left;">
+                <th colspan="2" style="text-align: center;">
                     <button type="button" class="next_page">下一页</button>
                     <button type="button" class="pre_page">上一页</button>
-                    <button type="button" id="close">关闭</button>
+                    <button type="button" class="close">关闭</button>
                 </th>
+            </tr>
+        </table>
+    </form>
+    <form id="question_id">
+        <table cellpadding="10">
+            <tr>
+                <th width="160" class="Ri">问题类型:</th>
+                <th width="80" class="Le" id="question_type">
+
+                </th>
+            </tr>
+            <tr>
+                <th width="160" class="Ri">问题:</th>
+                <th width="300" class="Le" id="question_content"></th>
+            </tr>
+            <tr>
+                <th width="160" class="Ri" id="result_title">答案:</th>
+                <th width="300" class="Le" id="question_result"></th>
+            </tr>
+            <tr>
+                <th colspan="2" style="text-align: right;">
+                    <button type="button" class="next_page">下一页</button>
+                    <button type="button" class="pre_page">上一页</button>
+                    <button type="button" class="close">关闭</button>
+                </th>
+
             </tr>
         </table>
     </form>
@@ -53,35 +79,103 @@
 
 
     $(function () {
+        function dealQuestion(resultItem) {
+            $("#resource_id").hide();
+            $("#question_id").show();
+            if (Utils.isNull(resultItem.questionDTO)) {
+                resultItem.questionDTO = {};
+            }
+            $("#question_content").html(resultItem.questionDTO.question)
+            if (Utils.isNull(resultItem.questionDTO.itemList)) {
+                resultItem.questionDTO.itemList = new Array();
+            }
+            if (resultItem.contentType == "QUESTION") {
+                $("#question_type").html("问答题")
+                $("#question_content").html(resultItem.questionDTO.question)
+                $("#question_result").html(resultItem.questionDTO.result)
+            } else if (resultItem.contentType == "RADIO") {
+                $("#question_type").html("单选题")
+                var contentHtml = "<div>";
+                for (var t = 0; t < resultItem.questionDTO.itemList; t++) {
+                    var itemDTO = resultItem.questionDTO.itemList[t];
+                    if (itemDTO.isResult) {
+                        contentHtml += "<input type='radio' disabled checked='checked'>" + itemDTO.content + "<br/>";
+                    }
+                }
+                contentHtml += "</div>";
+                $("#question_result").html(contentHtml)
+            } else {
+                $("#question_type").html("多选题")
+                var contentHtml = "<div>";
+                for (var t = 0; t < resultItem.questionDTO.itemList; t++) {
+                    var itemDTO = resultItem.questionDTO.itemList[t];
+                    if (itemDTO.isResult) {
+                        contentHtml += "<input type='checkbox' disabled checked='checked'>" + itemDTO.content + "<br/>";
+                    }
+                }
+                contentHtml += "</div>";
+                $("#question_result").html(contentHtml)
+            }
+
+        }
+
+
         function dealResource(resultItem) {
             $("#resource_id").show();
             $("#question_id").hide();
-            if (resultItem.type == "IMG") {
+            if (resultItem.contentType == "IMG") {
+                if (Utils.isNull(resultItem.imgWordText)) {
+                    resultItem.imgWordText = {}
+                }
                 $("#resource_title").html(resultItem.imgWordText.title);
                 $("#resource_type").html("图片")
                 $("#content").html("<a target='_blank' href='" + resultItem.imgWordText.content + "'>下载图片</a>")
-            } else if (resultItem.type == "VIDEO") {
+            } else if (resultItem.contentType == "VIDEO") {
+                if (Utils.isNull(resultItem.videoDTO)) {
+                    resultItem.videoDTO = {}
+                }
                 $("#resource_title").html(resultItem.videoDTO.title);
                 $("#resource_type").html("视频")
                 var contentHtml = "<span style='color:black'>视频内容</span><a target='_blank' href='" + resultItem.videoDTO.videoUrl + "'>下载视频</a><br/>";
                 contentHtml += "<span style='color:black'>视频首页</span><a target='_blank' href='" + resultItem.videoDTO.imgUrl + "'>下载首页图片</a><br/>";
                 $("#content").html(contentHtml)
-            } else if (resultItem.type == "TEXT") {
+            } else if (resultItem.contentType == "TEXT") {
+                if (Utils.isNull(resultItem.imgWordText)) {
+                    resultItem.imgWordText = {}
+                }
                 $("#resource_title").html('');
                 $("#content").html(resultItem.imgWordText.content)
                 $("#resource_type").html("文字")
-            } else if (resultItem.type == "WORD") {
+            } else if (resultItem.contentType == "WORD") {
+                if (Utils.isNull(resultItem.imgWordText)) {
+                    resultItem.imgWordText = {}
+                }
                 $("#resource_title").html(resultItem.imgWordText.title);
                 $("#content").html("<a target='_blank' href='" + resultItem.imgWordText.content + "'>下载文档</a>")
                 $("#resource_type").html("word文档")
-            } else if (resultItem.type == "BLUEPRINT") {
-                $("#resource_title").html(resultItem.blueprintDetailDTO.blueprintAnswerDTO.title);
+            } else if (resultItem.contentType == "BLUEPRINT") {
+                if (Utils.isNull(resultItem.blueprintDetailDTO)) {
+                    resultItem.blueprintDetailDTO = {}
+                }
+                $("#resource_title").html(resultItem.blueprintDetailDTO.blueprintDTO.title);
                 $("#resource_type").html("图纸以及图纸答案")
-
+                var contentHtml = "<div>";
+                contentHtml += "<span style='color:black'>图纸信息</span><a target='_blank' href='" + resultItem.blueprintDetailDTO.blueprintDTO.url + "'>下载图纸</a><br/>";
+                if (Utils.isNull(resultItem.blueprintAnswerDTOList)) {
+                    resultItem.blueprintAnswerDTOList = new Array();
+                }
+                for (var t = 0; t < resultItem.blueprintDetailDTO.blueprintAnswerDTOList.length; t++) {
+                    var answerDTO = resultItem.blueprintDetailDTO.blueprintAnswerDTOList[t];
+                    contentHtml += "<span style='color:black'>测试点名字:</span>" + answerDTO.pointName + "&nbsp;&nbsp;&nbsp;";
+                    contentHtml += "<span style='color:black'>答案:</span>" + answerDTO.answer + "<span style='color:black'>误差:</span>" + answerDTO.error + "<span style='color:black'>单位:</span>" + answerDTO.unit;
+                    contentHtml += "<br/>";
+                }
+                contentHtml += "</div>";
+                $("#content").html(contentHtml)
             }
         }
 
-        $("#close").click(function () {
+        $(".close").click(function () {
             callParent.closeTab(Utils.getHrefValue("tab_id"))
         })
         var id = Utils.getHrefValue("id");
@@ -90,10 +184,20 @@
         if (Utils.isNotBlack(id)) {
             ajaxget("/api/admin/course/item_info?id=" + id, function (result) {
                 resultItemList = result.result;
+                next();
             });
         }
+        $(".next_page").click(function () {
+            next();
+        })
+        $(".pre_page").click(function () {
+            pre();
+        })
 
         function next() {
+            if (resultItemList.length == 0) {
+                return;
+            }
             var resultItem = resultItemList[index + 1];
             index = index + 1;
             if (resultItem.type == "RESOURCE") {
@@ -101,7 +205,6 @@
             } else {
                 dealQuestion(resultItem)
             }
-
             pageShow();
 
         }
@@ -119,6 +222,8 @@
         }
 
         function pageShow() {
+            $(".pre_page").show();
+            $(".next_page").show();
             if (index <= 0) {
                 $(".pre_page").hide();
             }
@@ -128,58 +233,8 @@
         }
 
 
-        function dealQuestion(resultItem) {
-            $("#resource_id").hide();
-            $("#question_id").show();
-        }
     });
 
-    function updateFile(id, obj, firstImg) {
-        if ($.trim($(obj).val()) != "") {
-            var list = new Array();
-            list.push({name: "name", value: "resource"})
-            updateFileAjax(id, "/api/education/common/update_file", function (result) {
-                if (firstImg == "first_img") {
-                    $("#url_hidden_first").val(result.result);
-                    $("#first_down_id").attr("href", result.result);
-                    $("#first_down_i").show();
-                } else {
-                    $("#url_hidden").val(result.result);
-                    $("#down_id").attr("href", result.result);
-                    $("#down_id").show();
-                }
-
-            }, list);
-        }
-    }
-
-    function updateFileAjax(id, url, backFun, list) {
-        var type = "file";          //后台接收时需要的参数名称，自定义即可
-        //即input的id，用来寻找值
-        var formData = new FormData();
-        formData.append(type, $("#" + id)[0].files[0]);
-        if (Utils.isNotNull(list)) {
-            for (var i = 0; i < list.length; i++) {
-                formData.append(list[i].name, list[i].value);
-            }
-        }//生成一对表单属性
-        $.ajax({
-            type: "POST",           //因为是传输文件，所以必须是post
-            url: url,         //对应的后台处理类的地址
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                if (Utils.isNotNull(backFun)) {
-                    backFun.call(this, data);
-                }
-            }
-        });
-    }
-
-    function addPoint() {
-        $("#iut").append("<input type='text' class='point' ></input>")
-    }
 
 </script>
 </body>

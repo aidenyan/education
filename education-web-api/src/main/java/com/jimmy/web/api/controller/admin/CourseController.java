@@ -78,8 +78,10 @@ public class CourseController extends BaseController {
     @ResponseBody
     @GetMapping("/courseware")
     @ApiOperation("²éÑ¯¿Î¼þ")
-    public Result<List<CoursewareDTO>> list(Long id) {
+    public Result<Page<CoursewareDTO>> list(Long id, Integer pageNo, Integer pageSize) {
+        this.setPage(pageNo, pageSize);
         List<Courseware> coursewareList = coursewareService.listByCourseId(id);
-        return ResultBuilder.ok(CoursewareDTOTransfer.INSTANCE.toCoursewareDTOList(coursewareList));
+        Page<CoursewareDTO> resultList = getPageResult(coursewareList, target -> CoursewareDTOTransfer.INSTANCE.toCoursewareDTOList(target));
+        return ResultBuilder.ok(resultList);
     }
 }

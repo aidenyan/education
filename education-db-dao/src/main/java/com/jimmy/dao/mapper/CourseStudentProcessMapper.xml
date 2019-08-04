@@ -52,6 +52,16 @@
       #{siteId}
     </foreach>
   </select>
+  <select id="listByMachine" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    from t_course_student_process where
+    course_id=#{courseId}
+    and machine_id=#{machineId}
+    and site_id IN
+    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+      #{siteId}
+    </foreach>
+  </select>
   <update id="updateProperty" parameterType="com.jimmy.dao.entity.CourseStudentProcess" >
 
     update t_course_student_process

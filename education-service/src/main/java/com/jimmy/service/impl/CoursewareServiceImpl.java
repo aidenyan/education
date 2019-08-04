@@ -77,7 +77,6 @@ public class CoursewareServiceImpl implements CoursewareService {
     @Override
     public List<CoursewareItem> listByCoursewareId(Long coursewareId, Integer contentType) {
         Assert.notNull(coursewareId);
-        Assert.notNull(contentType);
         return coursewareItemMapper.listByCoursewareId(coursewareId, contentType, SiteLocalThread.getSiteIdList());
     }
 

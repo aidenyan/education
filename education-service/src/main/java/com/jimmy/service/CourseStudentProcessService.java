@@ -40,4 +40,12 @@ public interface CourseStudentProcessService {
      * @return
      */
     List<CourseStudentProcess> list(Long courseId);
+
+    /**
+     * 获取进程
+     *
+     * @param courseId
+     * @return
+     */
+    List<CourseStudentProcess> listByMachine(Long courseId,Long machineId);
 }

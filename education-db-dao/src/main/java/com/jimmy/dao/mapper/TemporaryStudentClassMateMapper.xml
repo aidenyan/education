@@ -31,6 +31,16 @@
             #{siteId}
         </foreach>
     </select>
+    <select id="listByMachine" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_temporary_student_class_mate
+        where temporary_class_id = #{tempClassMateId,jdbcType=BIGINT} AND machine_id=#{machineId}
+        AND site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
     <delete id="deleted" parameterType="java.lang.Long">
         delete from t_temporary_student_class_mate
         where temporary_class_id = #{tempClassMateId,jdbcType=BIGINT}
