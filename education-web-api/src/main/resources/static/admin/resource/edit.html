@@ -78,7 +78,7 @@
             html = ' <input type="hidden" id="url_hidden"><input type="file" class="imgInput" placeholder="  " id="img_update_id"  onchange="updateFile(\'img_update_id\',this)"  accept="image/*"/><a id="down_id" style="display: none" target="_blank">下载</a>' +
                 '\n' +
                 '                        <div style="margin-top: 20px;">\n' +
-                '                            <div id="iut">图纸测量点:<br/><input type="text" class="point" /></div>\n' +
+                '                            <div id="iut">图纸测量点:<br/><input type="text" class="point" /><br/></div>\n' +
                 '                            <button type="button" onclick="addPoint()" class="but">\n' +
                 '                                增加\n' +
                 '                            </button>\n' +
@@ -237,7 +237,7 @@
     }
 
     function addPoint() {
-        $("#iut").append("<input type='text' class='point' ></input>")
+        $("#iut").append("<input type='text' class='point' ></input><br/>>")
     }
 
 </script>

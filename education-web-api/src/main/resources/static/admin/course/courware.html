@@ -57,15 +57,26 @@
             $("#resource_id").show();
             $("#question_id").hide();
             if (resultItem.type == "IMG") {
-                $("#resource_type").val("图片")
+                $("#resource_title").html(resultItem.imgWordText.title);
+                $("#resource_type").html("图片")
+                $("#content").html("<a target='_blank' href='" + resultItem.imgWordText.content + "'>下载图片</a>")
             } else if (resultItem.type == "VIDEO") {
-                $("#resource_type").val("视频")
+                $("#resource_title").html(resultItem.videoDTO.title);
+                $("#resource_type").html("视频")
+                var contentHtml = "<span style='color:black'>视频内容</span><a target='_blank' href='" + resultItem.videoDTO.videoUrl + "'>下载视频</a><br/>";
+                contentHtml += "<span style='color:black'>视频首页</span><a target='_blank' href='" + resultItem.videoDTO.imgUrl + "'>下载首页图片</a><br/>";
+                $("#content").html(contentHtml)
             } else if (resultItem.type == "TEXT") {
-                $("#resource_type").val("文字")
+                $("#resource_title").html('');
+                $("#content").html(resultItem.imgWordText.content)
+                $("#resource_type").html("文字")
             } else if (resultItem.type == "WORD") {
-                $("#resource_type").val("word文档")
+                $("#resource_title").html(resultItem.imgWordText.title);
+                $("#content").html("<a target='_blank' href='" + resultItem.imgWordText.content + "'>下载文档</a>")
+                $("#resource_type").html("word文档")
             } else if (resultItem.type == "BLUEPRINT") {
-                $("#resource_type").val("图纸以及图纸答案")
+                $("#resource_title").html(resultItem.blueprintDetailDTO.blueprintAnswerDTO.title);
+                $("#resource_type").html("图纸以及图纸答案")
             }
         }
 

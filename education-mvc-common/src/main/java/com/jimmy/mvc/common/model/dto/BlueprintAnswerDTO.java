@@ -11,8 +11,8 @@ public class BlueprintAnswerDTO {
     private String title;
     @ApiModelProperty("答案信息")
     private Double answer;
-
-
+    @ApiModelProperty("测试点内容")
+    private String pointName;
     @ApiModelProperty("误差")
     private Double error;
 
