@@ -2,19 +2,14 @@ package com.jimmy.mvc.common.service.impl;
 
 import com.jimmy.core.base.Page;
 import com.jimmy.core.consts.PageConst;
-import com.jimmy.dao.entity.CourseInfo;
-import com.jimmy.dao.entity.StudentInfo;
-import com.jimmy.dao.entity.TemporaryClassMate;
-import com.jimmy.dao.entity.TemporaryStudentClassMate;
+import com.jimmy.dao.entity.*;
 import com.jimmy.mvc.common.model.dto.StudentDetailDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoStarDTO;
+import com.jimmy.mvc.common.model.transfer.CourseStudentProcessRestartDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.StudentInfoStarDTOTransfer;
 import com.jimmy.mvc.common.service.CommonService;
-import com.jimmy.service.CourseInfoService;
-import com.jimmy.service.StudentInfoService;
-import com.jimmy.service.StudentStarInfoService;
-import com.jimmy.service.TemporaryClassMateService;
+import com.jimmy.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -36,6 +31,9 @@ public class CommonServiceImpl implements CommonService {
 
     @Autowired
     private TemporaryClassMateService temporaryClassMateService;
+
+    @Autowired
+    private CourseStudentProcessService courseStudentProcessService;
 
     @Override
     public List<StudentDetailDTO> list(Long courseId) {
@@ -59,6 +57,13 @@ public class CommonServiceImpl implements CommonService {
         if (CollectionUtils.isEmpty(studentInfoList)) {
             return studentDetailDTOList;
         }
+        List<CourseStudentProcess> courseStudentProcessList = courseStudentProcessService.list(courseId);
+        Map<Long, CourseStudentProcess> processIdMap = new HashMap<>();
+        if (!CollectionUtils.isEmpty(courseStudentProcessList)) {
+            courseStudentProcessList.forEach(courseStudentProcess -> {
+                processIdMap.put(courseStudentProcess.getStudentId(), courseStudentProcess);
+            });
+        }
         studentInfoList.forEach(studentInfo -> {
             StudentDetailDTO studentDetailDTO = new StudentDetailDTO();
             TemporaryStudentClassMate temporaryStudentClassMate = studentIdMap.get(studentInfo.getId());
@@ -69,6 +74,7 @@ public class CommonServiceImpl implements CommonService {
             studentDetailDTO.setCourseId(courseId);
             studentDetailDTO.setRegisterCommandId(temporaryStudentClassMate.getRegisterCommandId());
             studentDetailDTO.setCourseName(courseInfo.getName());
+            studentDetailDTO.setProcess(CourseStudentProcessRestartDTOTransfer.INSTANCE.toCourseStudentProcessRestartDTO(processIdMap.get(studentInfo.getId())));
             studentDetailDTOList.add(studentDetailDTO);
         });
         return studentDetailDTOList;
@@ -147,7 +153,7 @@ public class CommonServiceImpl implements CommonService {
         if (CollectionUtils.isEmpty(studentInfoList)) {
             return Collections.EMPTY_LIST;
         }
-        List<StudentInfoStarDTO> studentInfoStarDTOList= StudentInfoStarDTOTransfer.INSTANCE.toStudentInfoStarDTOList(studentInfoList);
+        List<StudentInfoStarDTO> studentInfoStarDTOList = StudentInfoStarDTOTransfer.INSTANCE.toStudentInfoStarDTOList(studentInfoList);
         studentInfoStarDTOList.forEach(studentInfoStarDTO -> studentInfoStarDTO.setStarName(starMap.get(studentInfoStarDTO.getId())));
         return studentInfoStarDTOList;
     }

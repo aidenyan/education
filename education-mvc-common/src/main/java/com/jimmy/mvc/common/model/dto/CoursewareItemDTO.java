@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("课程详细信息")
+@ApiModel("课件的详细内容")
 public class CoursewareItemDTO extends BaseDTO {
 
     /**
@@ -48,7 +48,7 @@ public class CoursewareItemDTO extends BaseDTO {
     private ResoureceStrDTO imgWordText;
     @ApiModelProperty("video信息")
     private VideoDTO videoDTO;
-    @ApiModelProperty("图纸的详细信息")
+    @ApiModelProperty("图纸详细信息")
     private BlueprintDetailDTO blueprintDetailDTO;
     @ApiModelProperty("问题的详细")
     private QuestionDTO questionDTO;

@@ -8,8 +8,8 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@ApiModel("课程信息信息")
-public class CourseStudentProcessDTO extends BaseEntity {
+@ApiModel("重启进程信息")
+public class CourseStudentProcessRestartDTO extends BaseEntity {
 
     @ApiModelProperty("课程ID")
     private Long courseId;
@@ -29,10 +29,6 @@ public class CourseStudentProcessDTO extends BaseEntity {
     private Integer stepNum;
     @ApiModelProperty("是否结束")
     private Boolean isEnd;
-
-    private StudentInfoDTO studentInfoDTO;
-
-    private CourseInfoDTO courseInfoDTO;
 
 
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@ApiModel("åŸºæœ¬ä¿¡æ¯")
+@ApiModel("»ù±¾ĞÅÏ¢")
 public class BaseDTO {
     /**
      * ID
@@ -15,28 +15,28 @@ public class BaseDTO {
     @ApiModelProperty("ID")
     private Long id;
     /**
-     * åˆ›å»ºæ—¶é—´
+     * ´´½¨Ê±¼ä
      */
-    @ApiModelProperty("åˆ›å»ºæ—¶é—´")
+    @ApiModelProperty("´´½¨Ê±¼ä")
     private Date createTime;
     /**
-     * ä¿®æ”¹æ—¶é—´
+     * ĞŞ¸ÄÊ±¼ä
      */
-    @ApiModelProperty("ä¿®æ”¹æ—¶é—´")
+    @ApiModelProperty("ĞŞ¸ÄÊ±¼ä")
     private Date modifyTime;
     /**
-     * åˆ›å»ºäºº
+     * ´´½¨ÈË
      */
-    @ApiModelProperty("åˆ›å»ºäºº")
+    @ApiModelProperty("´´½¨ÈË")
     private Long createId;
     /**
-     * ä¿®æ”¹äºº
+     * ĞŞ¸ÄÈË
      */
-    @ApiModelProperty("ä¿®æ”¹äºº")
+    @ApiModelProperty("ĞŞ¸ÄÈË")
     private Long modifyId;
     /**
-     * ç«™ç‚¹
+     * Õ¾µã
      */
-    @ApiModelProperty("ç«™ç‚¹")
+    @ApiModelProperty("Õ¾µã")
     private Long siteId;
 }
