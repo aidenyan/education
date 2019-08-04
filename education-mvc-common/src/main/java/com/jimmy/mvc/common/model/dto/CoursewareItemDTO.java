@@ -1,6 +1,7 @@
 package com.jimmy.mvc.common.model.dto;
 
 import com.alibaba.fastjson.JSON;
+import com.jimmy.common.utils.StringUtils;
 import com.jimmy.mvc.common.model.enums.ContentTypeEnum;
 import com.jimmy.mvc.common.model.enums.CoursewareItemTypeEnum;
 import io.swagger.annotations.ApiModel;
@@ -44,7 +45,7 @@ public class CoursewareItemDTO extends BaseDTO {
     private Long coursewareId;
 
     @ApiModelProperty("图片word文档以及文本")
-    private String imgWordText;
+    private ResoureceStrDTO imgWordText;
     @ApiModelProperty("video信息")
     private VideoDTO videoDTO;
     @ApiModelProperty("图纸的详细信息")
@@ -92,21 +93,31 @@ public class CoursewareItemDTO extends BaseDTO {
 
     }
 
-    public String getImgWordText() {
+    public ResoureceStrDTO getImgWordText() {
         if (ContentTypeEnum.TEXT == contentType || ContentTypeEnum.IMG == contentType || ContentTypeEnum.WORD == contentType) {
-            imgWordText = content;
+            imgWordText = JSON.parseObject(content, ResoureceStrDTO.class);
+
         }
         return imgWordText;
 
     }
 
-    public void setImgWordText(String imgWordText) {
+    public void setImgWordText(ResoureceStrDTO imgWordText) {
         if (ContentTypeEnum.TEXT == contentType || ContentTypeEnum.IMG == contentType || ContentTypeEnum.WORD == contentType) {
-            content = imgWordText;
+            content = JSON.toJSONString(imgWordText);
         }
     }
 
     public void setContent(String content) {
 
     }
+
+    public <T> T convert(Class<T> tClass) {
+        if (StringUtils.isBlank(content)) {
+            return null;
+        }
+
+        return JSON.parseObject(content, tClass);
+    }
+
 }

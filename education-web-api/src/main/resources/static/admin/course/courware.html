@@ -18,30 +18,20 @@
     <div class="top">
         <div class="top_w">
             <div class="blue"></div>
-            <span class="sp_text">资源信息编辑</span>
+            <span class="sp_text">课件信息</span>
         </div>
     </div>
-    <form id="form_id">
+    <form id="resource_id" style="display: none">
         <table cellpadding="10">
             <tr>
-                <th width="160" class="Ri"><span>*</span>标题:</th>
-                <th width="80" class="Le">
-                    <input type="text" id="title" required maxlength="30"/>
+                <th width="160" class="Ri">标题:</th>
+                <th width="80" class="Le" id="resource_title">
+
                 </th>
             </tr>
             <tr>
-                <th width="160" class="Ri"><span>*</span>资源类型:</th>
-                <th width="80" class="Le">
-                    <select name="type" id="type_select" style="width: 80px;height: 23px; position: relative; top:0px ;"
-                            onChange="selectType(this.value)">
-                        <option value="IMG">图片</option>
-                        <option value="VIDEO">视频</option>
-                        <option value="TEXT">文字</option>
-                        <option value="BLUEPRINT">图纸</option>
-                        <option value="BLUEPRINT_ANSWER">图纸答案</option>
-                        <option value="WORD">word文档</option>
-
-                    </select>
+                <th width="160" class="Ri">资源类型:</th>
+                <th width="80" class="Le" id="resource_type">
                 </th>
             </tr>
             <tr>
@@ -50,159 +40,98 @@
                 </th>
             </tr>
             <tr>
-                <th colspan="1" style="text-align: right;">
-                    <button id="submit" type="submit">提交</button>
-                </th>
                 <th colspan="1" style="text-align: left;">
+                    <button type="button" class="next_page">下一页</button>
+                    <button type="button" class="pre_page">上一页</button>
                     <button type="button" id="close">关闭</button>
                 </th>
-
             </tr>
         </table>
     </form>
 </div>
 <script language="javascript" type="text/javascript">
-    function selectType(typeValue) {
-        var html;
-        if (typeValue == "IMG") {
-            html = '<input type="hidden" id="url_hidden"><input type="file" class="imgInput1" onchange="updateFile(\'img_update_id\',this)" id="img_update_id" placeholder="  " accept="image/*"/><a id="down_id" style="display: none" target="_blank">下载</a>'
-        } else if (typeValue == "VIDEO") {
-            html="<div>";
-            html+= ' <span style="color:black">视频内容</span><input type="hidden" id="url_hidden"> <input type="file" class="imgInput2" placeholder="  "   id="img_update_id" onchange="updateFile(\'img_update_id\',this)" accept="video/*" /><a id="down_id" style="display: none" target="_blank">下载</a><br/>'
-            html += '<span style="color:black">视频首页</span><input type="hidden" id="url_hidden_first"><input type="file" class="imgInput1" onchange="updateFile(\'img_first_update_id\',this,\'first_img\')" id="img_first_update_id" placeholder="  " accept="image/*"/><a id="first_down_id" style="display: none" target="_blank">下载</a>'
 
-            html+="</div>"
-        } else if (typeValue == "TEXT") {
-            html = '  <input type="text" id="content_id" placeholder="请输入内容" />';
-        } else if (typeValue == "BLUEPRINT") {
-            html = ' <input type="hidden" id="url_hidden"><input type="file" class="imgInput" placeholder="  " id="img_update_id"  onchange="updateFile(\'img_update_id\',this)"  accept="image/*"/><a id="down_id" style="display: none" target="_blank">下载</a>' +
-                '\n' +
-                '                        <div style="margin-top: 20px;">\n' +
-                '                            <div id="iut">图纸测量点:<br/><input type="text" class="point" /></div>\n' +
-                '                            <button type="button" onclick="addPoint()" class="but">\n' +
-                '                                增加\n' +
-                '                            </button>\n' +
-                '                        </div>'
-        } else if(typeValue=="BLUEPRINT_ANSWER") {
-            html = '<div>长度:<input type="text" id="answer_length"/></div>\n' +
-                '  <div>误差:<input type="text" id="answer_error" /></div>\n' +
-                ' <div>单位:<input type="text" id="answer_unit" /></div>';
-        }else{
-            html = '<input type="hidden" id="url_hidden"><input type="file" class="imgInput1" onchange="updateFile(\'img_update_id\',this)" id="img_update_id" placeholder="  " accept="*/msword"/><a id="down_id" style="display: none" target="_blank">下载</a>'
 
-        }
-        $("#content").html(html);
-    }
-
-    selectType("IMG");
     $(function () {
-
-        $("#form_id").submit(function () {
-            var resourceObj={};
-            resourceObj.title=$("#title").val();
-            resourceObj.type=$("#type_select").val();
-           var typeValue=$("#type_select").val();
-            if (typeValue == "IMG"||typeValue =="WORD"){
-                resourceObj.content=  $("#url_hidden").val()
-            }else if(typeValue == "VIDEO") {
-                var jsonObj={videoUrl:$("#url_hidden").val(),imgUrl:$("#url_hidden_first").val()}
-                resourceObj.content= JSON.stringify(jsonObj);
-            } else if (typeValue == "TEXT") {
-                resourceObj.content=$("#content_id").val();
-            } else if (typeValue == "BLUEPRINT") {
-               var  jsonObj={url:  $("#url_hidden").val()};
-                var pointList=new Array();
-                $(".point").each(function(){
-                    pointList.push($(this).val());
-                })
-                jsonObj.pointList=pointList;
-                resourceObj.content=JSON.stringify(jsonObj);
-            }else{
-                var  jsonObj={answer:  $("#answer_length").val(),
-                    error:$("#answer_error").val(),
-                    unit:$("#answer_unit").val()
-                };
-                resourceObj.content=JSON.stringify(jsonObj);
+        function dealResource(resultItem) {
+            $("#resource_id").show();
+            $("#question_id").hide();
+            if (resultItem.type == "IMG") {
+                $("#resource_type").val("图片")
+            } else if (resultItem.type == "VIDEO") {
+                $("#resource_type").val("视频")
+            } else if (resultItem.type == "TEXT") {
+                $("#resource_type").val("文字")
+            } else if (resultItem.type == "WORD") {
+                $("#resource_type").val("word文档")
+            } else if (resultItem.type == "BLUEPRINT") {
+                $("#resource_type").val("图纸以及图纸答案")
             }
-            if (Utils.isNotBlack(id)) {
-                resourceObj.id=id;
-            }
-            ajaxsend(resourceObj, "/api/admin/resource/save", function (result) {
-                if (Utils.isNotNull(Utils.getHrefValue("id"))) {
-                    alert("更新资源信息成功")
-                } else {
-                    alert("保存资源信息成功")
-                }
-                callParent.closeTab(Utils.getHrefValue("tab_id"))
-            }, "post")
-            return false;
-        })
-
+        }
 
         $("#close").click(function () {
             callParent.closeTab(Utils.getHrefValue("tab_id"))
         })
         var id = Utils.getHrefValue("id");
+        var resultItemList = new Array();
+        var index = -1;
         if (Utils.isNotBlack(id)) {
-            ajaxget("/api/admin/resource/info?id=" + id, function (result) {
-                var resourceObj = result.result;
-                $("#title").val(resourceObj.title)
-                selectType(resourceObj.type);
-                $("#type_select").val(resourceObj.type);
-                if (Utils.getHrefValue("isRead") == "true") {
-                    isRead("form_id")
-                    $("#submit").hide();
-                }
-                var typeValue = resourceObj.type;
-                if (typeValue == "IMG" ||typeValue =="WORD"){
-                    $("#url_hidden").val(resourceObj.content)
-                    $("#down_id").attr("href", resourceObj.content);
-                    $("#down_id").show();
-
-                }else if( typeValue == "VIDEO") {
-                    var jsonObj = JSON.parse(resourceObj.content);
-                    $("#url_hidden").val(jsonObj.videoUrl)
-                    $("#down_id").attr("href", jsonObj.videoUrl);
-                    $("#down_id").show();
-                    $("#url_hidden_first").val(jsonObj.imgUrl)
-                    $("#first_down_id").attr("href", jsonObj.imgUrl);
-                    $("#first_down_id").show();
-                } else if (typeValue == "TEXT") {
-                    $("#content_id").val(resourceObj.content);
-                } else if (typeValue == "BLUEPRINT") {
-                    var jsonObj = JSON.parse(resourceObj.content);
-                    $("#url_hidden").val(jsonObj.url)
-                    $("#down_id").attr("href", jsonObj.url);
-                    $("#down_id").show();
-                    var pointList=jsonObj.pointList;
-                    if(Utils.isNotNull(pointList)){
-                        for(var k=0;k<pointList.length;k++){
-                            if(k>0){
-                                addPoint();
-                            }
-                            $(".point:eq("+k+")").val(pointList[k]);
-                        }
-                    }
-                }else{
-                    var jsonObj = JSON.parse(resourceObj.content);
-                    $("#answer_length").val(jsonObj.answer);
-                    $("#answer_error").val(jsonObj.error)
-                    $("#answer_unit").val(jsonObj.unit)
-                }
+            ajaxget("/api/admin/course/item_info?id=" + id, function (result) {
+                resultItemList = result.result;
             });
+        }
+
+        function next() {
+            var resultItem = resultItemList[index + 1];
+            index = index + 1;
+            if (resultItem.type == "RESOURCE") {
+                dealResource(resultItem)
+            } else {
+                dealQuestion(resultItem)
+            }
+
+            pageShow();
+
+        }
+
+        function pre() {
+            var resultItem = resultItemList[index - 1];
+            index = index - 1;
+            if (resultItem.type == "RESOURCE") {
+                dealResource(resultItem)
+            } else {
+                dealQuestion(resultItem)
+            }
+
+            pageShow();
+        }
+
+        function pageShow() {
+            if (index <= 0) {
+                $(".pre_page").hide();
+            }
+            if (index + 1 >= resultItemList.length) {
+                $(".next_page").hide();
+            }
+        }
+
+
+        function dealQuestion(resultItem) {
+            $("#resource_id").hide();
+            $("#question_id").show();
         }
     });
 
-    function updateFile(id, obj,firstImg) {
+    function updateFile(id, obj, firstImg) {
         if ($.trim($(obj).val()) != "") {
             var list = new Array();
             list.push({name: "name", value: "resource"})
             updateFileAjax(id, "/api/education/common/update_file", function (result) {
-                if(firstImg=="first_img"){
+                if (firstImg == "first_img") {
                     $("#url_hidden_first").val(result.result);
                     $("#first_down_id").attr("href", result.result);
                     $("#first_down_i").show();
-                }else{
+                } else {
                     $("#url_hidden").val(result.result);
                     $("#down_id").attr("href", result.result);
                     $("#down_id").show();

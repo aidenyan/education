@@ -9,7 +9,8 @@ import java.util.List;
 @Data
 @Api("图纸信息")
 public class BlueprintDTO {
-
+    @ApiModelProperty("图纸的标题")
+    private String title;
     @ApiModelProperty("图纸的URL")
     private String url;
     @ApiModelProperty("测试点")

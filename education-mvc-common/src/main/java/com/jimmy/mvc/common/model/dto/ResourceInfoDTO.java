@@ -27,7 +27,7 @@ public class ResourceInfoDTO extends BaseDTO {
     private String title;
 
     @ApiModelProperty("图片word文档以及文本")
-    private String imgWordText;
+    private ResoureceStrDTO imgWordText;
     @ApiModelProperty("video信息")
     private VideoDTO videoDTO;
     @ApiModelProperty("图纸信息")
@@ -38,12 +38,14 @@ public class ResourceInfoDTO extends BaseDTO {
     public BlueprintDTO getBlueprintDTO() {
         if (ResourceTypeEnum.BLUEPRINT == type) {
             blueprintDTO = JSON.parseObject(content, BlueprintDTO.class);
+            blueprintDTO.setTitle(title);
         }
         return blueprintDTO;
     }
 
     public void setBlueprintDTO(BlueprintDTO blueprintDTO) {
         if (ResourceTypeEnum.BLUEPRINT == type) {
+            blueprintDTO.setTitle(null);
             content = JSON.toJSONString(blueprintDTO);
         }
     }
@@ -51,12 +53,14 @@ public class ResourceInfoDTO extends BaseDTO {
     public BlueprintAnswerDTO getBlueprintAnswerDTO() {
         if (ResourceTypeEnum.BLUEPRINT_ANSWER == type) {
             blueprintAnswerDTO = JSON.parseObject(content, BlueprintAnswerDTO.class);
+            blueprintAnswerDTO.setTitle(title);
         }
         return blueprintAnswerDTO;
     }
 
     public void setBlueprintAnswerDTO(BlueprintAnswerDTO blueprintAnswerDTO) {
         if (ResourceTypeEnum.BLUEPRINT_ANSWER == type) {
+            blueprintAnswerDTO.setTitle(null);
             content = JSON.toJSONString(blueprintAnswerDTO);
         }
     }
@@ -64,28 +68,32 @@ public class ResourceInfoDTO extends BaseDTO {
     public VideoDTO getVideoDTO() {
         if (ResourceTypeEnum.VIDEO == type) {
             videoDTO = JSON.parseObject(content, VideoDTO.class);
+            videoDTO.setTitle(title);
         }
         return videoDTO;
     }
 
     public void setVideoDTO(VideoDTO videoDTO) {
         if (ResourceTypeEnum.VIDEO == type) {
+            videoDTO.setTitle(null);
             content = JSON.toJSONString(videoDTO);
         }
 
     }
 
-    public String getImgWordText() {
+    public ResoureceStrDTO getImgWordText() {
         if (ResourceTypeEnum.TEXT == type || ResourceTypeEnum.IMG == type || ResourceTypeEnum.WORD == type) {
-            imgWordText = content;
+            imgWordText = new ResoureceStrDTO();
+            imgWordText.setContent(content);
+            imgWordText.setTitle(title);
         }
         return imgWordText;
 
     }
 
-    public void setImgWordText(String imgWordText) {
+    public void setImgWordText(ResoureceStrDTO imgWordText) {
         if (ResourceTypeEnum.TEXT == type || ResourceTypeEnum.IMG == type || ResourceTypeEnum.WORD == type) {
-            content = imgWordText;
+            content = imgWordText.getContent();
         }
     }
 

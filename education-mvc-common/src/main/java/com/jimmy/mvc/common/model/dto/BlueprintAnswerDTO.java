@@ -7,7 +7,8 @@ import lombok.Data;
 @Data
 @Api("图纸回答信息")
 public class BlueprintAnswerDTO {
-
+    @ApiModelProperty("答案标题")
+    private String title;
     @ApiModelProperty("答案信息")
     private Double answer;
 

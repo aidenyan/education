@@ -11,5 +11,7 @@ public class VideoDTO {
     private String videoUrl;
     @ApiModelProperty("首页图片URl")
     private String imgUrl;
+    @ApiModelProperty("视频的标题")
+    private String title;
 
 }

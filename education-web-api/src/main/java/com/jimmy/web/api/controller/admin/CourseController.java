@@ -2,18 +2,28 @@ package com.jimmy.web.api.controller.admin;
 
 import com.jimmy.core.base.Page;
 import com.jimmy.dao.entity.CourseInfo;
+import com.jimmy.dao.entity.Courseware;
+import com.jimmy.dao.entity.CoursewareItem;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.model.dto.CourseInfoDTO;
+import com.jimmy.mvc.common.model.dto.CoursewareDTO;
+import com.jimmy.mvc.common.model.dto.CoursewareItemDTO;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
+import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransfer;
+import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
 import com.jimmy.service.CourseInfoService;
+import com.jimmy.service.CoursewareService;
 import com.jimmy.web.api.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -29,6 +39,8 @@ import java.util.List;
 public class CourseController extends BaseController {
     @Autowired
     private CourseInfoService courseInfoService;
+    @Autowired
+    private CoursewareService coursewareService;
 
     @ResponseBody
     @GetMapping("/page")
@@ -55,4 +67,19 @@ public class CourseController extends BaseController {
         return ResultBuilder.ok(CourseInfoDTOTransfer.INSTANCE.toCourseInfoDTO(courseInfoService.findById(id)));
     }
 
+    @ResponseBody
+    @GetMapping("/item_info")
+    @ApiOperation("查询课件的详细信息")
+    public Result<List<CoursewareItemDTO>> itemInfo(Long id) {
+        List<CoursewareItem> coursewareItemsList = coursewareService.listByCoursewareId(id, null);
+        return ResultBuilder.ok(CoursewareItemDTOTransfer.INSTANCE.toCoursewareItemDTOList(coursewareItemsList));
+    }
+
+    @ResponseBody
+    @GetMapping("/courseware")
+    @ApiOperation("查询课件")
+    public Result<List<CoursewareDTO>> list(Long id) {
+        List<Courseware> coursewareList = coursewareService.listByCourseId(id);
+        return ResultBuilder.ok(CoursewareDTOTransfer.INSTANCE.toCoursewareDTOList(coursewareList));
+    }
 }
