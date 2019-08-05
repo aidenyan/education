@@ -76,7 +76,7 @@ public class CoursewareController {
         }
         List<CoursewareDetailVO> coursewareDetailVOList = coursewareService.list(courseId);
         if (CollectionUtils.isEmpty(coursewareDetailVOList)) {
-            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
+            return ResultBuilder.ok(null);
         }
         List<CoursewareDetailDTO> coursewareDetailDTOList = new ArrayList<>();
         coursewareDetailVOList.forEach(coursewareDetailVO -> {
