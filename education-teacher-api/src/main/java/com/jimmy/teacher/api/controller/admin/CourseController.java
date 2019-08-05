@@ -66,7 +66,7 @@ public class CourseController extends BaseController {
 
         });
 
-        return ResultBuilder.error(ResultCodeEnum.OK, coursewareDetailDTOList);
+        return ResultBuilder.ok(coursewareDetailDTOList);
     }
 
     @ApiOperation("获得最新的课程")
