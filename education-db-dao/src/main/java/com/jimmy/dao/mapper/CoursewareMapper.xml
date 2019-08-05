@@ -30,18 +30,7 @@
         </foreach>
     </select>
 
-    <select id="list" resultMap="BaseResultMap">
-        select
-        courseware.id,courseware.level_num, courseware.name, courseware.is_used, courseware.create_id,
-        courseware.modify_id,
-        courseware.create_time, courseware.modify_time, courseware.site_id, courseware.description
-        from t_courseware courseware
-        join t_course_link cl on courseware.id=cl.courseware_id and cl.course_id=#{courseId}
-        where courseware.site_id IN
-        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
-            #{siteId}
-        </foreach>
-    </select>
+
     <select id="count" resultType="java.lang.Integer">
         select
         count(courseware.id)
