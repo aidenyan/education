@@ -50,6 +50,13 @@ public interface CourseStudentService {
      * 查找机床等路的信息
      */
     CourseStudent find(Long courseStudentId);
+
+    /**
+     * 更新课程ID
+     * @param id
+     * @param coursewareId
+     */
+    void updateCoursewareId(Long id,Long coursewareId);
     /**
      * 学生结束课程
      */

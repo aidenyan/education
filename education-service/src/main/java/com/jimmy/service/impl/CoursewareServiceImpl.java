@@ -68,6 +68,12 @@ public class CoursewareServiceImpl implements CoursewareService {
     }
 
     @Override
+    public int count(Long courseId) {
+        Assert.notNull(courseId);
+        return coursewareMapper.count(courseId,SiteLocalThread.getSiteIdList());
+    }
+
+    @Override
     public List<Courseware> listByCourseId(Long courseId) {
         Assert.notNull(courseId);
         List<Courseware> coursewareList = coursewareMapper.list(courseId, SiteLocalThread.getSiteIdList());

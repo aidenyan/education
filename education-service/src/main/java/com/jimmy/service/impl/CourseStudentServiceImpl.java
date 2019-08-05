@@ -96,6 +96,19 @@ public class CourseStudentServiceImpl implements CourseStudentService {
     }
 
     @Override
+    public void updateCoursewareId(Long id, Long coursewareId) {
+        Assert.notNull(id);
+        Assert.notNull(coursewareId);
+        CourseStudent courseStudent = new CourseStudent();
+        courseStudent.setModifyId(LoginLocalThread.get());
+        courseStudent.setCreateId(LoginLocalThread.get());
+        courseStudent.setSiteId(SiteLocalThread.getSiteId());
+        courseStudent.setId(id);
+        courseStudent.setCoursewareId(coursewareId);
+        courseStudentMapper.updateProperty(courseStudent);
+    }
+
+    @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateCourseStudentStatus(Long courseId, Long machinaId, Integer status) {
         Assert.notNull(courseId);

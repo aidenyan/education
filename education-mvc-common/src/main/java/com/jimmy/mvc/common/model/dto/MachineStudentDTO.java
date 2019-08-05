@@ -23,12 +23,6 @@ public class MachineStudentDTO {
     @ApiModelProperty("机器ID")
     private Long machineId;
     /**
-     * 课件ID
-     */
-    @NotNull(message = "课件ID不能为空")
-    @ApiModelProperty("课件ID")
-    private Long courewareId;
-    /**
      * 学生列表
      */
     @NotNull(message = "学生列表不能为空")

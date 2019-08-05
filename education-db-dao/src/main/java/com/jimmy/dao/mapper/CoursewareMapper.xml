@@ -11,15 +11,40 @@
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
         <result column="site_id" property="siteId" jdbcType="BIGINT"/>
         <result column="description" property="description" jdbcType="LONGVARCHAR"/>
+        <result column="level_num" property="levelNum"></result>
     </resultMap>
 
     <sql id="Base_Column_List">
-    id, name, is_used, create_id, modify_id, create_time, modify_time, site_id,description
+    id, name, is_used, create_id, modify_id, level_num,create_time, modify_time, site_id,description
   </sql>
     <select id="list" resultMap="BaseResultMap">
         select
-        courseware.id, courseware.name, courseware.is_used, courseware.create_id, courseware.modify_id,
+        courseware.id,courseware.level_num, courseware.name, courseware.is_used, courseware.create_id,
+        courseware.modify_id,
         courseware.create_time, courseware.modify_time, courseware.site_id, courseware.description
+        from t_courseware courseware
+        join t_course_link cl on courseware.id=cl.courseware_id and cl.course_id=#{courseId}
+        where courseware.site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        select
+        courseware.id,courseware.level_num, courseware.name, courseware.is_used, courseware.create_id,
+        courseware.modify_id,
+        courseware.create_time, courseware.modify_time, courseware.site_id, courseware.description
+        from t_courseware courseware
+        join t_course_link cl on courseware.id=cl.courseware_id and cl.course_id=#{courseId}
+        where courseware.site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select
+        count(courseware.id)
         from t_courseware courseware
         join t_course_link cl on courseware.id=cl.courseware_id and cl.course_id=#{courseId}
         where courseware.site_id IN
@@ -29,7 +54,7 @@
     </select>
     <select id="find" resultMap="BaseResultMap">
         select
-         <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List"/>
         from t_courseware courseware
         where id=#{coursewareId}
         and site_id IN
@@ -37,12 +62,12 @@
             #{siteId}
         </foreach>
     </select>
-    <insert id="insert" parameterType="com.jimmy.dao.entity.Courseware"  keyProperty="id" useGeneratedKeys="true">
-    insert into t_courseware ( name, is_used,
+    <insert id="insert" parameterType="com.jimmy.dao.entity.Courseware" keyProperty="id" useGeneratedKeys="true">
+    insert into t_courseware (level_num, name, is_used,
       create_id, modify_id, create_time,
       modify_time, site_id, description
       )
-    values ( #{name,jdbcType=VARCHAR}, #{isUsed,jdbcType=TINYINT},
+    values ( #{levelNum},{name,jdbcType=VARCHAR}, #{isUsed,jdbcType=TINYINT},
       #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT},now(),now(),  #{siteId,jdbcType=BIGINT}, #{description,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -50,6 +75,9 @@
     <update id="updateProperty" parameterType="com.jimmy.dao.entity.Courseware">
         update t_courseware
         <set>
+            <if test="levelNum != null">
+                level_num = #{levelNum},
+            </if>
             <if test="name != null">
                 name = #{name,jdbcType=VARCHAR},
             </if>

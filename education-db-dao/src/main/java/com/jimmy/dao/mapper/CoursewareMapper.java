@@ -15,5 +15,7 @@ public interface CoursewareMapper {
 
     int updateProperty(Courseware record);
 
+    int count(@Param("courseId") Long courseId, @Param("siteIdList") List<Long> siteIdList);
+
     Courseware find(@Param("coursewareId") Long coursewareId, @Param("siteIdList") List<Long> siteIdList);
 }

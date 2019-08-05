@@ -16,6 +16,10 @@ public class Courseware extends BaseEntity {
      * 课件的描述
      */
     private String description;
+    /**
+     * 课件等级
+     */
+    private Integer levelNum;
 
 
 }

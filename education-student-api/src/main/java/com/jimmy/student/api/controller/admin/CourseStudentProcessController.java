@@ -49,6 +49,9 @@ public class CourseStudentProcessController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Void> update(@Validated @RequestBody CourseProcessDTO courseProcessDTO) {
         CourseStudent courseStudent = CourseStudentLocalThread.get();
+        if (courseStudent.getCoursewareId() == null) {
+            return ResultBuilder.error(ResultCodeEnum.COURSEWARE_NOT_SELECT);
+        }
         List<CourseStudent> courseStudentList = courseStudentService.list(courseStudent.getCourseId(), courseStudent.getMachineId());
         if (CollectionUtils.isEmpty(courseStudentList)) {
             return ResultBuilder.error(ResultCodeEnum.MACHINE_STUDENT_NOT_EXIST);

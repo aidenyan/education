@@ -1,5 +1,6 @@
 package com.jimmy.mvc.common.model.dto;
 
+import com.jimmy.mvc.common.model.enums.LevelTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -22,6 +23,12 @@ public class CoursewareDTO extends BaseDTO {
      */
     @ApiModelProperty("课件的描述")
     private String description;
+
+    /**
+     * 课件等级
+     */
+    @ApiModelProperty("课件等级")
+    private LevelTypeEnum levelNum;
 
 
 }

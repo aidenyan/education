@@ -15,10 +15,7 @@ import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
 import com.jimmy.mvc.common.model.dto.TempClassmateSaveDTO;
 import com.jimmy.mvc.common.model.enums.CourseStatusEnum;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
-import com.jimmy.service.ClassMateService;
-import com.jimmy.service.CourseStudentService;
-import com.jimmy.service.StudentInfoService;
-import com.jimmy.service.TemporaryClassMateService;
+import com.jimmy.service.*;
 import com.jimmy.teacher.api.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -52,6 +49,9 @@ public class ClassMateController extends BaseController {
 
     @Autowired
     private StudentInfoService studentInfoService;
+
+    @Autowired
+    private CoursewareService coursewareService;
 
     @Autowired
     private CourseStudentService courseStudentService;
@@ -110,7 +110,7 @@ public class ClassMateController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<StudentInfoDTO>> list(@PathVariable("courseId") Long courseId) {
         List<StudentInfo> studentInfoList = temporaryClassMateService.findStudentId(courseId);
-        return ResultBuilder.error(ResultCodeEnum.OK, StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
+        return ResultBuilder.ok(StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
     }
 
     @ApiOperation("分配学生和机器信息")
@@ -121,6 +121,10 @@ public class ClassMateController extends BaseController {
 
         List<CourseStudent> courseStudentList = new ArrayList<>();
         CourseStudent courseStudent;
+        int count = coursewareService.count(assignMachineDTO.getCourseId());
+        if (count <= 0) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_WARE_NOT_EXIST);
+        }
         for (MachineStudentDTO machineStudentDTO : assignMachineDTO.getMachineStudentsList()) {
             for (Long studentId : machineStudentDTO.getStudentIdList()) {
                 courseStudent = new CourseStudent();
@@ -128,7 +132,6 @@ public class ClassMateController extends BaseController {
                 courseStudent.setStudentId(studentId);
                 courseStudent.setStatus(CourseStatusEnum.ASSIGN.getValue());
                 courseStudent.setMachineId(machineStudentDTO.getMachineId());
-                courseStudent.setCoursewareId(machineStudentDTO.getCourewareId());
                 courseStudentList.add(courseStudent);
             }
         }
@@ -147,6 +150,10 @@ public class ClassMateController extends BaseController {
         if (machineStudent == null || CollectionUtils.isEmpty(machineStudent.getStudentIdList())) {
             return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
         }
+        int count = coursewareService.count(courseId);
+        if (count <= 0) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_WARE_NOT_EXIST);
+        }
         CourseStudent courseStudent;
         List<CourseStudent> courseStudentList = new ArrayList<>();
         for (Long studentId : machineStudent.getStudentIdList()) {
@@ -155,7 +162,6 @@ public class ClassMateController extends BaseController {
             courseStudent.setStudentId(studentId);
             courseStudent.setMachineId(machineStudent.getMachineId());
             courseStudent.setStatus(CourseStatusEnum.ASSIGN.getValue());
-            courseStudent.setCoursewareId(machineStudent.getCourewareId());
             courseStudentList.add(courseStudent);
         }
 
