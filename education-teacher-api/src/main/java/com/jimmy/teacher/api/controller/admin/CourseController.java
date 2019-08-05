@@ -55,7 +55,7 @@ public class CourseController extends BaseController {
     public Result<List<CoursewareDetailDTO>> info(@PathVariable("courseId") Long courseId) {
         List<CoursewareDetailVO> coursewareDetailVOList = coursewareService.list(courseId);
         if (CollectionUtils.isEmpty(coursewareDetailVOList)) {
-            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
+            return ResultBuilder.error(ResultCodeEnum.COURSE_WARE_NOT_EXIST);
         }
         List<CoursewareDetailDTO> coursewareDetailDTOList = new ArrayList<>();
         coursewareDetailVOList.forEach(coursewareDetailVO -> {

@@ -12,7 +12,7 @@ public enum ResultCodeEnum implements ResultEnum {
     PASSWORD_ERROR("-10002","密码错误","密码错误"),
     ROOM_NOT_EXIST("-10003","教室不成在","教室不成在"),
     COURSE_NOT_EXIST("-10017","该教室没有课程","该教室没有课程"),
-    STUDNE_ANSWER_NOT_EXIST("-10018","学生还没有回答","该教室没有课程"),
+    STUDNE_ANSWER_NOT_EXIST("-10018","学生还没有回答","学生还没有回答"),
     MACHINE_STUDENT_NOT_EXIST("-10006","该机床上没有学生","该机床上没有学生"),
     APPRIASE_ALREADY_EXIST("-10007","该机床已经评价过了","该机床已经评价过了"),
     COURSE_NOT_START("-10008","还没有开始上课","还没有开始上课"),
@@ -27,7 +27,7 @@ public enum ResultCodeEnum implements ResultEnum {
 
     CLASSMATE_IS_USING("-10015","班级已经被使用","班级已经被使用"),
     STUDENT_NOT_EXIST("-10016","还没有选择上课的学生","还没有选择上课的学生"),
-
+    COURSE_WARE_NOT_EXIST("-10019","该课程没有课件","该课程没有课件"),
     ;
     private String code;
     private String message;
