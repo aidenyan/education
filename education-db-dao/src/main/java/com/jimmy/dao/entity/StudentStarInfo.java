@@ -10,4 +10,6 @@ public class StudentStarInfo extends BaseEntity {
 
     private Long studentId;
 
+    private String name;
+
 }

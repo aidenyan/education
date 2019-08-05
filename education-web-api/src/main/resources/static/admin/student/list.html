@@ -52,6 +52,9 @@
                                 <div class="datagrid-cell datagrid-cell-c1-w100">email</div>
                             </td>
                             <td>
+                                <div class="datagrid-cell datagrid-cell-c1-w100">本周之星名字</div>
+                            </td>
+                            <td>
                                 <div class="datagrid-cell datagrid-cell-c1-w100">是否可用</div>
                             </td>
                             <td>
@@ -98,6 +101,10 @@
             <div class="datagrid-cell datagrid-cell-c1-w100">{{item.email}}</div>
         </td>
         <td>
+            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.starName==null){ }} {{#
+                }else{ }}{{item.starName}}{{# } }}</div>
+        </td>
+        <td>
             <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.isEnabled==null||!item.isEnabled){ }}否 {{#
                 }else{ }}是{{# } }}
             </div>
@@ -109,7 +116,10 @@
             <div class="datagrid-cell datagrid-cell-c1-w200">
                 <button class="view" value="{{item.id}}" title="查看"><i class="icon-uniE602"></i></button>
                 <button class="edit" value="{{item.id}}" title="编辑"><i class="icon-bianji"></i></button>
-                <button class="delete" value="{{item.id}}" name="{{item.name}}" title="删除"><i class="icon-delete"></i></button>
+                <button class="delete" value="{{item.id}}" name="{{item.name}}" title="删除"><i class="icon-delete"></i>
+                </button>
+                <button class="star" value="{{item.id}}" title="设置本周之新"><i class="icon-uniE605"></i></button>
+
             </div>
         </td>
     </tr>
@@ -124,7 +134,17 @@
     </tr>
     {{#  } }}
 </script>
-
+<div id="star" style="display: none">
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label padd_top"><span style="color:red">*</span>本周之星名称</label>
+            <div class="layui-input-inline detailedAddress">
+                <input type="text" lay-verify="required" maxlength="49" placeholder="请输入本周之星名称" id="set_start"
+                       name="name" value="" class="layui-input">
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     var levelMap;
     layui.use(['form', 'laypage', 'laydate', 'laytpl', 'myAjax'], function () {
@@ -148,7 +168,7 @@
         form.on('submit(search)', function () {
 
 
-            pageOrder({name:$("#searchParam").val()})
+            pageOrder({name: $("#searchParam").val()})
             return false;
         });
         pageOrder();
@@ -159,11 +179,44 @@
         $("#page_tbody").on("click", ".edit", function () {
             callParent.openTab("student_edit", 0, "编辑学生", "/static/admin/student/edit.html?tab_id=student_edit&id=" + $(this).val(), true);
         });
+
+        $("#page_tbody").on("click", ".star", function () {
+            var studentId = $(this).val();
+
+            layer.open({
+                title: "设置本周之星",
+                type: 1
+                , content: $("#star")
+                , btn: ["确定", '取消']
+                , area: ["600px", "380px"]
+                , closeBtn: 0
+                , btnAlign: 'r',
+                success: function () {
+                    form.render();
+                }
+                , yes: function (index, item) {
+                    var starName = $("#set_start").val();
+                    if ($.trim(starName).length == 0) {
+                        alert("请填写本周之星的名字");
+                        return;
+                    }
+                    var starData = {studentId:studentId,starName:starName};
+                    ajaxsend(starData, "/api/admin/student/star/save", function (result) {
+                        alert("保存本周之星成功")
+                        layer.close(index);
+                    }, "post")
+                }, btn2: function (index) {
+                    layer.close(index);
+                }
+            })
+        })
+
+
         $("#page_tbody").on("click", ".delete", function () {
             if (confirm("你确定要删除“" + $(this).attr("name") + "”学生?")) {
-               ajax(null,"/api/admin/student/deleted/"+$(this).val(),function (result) {
-                 alert("删除成功！");
-               },"post");
+                ajax(null, "/api/admin/student/deleted/" + $(this).val(), function (result) {
+                    alert("删除成功！");
+                }, "post");
             }
         })
 

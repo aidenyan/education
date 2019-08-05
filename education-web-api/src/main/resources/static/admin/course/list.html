@@ -85,7 +85,9 @@
         <td class="state_uhandle">
             <div class="datagrid-cell datagrid-cell-c1-w200">
                 <button class="view" value="{{item.id}}" title="查看签到"><i class="icon-uniE602"></i></button>
-                </button>
+                <button class="view_process" value="{{item.id}}" title="查看进程"><i class="icon-uniE602"></i></button>
+                <button class="view_coureware" value="{{item.id}}" title="查看课件"><i class="icon-uniE602"></i></button>
+
             </div>
         </td>
     </tr>
@@ -120,7 +122,13 @@
         pageOrder();
 
         $("#page_tbody").on("click", ".view", function () {
-            callParent.openTab("course_register", 0, "查看教师", "/static/admin/course/register.html?courseId=" + $(this).val(), true);
+            callParent.openTab("course_register", 0, "查看签到", "/static/admin/course/register.html?courseId=" + $(this).val(), true);
+        })
+        $("#page_tbody").on("click", ".view_process", function () {
+            callParent.openTab("course_process", 0, "查看进程", "/static/admin/course/process.html?courseId=" + $(this).val(), true);
+        })
+        $("#page_tbody").on("click", ".view_coureware", function () {
+            callParent.openTab("course_coureware", 0, "查看课件", "/static/admin/course/coursewarelist.html?tab_id=course_coureware&courseId=" + $(this).val(), true);
         })
         callParent.isLoadEnd("member_page");
         callParent.register(function () {

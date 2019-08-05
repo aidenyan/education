@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jimmy.dao.mapper.CourseStudentProcessMapper" >
+  <resultMap id="BaseResultMap" type="com.jimmy.dao.entity.CourseStudentProcess" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_id" property="createId" jdbcType="BIGINT" />
+    <result column="modify_id" property="modifyId" jdbcType="BIGINT" />
+    <result column="course_id" property="courseId" jdbcType="BIGINT" />
+    <result column="machine_id" property="machineId" jdbcType="BIGINT" />
+    <result column="courseware_id" property="coursewareId" jdbcType="BIGINT" />
+    <result column="courseware_item_id" property="coursewareItemId" jdbcType="BIGINT" />
+    <result column="courseware_item_name" property="coursewareItemName" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="step_num" property="stepNum" jdbcType="INTEGER" />
+    <result column="is_end" property="isEnd" jdbcType="TINYINT" />
+    <result column="site_id" property="siteId" jdbcType="BIGINT"/>
+    <result column="student_id" property="studentId" jdbcType="BIGINT"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_id, modify_id, student_id,course_id, machine_id, courseware_id, courseware_item_id, site_id,
+    courseware_item_name, update_time, create_time, modify_time, step_num, is_end
+  </sql>
+  <insert id="insert" parameterType="com.jimmy.dao.entity.CourseStudentProcess" useGeneratedKeys="true" keyProperty="id"  >
+    insert into t_course_student_process (student_id,site_id,create_id, modify_id,
+      course_id, machine_id, courseware_id, 
+      courseware_item_id, courseware_item_name, update_time, 
+      create_time, modify_time, step_num, 
+      is_end)
+    values ( #{studentId,jdbcType=BIGINT}, #{siteId,jdbcType=BIGINT},#{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT},
+      #{courseId,jdbcType=BIGINT}, #{machineId,jdbcType=BIGINT}, #{coursewareId,jdbcType=BIGINT}, 
+      #{coursewareItemId,jdbcType=BIGINT}, #{coursewareItemName,jdbcType=VARCHAR}, now(),
+      now(),now(), #{stepNum,jdbcType=INTEGER},
+     0)
+  </insert>
+   <select id="findProcess" resultMap="BaseResultMap">
+     SELECT <include refid="Base_Column_List"/>
+     from t_course_student_process where
+     machine_id=#{machineId} AND course_id=#{courseId} and courseware_id=#{coursewareId}
+     and student_id=#{studentId}
+     and site_id IN
+     <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+       #{siteId}
+     </foreach>
+   </select>
+  <select id="list" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    from t_course_student_process where
+  course_id=#{courseId} and site_id IN
+    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+      #{siteId}
+    </foreach>
+  </select>
+  <select id="listByMachine" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    from t_course_student_process where
+    course_id=#{courseId}
+    and machine_id=#{machineId}
+    and site_id IN
+    <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+      #{siteId}
+    </foreach>
+  </select>
+  <update id="updateProperty" parameterType="com.jimmy.dao.entity.CourseStudentProcess" >
+
+    update t_course_student_process
+    <set >
+        modify_id = #{modifyId,jdbcType=BIGINT},
+      <if test="coursewareId != null" >
+        courseware_id = #{coursewareId,jdbcType=BIGINT},
+      </if>
+      <if test="coursewareItemId != null" >
+        courseware_item_id = #{coursewareItemId,jdbcType=BIGINT},
+      </if>
+      <if test="coursewareItemName != null" >
+        courseware_item_name = #{coursewareItemName,jdbcType=VARCHAR},
+      </if>
+        update_time = now(),
+        modify_time = now(),
+      <if test="stepNum != null" >
+        step_num = #{stepNum,jdbcType=INTEGER},
+      </if>
+      <if test="isEnd != null" >
+        is_end = #{isEnd,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT} and site_id=#{siteId}
+  </update>
+  <update id="endProcess" parameterType="com.jimmy.dao.entity.CourseStudentProcess" >
+
+    update t_course_student_process
+    <set >
+      modify_id = #{modifyId,jdbcType=BIGINT},
+      update_time = now(),
+      modify_time = now(),
+        is_end = 1,
+    </set>
+    where site_id=#{siteId} and machine_id=#{machineId} AND course_id=#{courseId}
+  </update>
+</mapper>

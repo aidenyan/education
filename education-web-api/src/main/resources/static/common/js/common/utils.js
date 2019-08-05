@@ -9,6 +9,15 @@
         }
         return true;
     }
+    Utils.isNull = function (obj) {
+        if (obj == undefined || obj == null) {
+            return true;
+        }
+        if (typeof(obj) == undefined || typeof(obj) == "undefined") {
+            return true;
+        }
+        return false;
+    }
     Utils.isBlank = function (obj) {
         return !Utils.isNotBlack(obj);
     }

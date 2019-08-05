@@ -1,5 +1,7 @@
 package com.jimmy.mvc.common.model.dto;
 
+import com.alibaba.fastjson.JSON;
+import com.jimmy.common.utils.StringUtils;
 import com.jimmy.mvc.common.model.enums.ResourceTypeEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -24,6 +26,81 @@ public class ResourceInfoDTO extends BaseDTO {
     @ApiModelProperty("资源标题")
     private String title;
 
+    @ApiModelProperty("图片word文档以及文本")
+    private ResoureceStrDTO imgWordText;
+    @ApiModelProperty("video信息")
+    private VideoDTO videoDTO;
+    @ApiModelProperty("图纸信息")
+    private BlueprintDTO blueprintDTO;
+    @ApiModelProperty("图纸答案信息")
+    private BlueprintAnswerDTO blueprintAnswerDTO;
+
+    public BlueprintDTO getBlueprintDTO() {
+        if (ResourceTypeEnum.BLUEPRINT == type) {
+            blueprintDTO = JSON.parseObject(content, BlueprintDTO.class);
+            blueprintDTO.setTitle(title);
+        }
+        return blueprintDTO;
+    }
+
+    public void setBlueprintDTO(BlueprintDTO blueprintDTO) {
+        if (ResourceTypeEnum.BLUEPRINT == type) {
+            blueprintDTO.setTitle(null);
+            content = JSON.toJSONString(blueprintDTO);
+        }
+    }
+
+    public BlueprintAnswerDTO getBlueprintAnswerDTO() {
+        if (ResourceTypeEnum.BLUEPRINT_ANSWER == type) {
+            blueprintAnswerDTO = JSON.parseObject(content, BlueprintAnswerDTO.class);
+            blueprintAnswerDTO.setTitle(title);
+        }
+        return blueprintAnswerDTO;
+    }
+
+    public void setBlueprintAnswerDTO(BlueprintAnswerDTO blueprintAnswerDTO) {
+        if (ResourceTypeEnum.BLUEPRINT_ANSWER == type) {
+            blueprintAnswerDTO.setTitle(null);
+            content = JSON.toJSONString(blueprintAnswerDTO);
+        }
+    }
+
+    public VideoDTO getVideoDTO() {
+        if (ResourceTypeEnum.VIDEO == type) {
+            videoDTO = JSON.parseObject(content, VideoDTO.class);
+            videoDTO.setTitle(title);
+        }
+        return videoDTO;
+    }
+
+    public void setVideoDTO(VideoDTO videoDTO) {
+        if (ResourceTypeEnum.VIDEO == type) {
+            videoDTO.setTitle(null);
+            content = JSON.toJSONString(videoDTO);
+        }
+
+    }
+
+    public ResoureceStrDTO getImgWordText() {
+        if (ResourceTypeEnum.TEXT == type || ResourceTypeEnum.IMG == type || ResourceTypeEnum.WORD == type) {
+            imgWordText = new ResoureceStrDTO();
+            imgWordText.setContent(content);
+            imgWordText.setTitle(title);
+        }
+        return imgWordText;
+
+    }
+
+    public void setImgWordText(ResoureceStrDTO imgWordText) {
+        if (ResourceTypeEnum.TEXT == type || ResourceTypeEnum.IMG == type || ResourceTypeEnum.WORD == type) {
+            content = imgWordText.getContent();
+        }
+    }
 
 
+    public void setContent(String content) {
+        if (StringUtils.isNotBlank(content)) {
+            this.content = content;
+        }
+    }
 }

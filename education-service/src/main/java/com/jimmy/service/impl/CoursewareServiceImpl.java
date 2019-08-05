@@ -68,9 +68,15 @@ public class CoursewareServiceImpl implements CoursewareService {
     }
 
     @Override
+    public List<Courseware> listByCourseId(Long courseId) {
+        Assert.notNull(courseId);
+        List<Courseware> coursewareList = coursewareMapper.list(courseId, SiteLocalThread.getSiteIdList());
+        return coursewareList;
+    }
+
+    @Override
     public List<CoursewareItem> listByCoursewareId(Long coursewareId, Integer contentType) {
         Assert.notNull(coursewareId);
-        Assert.notNull(contentType);
         return coursewareItemMapper.listByCoursewareId(coursewareId, contentType, SiteLocalThread.getSiteIdList());
     }
 
@@ -85,7 +91,6 @@ public class CoursewareServiceImpl implements CoursewareService {
         List<Long> coursewaredIdList = new ArrayList<>();
         coursewareList.forEach(courseware -> coursewaredIdList.add(courseware.getId()));
         return coursewareItemMapper.listByCoursewareIdList(coursewaredIdList, contentType, SiteLocalThread.getSiteIdList());
-
     }
 
     @Override

@@ -30,7 +30,14 @@ public interface TemporaryStudentClassMateMapper {
      * @return
      */
     List<TemporaryStudentClassMate> list(@Param("tempClassMateId") Long tempClassMateId, @Param("siteIdList") List<Long> siteIdList);
-
+    /**
+     * 根据临时表查找学生信息
+     *
+     * @param tempClassMateId
+     * @param siteIdList
+     * @return
+     */
+    List<TemporaryStudentClassMate> listByMachine(@Param("tempClassMateId") Long tempClassMateId,@Param("machineId") Long machineId, @Param("siteIdList") List<Long> siteIdList);
     /**
      * 根据临时表查找学生信息
      *

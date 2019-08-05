@@ -15,7 +15,9 @@ public enum ResourceTypeEnum implements BaseEnum {
     VIDEO(1, "视频"),
     TEXT(2, "文字"),
     BLUEPRINT(3, "图纸"),
-    BLUEPRINT_ANSWER(4, "图纸的答案");
+    BLUEPRINT_ANSWER(4, "图纸的答案"),
+    WORD(5, "word文档"),
+    ;
     private static Map<Integer, ResourceTypeEnum> ELEMENTS_MAP;
 
     static {

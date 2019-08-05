@@ -2,6 +2,7 @@ package com.jimmy.mvc.common.model.transfer;
 
 import com.jimmy.dao.entity.StudentInfo;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
+import com.jimmy.mvc.common.model.dto.StudentInfoStarDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -32,4 +33,5 @@ public interface StudentInfoDTOTransfer {
     StudentInfoDTO toStudentInfoDTO(StudentInfo studentInfo);
 
     List<StudentInfoDTO> toStudentInfoDTOList(List<StudentInfo> studentInfoList);
+
 }

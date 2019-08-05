@@ -79,6 +79,15 @@ public interface CourseInfoMapper {
     );
 
     /**
+     * 超没有被使用过的课程
+     * @param teacherId
+     * @param name
+     * @param siteIdList
+     * @return
+     */
+  List<CourseInfo> listByNotUsed(@Param("teacherId") Long teacherId,
+                                 @Param("name") String name, @Param("siteIdList") List<Long> siteIdList);
+    /**
      * 查找可以使用这个教室以及老师的课程信息
      *
      * @param roomId    教室ID

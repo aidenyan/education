@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <link rel="stylesheet" href="../../css/new_file.css"/>
+    <script type="text/javascript" src="../../common/lib/jquery-1.9.0.min.js"></script>
+    <script type="text/javascript" src="../../common/js/common/map.js"></script>
+    <script type="text/javascript" src="../../common/js/common/ajaxsend.js"></script>
+    <script type="text/javascript" src="../../common/js/common/utils.js"></script>
+    <script type="text/javascript" src="../../common/lib/ajaxfileupload.js"></script>
+    <script type="text/javascript" src="../../common/js/parent.js"></script>
+    <script type="text/javascript" src="../../common/js/child.js"></script>
+    <script type="text/javascript" src="../../js/form_deal.js"></script>
+</head>
+<body>
+<div class="content">
+    <div class="top">
+        <div class="top_w">
+            <div class="blue"></div>
+            <span class="sp_text">课件信息</span>
+        </div>
+    </div>
+    <form id="resource_id" style="display: none">
+        <table cellpadding="10">
+            <tr>
+                <th width="160" class="Ri">标题:</th>
+                <th width="80" class="Le" id="resource_title">
+
+                </th>
+            </tr>
+            <tr>
+                <th width="160" class="Ri">资源类型:</th>
+                <th width="80" class="Le" id="resource_type">
+                </th>
+            </tr>
+            <tr>
+                <th width="160" class="Ri"><span>*</span>资源内容:</th>
+                <th width="380" class="Le" id="content">
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2" style="text-align: center;">
+                    <button type="button" class="next_page">下一页</button>
+                    <button type="button" class="pre_page">上一页</button>
+                    <button type="button" class="close">关闭</button>
+                </th>
+            </tr>
+        </table>
+    </form>
+    <form id="question_id">
+        <table cellpadding="10">
+            <tr>
+                <th width="160" class="Ri">问题类型:</th>
+                <th width="80" class="Le" id="question_type">
+
+                </th>
+            </tr>
+            <tr>
+                <th width="160" class="Ri">问题:</th>
+                <th width="300" class="Le" id="question_content"></th>
+            </tr>
+            <tr>
+                <th width="160" class="Ri" id="result_title">答案:</th>
+                <th width="300" class="Le" id="question_result"></th>
+            </tr>
+            <tr>
+                <th colspan="2" style="text-align: right;">
+                    <button type="button" class="next_page">下一页</button>
+                    <button type="button" class="pre_page">上一页</button>
+                    <button type="button" class="close">关闭</button>
+                </th>
+
+            </tr>
+        </table>
+    </form>
+</div>
+<script language="javascript" type="text/javascript">
+
+
+    $(function () {
+        function dealQuestion(resultItem) {
+            $("#resource_id").hide();
+            $("#question_id").show();
+            if (Utils.isNull(resultItem.questionDTO)) {
+                resultItem.questionDTO = {};
+            }
+            $("#question_content").html(resultItem.questionDTO.question)
+            if (Utils.isNull(resultItem.questionDTO.itemList)) {
+                resultItem.questionDTO.itemList = new Array();
+            }
+            if (resultItem.contentType == "QUESTION") {
+                $("#question_type").html("问答题")
+                $("#question_content").html(resultItem.questionDTO.question)
+                $("#question_result").html(resultItem.questionDTO.result)
+            } else if (resultItem.contentType == "RADIO") {
+                $("#question_type").html("单选题")
+                var contentHtml = "<div>";
+                for (var t = 0; t < resultItem.questionDTO.itemList; t++) {
+                    var itemDTO = resultItem.questionDTO.itemList[t];
+                    if (itemDTO.isResult) {
+                        contentHtml += "<input type='radio' disabled checked='checked'>" + itemDTO.content + "<br/>";
+                    }
+                }
+                contentHtml += "</div>";
+                $("#question_result").html(contentHtml)
+            } else {
+                $("#question_type").html("多选题")
+                var contentHtml = "<div>";
+                for (var t = 0; t < resultItem.questionDTO.itemList; t++) {
+                    var itemDTO = resultItem.questionDTO.itemList[t];
+                    if (itemDTO.isResult) {
+                        contentHtml += "<input type='checkbox' disabled checked='checked'>" + itemDTO.content + "<br/>";
+                    }
+                }
+                contentHtml += "</div>";
+                $("#question_result").html(contentHtml)
+            }
+
+        }
+
+
+        function dealResource(resultItem) {
+            $("#resource_id").show();
+            $("#question_id").hide();
+            if (resultItem.contentType == "IMG") {
+                if (Utils.isNull(resultItem.imgWordText)) {
+                    resultItem.imgWordText = {}
+                }
+                $("#resource_title").html(resultItem.imgWordText.title);
+                $("#resource_type").html("图片")
+                $("#content").html("<a target='_blank' href='" + resultItem.imgWordText.content + "'>下载图片</a>")
+            } else if (resultItem.contentType == "VIDEO") {
+                if (Utils.isNull(resultItem.videoDTO)) {
+                    resultItem.videoDTO = {}
+                }
+                $("#resource_title").html(resultItem.videoDTO.title);
+                $("#resource_type").html("视频")
+                var contentHtml = "<span style='color:black'>视频内容</span><a target='_blank' href='" + resultItem.videoDTO.videoUrl + "'>下载视频</a><br/>";
+                contentHtml += "<span style='color:black'>视频首页</span><a target='_blank' href='" + resultItem.videoDTO.imgUrl + "'>下载首页图片</a><br/>";
+                $("#content").html(contentHtml)
+            } else if (resultItem.contentType == "TEXT") {
+                if (Utils.isNull(resultItem.imgWordText)) {
+                    resultItem.imgWordText = {}
+                }
+                $("#resource_title").html('');
+                $("#content").html(resultItem.imgWordText.content)
+                $("#resource_type").html("文字")
+            } else if (resultItem.contentType == "WORD") {
+                if (Utils.isNull(resultItem.imgWordText)) {
+                    resultItem.imgWordText = {}
+                }
+                $("#resource_title").html(resultItem.imgWordText.title);
+                $("#content").html("<a target='_blank' href='" + resultItem.imgWordText.content + "'>下载文档</a>")
+                $("#resource_type").html("word文档")
+            } else if (resultItem.contentType == "BLUEPRINT") {
+                if (Utils.isNull(resultItem.blueprintDetailDTO)) {
+                    resultItem.blueprintDetailDTO = {}
+                }
+                $("#resource_title").html(resultItem.blueprintDetailDTO.blueprintDTO.title);
+                $("#resource_type").html("图纸以及图纸答案")
+                var contentHtml = "<div>";
+                contentHtml += "<span style='color:black'>图纸信息</span><a target='_blank' href='" + resultItem.blueprintDetailDTO.blueprintDTO.url + "'>下载图纸</a><br/>";
+                if (Utils.isNull(resultItem.blueprintAnswerDTOList)) {
+                    resultItem.blueprintAnswerDTOList = new Array();
+                }
+                for (var t = 0; t < resultItem.blueprintDetailDTO.blueprintAnswerDTOList.length; t++) {
+                    var answerDTO = resultItem.blueprintDetailDTO.blueprintAnswerDTOList[t];
+                    contentHtml += "<span style='color:black'>测试点名字:</span>" + answerDTO.pointName + "&nbsp;&nbsp;&nbsp;";
+                    contentHtml += "<span style='color:black'>答案:</span>" + answerDTO.answer + "<span style='color:black'>误差:</span>" + answerDTO.error + "<span style='color:black'>单位:</span>" + answerDTO.unit;
+                    contentHtml += "<br/>";
+                }
+                contentHtml += "</div>";
+                $("#content").html(contentHtml)
+            }
+        }
+
+        $(".close").click(function () {
+            callParent.closeTab(Utils.getHrefValue("tab_id"))
+        })
+        var id = Utils.getHrefValue("id");
+        var resultItemList = new Array();
+        var index = -1;
+        if (Utils.isNotBlack(id)) {
+            ajaxget("/api/admin/course/item_info?id=" + id, function (result) {
+                resultItemList = result.result;
+                next();
+            });
+        }
+        $(".next_page").click(function () {
+            next();
+        })
+        $(".pre_page").click(function () {
+            pre();
+        })
+
+        function next() {
+            if (resultItemList.length == 0) {
+                return;
+            }
+            var resultItem = resultItemList[index + 1];
+            index = index + 1;
+            if (resultItem.type == "RESOURCE") {
+                dealResource(resultItem)
+            } else {
+                dealQuestion(resultItem)
+            }
+            pageShow();
+
+        }
+
+        function pre() {
+            var resultItem = resultItemList[index - 1];
+            index = index - 1;
+            if (resultItem.type == "RESOURCE") {
+                dealResource(resultItem)
+            } else {
+                dealQuestion(resultItem)
+            }
+
+            pageShow();
+        }
+
+        function pageShow() {
+            $(".pre_page").show();
+            $(".next_page").show();
+            if (index <= 0) {
+                $(".pre_page").hide();
+            }
+            if (index + 1 >= resultItemList.length) {
+                $(".next_page").hide();
+            }
+        }
+
+
+    });
+
+
+</script>
+</body>
+</html>

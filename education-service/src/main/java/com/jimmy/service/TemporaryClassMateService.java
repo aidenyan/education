@@ -23,6 +23,11 @@ public interface TemporaryClassMateService {
     List<TemporaryStudentClassMate> list(Long tempClassMateId);
 
     /**
+     *根据临时表查找学生信息
+     */
+    List<TemporaryStudentClassMate> listByMachine(Long tempClassMateId, Long machineId);
+
+    /**
      * 根据临时表查找学生信息
      */
     List<TemporaryStudentClassMate> listBySize(Long tempClassMateId, Long startNum, Long limitNum);

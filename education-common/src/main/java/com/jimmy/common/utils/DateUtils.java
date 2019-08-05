@@ -86,6 +86,17 @@ public class DateUtils {
         }
         return calendar.getTime();
     }
+    public static Integer getWeekInt() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.DAY_OF_WEEK, 2);
+        if (calendar.getTime().compareTo(new Date()) > 0) {
+            calendar.add(Calendar.DAY_OF_YEAR, -7);
+        }
+        return calendar.get(Calendar.WEEK_OF_YEAR);
+    }
 
     public static Date getWeekEnd() {
         Date time = getWeekStart();

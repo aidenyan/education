@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
  */
 public enum CourseStatusEnum implements BaseEnum {
     ASSIGN(0, "初始化分布"),
+    USING(1, "使用中"),
     END(2, "结束");
     private static Map<Integer, CourseStatusEnum> ELEMENTS_MAP;
 

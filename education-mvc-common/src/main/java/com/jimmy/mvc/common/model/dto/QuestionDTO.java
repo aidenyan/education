@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
-@ApiModel("问题信息")
+@ApiModel("问题的详细")
 public class QuestionDTO extends BaseDTO {
 
     /**
