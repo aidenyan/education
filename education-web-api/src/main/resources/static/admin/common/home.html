@@ -283,136 +283,136 @@
 </head>
 
 <body>
-<div class="content-wrpper home-comtent-wraper">
-    <div class="list">
-        <div class="main-top">
-            <div class="main-top-1">
-                <ul class="cf">
-                    <li class="red">
-                        <p id="amount"></p>
-                        <span>今日成交金额</span>
-                    </li>
-                    <li class="yellow">
-                        <p id="totalAmount"></p>
-                        <span>累计成交金额</span>
-                    </li>
-                    <li class="green">
-                        <p id="newUsers"></p>
-                        <span>今日新增客户(位)</span>
-                    </li>
-                    <li class="blue">
-                        <p id="totalUsers"></p>
-                        <span>累计客户(位)</span>
-                    </li>
-                </ul>
-            </div>
-            <div class="main-top-2">
-                <ul class="cf top">
-                    <li><a href="javascript:void(0);" code="order_list"><p id="orders"></p><span>今日订单数</span></a></li>
-                    <li><p id="backOrders"></p><span>缺货订单</span></li>
-                    <li><p id="pendingPurchase"></p><span>待审采购单</span></li>
-                    <li><a href="javascript:void(0);" code="returns_exchange"><p id="exchange"></p><span>待换货订单</span></a></li>
-                    <li><a href="javascript:void(0);" code="product_page"><p id="commodity"></p><span>商品数量</span></a></li>
-                </ul>
-                <ul class="cf">
-                    <li><p id="toPayOrders"></p><span>待支付订单</span></li>
-                    <li><a href="javascript:void(0);" code="order_waitingfordelivery_list"><p id="waitingDelivery"></p><span>待发货订单</span></a></li>
-                    <li><a href="javascript:void(0);" code="order_toBeCheck_list"><p id="pendingOrders"></p><span>待审核订单</span></a></li>
-                    <li><p id="inventory"></p><span>库存数量</span></li>
-                    <li><a href="javascript:void(0);" code="purchase_stock"><p id="warningInventory"></p><span>库存预警</span></a></li>
-                </ul>
-            </div>
-        </div>
-        <h2 class="title-h2">统计</h2>
-        <div class="main-buttom">
-            <div class="layui-tab layui-tab-brief top" lay-filter="">
-                <ul class="layui-tab-title">
-                    <li class="layui-this">销售</li>
-                    <li>销售TOP10</li>
-                    <li>库存</li>
-                </ul>
-                <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show chartContainer">
-                         <div id="main" style="width:100%;height:350px;"></div>
-                    </div>
-                    <div class="layui-tab-item">
-                        <div class="topList">
-                            <ul class="topList-ul" id="rank"></ul>
-                        </div>
-                    </div>
-                    <div class="layui-tab-item">内容3</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<script type="text/html" id="rankTpl">
-    {{#  layui.each(d, function(index, item){ }}
-    <li class="topList-li">
-        <div class="topList-li-content">
-            <i class="mizone-title{{index++}} mizone-title-icon"></i>
-            <div class="topList-li-content-right">
-                <span class="test-first">{{item.name}}</span>
-                <p class="test-right"><span>{{item.quantity}}条/</span><span>￥{{item.price}}</span></p>
-            </div>
-         </div>
-     </li>
-    {{#  }); }}
-</script>
-<script type="text/javascript" src="../../js/common.js"></script>
-<script src="../../js/echarts.min.js"></script>
-<script type="text/javascript">
-    layui.use(['form', 'layer', 'laytpl', 'element','myAjax'], function () {
-        var form = layui.form(), element = layui.element(), layer = layui.layer, laytpl = layui.laytpl,myAjax = layui.myAjax;
-     
-        $(".main-top-2").on('click', 'li a', function (e) {
-        	var code=$(this).attr("code");
-        	$('.side-menu li a',parent.document).each(function(){
-        		if($(this).attr("code") == code){
-        			callParent.openTab($(this).attr("code"), 0, $(this).find("span").text(), $(this).attr("href"), true);
-        			return false;
-        		}
-        	});
-            return false;
-        })
-        
-            function loadContent(){
+<!--<div class="content-wrpper home-comtent-wraper">-->
+    <!--<div class="list">-->
+        <!--<div class="main-top">-->
+            <!--<div class="main-top-1">-->
+                <!--<ul class="cf">-->
+                    <!--<li class="red">-->
+                        <!--<p id="amount"></p>-->
+                        <!--<span>今日成交金额</span>-->
+                    <!--</li>-->
+                    <!--<li class="yellow">-->
+                        <!--<p id="totalAmount"></p>-->
+                        <!--<span>累计成交金额</span>-->
+                    <!--</li>-->
+                    <!--<li class="green">-->
+                        <!--<p id="newUsers"></p>-->
+                        <!--<span>今日新增客户(位)</span>-->
+                    <!--</li>-->
+                    <!--<li class="blue">-->
+                        <!--<p id="totalUsers"></p>-->
+                        <!--<span>累计客户(位)</span>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+            <!--<div class="main-top-2">-->
+                <!--<ul class="cf top">-->
+                    <!--<li><a href="javascript:void(0);" code="order_list"><p id="orders"></p><span>今日订单数</span></a></li>-->
+                    <!--<li><p id="backOrders"></p><span>缺货订单</span></li>-->
+                    <!--<li><p id="pendingPurchase"></p><span>待审采购单</span></li>-->
+                    <!--<li><a href="javascript:void(0);" code="returns_exchange"><p id="exchange"></p><span>待换货订单</span></a></li>-->
+                    <!--<li><a href="javascript:void(0);" code="product_page"><p id="commodity"></p><span>商品数量</span></a></li>-->
+                <!--</ul>-->
+                <!--<ul class="cf">-->
+                    <!--<li><p id="toPayOrders"></p><span>待支付订单</span></li>-->
+                    <!--<li><a href="javascript:void(0);" code="order_waitingfordelivery_list"><p id="waitingDelivery"></p><span>待发货订单</span></a></li>-->
+                    <!--<li><a href="javascript:void(0);" code="order_toBeCheck_list"><p id="pendingOrders"></p><span>待审核订单</span></a></li>-->
+                    <!--<li><p id="inventory"></p><span>库存数量</span></li>-->
+                    <!--<li><a href="javascript:void(0);" code="purchase_stock"><p id="warningInventory"></p><span>库存预警</span></a></li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<h2 class="title-h2">统计</h2>-->
+        <!--<div class="main-buttom">-->
+            <!--<div class="layui-tab layui-tab-brief top" lay-filter="">-->
+                <!--<ul class="layui-tab-title">-->
+                    <!--<li class="layui-this">销售</li>-->
+                    <!--<li>销售TOP10</li>-->
+                    <!--<li>库存</li>-->
+                <!--</ul>-->
+                <!--<div class="layui-tab-content">-->
+                    <!--<div class="layui-tab-item layui-show chartContainer">-->
+                         <!--<div id="main" style="width:100%;height:350px;"></div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-tab-item">-->
+                        <!--<div class="topList">-->
+                            <!--<ul class="topList-ul" id="rank"></ul>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-tab-item">内容3</div>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<script type="text/html" id="rankTpl">-->
+    <!--{{#  layui.each(d, function(index, item){ }}-->
+    <!--<li class="topList-li">-->
+        <!--<div class="topList-li-content">-->
+            <!--<i class="mizone-title{{index++}} mizone-title-icon"></i>-->
+            <!--<div class="topList-li-content-right">-->
+                <!--<span class="test-first">{{item.name}}</span>-->
+                <!--<p class="test-right"><span>{{item.quantity}}条/</span><span>￥{{item.price}}</span></p>-->
+            <!--</div>-->
+         <!--</div>-->
+     <!--</li>-->
+    <!--{{#  }); }}-->
+<!--</script>-->
+<!--<script type="text/javascript" src="../../js/common.js"></script>-->
+<!--<script src="../../js/echarts.min.js"></script>-->
+<!--<script type="text/javascript">-->
+    <!--layui.use(['form', 'layer', 'laytpl', 'element','myAjax'], function () {-->
+        <!--var form = layui.form(), element = layui.element(), layer = layui.layer, laytpl = layui.laytpl,myAjax = layui.myAjax;-->
+     <!---->
+        <!--$(".main-top-2").on('click', 'li a', function (e) {-->
+        	<!--var code=$(this).attr("code");-->
+        	<!--$('.side-menu li a',parent.document).each(function(){-->
+        		<!--if($(this).attr("code") == code){-->
+        			<!--callParent.openTab($(this).attr("code"), 0, $(this).find("span").text(), $(this).attr("href"), true);-->
+        			<!--return false;-->
+        		<!--}-->
+        	<!--});-->
+            <!--return false;-->
+        <!--})-->
+        <!---->
+            <!--function loadContent(){-->
 
 
-                // 基于准备好的dom，初始化echarts实例
-                
-               var myChart = echarts.init(document.getElementById('main'));
-                // 指定图表的配置项和数据
-                myChart.setOption({
-                    title : {
-                        text : ''
-                    },
-                    tooltip : {},
-                    legend : {
-                        data : [ '销量' ]
-                    },
-                    xAxis : {
-                        data : []
-                    },
-                    yAxis : {},
-                    series : [ {
-                        name : '销量',
-                        type : 'bar',
-                        data : []
-                    } ]
-                });
-                myChart.showLoading();
+                <!--// 基于准备好的dom，初始化echarts实例-->
+                <!---->
+               <!--var myChart = echarts.init(document.getElementById('main'));-->
+                <!--// 指定图表的配置项和数据-->
+                <!--myChart.setOption({-->
+                    <!--title : {-->
+                        <!--text : ''-->
+                    <!--},-->
+                    <!--tooltip : {},-->
+                    <!--legend : {-->
+                        <!--data : [ '销量' ]-->
+                    <!--},-->
+                    <!--xAxis : {-->
+                        <!--data : []-->
+                    <!--},-->
+                    <!--yAxis : {},-->
+                    <!--series : [ {-->
+                        <!--name : '销量',-->
+                        <!--type : 'bar',-->
+                        <!--data : []-->
+                    <!--} ]-->
+                <!--});-->
+                <!--myChart.showLoading();-->
 
-                
+                <!---->
 
-            }    
-            loadContent();
-            
-            callParent.isLoadEnd("home_dashboard");
-            callParent.register(function () {
+            <!--}    -->
+            <!--loadContent();-->
+            <!---->
+            <!--callParent.isLoadEnd("home_dashboard");-->
+            <!--callParent.register(function () {-->
 
-            }, "search");
-    })
-</script>
+            <!--}, "search");-->
+    <!--})-->
+<!--</script>-->
 </body>
 </html>
