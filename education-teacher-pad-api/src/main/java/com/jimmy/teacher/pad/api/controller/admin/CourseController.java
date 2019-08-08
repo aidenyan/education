@@ -1,13 +1,20 @@
 package com.jimmy.teacher.pad.api.controller.admin;
 
+import com.jimmy.core.base.Page;
 import com.jimmy.core.local.thread.LoginLocalThread;
+import com.jimmy.dao.entity.ClassMate;
 import com.jimmy.dao.entity.CourseInfo;
+import com.jimmy.dao.entity.Courseware;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
+import com.jimmy.mvc.common.model.dto.ClassMateDTO;
 import com.jimmy.mvc.common.model.dto.CourseInfoDTO;
+import com.jimmy.mvc.common.model.dto.CoursewareDTO;
 import com.jimmy.mvc.common.model.enums.UsedStatusEnum;
+import com.jimmy.mvc.common.model.transfer.ClassMateDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CourseInfoDTOTransfer;
+import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransfer;
 import com.jimmy.service.CourseInfoService;
 import com.jimmy.teacher.pad.api.controller.BaseController;
 import com.jimmy.teacher.pad.api.local.thread.TeacherLocalThread;
@@ -55,8 +62,10 @@ public class CourseController extends BaseController {
     @GetMapping("/list")
     @ApiOperation("获取所有未使用的课程")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<List<CourseInfoDTO>> list(String name) {
+    public Result<Page<CourseInfoDTO>> list(String name, Integer pageNo, Integer pageSize) {
+        this.setPage(pageNo, pageSize);
         List<CourseInfo> courseInfoList = courseInfoService.listByNotUsed(null, name);
-        return ResultBuilder.ok(CourseInfoDTOTransfer.INSTANCE.toCourseInfoDTOList(courseInfoList));
+        Page<CourseInfoDTO> resultList = getPageResult(courseInfoList, target -> CourseInfoDTOTransfer.INSTANCE.toCourseInfoDTOList(target));
+        return ResultBuilder.ok(resultList);
     }
 }

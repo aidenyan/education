@@ -56,7 +56,7 @@
       create_id, modify_id, create_time,
       modify_time, site_id, description
       )
-    values ( #{levelNum},{name,jdbcType=VARCHAR}, #{isUsed,jdbcType=TINYINT},
+    values ( #{levelNum},#{name}, #{isUsed,jdbcType=TINYINT},
       #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT},now(),now(),  #{siteId,jdbcType=BIGINT}, #{description,jdbcType=LONGVARCHAR}
       )
   </insert>

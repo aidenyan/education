@@ -66,7 +66,7 @@
       content)
     values (#{coursewareId,jdbcType=BIGINT},#{orderNum}, #{type,jdbcType=TINYINT}, #{contentType,jdbcType=TINYINT},
       #{resourceId,jdbcType=BIGINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP},now(),now(),
+      now(),now(),#{siteId},
       #{content,jdbcType=LONGVARCHAR})
   </insert>
 

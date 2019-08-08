@@ -1,15 +1,19 @@
 package com.jimmy.teacher.pad.api.controller.admin;
 
+import com.jimmy.core.base.Page;
 import com.jimmy.core.enums.ResultCoreEnum;
+import com.jimmy.dao.entity.Courseware;
 import com.jimmy.model.vo.CoursewareDetailVO;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.CourseCoursewareDTO;
+import com.jimmy.mvc.common.model.dto.CoursewareDTO;
 import com.jimmy.mvc.common.model.dto.CoursewareDetailDTO;
 import com.jimmy.mvc.common.model.transfer.CoursewareDTOTransfer;
 import com.jimmy.mvc.common.model.transfer.CoursewareItemDTOTransfer;
 import com.jimmy.service.CoursewareService;
+import com.jimmy.teacher.pad.api.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,9 +30,19 @@ import java.util.List;
 @Api(value = "课件信息", description = "课件信息")
 @Controller
 @RequestMapping("/admin/course_ware")
-public class CoursewareController {
+public class CoursewareController extends BaseController {
     @Autowired
     private CoursewareService coursewareService;
+
+    @ResponseBody
+    @GetMapping("/page")
+    @ApiOperation("课件信息分页信息")
+    public Result<Page<CoursewareDTO>> list(Long id, Integer pageNo, Integer pageSize) {
+        this.setPage(pageNo, pageSize);
+        List<Courseware> coursewareList = coursewareService.listByCourseId(id);
+        Page<CoursewareDTO> resultList = getPageResult(coursewareList, target -> CoursewareDTOTransfer.INSTANCE.toCoursewareDTOList(target));
+        return ResultBuilder.ok(resultList);
+    }
 
     @ResponseBody
     @PostMapping("/save")
