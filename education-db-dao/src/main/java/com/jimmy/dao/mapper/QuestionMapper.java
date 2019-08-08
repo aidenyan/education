@@ -42,6 +42,15 @@ public interface QuestionMapper {
     int updateProperty(Question record);
 
     /**
+     * 根据ID查找问题
+     *
+     * @param question    问题的内容
+     * @param siteIdList
+     * @return 问题信息
+     */
+    long  count(@Param("question") String question, @Param("siteIdList") List<Long> siteIdList);
+
+    /**
      * 更新问题
      *
      * @param record 问题

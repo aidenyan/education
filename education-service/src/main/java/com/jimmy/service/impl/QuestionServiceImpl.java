@@ -74,4 +74,8 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Question> list(String question) {
         return questionMapper.list(question, SiteLocalThread.getSiteIdList());
     }
+    @Override
+    public Long count(String question) {
+        return questionMapper.count(question, SiteLocalThread.getSiteIdList());
+    }
 }

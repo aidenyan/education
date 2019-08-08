@@ -37,4 +37,7 @@ public interface QuestionService {
      */
     List<Question> list(String question);
 
+
+    Long count(String question);
+
 }

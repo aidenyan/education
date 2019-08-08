@@ -40,7 +40,19 @@
             AND question LIKE concat('%',#{question},'%')
         </if>
     </select>
-
+    <select id="count" resultType="java.lang.Long">
+        select
+        count(id)
+        from t_question
+        where is_deleted=0
+        and site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        <if test=" question != null">
+            AND question LIKE concat('%',#{question},'%')
+        </if>
+    </select>
 
     <insert id="insert" parameterType="com.jimmy.dao.entity.Question"  keyProperty="id" useGeneratedKeys="true">
     insert into t_question (is_deleted, question, type,

@@ -41,24 +41,7 @@ public class QuestionController extends BaseController{
     private QuestionItemService questionItemService;
 
 
-    @ResponseBody
-    @GetMapping("/page")
-    @ApiOperation("题库分页信息")
-    public Result<Page<QuestionDTO>> page(String name, Integer pageNo, Integer pageSize) {
-        this.setPage(pageNo, pageSize);
-        List<Question> list = questionService.list(name);
-        Page<QuestionDTO> resultList = getPageResult(list, target -> QuestionDTOTransfer.INSTANCE.toQuestionDTOList(target));
-        return ResultBuilder.ok(resultList);
-    }
 
-    @ResponseBody
-    @GetMapping("/info")
-    @ApiOperation("查询题库信息")
-    public Result<QuestionDTO> info(Long id) {
-        QuestionDTO questionDTO=QuestionDTOTransfer.INSTANCE.toQuestionDTO(questionService.findById(id));
-        questionDTO.setItemList(QuestionItemDTOTransfer.INSTANCE.toQuestionItemDTOList(questionItemService.list(questionDTO.getId())));
-        return ResultBuilder.ok(questionDTO);
-    }
 
     @ResponseBody
     @GetMapping("/list")
