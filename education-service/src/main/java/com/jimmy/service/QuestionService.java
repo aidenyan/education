@@ -37,6 +37,13 @@ public interface QuestionService {
      */
     List<Question> list(String question);
 
+    /**
+     * 根据ID查找问题
+     *
+     * @param question 问题的内容
+     * @return 问题信息
+     */
+    List<Question> list(String question,Long pageNo,Long pageSize);
 
     Long count(String question);
 

@@ -18,4 +18,7 @@ public interface CoursewareMapper {
     int count(@Param("courseId") Long courseId, @Param("siteIdList") List<Long> siteIdList);
 
     Courseware find(@Param("coursewareId") Long coursewareId, @Param("siteIdList") List<Long> siteIdList);
+
+
+    List<Courseware> listByCourseName(@Param("coursewareName")String coursewareName, @Param("siteIdList") List<Long> siteIdList);
 }

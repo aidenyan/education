@@ -27,11 +27,20 @@ public interface QuestionMapper {
     /**
      * 根据ID查找问题
      *
-     * @param question    问题的内容
+     * @param question   问题的内容
      * @param siteIdList
      * @return 问题信息
      */
     List<Question> list(@Param("question") String question, @Param("siteIdList") List<Long> siteIdList);
+
+    /**
+     * 根据ID查找问题
+     *
+     * @param question   问题的内容
+     * @param siteIdList
+     * @return 问题信息
+     */
+    List<Question> listPage(@Param("question") String question, @Param("startNum") Long startNum, @Param("pageSize") Long pageSize, @Param("siteIdList") List<Long> siteIdList);
 
     /**
      * 更新问题
@@ -44,11 +53,11 @@ public interface QuestionMapper {
     /**
      * 根据ID查找问题
      *
-     * @param question    问题的内容
+     * @param question   问题的内容
      * @param siteIdList
      * @return 问题信息
      */
-    long  count(@Param("question") String question, @Param("siteIdList") List<Long> siteIdList);
+    long count(@Param("question") String question, @Param("siteIdList") List<Long> siteIdList);
 
     /**
      * 更新问题
