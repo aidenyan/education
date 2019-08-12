@@ -55,11 +55,10 @@ public class QuestionServiceImpl implements QuestionService {
             question.setIsDeleted(Boolean.FALSE);
             questionMapper.insert(question);
         }
-        if(CollectionUtils.isEmpty(questionItemList)){
+        if (CollectionUtils.isEmpty(questionItemList)) {
             return;
         }
-        questionItemService.save(questionItemList,question.getId());
-
+        questionItemService.save(questionItemList, question.getId());
 
 
     }
@@ -74,6 +73,12 @@ public class QuestionServiceImpl implements QuestionService {
     public List<Question> list(String question) {
         return questionMapper.list(question, SiteLocalThread.getSiteIdList());
     }
+
+    @Override
+    public List<Question> list(String question, Long startNum, Long pageSize) {
+        return questionMapper.listPage(question, startNum, pageSize, SiteLocalThread.getSiteIdList());
+    }
+
     @Override
     public Long count(String question) {
         return questionMapper.count(question, SiteLocalThread.getSiteIdList());

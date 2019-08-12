@@ -67,10 +67,26 @@ public class CoursewareServiceImpl implements CoursewareService {
         return resultList;
     }
 
+    public CoursewareDetailVO find(Long coursewareId) {
+        Assert.notNull(coursewareId);
+        Courseware courseware = coursewareMapper.find(coursewareId, SiteLocalThread.getSiteIdList());
+        if (courseware == null) {
+            return null;
+        }
+
+        List<CoursewareItem> coursewareItemList = coursewareItemMapper.listByCoursewareId(coursewareId, null, SiteLocalThread.getSiteIdList());
+
+        CoursewareDetailVO coursewareDetailVO = new CoursewareDetailVO();
+        coursewareDetailVO.setCourseware(courseware);
+        coursewareDetailVO.setCoursewareItemList(coursewareItemList);
+
+        return coursewareDetailVO;
+    }
+
     @Override
     public int count(Long courseId) {
         Assert.notNull(courseId);
-        return coursewareMapper.count(courseId,SiteLocalThread.getSiteIdList());
+        return coursewareMapper.count(courseId, SiteLocalThread.getSiteIdList());
     }
 
     @Override
@@ -78,6 +94,13 @@ public class CoursewareServiceImpl implements CoursewareService {
         Assert.notNull(courseId);
         List<Courseware> coursewareList = coursewareMapper.list(courseId, SiteLocalThread.getSiteIdList());
         return coursewareList;
+    }
+
+    @Override
+    public List<Courseware> listByCourseName(String coursewareName) {
+        return coursewareMapper.listByCourseName(coursewareName, SiteLocalThread.getSiteIdList());
+
+
     }
 
     @Override
@@ -101,7 +124,7 @@ public class CoursewareServiceImpl implements CoursewareService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(Courseware courseware, List<CoursewareItem> itemList, Long courseId) {
+    public Long save(Courseware courseware, List<CoursewareItem> itemList, Long courseId) {
         courseware.setCreateId(LoginLocalThread.get());
         courseware.setModifyId(LoginLocalThread.get());
         courseware.setSiteId(SiteLocalThread.getSiteId());
@@ -128,6 +151,7 @@ public class CoursewareServiceImpl implements CoursewareService {
             coursewareItem.setCoursewareId(courseware.getId());
             coursewareItemMapper.insert(coursewareItem);
         }
+        return courseware.getId();
     }
 
     @Override

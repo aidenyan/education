@@ -29,7 +29,22 @@
             #{siteId}
         </foreach>
     </select>
+    <select id="listByCourseName" resultMap="BaseResultMap">
+        select
+        courseware.id,courseware.level_num, courseware.name, courseware.is_used, courseware.create_id,
+        courseware.modify_id,
+        courseware.create_time, courseware.modify_time, courseware.site_id, courseware.description
+        from t_courseware courseware
+        where courseware.site_id IN
+        <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
+            #{siteId}
+        </foreach>
+        <if test="coursewareName != null ">
+            and courseware.name like concat('%',#{coursewareName},'%')
+        </if>
 
+
+    </select>
 
     <select id="count" resultType="java.lang.Integer">
         select

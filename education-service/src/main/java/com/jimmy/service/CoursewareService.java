@@ -35,6 +35,14 @@ public interface CoursewareService {
     List<Courseware> listByCourseId(Long courseId);
 
     /**
+     * 课程ID查找课件详细信息
+     *
+     * @param coursewareName 课程ID
+     * @return List<课程信息>
+     */
+    List<Courseware> listByCourseName(String coursewareName);
+
+    /**
      * 根据课件ID和状态查询课件某个详细信息
      */
 
@@ -49,7 +57,7 @@ public interface CoursewareService {
     /**
      * 保存或者修改
      */
-    void save(Courseware courseware, List<CoursewareItem> itemList, Long courseId);
+    Long save(Courseware courseware, List<CoursewareItem> itemList, Long courseId);
 
     /**
      * 保定关系
@@ -60,4 +68,6 @@ public interface CoursewareService {
      * 解除绑定
      */
     void unBind(List<Long> coursewareIdList, Long courseId);
+
+    CoursewareDetailVO find(Long coursewareId);
 }

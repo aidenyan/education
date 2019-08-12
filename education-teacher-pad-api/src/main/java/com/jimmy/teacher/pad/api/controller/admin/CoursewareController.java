@@ -37,9 +37,10 @@ public class CoursewareController extends BaseController {
     @ResponseBody
     @GetMapping("/page")
     @ApiOperation("课件信息分页信息")
-    public Result<Page<CoursewareDTO>> list(Long id, Integer pageNo, Integer pageSize) {
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Page<CoursewareDTO>> list(String name, Integer pageNo, Integer pageSize) {
         this.setPage(pageNo, pageSize);
-        List<Courseware> coursewareList = coursewareService.listByCourseId(id);
+        List<Courseware> coursewareList = coursewareService.listByCourseName(name);
         Page<CoursewareDTO> resultList = getPageResult(coursewareList, target -> CoursewareDTOTransfer.INSTANCE.toCoursewareDTOList(target));
         return ResultBuilder.ok(resultList);
     }
@@ -48,12 +49,12 @@ public class CoursewareController extends BaseController {
     @PostMapping("/save")
     @ApiOperation("保存课件信息信息")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> save(@RequestBody @Validated CoursewareDetailDTO coursewareDetailDTO) {
-        coursewareService.save(CoursewareDTOTransfer.INSTANCE.toCourseware(coursewareDetailDTO.getCourseware()),
+    public Result<Long> save(@RequestBody @Validated CoursewareDetailDTO coursewareDetailDTO) {
+        Long id = coursewareService.save(CoursewareDTOTransfer.INSTANCE.toCourseware(coursewareDetailDTO.getCourseware()),
                 CoursewareItemDTOTransfer.INSTANCE.toCoursewareItemList(coursewareDetailDTO.getCoursewareItemList()),
                 coursewareDetailDTO.getCourseId()
         );
-        return ResultBuilder.ok(Boolean.TRUE);
+        return ResultBuilder.ok(id);
     }
 
     @ResponseBody
@@ -102,5 +103,24 @@ public class CoursewareController extends BaseController {
         });
 
         return ResultBuilder.error(ResultCodeEnum.OK, coursewareDetailDTOList);
+    }
+
+    @ResponseBody
+    @GetMapping("/courseware/find")
+    @ApiOperation("获取课件信息")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<CoursewareDetailDTO> find(Long coursewareId) {
+        if (coursewareId == null) {
+            ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+        }
+        CoursewareDetailVO coursewareDetailVO = coursewareService.find(coursewareId);
+        if (coursewareDetailVO == null) {
+            return ResultBuilder.ok(null);
+        }
+
+        CoursewareDetailDTO coursewareDetailDTO = new CoursewareDetailDTO();
+        coursewareDetailDTO.setCourseware(CoursewareDTOTransfer.INSTANCE.toCoursewareDTO(coursewareDetailVO.getCourseware()));
+        coursewareDetailDTO.setCoursewareItemList(CoursewareItemDTOTransfer.INSTANCE.toCoursewareItemDTOList(coursewareDetailVO.getCoursewareItemList()));
+        return ResultBuilder.ok(coursewareDetailDTO);
     }
 }
