@@ -15,9 +15,12 @@ import com.jimmy.service.AppVersionService;
 import com.jimmy.student.api.config.StudentConfig;
 import com.jimmy.student.api.websocket.WebSocketUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,8 +46,9 @@ public class StudentCommonController {
 
     @ApiOperation("命令接口信息")
     @ResponseBody
-    @PostMapping("/command/{token}")
-    public Result<Boolean> command(@RequestBody CommandDTO commandDTO, @PathVariable("token") String token) {
+    @PostMapping("/command")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Boolean> command(@RequestBody CommandDTO commandDTO, @RequestHeader("token") String token) {
         if (StringUtils.isBlank(commandDTO.getSn())) {
             return ResultBuilder.ok(false);
         }
