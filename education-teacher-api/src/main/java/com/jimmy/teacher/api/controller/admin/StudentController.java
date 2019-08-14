@@ -11,9 +11,13 @@ import com.jimmy.mvc.common.model.dto.RegisterBatchDTO;
 import com.jimmy.mvc.common.model.dto.RegisterDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoStarDTO;
+import com.jimmy.mvc.common.model.enums.CourseStatusEnum;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
 import com.jimmy.mvc.common.service.CommonService;
-import com.jimmy.service.*;
+import com.jimmy.service.CourseStudentRegisterService;
+import com.jimmy.service.CourseStudentService;
+import com.jimmy.service.StudentInfoService;
+import com.jimmy.service.TemporaryClassMateService;
 import com.jimmy.teacher.api.controller.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -88,24 +92,29 @@ public class StudentController extends BaseController {
     public Result<Boolean> using(@RequestBody @Validated RegisterDTO registerDTO) {
         List<CourseStudent> courseStudentList = courseStudentService.find(registerDTO.getCourseId(), registerDTO.getStudentId(), null);
         if (CollectionUtils.isEmpty(courseStudentList)) {
-            return ResultBuilder.ok(Boolean.FALSE);
+            CourseStudent courseStudent = new CourseStudent();
+            courseStudent.setCourseId(registerDTO.getCourseId());
+            courseStudent.setStudentId(registerDTO.getStudentId());
+            courseStudent.setStatus(CourseStatusEnum.INIT.getValue());
+            courseStudentService.save(courseStudent);
+            courseStudentList = courseStudentService.find(registerDTO.getCourseId(), registerDTO.getStudentId(), null);
         }
         List<CourseStudentRegister> registerList = new ArrayList<>();
         CourseStudentRegister courseStudentRegister;
-        Map<Long,Long> studentIdMap=new HashMap<>();
+        Map<Long, Long> studentIdMap = new HashMap<>();
         for (CourseStudent courseStudent : courseStudentList) {
             courseStudentRegister = new CourseStudentRegister();
             courseStudentRegister.setCommandId(registerDTO.getCommandId());
             courseStudentRegister.setIsRegister(true);
             courseStudentRegister.setCourseStudentId(courseStudent.getId());
             registerList.add(courseStudentRegister);
-            studentIdMap.put(courseStudent.getId(),courseStudent.getStudentId());
+            studentIdMap.put(courseStudent.getId(), courseStudent.getStudentId());
         }
         TemporaryClassMate temporaryClassMate = temporaryClassMateService.findTempClassMate(registerDTO.getCourseId());
         if (temporaryClassMate == null) {
             return ResultBuilder.error(ResultCodeEnum.STUDENT_NOT_EXIST);
         }
-        courseStudentRegisterService.save(registerList, temporaryClassMate.getCourseId(),studentIdMap);
+        courseStudentRegisterService.save(registerList, temporaryClassMate.getCourseId(), studentIdMap);
         return ResultBuilder.ok(Boolean.TRUE);
     }
 
@@ -120,20 +129,20 @@ public class StudentController extends BaseController {
         }
         List<CourseStudentRegister> registerList = new ArrayList<>();
         CourseStudentRegister courseStudentRegister;
-        Map<Long,Long> studentIdMap=new HashMap<>();
+        Map<Long, Long> studentIdMap = new HashMap<>();
         for (CourseStudent courseStudent : courseStudentList) {
             courseStudentRegister = new CourseStudentRegister();
             courseStudentRegister.setCommandId(registerBatchDTO.getCommandId());
             courseStudentRegister.setIsRegister(true);
             courseStudentRegister.setCourseStudentId(courseStudent.getId());
-            studentIdMap.put(courseStudent.getId(),courseStudent.getStudentId());
+            studentIdMap.put(courseStudent.getId(), courseStudent.getStudentId());
             registerList.add(courseStudentRegister);
         }
         TemporaryClassMate temporaryClassMate = temporaryClassMateService.findTempClassMate(registerBatchDTO.getCourseId());
         if (temporaryClassMate == null) {
             return ResultBuilder.error(ResultCodeEnum.STUDENT_NOT_EXIST);
         }
-        courseStudentRegisterService.save(registerList, temporaryClassMate.getCourseId(),studentIdMap);
+        courseStudentRegisterService.save(registerList, temporaryClassMate.getCourseId(), studentIdMap);
         return ResultBuilder.ok(Boolean.TRUE);
     }
 }

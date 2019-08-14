@@ -17,7 +17,11 @@ public interface CourseStudentService {
      * @param courseStudentList 课程学ID
      */
     void save(List<CourseStudent> courseStudentList);
-
+    /**
+     * 保存信息
+     *
+     */
+    void save(CourseStudent courseStuden);
     /**
      * 保存信息
      *

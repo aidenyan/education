@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -43,17 +44,38 @@ public class CourseStudentServiceImpl implements CourseStudentService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    public void save(CourseStudent courseStudent) {
+        Assert.notNull(courseStudent);
+        Assert.notNull(courseStudent.getCourseId());
+        Assert.notNull(courseStudent.getStudentId());
+        List<CourseStudent> updateCourseStudentList = courseStudentMapper.find(courseStudent.getCourseId(), Arrays.asList(courseStudent.getStudentId()), null, SiteLocalThread.getSiteIdList());
+        CourseStudent updateCourseStudent = null;
+        if (!CollectionUtils.isEmpty(updateCourseStudentList)) {
+            updateCourseStudent = updateCourseStudentList.stream().findFirst().get();
+        }
+        courseStudent.setModifyId(LoginLocalThread.get());
+        courseStudent.setCreateId(LoginLocalThread.get());
+        courseStudent.setSiteId(SiteLocalThread.getSiteId());
+        if (updateCourseStudent != null) {
+            updateCourseStudent.setCoursewareId(courseStudent.getCoursewareId());
+            updateCourseStudent.setMachineId(updateCourseStudent.getMachineId());
+            courseStudentMapper.updateProperty(updateCourseStudent);
+        } else {
+            courseStudentMapper.insert(courseStudent);
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(CourseStudent courseStudent, Long temporaryClassMateId) {
         Assert.notNull(courseStudent);
         Assert.notNull(courseStudent.getCourseId());
         Assert.notNull(courseStudent.getMachineId());
         Assert.notNull(courseStudent.getStudentId());
 
-        courseStudent.setModifyId(LoginLocalThread.get());
-        courseStudent.setCreateId(LoginLocalThread.get());
-        courseStudent.setSiteId(SiteLocalThread.getSiteId());
         temporaryClassMateService.updateMachineId(courseStudent.getMachineId(), courseStudent.getStudentId(), temporaryClassMateId);
-        courseStudentMapper.insert(courseStudent);
+        save(courseStudent);
+
     }
 
     @Override
