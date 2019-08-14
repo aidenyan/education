@@ -58,7 +58,8 @@ public class CourseStudentServiceImpl implements CourseStudentService {
         courseStudent.setSiteId(SiteLocalThread.getSiteId());
         if (updateCourseStudent != null) {
             updateCourseStudent.setCoursewareId(courseStudent.getCoursewareId());
-            updateCourseStudent.setMachineId(updateCourseStudent.getMachineId());
+            updateCourseStudent.setMachineId(courseStudent.getMachineId());
+            updateCourseStudent.setStatus(courseStudent.getStatus());
             courseStudentMapper.updateProperty(updateCourseStudent);
         } else {
             courseStudentMapper.insert(courseStudent);
