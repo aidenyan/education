@@ -2,10 +2,7 @@ package com.jimmy.teacher.api.controller.admin;
 
 import com.jimmy.core.base.Page;
 import com.jimmy.core.enums.ResultCoreEnum;
-import com.jimmy.dao.entity.ClassMate;
-import com.jimmy.dao.entity.CourseStudent;
-import com.jimmy.dao.entity.StudentInfo;
-import com.jimmy.dao.entity.TemporaryClassMate;
+import com.jimmy.dao.entity.*;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
@@ -17,6 +14,7 @@ import com.jimmy.mvc.common.model.enums.CourseStatusEnum;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
 import com.jimmy.service.*;
 import com.jimmy.teacher.api.controller.BaseController;
+import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -52,6 +50,8 @@ public class ClassMateController extends BaseController {
 
     @Autowired
     private CoursewareService coursewareService;
+    @Autowired
+    private CourseInfoService courseInfoService;
 
     @Autowired
     private CourseStudentService courseStudentService;
@@ -86,6 +86,12 @@ public class ClassMateController extends BaseController {
     @PostMapping("/temp/student/list")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<List<StudentInfoDTO>> saveTemClass(@RequestBody @Validated TempClassmateSaveDTO tempClassmateSaveDTO) {
+        TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
+
+        CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
+        if (courseInfo == null || !courseInfo.getId().equals(tempClassmateSaveDTO.getCourseId())) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_SAME);
+        }
         TemporaryClassMate temporaryClassMate = new TemporaryClassMate();
         temporaryClassMate.setCourseId(tempClassmateSaveDTO.getCourseId());
         if (StringUtils.isEmpty(tempClassmateSaveDTO.getName())) {
@@ -118,7 +124,12 @@ public class ClassMateController extends BaseController {
     @PostMapping("/list/assign")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Void> listAssign(@RequestBody @Validated AssignMachineDTO assignMachineDTO) {
+        TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
 
+        CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
+        if (courseInfo == null || !courseInfo.getId().equals(assignMachineDTO.getCourseId())) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_SAME);
+        }
         List<CourseStudent> courseStudentList = new ArrayList<>();
         CourseStudent courseStudent;
         int count = coursewareService.count(assignMachineDTO.getCourseId());
@@ -147,6 +158,13 @@ public class ClassMateController extends BaseController {
     @PostMapping("/single/assign/{courseId}")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Void> listAssign(@Validated @RequestBody MachineStudentDTO machineStudent, @PathVariable("courseId") Long courseId) {
+        TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
+
+        CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
+        if (courseInfo == null || !courseInfo.getId().equals(courseId)) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_SAME);
+        }
+
         if (machineStudent == null || CollectionUtils.isEmpty(machineStudent.getStudentIdList())) {
             return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
         }

@@ -18,6 +18,7 @@ public enum ResultCodeEnum implements ResultEnum {
     COURSE_NOT_START("-10008", "还没有开始上课", "还没有开始上课"),
     OLD_PASSWORD_ERROR("-10009", "原密码错误", "原密码错误"),
 
+
     QUESTION_RESULT_IS_BLANK("-10010", "问答题的回答不能为空", "问答题的回答不能为空"),
 
     QUESTION_ITEM_IS_EMPTY("-10011", "选择题的选项不能空", "选择题的选项不能空"),
@@ -30,6 +31,7 @@ public enum ResultCodeEnum implements ResultEnum {
     COURSE_WARE_NOT_EXIST("-10019", "该课程没有课件", "该课程没有课件"),
     COURSEWARE_NOT_SELECT("-10020", "学生没有选择课件", "学生没有选择课件"),
     COURSEWARE_NOT_EXIST("-10021", "课件不存在", "课件不存在"),
+    COURSE_NOT_SAME("-10022", "课程不对", "课程不对"),
     ;;
     private String code;
     private String message;
