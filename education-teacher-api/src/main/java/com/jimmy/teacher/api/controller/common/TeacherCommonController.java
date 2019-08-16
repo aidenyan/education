@@ -13,8 +13,6 @@ import com.jimmy.service.AppVersionService;
 import com.jimmy.teacher.api.config.TeacherConfig;
 import com.jimmy.teacher.api.websocket.WebSocketUtils;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -46,9 +44,8 @@ public class TeacherCommonController {
 
     @ApiOperation("命令接口接收信息（接收学生端发送过来的信息）")
     @ResponseBody
-    @PostMapping("/command")
-    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> command(@RequestBody CommandDTO commandDTO, @RequestHeader("token") String token) {
+    @PostMapping("/command/{token}")
+    public Result<Boolean> command(@RequestBody CommandDTO commandDTO, @PathVariable("token") String token) {
         if (StringUtils.isBlank(commandDTO.getSn())) {
             return ResultBuilder.ok(false);
         }
