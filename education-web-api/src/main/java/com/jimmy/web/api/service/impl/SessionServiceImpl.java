@@ -2,7 +2,6 @@ package com.jimmy.web.api.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.jimmy.common.utils.EncryptUtil;
-import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.dao.entity.MenuInfo;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.local.thread.RequestLocalThread;
@@ -30,11 +29,11 @@ import java.util.stream.Collectors;
 public class SessionServiceImpl implements SessionService {
     private static final String SESSION_USER_LOGIN_KEY = "SESSION_USER_LOGIN_KEY";
     private static final String SESSION_MENU_LIST_KEY = "SESSION_MENU_LIST_KEY";
-    private static final String COOKIE_USER_LOGIN_KEY = "cookieLoginKey";
+    private static final String COOKIE_USER_LOGIN_KEY = "token";
     private static final Integer MAX_TIME = 30;
     private static final String ENCRY_SECRET_KEY = SessionService.class.getName();
 
-    private static final boolean isCookie = false;
+    private static final boolean isCookie = true;
 
 
     @Autowired
@@ -56,7 +55,7 @@ public class SessionServiceImpl implements SessionService {
         return teacherStaffInfo;
     }
 
-    private Long getLoginId() {
+    private Cookie getCookie(String name) {
         HttpServletRequest request = RequestLocalThread.get();
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
@@ -66,7 +65,20 @@ public class SessionServiceImpl implements SessionService {
         if (CollectionUtils.isEmpty(cookieList)) {
             return null;
         }
-        String content = cookieList.stream().findFirst().get().getValue();
+        for (Cookie cookie : cookieList) {
+            if (name.equals(cookie.getName())) {
+                return cookie;
+            }
+        }
+        return null;
+    }
+
+    private Long getLoginId() {
+        Cookie cookie = getCookie(COOKIE_USER_LOGIN_KEY);
+        if (cookie == null) {
+            return null;
+        }
+        String content = cookie.getValue();
         CookieValueDTO cookieValueDTO = JSON.parseObject(content, CookieValueDTO.class);
         if (cookieValueDTO == null) {
             return null;
@@ -107,11 +119,20 @@ public class SessionServiceImpl implements SessionService {
 
     private void saveCookie(TeacherStaffInfo teacherStaffInfo) {
         HttpServletResponse response = ResponseLocalThread.get();
+        Cookie cookie = getCookie(COOKIE_USER_LOGIN_KEY);
+
         CookieValueDTO cookieValueDTO = new CookieValueDTO();
         cookieValueDTO.setLoginId(teacherStaffInfo.getId());
         cookieValueDTO.setTime(System.currentTimeMillis());
         cookieValueDTO.setKey(md5(cookieValueDTO));
-        response.addCookie(new Cookie(COOKIE_USER_LOGIN_KEY, JSON.toJSONString(cookieValueDTO)));
+        if (cookie == null) {
+            cookie = new Cookie(COOKIE_USER_LOGIN_KEY, JSON.toJSONString(cookieValueDTO));
+        } else {
+            cookie.setValue(JSON.toJSONString(cookieValueDTO));
+        }
+        cookie.setPath("/");
+        cookie.setMaxAge(30 * 60);
+        response.addCookie(cookie);
     }
 
     private void saveSession(TeacherStaffInfo teacherStaffInfo) {
@@ -144,8 +165,8 @@ public class SessionServiceImpl implements SessionService {
 
     public List<MenuInfo> listMenuInfoByCookie() {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
-        if(teacherStaffInfo==null){
-            teacherStaffInfo=find();
+        if (teacherStaffInfo == null) {
+            teacherStaffInfo = find();
         }
         List<MenuInfo> menuInfoList;
         if (StaffTypeEnum.SCHOOL_MASTER.getValue() == teacherStaffInfo.getStaffType()) {
@@ -155,6 +176,7 @@ public class SessionServiceImpl implements SessionService {
         }
         return menuInfoList;
     }
+
     public List<MenuInfo> listMenuInfoBySession() {
         HttpServletRequest request = RequestLocalThread.get();
         HttpSession session = request.getSession();
@@ -164,9 +186,20 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void out() {
-        HttpServletRequest request = RequestLocalThread.get();
-        HttpSession session = request.getSession();
-        session.invalidate();
+        if (isCookie) {
+            HttpServletRequest request = RequestLocalThread.get();
+            HttpSession session = request.getSession();
+            session.invalidate();
+        } else {
+            Cookie cookie = getCookie(COOKIE_USER_LOGIN_KEY);
+            if (cookie == null) {
+                return;
+            }
+            cookie.setMaxAge(0);
+            HttpServletResponse response = ResponseLocalThread.get();
+            response.addCookie(cookie);
+        }
+
     }
 }
 

@@ -39,10 +39,9 @@ public class BaseWebFilter implements Filter {
         OperationSysLocalThread.set(OperationSysEnum.WEB_MANAGER);
         SysLogUuidLocalThread.set(UUID.randomUUID().toString());
         try {
-            filterChain.doFilter(request, response);
             ((HttpServletResponse) response).setHeader("Access-Control-Allow-Origin", "*");
             ((HttpServletResponse) response).setHeader("Access-Control-Allow-Credentials", "true");
-
+            filterChain.doFilter(request, response);
         } catch (Exception e) {
             e.printStackTrace();
             Result<Void> resultModel = new Result<>(ResultCoreEnum.RESULT_EXCEPTION_SYS);
@@ -64,6 +63,7 @@ public class BaseWebFilter implements Filter {
         MenuInfoLocalThread.set(null);
         TeacherLocalThread.set(null);
         LoginLocalThread.set(null);
+
     }
 
     @Override
