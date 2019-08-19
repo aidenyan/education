@@ -1,11 +1,10 @@
 package com.jimmy.teacher.api.websocket;
 
+import com.jimmy.mvc.common.model.dto.SendMessage;
 import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName: WebSocketUtils
@@ -16,8 +15,23 @@ import java.util.Map;
 public class WebSocketUtils {
     public static Map<Long, WebSocket> webSocketMap = new HashMap<>();
 
+    public static Map<Long, List<SendMessage>> sendMessage = new HashMap<>();
+
     public static synchronized void add(Long theacherId, WebSocket webSocket) {
         webSocketMap.put(theacherId, webSocket);
+        synchronized (sendMessage) {
+            List<SendMessage> teacherSendMessages = sendMessage.get(theacherId);
+            if (teacherSendMessages != null) {
+                sendMessage.remove(theacherId);
+                teacherSendMessages.forEach(teacherSendMessage -> {
+                    try {
+                        webSocket.sendMessage(teacherSendMessage.getSendContent(), teacherSendMessage.getCommadType());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+            }
+        }
     }
 
     public static synchronized void remove(Long theacherId) {
@@ -27,7 +41,21 @@ public class WebSocketUtils {
     public static void push(Object sendContent, CommandTypeEnum commadType, Collection<Long> theacherIdList) {
         theacherIdList.forEach(theacherId -> {
             try {
-                webSocketMap.get(theacherId).sendMessage(sendContent, commadType);
+                if (webSocketMap.get(theacherId) != null) {
+                    webSocketMap.get(theacherId).sendMessage(sendContent, commadType);
+                } else {
+                    synchronized (sendMessage) {
+                        SendMessage teacherSendMessage = new SendMessage();
+                        teacherSendMessage.setCommadType(commadType);
+                        teacherSendMessage.setSendContent(sendContent);
+                        List<SendMessage> teacherSendMessages = sendMessage.get(theacherId);
+                        if (teacherSendMessages == null) {
+                            teacherSendMessages = new ArrayList<>();
+                            sendMessage.put(theacherId, teacherSendMessages);
+                        }
+                        teacherSendMessages.add(teacherSendMessage);
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }

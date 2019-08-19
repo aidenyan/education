@@ -75,6 +75,11 @@ public class CourseController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<CourseInfoDTO> detail() {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
+
+        CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
+        if (courseInfo != null) {
+            return ResultBuilder.ok(CourseInfoDTOTransfer.INSTANCE.toCourseInfoDTO(courseInfo));
+        }
         List<CourseInfo> courseInfoList = courseInfoService.listCouldUsed(teacherStaffInfo.getAppRoomId(), teacherStaffInfo.getId(), 1);
         if (CollectionUtils.isEmpty(courseInfoList)) {
             return ResultBuilder.ok(null);

@@ -134,6 +134,8 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
         temporaryStudentClassMate.setMachineId(machineId);
         temporaryStudentClassMate.setStudentId(studentId);
         temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
+        temporaryStudentClassMate.setCreateId(LoginLocalThread.get());
+        temporaryStudentClassMateMapper.updateByCourseStatus(temporaryStudentClassMate);
     }
 
     @Override
@@ -147,6 +149,9 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
         temporaryStudentClassMate.setStudentId(studentId);
         temporaryStudentClassMate.setRegisterCommandId(registerCommandId);
         temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
+        temporaryStudentClassMate.setCreateId(LoginLocalThread.get());
+        temporaryStudentClassMateMapper.updateByCourseStatus(temporaryStudentClassMate);
+
     }
 
     @Override
@@ -160,6 +165,10 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
         temporaryStudentClassMate.setIsAskLevel(isAskLevel);
         temporaryStudentClassMate.setStudentId(studentId);
         temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
+        temporaryStudentClassMate.setCreateId(LoginLocalThread.get());
+
+        temporaryStudentClassMateMapper.updateByCourseStatus(temporaryStudentClassMate);
+
     }
 
     @Override
@@ -173,5 +182,9 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
         temporaryStudentClassMate.setIsAskLevel(isAskLevel);
         temporaryStudentClassMate.setMachineId(machineId);
         temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
+        temporaryStudentClassMate.setCreateId(LoginLocalThread.get());
+
+        temporaryStudentClassMateMapper.updateByCourseStatus(temporaryStudentClassMate);
+
     }
 }

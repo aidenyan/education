@@ -14,7 +14,6 @@ import com.jimmy.mvc.common.local.thread.RequestLocalThread;
 import com.jimmy.mvc.common.utils.BeanUtils;
 import com.jimmy.mvc.common.utils.IpUtils;
 import com.jimmy.service.SysLogInfoService;
-import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -40,7 +39,6 @@ import java.util.Map;
 @Aspect
 @Component
 public class LogAop {
-    Logger logger = Logger.getLogger(LogAop.class);
     /**
      * 默认忽略参数
      */
@@ -151,7 +149,6 @@ public class LogAop {
             sysLogInfo.setOperationResult(ex.getMessage());
             sysLogInfoService.insert(sysLogInfo);
             ex.printStackTrace();
-            logger.error("", ex);
         }
         return obj;
     }

@@ -114,11 +114,8 @@
             modify_id = #{modifyId,jdbcType=BIGINT},
             modify_time = now(),
         </set>
-        where temporary_class_id = #{tempClassMateId}
-        <if test="machineId">
-            and machine_id=#{machineId}
-        </if>
-        <if test="student_id">
+        where temporary_class_id = #{temporaryClassId}
+        <if test="studentId!=null">
             and student_id=#{studentId}
         </if>
         and  site_id=#{siteId}
