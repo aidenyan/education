@@ -144,10 +144,13 @@
             }
         })
 
-        callParent.isLoadEnd("member_page");
+        callParent.isLoadEnd("member_manage_list");
         callParent.register(function () {
             refresh();
         }, "refresh");
+        callParent.register(function () {
+            refresh();
+        }, "search");
         $("#add_teacher").on("click", function () {
             callParent.openTab("resource_add", 0, "新增资源", "/static/admin/resource/edit.html?tab_id=resource_add", true);
         })

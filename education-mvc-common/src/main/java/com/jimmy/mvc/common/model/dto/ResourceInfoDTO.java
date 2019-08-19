@@ -50,20 +50,6 @@ public class ResourceInfoDTO extends BaseDTO {
         }
     }
 
-    public BlueprintAnswerDTO getBlueprintAnswerDTO() {
-        if (ResourceTypeEnum.BLUEPRINT_ANSWER == type) {
-            blueprintAnswerDTO = JSON.parseObject(content, BlueprintAnswerDTO.class);
-            blueprintAnswerDTO.setTitle(title);
-        }
-        return blueprintAnswerDTO;
-    }
-
-    public void setBlueprintAnswerDTO(BlueprintAnswerDTO blueprintAnswerDTO) {
-        if (ResourceTypeEnum.BLUEPRINT_ANSWER == type) {
-            blueprintAnswerDTO.setTitle(null);
-            content = JSON.toJSONString(blueprintAnswerDTO);
-        }
-    }
 
     public VideoDTO getVideoDTO() {
         if (ResourceTypeEnum.VIDEO == type) {

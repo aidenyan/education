@@ -79,6 +79,7 @@
                 } else {
                     alert("保存班级信息成功")
                 }
+                callParent.parentUse("class_manage_list", "search")
                 callParent.closeTab(Utils.getHrefValue("tab_id"))
             }, "post")
             return false;

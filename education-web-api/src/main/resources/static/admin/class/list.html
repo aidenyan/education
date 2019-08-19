@@ -132,17 +132,20 @@
             if (confirm("你确定要删除" + $(this).attr("name") + "?")) {
                ajax(null,"/api/admin/teacher/deleted/"+$(this).val(),function (result) {
                  alert("删除成功！");
+                   search(currPageNo, true)
                },"post");
             }
         })
 
-        callParent.isLoadEnd("member_page");
+        callParent.isLoadEnd("class_manage_list");
         callParent.register(function () {
             refresh();
         }, "refresh");
+        callParent.register(function () {
+            refresh()
+        }, "search");
         $("#add_teacher").on("click", function () {
             callParent.openTab("class_add", 0, "新增班级", "/static/admin/class/edit.html?tab_id=class_add", true);
-
         })
     });
 </script>

@@ -14,5 +14,5 @@ public class BlueprintDTO {
     @ApiModelProperty("Í¼Ö½µÄURL")
     private String url;
     @ApiModelProperty("²âÊÔµã")
-    private List<String> pointList;
+    private List<BlueprintAnswerDTO> pointList;
 }

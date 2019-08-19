@@ -85,10 +85,6 @@
 <body>
 <div class="mizone-admin">
     <header class="mizone-header">
-        <div class="header-logo layui-clear">
-            <div class="logo">
-            </div>
-        </div>
         <div class="header-right cf">
             <div class="fl user-infor">
                 <p>您好！</p>
@@ -230,6 +226,25 @@
 
                 },
             });
+            $("#refresh_page").click(function(){
+                var id;
+                $(".content-tab").each(function(){
+                    if ($(this).hasClass("active")){
+                        id= $(this).data("id")
+                    }
+                })
+                if(Utils.isNotBlack(id)){
+                    try{
+                        callChild.useRegister(id,"search");
+                        callChild.useRegister(id,"refresh");
+                    }catch(e){
+                        try{
+                            callChild.useRegister(id,"refresh");
+                        }catch(e){
+                        }
+                    }
+                }
+            })
             $("#accountOperate").click(function () {
                 var accountName = $("#name_id").html();
                 $("#password").val("");

@@ -115,6 +115,7 @@
 
             myAjax.ajaxPage('/api/admin/course/page', 'pageNum', 'page_tbody', 'pageTpl');
         }
+
         form.on('submit(search)', function () {
             pageOrder()
             return false;
@@ -130,10 +131,13 @@
         $("#page_tbody").on("click", ".view_coureware", function () {
             callParent.openTab("course_coureware", 0, "查看课件", "/static/admin/course/coursewarelist.html?tab_id=course_coureware&courseId=" + $(this).val(), true);
         })
-        callParent.isLoadEnd("member_page");
+        callParent.isLoadEnd("course_manage_list");
         callParent.register(function () {
             refresh();
         }, "refresh");
+        callParent.register(function () {
+            refresh();
+        }, "search");
     });
 </script>
 </body>

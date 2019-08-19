@@ -143,10 +143,13 @@
             }
         })
 
-        callParent.isLoadEnd("member_page");
+        callParent.isLoadEnd("report_manage_list");
         callParent.register(function () {
             refresh();
         }, "refresh");
+        callParent.register(function () {
+            refresh();
+        }, "search");
         $("#add_teacher").on("click", function () {
             callParent.openTab("question_add", 0, "新增问题", "/static/admin/question/edit.html?tab_id=question_add", true);
         })

@@ -168,10 +168,13 @@
             }
         })
 
-        callParent.isLoadEnd("member_page");
+        callParent.isLoadEnd("teacher_manage_list");
         callParent.register(function () {
             refresh();
         }, "refresh");
+        callParent.register(function () {
+            refresh();
+        }, "search");
         $("#add_teacher").on("click", function () {
             callParent.openTab("teacher_add", 0, "新增教师", "/static/admin/teacher/edit.html?tab_id=teacher_add", true);
 

@@ -220,10 +220,13 @@
             }
         })
 
-        callParent.isLoadEnd("member_page");
+        callParent.isLoadEnd("student_manage_list");
         callParent.register(function () {
             refresh();
         }, "refresh");
+        callParent.register(function () {
+            refresh();
+        }, "search");
         $("#add_teacher").on("click", function () {
             callParent.openTab("student_add", 0, "新增学生", "/static/admin/student/edit.html?tab_id=student_add", true);
 
