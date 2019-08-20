@@ -12,5 +12,7 @@ public class Dictionary extends BaseEntity {
 
     private String description;
 
+    private Boolean isDeleted;
+
 
 }

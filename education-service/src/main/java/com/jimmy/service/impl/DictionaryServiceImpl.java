@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -85,10 +86,6 @@ public class DictionaryServiceImpl implements DictionaryService {
     @Transactional(rollbackFor = Exception.class)
     public void deletedDictionaryItem(Long id) {
         Assert.notNull(id);
-        DictionaryItem dictionaryItem = new DictionaryItem();
-        dictionaryItem.setId(id);
-        dictionaryItem.setModifyId(LoginLocalThread.get());
-        dictionaryItem.setSiteId(SiteLocalThread.getSiteId());
-        dictionaryItemMapper.updateProperty(dictionaryItem);
+        dictionaryItemMapper.deletedById(Arrays.asList(id), Arrays.asList(SiteLocalThread.getSiteId()));
     }
 }

@@ -38,7 +38,7 @@
     </foreach>
     and is_deleted=0
     <if test="name != null">
-      and  name like concat('%','#{name}','%')
+      and  name like concat('%',#{name},'%')
     </if>
   </select>
 
@@ -48,7 +48,7 @@
       create_time, modify_time, site_id, 
       description)
     values ( #{name,jdbcType=VARCHAR}, #{sn,jdbcType=VARCHAR},
-      #{isDeleted,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT}, 
+      0, #{createId,jdbcType=BIGINT}, #{modifyId,jdbcType=BIGINT},
       now(), now(), #{siteId,jdbcType=BIGINT},
       #{description,jdbcType=LONGVARCHAR})
   </insert>

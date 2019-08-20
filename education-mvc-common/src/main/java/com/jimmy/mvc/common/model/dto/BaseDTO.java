@@ -7,7 +7,6 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-@ApiModel("基本信息")
 public class BaseDTO {
     /**
      * ID

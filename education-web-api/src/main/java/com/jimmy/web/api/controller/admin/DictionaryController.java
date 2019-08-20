@@ -53,6 +53,13 @@ public class DictionaryController extends BaseController {
     }
 
     @ResponseBody
+    @PostMapping("/item/save")
+    @ApiOperation("保存字典详细信息")
+    public Result<Void> save(@Validated @RequestBody DictionaryItemDTO dictionaryItemDTO) {
+        dictionaryService.save(DictionaryItemDTOTransfer.INSTANCE.toDictionaryItem(dictionaryItemDTO));
+        return ResultBuilder.ok(null);
+    }
+    @ResponseBody
     @GetMapping("/item")
     @ApiOperation("字典详细的列表")
     public Result<List<DictionaryItemDTO>> info(Long id) {

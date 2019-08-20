@@ -25,7 +25,7 @@
         </foreach>
     </select>
     <delete id="deletedById">
-        DELETE from t_dictionary_item WHERE and site_id IN
+        DELETE from t_dictionary_item WHERE  site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
@@ -43,7 +43,7 @@
       now(),  #{siteId,jdbcType=BIGINT})
   </insert>
 
-    <update id="updateByPrimaryKeySelective" parameterType="com.jimmy.dao.entity.DictionaryItem">
+    <update id="updateProperty" parameterType="com.jimmy.dao.entity.DictionaryItem">
         update t_dictionary_item
         <set>
             <if test="dictionaryId != null">

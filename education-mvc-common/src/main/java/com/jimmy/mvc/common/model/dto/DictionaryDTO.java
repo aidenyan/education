@@ -20,4 +20,5 @@ public class DictionaryDTO extends BaseDTO{
 
     @ApiModelProperty("×ÖµäµÄÃèÊö")
     private String description;
+
 }
