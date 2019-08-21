@@ -46,8 +46,9 @@
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
+        <if test=" roleName != null">
         and name LIKE concat('%',#{roleName},'%')
-
+        </if>
         AND deleted=0
     </select>
 

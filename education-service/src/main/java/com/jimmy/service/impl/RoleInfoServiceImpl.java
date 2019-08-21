@@ -2,13 +2,16 @@ package com.jimmy.service.impl;
 
 import com.jimmy.core.local.thread.LoginLocalThread;
 import com.jimmy.dao.entity.RoleInfo;
+import com.jimmy.dao.entity.RoleMenuKey;
 import com.jimmy.dao.local.thread.SiteLocalThread;
 import com.jimmy.dao.mapper.RoleInfoMapper;
 import com.jimmy.service.RoleInfoService;
+import com.jimmy.service.RoleMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -17,6 +20,8 @@ import java.util.List;
 public class RoleInfoServiceImpl implements RoleInfoService {
     @Autowired
     private RoleInfoMapper roleInfoMapper;
+    @Autowired
+    private RoleMenuService roleMenuService;
 
     @Override
     public RoleInfo findById(Long id) {
@@ -53,8 +58,24 @@ public class RoleInfoServiceImpl implements RoleInfoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void save(RoleInfo roleInfo, List<Long> menuIdList) {
+        insert(roleInfo);
+        roleMenuService.deleted(roleInfo.getId());
+        if (CollectionUtils.isEmpty(menuIdList)) {
+            return;
+        }
+        menuIdList.forEach(menuId -> {
+            RoleMenuKey roleMenuKey = new RoleMenuKey();
+            roleMenuKey.setMenuId(menuId);
+            roleMenuKey.setRoleId(roleInfo.getId());
+            roleMenuService.insert(roleMenuKey);
+        });
+    }
+
+    @Override
     public List<RoleInfo> list(String roleName) {
-        Assert.notNull(roleName);
+
         return roleInfoMapper.list(roleName, SiteLocalThread.getSiteIdList());
     }
 }
