@@ -11,6 +11,7 @@ import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
 import com.jimmy.mvc.common.model.dto.StudentStarSaveDTO;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
+import com.jimmy.mvc.common.utils.PasswordUtils;
 import com.jimmy.service.ClassMateService;
 import com.jimmy.service.StudentInfoService;
 import com.jimmy.service.StudentStarInfoService;
@@ -88,7 +89,7 @@ public class StudentController extends BaseController {
         StudentInfo studentInfo = StudentInfoDTOTransfer.INSTANCE.toStudentInfo(studentInfoDTO);
 
         if (StringUtils.isNotBlank(studentInfoDTO.getNpw())) {
-            studentInfo.setPassword(studentInfoDTO.getNpw());
+            studentInfo.setPassword(PasswordUtils.encryPassword(studentInfoDTO.getNpw()));
         }
         studentInfoService.save(studentInfo);
         return ResultBuilder.ok(null);
