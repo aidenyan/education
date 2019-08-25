@@ -53,13 +53,17 @@ public class WebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) {
-        Assert.isTrue(StringUtils.isNotBlank(message));
-        SocketMessage socketMessage = JSON.parseObject(message, SocketMessage.class);
-        if (CommandTypeEnum.INIT == socketMessage.getSocketType()) {
-            this.machineId = (Long) socketMessage.getResult();
-            WebSocketUtils.add(machineId, this);
-        } else {
-            webSocketService.dealMessage(machineId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
+        try {
+            Assert.isTrue(StringUtils.isNotBlank(message));
+            SocketMessage socketMessage = JSON.parseObject(message, SocketMessage.class);
+            if (CommandTypeEnum.INIT == socketMessage.getSocketType()) {
+                this.machineId = Long.parseLong(String.valueOf(socketMessage.getResult()));
+                WebSocketUtils.add(machineId, this);
+            } else {
+                webSocketService.dealMessage(machineId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

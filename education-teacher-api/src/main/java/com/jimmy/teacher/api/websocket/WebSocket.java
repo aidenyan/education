@@ -57,7 +57,7 @@ public class WebSocket {
         try {
             SocketMessage socketMessage = JSON.parseObject(message, SocketMessage.class);
             if (CommandTypeEnum.INIT == socketMessage.getSocketType()) {
-                this.teacherId = (Long) socketMessage.getResult();
+                this.teacherId = Long.parseLong(String.valueOf(socketMessage.getResult()));
                 WebSocketUtils.add(teacherId, this);
             } else {
                 webSocketService.dealMessage(teacherId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
