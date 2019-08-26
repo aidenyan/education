@@ -59,11 +59,21 @@ public class WebSocket {
             if (CommandTypeEnum.INIT == socketMessage.getSocketType()) {
                 this.machineId = Long.parseLong(String.valueOf(socketMessage.getResult()));
                 WebSocketUtils.add(machineId, this);
+                try {
+                    sendMessage(null, CommandTypeEnum.INIT_SUCCESS);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             } else {
                 webSocketService.dealMessage(machineId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
             }
         } catch (Exception e) {
             e.printStackTrace();
+            try {
+                sendFailMessage(e.getMessage(), CommandTypeEnum.INIT_FAIL);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -81,11 +91,24 @@ public class WebSocket {
     /**
      * 这个方法与上面几个方法不一样。没有用注解，是根据自己需要添加的方法。
      */
+    public void sendFailMessage(Object messageObj, CommandTypeEnum socketType) throws IOException {
+        Assert.notNull(messageObj);
+        Assert.notNull(socketType);
+        SocketMessage socketMessage = new SocketMessage();
+        socketMessage.setCode("500");
+        socketMessage.setResult(messageObj);
+        socketMessage.setSocketType(socketType);
+        this.session.getBasicRemote().sendText(JSON.toJSONString(socketMessage));
+    }
+
+    /**
+     * 这个方法与上面几个方法不一样。没有用注解，是根据自己需要添加的方法。
+     */
     public void sendMessage(Object messageObj, CommandTypeEnum socketType) throws IOException {
         Assert.notNull(messageObj);
         Assert.notNull(socketType);
         SocketMessage socketMessage = new SocketMessage();
-        socketMessage.setCode("200");
+        socketMessage.setCode("0");
         socketMessage.setResult(messageObj);
         socketMessage.setSocketType(socketType);
         this.session.getBasicRemote().sendText(JSON.toJSONString(socketMessage));
