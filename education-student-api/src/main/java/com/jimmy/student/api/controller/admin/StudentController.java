@@ -7,6 +7,7 @@ import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.CourseAnswerDTO;
+import com.jimmy.mvc.common.model.dto.ListDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoDTO;
 import com.jimmy.mvc.common.model.dto.StudentInfoStarDTO;
 import com.jimmy.mvc.common.model.transfer.StudentInfoDTOTransfer;
@@ -126,12 +127,12 @@ public class StudentController {
     @PostMapping("/answer/save/{courseId}/{machineId}")
     public Result<Boolean> save(@PathVariable("courseId") Long courseId,
                                 @PathVariable("machineId") Long machineId,
-                                CourseAnswerDTO[] courseAnswerDTOArray) {
-        if (courseAnswerDTOArray == null || courseAnswerDTOArray.length == 0) {
+                                @RequestBody ListDTO<CourseAnswerDTO> courseAnswerDTOList) {
+        if (courseAnswerDTOList == null || CollectionUtils.isEmpty(courseAnswerDTOList.getResult())) {
             return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
         }
         List<Long> itemIdList = new ArrayList<>();
-        for (CourseAnswerDTO courseAnswerDTO : courseAnswerDTOArray) {
+        for (CourseAnswerDTO courseAnswerDTO : courseAnswerDTOList.getResult()) {
             itemIdList.add(courseAnswerDTO.getCoursewareItemId());
         }
         List<CourseAnswer> courseAnswerList = courseAnswerService.listMachineAnswer(courseId, machineId, itemIdList);
@@ -140,7 +141,7 @@ public class StudentController {
         }
         Map<Long, CourseAnswer> courseAnswerMap = new HashMap<>();
         courseAnswerList.forEach(courseAnswer -> courseAnswerMap.put(courseAnswer.getCoursewareItemId(), courseAnswer));
-        for (CourseAnswerDTO courseAnswerDTO : courseAnswerDTOArray) {
+        for (CourseAnswerDTO courseAnswerDTO : courseAnswerDTOList.getResult()) {
             CourseAnswer courseAnswer = courseAnswerMap.get(courseAnswerDTO.getCoursewareItemId());
             if (courseAnswer == null) {
                 courseAnswer = new CourseAnswer();
