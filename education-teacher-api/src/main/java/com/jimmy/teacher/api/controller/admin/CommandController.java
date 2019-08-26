@@ -3,6 +3,7 @@ package com.jimmy.teacher.api.controller.admin;
 import com.jimmy.common.utils.StringUtils;
 import com.jimmy.dao.entity.CommandInfo;
 import com.jimmy.dao.entity.CourseInfo;
+import com.jimmy.dao.entity.CourseStudent;
 import com.jimmy.dao.entity.TeacherStaffInfo;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
@@ -14,6 +15,7 @@ import com.jimmy.mvc.common.model.transfer.CommandDTOTransfer;
 import com.jimmy.mvc.common.service.CommandQueueService;
 import com.jimmy.service.CommandService;
 import com.jimmy.service.CourseInfoService;
+import com.jimmy.service.CourseStudentService;
 import com.jimmy.teacher.api.config.TeacherConfig;
 import com.jimmy.teacher.api.controller.BaseController;
 import com.jimmy.teacher.api.local.thread.TeacherLocalThread;
@@ -24,11 +26,15 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName: CommandController
@@ -54,6 +60,73 @@ public class CommandController extends BaseController {
 
     @Autowired
     private CommandQueueService commandQueueService;
+    @Autowired
+    private CourseStudentService courseStudentService;
+
+    @ApiOperation("举手请假")
+    @ResponseBody
+    @PostMapping("/raise_hand")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Long> askLevel(Long machineId, Long studentId) {
+        CommandDetailDTO<RaiseHandDTO> commandDetailDTO = new CommandDetailDTO<>();
+        commandDetailDTO.setCommandType(CommandTypeEnum.ASK_LEVEL);
+        return sendCommandRaiseHand(commandDetailDTO, machineId, studentId);
+
+    }
+
+    @ApiOperation("举手请假结束")
+    @ResponseBody
+    @PostMapping("/ask_level_end")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Long> askLevelEnd(Long machineId, Long studentId) {
+        CommandDetailDTO<RaiseHandDTO> commandDetailDTO = new CommandDetailDTO<>();
+        commandDetailDTO.setCommandType(CommandTypeEnum.ASK_LEVEL_END);
+        return sendCommandRaiseHand(commandDetailDTO, machineId, studentId);
+    }
+
+    @ApiOperation("举手")
+    @ResponseBody
+    @PostMapping("/raise_hand_ordinary")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Long> raiseHand(Long machineId, Long studentId) {
+        CommandDetailDTO<RaiseHandDTO> commandDetailDTO = new CommandDetailDTO<>();
+        commandDetailDTO.setCommandType(CommandTypeEnum.RAISE_HAND);
+        return sendCommandRaiseHand(commandDetailDTO, machineId, studentId);
+
+    }
+
+    @ApiOperation("举手结束")
+    @ResponseBody
+    @PostMapping("/raise_hand_ordinary_end")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Long> raiseHandEnd(Long machineId, Long studentId) {
+        CommandDetailDTO<RaiseHandDTO> commandDetailDTO = new CommandDetailDTO<>();
+        commandDetailDTO.setCommandType(CommandTypeEnum.RAISE_HAND_END);
+        return sendCommandRaiseHand(commandDetailDTO, machineId, studentId);
+    }
+
+    private Result<Long> sendCommandRaiseHand(CommandDetailDTO<RaiseHandDTO> commandDetailDTO, Long machineId, Long studentId) {
+        TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
+        CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
+        if (courseInfo == null) {
+            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_START);
+        }
+        List<CourseStudent> courseStudentList = courseStudentService.list(courseInfo.getId(), machineId);
+        if (CollectionUtils.isEmpty(courseStudentList)) {
+            return ResultBuilder.error(ResultCodeEnum.MACHINE_STUDENT_NOT_EXIST);
+        }
+        if (courseStudentList.stream().map(CourseStudent::getStudentId).collect(Collectors.toSet()).contains(studentId)) {
+            return ResultBuilder.error(ResultCodeEnum.MACHINE_STUDENT_NOT_EXIST);
+        }
+        RaiseHandDTO raiseHandDTO = new RaiseHandDTO();
+        raiseHandDTO.setMachineId(machineId);
+        raiseHandDTO.setTeacherId(teacherStaffInfo.getId());
+        raiseHandDTO.setStudentId(studentId);
+        commandDetailDTO.setDetail(raiseHandDTO);
+        commandDetailDTO.setCourseId(courseInfo.getId());
+        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
+        return ResultBuilder.ok(id);
+    }
 
     @ApiOperation("签到")
     @ResponseBody
@@ -64,7 +137,7 @@ public class CommandController extends BaseController {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
 
         CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
-        if(courseInfo==null){
+        if (courseInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_START);
         }
         commandDetailDTO.setCourseId(courseInfo.getId());
@@ -82,7 +155,7 @@ public class CommandController extends BaseController {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
 
         CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
-        if(courseInfo==null){
+        if (courseInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_START);
         }
         commandDetailDTO.setCourseId(courseInfo.getId());
@@ -101,7 +174,7 @@ public class CommandController extends BaseController {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
 
         CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
-        if(courseInfo==null){
+        if (courseInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_START);
         }
         commandDetailDTO.setCourseId(courseInfo.getId());
@@ -120,7 +193,7 @@ public class CommandController extends BaseController {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
 
         CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
-        if(courseInfo==null){
+        if (courseInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_START);
         }
         commandDetailDTO.setCourseId(courseInfo.getId());
@@ -139,7 +212,7 @@ public class CommandController extends BaseController {
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
 
         CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
-        if(courseInfo==null){
+        if (courseInfo == null) {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_START);
         }
         commandDetailDTO.setCourseId(courseInfo.getId());
@@ -152,7 +225,6 @@ public class CommandController extends BaseController {
     public Long using(CommandDTO commandDTO) {
         CommandInfo commandInfo = CommandDTOTransfer.INSTANCE.toCommandInfo(commandDTO);
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
-
 
 
         commandDTO.setOperationId(teacherStaffInfo.getId());

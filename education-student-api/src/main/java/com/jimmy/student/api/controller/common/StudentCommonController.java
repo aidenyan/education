@@ -9,6 +9,7 @@ import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.model.dto.BroadcastDTO;
 import com.jimmy.mvc.common.model.dto.CommandDTO;
 import com.jimmy.mvc.common.model.dto.InteractiveDTO;
+import com.jimmy.mvc.common.model.dto.RaiseHandDTO;
 import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.mvc.common.model.enums.ReceiveTypeEnum;
 import com.jimmy.service.AppVersionService;
@@ -72,6 +73,12 @@ public class StudentCommonController {
             WebSocketUtils.push(interactiveDTO, CommandTypeEnum.INTERACTIVE, Arrays.asList(interactiveDTO.getMachineId()));
         } else if (commandDTO.getCommandType() == CommandTypeEnum.MIDDLE_SIGN_IN) {
             WebSocketUtils.push(null, commandDTO.getCommandType(), WebSocketUtils.listMachineId());
+        } else if (commandDTO.getCommandType() == CommandTypeEnum.RAISE_HAND
+                || commandDTO.getCommandType() == CommandTypeEnum.ASK_LEVEL
+                || commandDTO.getCommandType() == CommandTypeEnum.ASK_LEVEL_END
+                || commandDTO.getCommandType() == CommandTypeEnum.RAISE_HAND_END) {
+            RaiseHandDTO raiseHandDTO = JSON.parseObject(content, RaiseHandDTO.class);
+            WebSocketUtils.push(raiseHandDTO, commandDTO.getCommandType(), Arrays.asList(raiseHandDTO.getMachineId()));
         }
         return ResultBuilder.ok(true);
     }
