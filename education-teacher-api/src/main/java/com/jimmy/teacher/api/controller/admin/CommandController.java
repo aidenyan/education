@@ -1,5 +1,6 @@
 package com.jimmy.teacher.api.controller.admin;
 
+import com.alibaba.fastjson.JSON;
 import com.jimmy.common.utils.StringUtils;
 import com.jimmy.dao.entity.CommandInfo;
 import com.jimmy.dao.entity.CourseInfo;
@@ -133,7 +134,7 @@ public class CommandController extends BaseController {
     @PostMapping("/sing_in")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Long> singInfo() {
-        CommandDetailDTO<Void> commandDetailDTO = new CommandDetailDTO<>();
+        CommandDetailDTO<Long> commandDetailDTO = new CommandDetailDTO<>();
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
 
         CourseInfo courseInfo = courseInfoService.findByRoomId(teacherStaffInfo.getAppRoomId());
@@ -242,8 +243,10 @@ public class CommandController extends BaseController {
 
         commandDTO.setDirection(DirectionEnum.TO_STUDENT);
         commandDTO.setSn(commandInfo.getSn());
-
         Long id = commandService.save(commandInfo);
+        if (commandDTO.getCommandType() == CommandTypeEnum.MIDDLE_SIGN_IN) {
+            commandDTO.setContent(JSON.toJSONString(id));
+        }
         CommandMessageDTO commandMessageDTO = new CommandMessageDTO();
         commandMessageDTO.setSendUrl(teacherConfig.getStudentUrl());
         commandMessageDTO.setToken(teacherConfig.getToken());
