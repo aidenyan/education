@@ -81,12 +81,12 @@ public class TeacherController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
     public Result<Boolean> save(@PathVariable("courseId") Long courseId,
                                 @PathVariable("machineId") Long machineId,
-                                CourseAnswerDTO[] courseAnswerDTOArray) {
-        if (courseAnswerDTOArray == null || courseAnswerDTOArray.length == 0) {
+                                @RequestBody ListDTO<CourseAnswerDTO> courseAnswerDTOList) {
+        if (courseAnswerDTOList == null || CollectionUtils.isEmpty(courseAnswerDTOList.getResult())) {
             return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
         }
         List<Long> itemIdList = new ArrayList<>();
-        for (CourseAnswerDTO courseAnswerDTO : courseAnswerDTOArray) {
+        for (CourseAnswerDTO courseAnswerDTO : courseAnswerDTOList.getResult()) {
             itemIdList.add(courseAnswerDTO.getCoursewareItemId());
         }
         List<CourseAnswer> courseAnswerList = courseAnswerService.listMachineAnswer(courseId, machineId, itemIdList);
@@ -95,7 +95,7 @@ public class TeacherController extends BaseController {
         }
         Map<Long, CourseAnswer> courseAnswerMap = new HashMap<>();
         courseAnswerList.forEach(courseAnswer -> courseAnswerMap.put(courseAnswer.getCoursewareItemId(), courseAnswer));
-        for (CourseAnswerDTO courseAnswerDTO : courseAnswerDTOArray) {
+        for (CourseAnswerDTO courseAnswerDTO : courseAnswerDTOList.getResult()) {
             CourseAnswer courseAnswer = courseAnswerMap.get(courseAnswerDTO.getCoursewareItemId());
             courseAnswer.setFraction(null);
             courseAnswer.setStudentResult(null);
@@ -177,4 +177,60 @@ public class TeacherController extends BaseController {
         return ResultBuilder.ok(Boolean.TRUE);
     }
 
+
+    @ApiOperation("保存老师对象所有的学生图纸作品的答案")
+    @ResponseBody
+    @PostMapping("/all/answer/save/{courseId}")
+    @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
+    public Result<Boolean> save(@PathVariable("courseId") Long courseId,
+                                @RequestBody ListDTO<CourseAnswerAllDTO> courseAnswerAllDTOList) {
+        if (courseAnswerAllDTOList == null || CollectionUtils.isEmpty(courseAnswerAllDTOList.getResult())) {
+            return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+        }
+        List<Long> itemIdList = new ArrayList<>();
+        List<Long> machineIdList = new ArrayList<>();
+        for (CourseAnswerAllDTO courseAnswerAllDTO : courseAnswerAllDTOList.getResult()) {
+            if (courseAnswerAllDTO.getMachineId() == null || CollectionUtils.isEmpty(courseAnswerAllDTO.getCourseAnswerDTOList())) {
+                return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+            }
+            machineIdList.add(courseAnswerAllDTO.getMachineId());
+            for (CourseAnswerDTO courseAnswerDTO : courseAnswerAllDTO.getCourseAnswerDTOList()) {
+                itemIdList.add(courseAnswerDTO.getCoursewareItemId());
+            }
+        }
+
+
+        List<CourseAnswer> courseAnswerList = courseAnswerService.listMachineAnswer(courseId, machineIdList, itemIdList);
+        if (CollectionUtils.isEmpty(courseAnswerList)) {
+            return ResultBuilder.error(ResultCodeEnum.STUDNE_ANSWER_NOT_EXIST);
+        }
+        Map<Long, Map<Long, CourseAnswer>> courseAnswerMap = new HashMap<>();
+        courseAnswerList.forEach(courseAnswer -> {
+            Map<Long, CourseAnswer> courseAnswerIdMap = courseAnswerMap.get(courseAnswer.getMachineId());
+            if (courseAnswerIdMap == null) {
+                courseAnswerIdMap = new HashMap<>();
+                courseAnswerMap.put(courseAnswer.getMachineId(), courseAnswerIdMap);
+            }
+            courseAnswerIdMap.put(courseAnswer.getCoursewareItemId(), courseAnswer);
+        });
+
+        for (CourseAnswerAllDTO courseAnswerAllDTO : courseAnswerAllDTOList.getResult()) {
+            Map<Long, CourseAnswer> courseAnswerIdMap = courseAnswerMap.get(courseAnswerAllDTO.getMachineId());
+            if (courseAnswerIdMap == null) {
+                return ResultBuilder.error(ResultCodeEnum.STUDNE_ANSWER_NOT_EXIST);
+            }
+            machineIdList.add(courseAnswerAllDTO.getMachineId());
+            for (CourseAnswerDTO courseAnswerDTO : courseAnswerAllDTO.getCourseAnswerDTOList()) {
+                CourseAnswer courseAnswer = courseAnswerIdMap.get(courseAnswerDTO.getCoursewareItemId());
+                if (courseAnswer == null) {
+                    return ResultBuilder.error(ResultCodeEnum.STUDNE_ANSWER_NOT_EXIST);
+                }
+                courseAnswer.setFraction(null);
+                courseAnswer.setStudentResult(null);
+                courseAnswer.setTearchResult(JSON.toJSONString(courseAnswerDTO.getTearchResult()));
+            }
+        }
+        courseAnswerService.update(courseAnswerList);
+        return ResultBuilder.ok(Boolean.TRUE);
+    }
 }

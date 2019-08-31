@@ -27,7 +27,10 @@
         <include refid="Base_Column_List"/>
         from t_student_answer
         where course_id = #{courseId,jdbcType=BIGINT}
-        and  machine_id  = #{machineId,jdbcType=BIGINT}
+        and machine_id IN
+        <foreach collection="machineIdList" separator="," item="machineId" close=")" open="(">
+            #{machineId}
+        </foreach>
         and courseware_item_id IN
         <foreach collection="itemIdList" separator="," item="itemId" close=")" open="(">
             #{itemId}

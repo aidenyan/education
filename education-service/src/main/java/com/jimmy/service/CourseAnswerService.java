@@ -15,4 +15,6 @@ public interface CourseAnswerService {
      * 更新需要更新信息
      */
     void update(List<CourseAnswer> courseAnswerList);
+
+    List<CourseAnswer> listMachineAnswer(Long courseId, List<Long> machineIdList, List<Long> itemIdList);
 }

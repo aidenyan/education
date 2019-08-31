@@ -122,7 +122,7 @@ public class StudentController {
         return ResultBuilder.ok(StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
     }
 
-    @ApiOperation("保存老师对象学生图纸作品的答案")
+    @ApiOperation("保存对图纸作品的答案")
     @ResponseBody
     @PostMapping("/answer/save/{courseId}/{machineId}")
     public Result<Boolean> save(@PathVariable("courseId") Long courseId,

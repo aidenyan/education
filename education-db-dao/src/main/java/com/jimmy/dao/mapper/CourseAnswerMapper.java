@@ -26,7 +26,7 @@ public interface CourseAnswerMapper {
      * 获取学生的回答信息
      *
      */
-    List<CourseAnswer> listMachineAnswer(@Param("courseId") Long courseId, @Param("machineId") Long machineId,
+    List<CourseAnswer> listMachineAnswer(@Param("courseId") Long courseId, @Param("machineIdList") List<Long> machineIdList,
                                              @Param("itemIdList")  List<Long> itemIdList,
                                              @Param("siteIdList") List<Long> siteIdList);
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -24,10 +25,18 @@ public class CourseAnswerServiceImpl implements CourseAnswerService {
         Assert.notNull(courseId);
         Assert.notNull(machineId);
 
-        return courseAnswerMapper.listMachineAnswer(courseId, machineId, itemIdList, SiteLocalThread.getSiteIdList());
+        return courseAnswerMapper.listMachineAnswer(courseId, Arrays.asList(machineId), itemIdList, SiteLocalThread.getSiteIdList());
 
     }
+    @Override
+    public List<CourseAnswer> listMachineAnswer(Long courseId, List<Long> machineIdList, List<Long> itemIdList) {
+        Assert.notEmpty(itemIdList);
+        Assert.notNull(courseId);
+        Assert.notEmpty(machineIdList);
 
+        return courseAnswerMapper.listMachineAnswer(courseId, machineIdList, itemIdList, SiteLocalThread.getSiteIdList());
+
+    }
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(List<CourseAnswer> courseAnswerList) {
