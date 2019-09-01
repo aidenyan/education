@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @ApiModel("命令信息")
 public class CommandDTO extends BaseDTO {
@@ -47,6 +49,11 @@ public class CommandDTO extends BaseDTO {
     @ApiModelProperty(value = "指令内容")
     private String content;
 
+    /**
+     * 指令内容
+     */
+    @ApiModelProperty(value = "接收人的ID")
+    private List<Long> reviewIdList;
 
 
 

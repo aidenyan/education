@@ -60,7 +60,7 @@ public class WebSocket {
                 this.teacherId = Long.parseLong(String.valueOf(socketMessage.getResult()));
                 WebSocketUtils.add(teacherId, this);
                 try {
-                    sendMessage(null, CommandTypeEnum.INIT_SUCCESS);
+                    sendMessage(null, CommandTypeEnum.INIT);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

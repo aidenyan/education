@@ -60,7 +60,7 @@ public class WebSocket {
                 this.machineId = Long.parseLong(String.valueOf(socketMessage.getResult()));
                 WebSocketUtils.add(machineId, this);
                 try {
-                    sendMessage(null, CommandTypeEnum.INIT_SUCCESS);
+                    sendMessage(null, CommandTypeEnum.INIT);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }

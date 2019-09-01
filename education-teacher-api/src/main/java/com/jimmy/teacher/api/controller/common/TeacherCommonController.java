@@ -7,6 +7,7 @@ import com.jimmy.dao.entity.AppVersion;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
 import com.jimmy.mvc.common.model.dto.CommandDTO;
+import com.jimmy.mvc.common.model.dto.CourseProcessDTO;
 import com.jimmy.mvc.common.model.dto.RaiseHandDTO;
 import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.service.AppVersionService;
@@ -63,6 +64,9 @@ public class TeacherCommonController {
                 ||commandDTO.getCommandType() == CommandTypeEnum.RAISE_HAND_END) {
             RaiseHandDTO raiseHandDTO = JSON.parseObject(content, RaiseHandDTO.class);
             WebSocketUtils.push(raiseHandDTO, commandDTO.getCommandType(), Arrays.asList(raiseHandDTO.getTeacherId()));
+        }else if(commandDTO.getCommandType()==CommandTypeEnum.UPDATE_PROCESS){
+            CourseProcessDTO courseProcessDTO = JSON.parseObject(content, CourseProcessDTO.class);
+            WebSocketUtils.push(courseProcessDTO, commandDTO.getCommandType(), commandDTO.getReviewIdList());
         }
         return ResultBuilder.ok(true);
     }
