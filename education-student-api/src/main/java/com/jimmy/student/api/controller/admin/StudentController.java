@@ -145,6 +145,10 @@ public class StudentController {
             CourseAnswer courseAnswer = courseAnswerMap.get(courseAnswerDTO.getCoursewareItemId());
             if (courseAnswer == null) {
                 courseAnswer = new CourseAnswer();
+                courseAnswer.setMachineId(machineId);
+                courseAnswer.setCoursewareId(courseAnswerDTO.getCoursewareId());
+                courseAnswer.setCourseId(courseAnswerDTO.getCourseId());
+                courseAnswer.setCoursewareItemId(courseAnswerDTO.getCoursewareItemId());
                 courseAnswerMap.put(courseAnswerDTO.getCoursewareItemId(), courseAnswer);
             }
             courseAnswer.setCourseId(courseId);
