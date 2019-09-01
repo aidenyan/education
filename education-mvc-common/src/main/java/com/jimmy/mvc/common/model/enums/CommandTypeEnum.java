@@ -25,7 +25,6 @@ public enum CommandTypeEnum implements BaseEnum {
     ASK_LEVEL_END(8,"请假结束",true),
     RAISE_HAND_END(9,"举手结束",true),
     INIT_SUCCESS(10,"初始化成功",true),
-    INIT_FAIL(11,"初始化失败",true),
     ;
     private static Map<Integer, CommandTypeEnum> ELEMENTS_MAP;
 

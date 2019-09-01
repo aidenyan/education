@@ -70,7 +70,7 @@ public class WebSocket {
         } catch (Exception e) {
             e.printStackTrace();
             try {
-                sendFailMessage(e.getMessage(), CommandTypeEnum.INIT_FAIL);
+                sendFailMessage(e.getMessage(), CommandTypeEnum.INIT);
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -105,7 +105,6 @@ public class WebSocket {
      * 这个方法与上面几个方法不一样。没有用注解，是根据自己需要添加的方法。
      */
     public void sendMessage(Object messageObj, CommandTypeEnum socketType) throws IOException {
-        Assert.notNull(messageObj);
         Assert.notNull(socketType);
         SocketMessage socketMessage = new SocketMessage();
         socketMessage.setCode("0");
