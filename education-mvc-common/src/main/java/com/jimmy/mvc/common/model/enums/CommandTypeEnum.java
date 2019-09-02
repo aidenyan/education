@@ -15,7 +15,7 @@ public enum CommandTypeEnum implements BaseEnum {
      * 链接之后的第一条数据Broadcast text
      */
     INIT(0, "初始化", false),
-    SIGN_IN(1, "签到命令", false),
+    SIGN_IN(1, "签到命令", true),
     BROADCAST_TEXT(2, "广播文字信息", true),
     BROADCAST_VIDEO(3, "广播视频信息", true),
     INTERACTIVE(4, "交互", true),

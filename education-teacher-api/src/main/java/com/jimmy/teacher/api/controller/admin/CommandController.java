@@ -227,7 +227,7 @@ public class CommandController extends BaseController {
         CommandInfo commandInfo = CommandDTOTransfer.INSTANCE.toCommandInfo(commandDTO);
         TeacherStaffInfo teacherStaffInfo = TeacherLocalThread.get();
 
-
+        commandDTO.setRoomId(teacherStaffInfo.getAppRoomId());
         commandDTO.setOperationId(teacherStaffInfo.getId());
         commandDTO.setOperationName(teacherStaffInfo.getName());
 
@@ -244,7 +244,7 @@ public class CommandController extends BaseController {
         commandDTO.setDirection(DirectionEnum.TO_STUDENT);
         commandDTO.setSn(commandInfo.getSn());
         Long id = commandService.save(commandInfo);
-        if (commandDTO.getCommandType() == CommandTypeEnum.MIDDLE_SIGN_IN) {
+        if (commandDTO.getCommandType() == CommandTypeEnum.MIDDLE_SIGN_IN || commandDTO.getCommandType() == CommandTypeEnum.SIGN_IN) {
             commandDTO.setContent(JSON.toJSONString(id));
         }
         CommandMessageDTO commandMessageDTO = new CommandMessageDTO();

@@ -56,5 +56,11 @@ public class CommandDTO extends BaseDTO {
     private List<Long> reviewIdList;
 
 
+    /**
+     * ΩÃ “ID
+     */
+    @ApiModelProperty(value = "ΩÃ “ID")
+    private Long roomId;
+
 
 }

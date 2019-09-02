@@ -64,16 +64,16 @@ public class StudentCommonController {
                 return ResultBuilder.ok(true);
             }
             if (broadcastDTO.getReceiveType() == ReceiveTypeEnum.ALL) {
-                WebSocketUtils.push(broadcastDTO.getContent(), commandDTO.getCommandType(), WebSocketUtils.listMachineId());
+                WebSocketUtils.push(broadcastDTO.getContent(), commandDTO.getCommandType(), WebSocketUtils.listMachineId(commandDTO.getRoomId()));
             } else if (broadcastDTO.getReceiveType() == ReceiveTypeEnum.USE_LIST) {
                 WebSocketUtils.push(broadcastDTO.getContent(), commandDTO.getCommandType(), broadcastDTO.getMachineIdList());
             }
         } else if (commandDTO.getCommandType() == CommandTypeEnum.INTERACTIVE) {
             InteractiveDTO interactiveDTO = JSON.parseObject(content, InteractiveDTO.class);
             WebSocketUtils.push(interactiveDTO, CommandTypeEnum.INTERACTIVE, Arrays.asList(interactiveDTO.getMachineId()));
-        } else if (commandDTO.getCommandType() == CommandTypeEnum.MIDDLE_SIGN_IN) {
+        } else if (commandDTO.getCommandType() == CommandTypeEnum.MIDDLE_SIGN_IN || commandDTO.getCommandType() == CommandTypeEnum.SIGN_IN) {
             Long commandId = JSON.parseObject(content, Long.class);
-            WebSocketUtils.push(commandId, commandDTO.getCommandType(), WebSocketUtils.listMachineId());
+            WebSocketUtils.push(commandId, commandDTO.getCommandType(), WebSocketUtils.listMachineId(commandDTO.getRoomId()));
         } else if (commandDTO.getCommandType() == CommandTypeEnum.RAISE_HAND
                 || commandDTO.getCommandType() == CommandTypeEnum.ASK_LEVEL
                 || commandDTO.getCommandType() == CommandTypeEnum.ASK_LEVEL_END

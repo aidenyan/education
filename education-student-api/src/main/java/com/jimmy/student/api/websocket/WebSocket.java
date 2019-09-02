@@ -2,10 +2,12 @@ package com.jimmy.student.api.websocket;
 
 import com.alibaba.fastjson.JSON;
 import com.jimmy.common.utils.StringUtils;
+import com.jimmy.dao.entity.MachineInfo;
 import com.jimmy.mvc.common.model.dto.SocketMessage;
 import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.mvc.common.service.WebSocketService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jimmy.service.ClassRoomService;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -19,13 +21,34 @@ import java.io.IOException;
 public class WebSocket {
 
 
+    //此处是解决无法注入的关键
+    private static ApplicationContext applicationContext;
     //与某个客户端的连接会话，需要通过它来给客户端发送数据
     private Session session;
-
     private Long machineId;
-    @Autowired
+
     private WebSocketService webSocketService;
 
+    private ClassRoomService classRoomService;
+
+    public static void setApplicationContext(ApplicationContext applicationContext) {
+        WebSocket.applicationContext = applicationContext;
+    }
+
+    public ClassRoomService getClassRoomService() {
+        if (classRoomService == null) {
+            classRoomService = WebSocket.applicationContext.getBean(ClassRoomService.class);
+        }
+        return classRoomService;
+    }
+
+    public WebSocketService getWebSocketService() {
+        if (webSocketService == null) {
+            webSocketService = WebSocket.applicationContext.getBean(WebSocketService.class);
+        }
+        return webSocketService;
+
+    }
 
     /**
      * 连接建立成功调用的方法
@@ -58,14 +81,19 @@ public class WebSocket {
             SocketMessage socketMessage = JSON.parseObject(message, SocketMessage.class);
             if (CommandTypeEnum.INIT == socketMessage.getSocketType()) {
                 this.machineId = Long.parseLong(String.valueOf(socketMessage.getResult()));
-                WebSocketUtils.add(machineId, this);
+                MachineInfo machineInfo = getClassRoomService().findMachine(machineId);
+                if (machineInfo == null) {
+                    sendFailMessage("machine id is not exist", CommandTypeEnum.INIT);
+                    return;
+                }
+                WebSocketUtils.add(machineId, this, machineInfo.getRoomId());
                 try {
                     sendMessage(null, CommandTypeEnum.INIT);
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
             } else {
-                webSocketService.dealMessage(machineId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
+                getWebSocketService().dealMessage(machineId, JSON.toJSONString(socketMessage.getResult()), socketMessage.getSocketType());
             }
         } catch (Exception e) {
             e.printStackTrace();

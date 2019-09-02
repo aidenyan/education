@@ -5,7 +5,6 @@ import com.jimmy.core.enums.ResultCoreEnum;
 import com.jimmy.dao.entity.*;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
-import com.jimmy.mvc.common.enums.ResultCodeEnum;
 import com.jimmy.mvc.common.model.dto.*;
 import com.jimmy.mvc.common.model.enums.CommandTypeEnum;
 import com.jimmy.mvc.common.model.transfer.ClassMateDTOTransfer;
@@ -99,8 +98,9 @@ public class RestartController extends BaseController {
             return ResultBuilder.error(ResultCoreEnum.RESULT_NOT_COURSE);
         }
         List<StudentInfo> studentInfoList = temporaryClassMateService.findStudentId(courseInfo.getId());
-        return ResultBuilder.ok( StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
+        return ResultBuilder.ok(StudentInfoDTOTransfer.INSTANCE.toStudentInfoDTOList(studentInfoList));
     }
+
     @ApiOperation("获取所有上课的学生详细信息包含注册等信息")
     @ResponseBody
     @GetMapping("/student/detail/list")

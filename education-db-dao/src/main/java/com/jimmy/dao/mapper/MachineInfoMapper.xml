@@ -32,10 +32,12 @@
         <include refid="Base_Column_List"/>
         from t_machine_info
         where id = #{id}
+        <if test="siteIdList != null">
         and site_id IN
         <foreach collection="siteIdList" separator="," item="siteId" close=")" open="(">
             #{siteId}
         </foreach>
+        </if>
     </select>
 
     <delete id="deleteByRoomId">
