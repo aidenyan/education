@@ -1,0 +1,124 @@
+.aside{
+	width: 12%;
+	height: 600px;
+	float: left;
+	padding-top: 10px;
+	box-sizing: border-box;
+	margin-left: 20px;
+}
+#dic_nav{
+	border: 1px solid #ccc;
+	height: 100%;
+	padding: 10px;
+	overflow-x: hidden;
+}
+#dic_nav::-webkit-scrollbar{
+	width: 0px;
+}
+#dic_nav .title{
+	height: 30px;
+	/* line-height: 30px; */
+	font-size: 16px;
+	cursor: pointer;
+	display: flex;
+	
+}
+#dic_nav .title>i{
+	display: inline-block;
+	border: 6px solid transparent;
+	border-top: 6px solid #999;
+	margin-right: 5px;
+	align-self: center;
+}
+#dic_nav .title.hidden{
+	line-height: 30px;
+}
+#dic_nav .title.hidden>i{
+	display: inline-block;
+	border: 6px solid transparent;
+	border-left: 6px solid #999;
+	margin-right: 5px;
+	align-self: center;
+}
+#dic_nav ul{
+	margin-left: 20px;
+}
+#dic_nav ul li{
+	line-height: 24px;
+	cursor: pointer;
+	padding-left: 5px;
+	box-sizing: border-box;
+}
+#dic_nav ul li:hover{
+	background: #eee;
+}
+.top{
+	display: flex;
+	height: 60px;
+	align-items: center;
+}
+.top .txt{
+	margin-right: 20px;
+}
+.top input[type = 'text']{
+	height: 30px;
+	border: 1px solid #ccc;
+	padding-left: 10px;
+	border-radius: 4px;
+	color: #646967;
+}
+.top button{
+	border-radius: 4px;
+}
+.panel .layui-form-checkbox[lay-skin=primary] i{
+	width: 16px;
+	height: 16px;
+	font-size: 16px;
+}
+.panel .layui-form-checkbox{
+	margin-left: 15px;
+}
+
+
+/* 字典编辑 */
+#dic-form{
+	width: 800px;
+	padding: 40px 0 20px 60px;
+	box-sizing: border-box;
+}
+#dic-form .wrap{
+	height: 45px;
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+}
+#dic-form .wrap span{
+	width: 80px;
+	color: #666;
+}
+#dic-form .wrap input{
+	height: 35px;
+	border: 1px solid #ddd;
+	flex: 1;
+	border-radius: 4px;
+	outline: none;
+	padding: 0 0 0 15px;
+	line-height: 35px;
+}
+input::-webkit-input-placeholder{
+	color: #ccc;
+}
+#dic-form .save{
+	width: 90px;
+	height: 40px;
+	border-radius: 4px;
+	border: 0;
+	color: #fff;
+	background: #009CFF;
+	line-height: 40px;
+	margin: 40px auto 0;
+	display: block;
+	font-size: 16px;
+	letter-spacing: 4px;
+	outline: none;
+}

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>字典信息列表</title>
+		<link rel="stylesheet" href="../../layui/css/layui.css" />
+		<link rel="stylesheet" href="../../common/css/common.css">
+		<link rel="stylesheet" href="../../common/css/font-style.css">
+		<link rel="stylesheet" type="text/css" href="../../css/dictionary.css" />
+	</head>
+	<body>
+		<div class="content-wrpper" style="width: 100%;">
+			<div class="aside">
+				<div id="dic_nav">
+					<h3 class="title"><i></i>字典列表</h3>
+					<ul class="dictionaryList" data-open='1'>
+						<li>行政职务</li>
+						<li>区域类型</li>
+						<li>课程类型</li>
+						<li>学历</li>
+						<li>专家类型</li>
+						<li>教师等级</li>
+						<li>管理工具</li>
+						<li>图书类别</li>
+						<li>行政职务</li>
+						<li>区域类型</li>
+						<li>课程类型</li>
+						<li>学历</li>
+						<li>专家类型</li>
+						<li>教师等级</li>
+						<li>管理工具</li>
+						<li>图书类别</li>
+						<li>行政职务</li>
+						<li>区域类型</li>
+						<li>课程类型</li>
+						<li>学历</li>
+						<li>专家类型</li>
+						<li>教师等级</li>
+						<li>管理工具</li>
+						<li>图书类别</li>
+						<li>行政职务</li>
+						<li>区域类型</li>
+						<li>课程类型</li>
+						<li>学历</li>
+						<li>专家类型</li>
+						<li>教师等级</li>
+						<li>管理工具</li>
+						<li>图书类别</li>
+						<li>行政职务</li>
+						<li>区域类型</li>
+						<li>课程类型</li>
+						<li>学历</li>
+						<li>专家类型</li>
+						<li>教师等级</li>
+						<li>管理工具</li>
+						<li>图书类别</li>
+					</ul>
+				</div>
+			</div>
+			<div class="list" style="width: 86%; float: left;">
+				<div class="top">
+					<div class="txt">
+						<span>字典名称</span>
+						<input type="text" id="dic-name" value="" placeholder="字典名称" />
+					</div>
+					<div class="txt">
+						<span>字典值</span>
+						<input type="text" id="dic-value" value="" placeholder="字典值" />
+					</div>
+					<button type="button" class="layui-btn layui-btn-primary" id="search_dic">查询</button>
+					<button type="button" class="layui-btn layui-btn-normal" id="add_dictionary">新增</button>
+					<button type="button" class="layui-btn layui-btn-danger" style="background: #FF5722;" id="del_all">批量删除</button>
+				</div>
+				<div class="panel layui-form">
+					<div class="datagrid-header" style="width: 100%; height: 45px;">
+						<div class="datagrid-header-inner" style="display: block;position: absolute;left: 0;">
+							<table class="datagrid-htable" cellspacing="0" cellpadding="0" border="0">
+								<tbody>
+									<tr class="datagrid-header-row">
+										<td class="datagrid-cell-c1-w100 select_all">
+											<input type="checkbox" lay-skin="primary" />
+										</td>
+										<td>
+											<div class="datagrid-cell datagrid-cell-c1-w100">字典名称</div>
+										</td>
+										<td>
+											<div class="datagrid-cell datagrid-cell-c1-w100">字典类型</div>
+										</td>
+										<td>
+											<div class="datagrid-cell datagrid-cell-c1-w100">字典码</div>
+										</td>
+										<td>
+											<div class="datagrid-cell datagrid-cell-c1-w100">字典值</div>
+										</td>
+										<!-- <td>
+											<div class="datagrid-cell datagrid-cell-c1-w100">状态</div>
+										</td> -->
+										<td>
+											<div class="datagrid-cell datagrid-cell-c1-w200" style="">操作</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="datagrid-body" style="width: 100%; margin-top: 0px; height: 500px;">
+						<table class="datagrid-btable" cellspacing="0" cellpadding="0" border="0">
+							<tbody id=page_tbody></tbody>
+						</table>
+					</div>
+				</div>
+				<div id="pageNum" style="text-align:right"></div>
+			</div>
+		</div>
+
+		<script type="text/javascript" src="../../common/js/common.js"></script>
+
+		<script id="pageTpl" type="text/html">
+			{{#  layui.each(d.result, function(index, item){ }}
+		    <tr>
+				<td class="datagrid-cell-c1-w100 sel">
+					<input type="checkbox" lay-skin="primary" />
+				</td>
+		        <td>
+		            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.name}}</div>
+		        </td>
+		        <td>
+		            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.sn}}</div>
+		        </td>
+		        <td>
+		            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.id}}
+		            </div>
+		        </td>
+		        <td>
+		            <div class="datagrid-cell datagrid-cell-c1-w100">{{item.description}}</div>
+		        </td>
+		        <!-- <td>
+		            <div class="datagrid-cell datagrid-cell-c1-w100">{{# if(item.isEnabled==null||!item.isEnabled){ }}否 {{#
+		                }else{ }}是{{# } }}
+		            </div>
+		        </td> -->
+		        <td class="state_uhandle">
+		            <div class="datagrid-cell datagrid-cell-c1-w200">
+		                <button class="edit" value="{{item.id}}" title="编辑">修改</button>
+		                <button class="delete" value="{{item.id}}" name="{{item.name}}" title="删除">删除</button>
+		            </div>
+		        </td>
+		    </tr>
+		    {{#  }); }}
+		
+		    {{#  if(d.result.length == 0){ }}
+		    <tr aglin='center'>
+		        <td colspan="4" style="text-align: center;border-bottom: none;
+		    border-right: 0;">
+		            <div class="null-show"></div>
+		        </td>
+		    </tr>
+		    {{#  } }}
+		</script>
+
+		<script type="text/javascript">
+			var levelMap;
+			layui.use(['form', 'laypage', 'laydate', 'laytpl', 'myAjax'], function() {
+				var form = layui.form(),
+					layer = layui.layer,
+					$ = layui.jquery,
+					myAjax = layui.myAjax,
+					laytpl = layui.laytpl;
+
+
+				//查询、排序
+				var vSeaData;
+				var orderObj = new Order(function() {
+					pageOrder(orderObj.setOption(vSeaData));
+				});
+
+				function pageOrder(data) {
+
+					myAjax.ajaxPage('/api/admin/dictionary/page', 'pageNum', 'page_tbody', 'pageTpl', data);
+				}
+
+				// form.on('submit(search)', function() {
+				// 
+				// 	pageOrder({
+				// 		name: $("#dic-value").val()
+				// 	})
+				// 	return false;
+				// });
+				pageOrder();
+
+				$("#page_tbody").on("click", ".edit", function() {
+					callParent.openTab("dictionary_edit", 0, "编辑字典",
+						"/static/admin/dictionary/edit.html?tab_id=dictionary_edit&id=" + $(
+							this).val(), true);
+				});
+
+				$("#page_tbody").on("click", ".delete", function() {
+					// if (confirm("你确定要删除“" + $(this).attr("name") + "”字典?")) {
+					// 	ajax(null, "/api/admin/student/deleted/" + $(this).val(), function(result) {
+					// 		alert("删除成功！");
+					// 	}, "post");
+					// }
+				})
+
+				callParent.isLoadEnd("member_page");
+				callParent.register(function() {
+					refresh();
+				}, "refresh");
+
+				// 新增
+				$('#add_dictionary').on('click', function() {
+					console.log(1)
+					callParent.openTab("dictionary_add", 0, "新增字典", "/static/admin/dictionary/edit.html?tab_id=dictionary_add",
+						true);
+				})
+
+				// 查询
+				$('#search_dic').on('click', function() {
+					let name = $('#dic-name').val();
+					let desc = $('#dic-value').val();
+					pageOrder({
+						name: name,
+						description: desc
+					})
+				})
+
+				// 全选
+				$('.select_all').on('click', 'div', function() {
+					let lists = $('.datagrid-btable tr');
+					let leng = lists.length;
+					// 选中
+					if ($(this).hasClass('layui-form-checked')) {
+						console.log(1)
+						if (leng > 0) {
+							for (let i in lists) {
+								$(i).find('.sel>div').addClass('layui-form-checked');
+							}
+						}
+					}
+					// 未选中
+					else {
+						console.log(2)
+						if (leng > 0) {
+							for (let i in lists) {
+								$(i).find('.sel>div').removeClass('layui-form-checked');
+							}
+						}
+					}
+				})
+
+			})
+		</script>
+		<script type="text/javascript">
+			$.ajax({
+				url: '/api/admin/dictionary/item',
+				type: 'get',
+				dataType: 'json',
+				success: function(data) {
+					// console.log(1)
+					console.log(data)
+				},
+				error: function(e) {
+					// console.log(2)
+					console.log(e)
+				}
+			})
+
+			// 字典列表展开,隐藏
+			$('.title').click(function() {
+				let isopen = $('.dictionaryList').attr('data-open');
+				console.log(isopen)
+				if (isopen == '1') {
+					$('.dictionaryList').toggle();
+					$('.title').addClass('hidden');
+					$('.dictionaryList').attr('data-open', '0');
+				}
+				if (isopen == '0') {
+					$('.dictionaryList').toggle();
+					$('.title').removeClass('hidden');
+					$('.dictionaryList').attr('data-open', '1');
+				}
+			})
+
+			// 点击字典列表项将值显示到 字典名称框中
+			$('.dictionaryList').on('click', 'li', function() {
+				const val = $(this).text();
+				$('#dic-name').val(val);
+			})
+
+		</script>
+	</body>
+</html>
