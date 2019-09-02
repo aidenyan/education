@@ -67,10 +67,10 @@ public class StudentInfoDTO extends BaseDTO {
     @ApiModelProperty("手机号码")
     private String mobile;
     /**
-     * 电话号码
+     * 学生编号
      */
-    @ApiModelProperty("电话号码")
-    private String telephone;
+    @ApiModelProperty("学生编号")
+    private String code;
     /**
      * 是否已经删除
      */

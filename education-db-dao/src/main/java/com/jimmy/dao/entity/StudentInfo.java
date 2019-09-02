@@ -52,9 +52,9 @@ public class StudentInfo extends BaseEntity {
      */
     private String mobile;
     /**
-     * 电话号码
+     * 学生编号
      */
-    private String telephone;
+    private String code;
     /**
      * token
      */

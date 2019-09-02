@@ -15,7 +15,7 @@
         <result column="birth_time" property="birthTime" jdbcType="TIMESTAMP"/>
         <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
         <result column="face_version" property="faceVersion"/>
-        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
         <result column="app_token" property="appToken" jdbcType="VARCHAR"/>
         <result column="is_deleted" property="isDeleted" jdbcType="TINYINT"/>
         <result column="machine_id" property="machineId" jdbcType="BIGINT"/>
@@ -29,7 +29,7 @@
 
     <sql id="Base_Column_List">
     id, classmate_id, face_version,name,machine_id, sex, email, is_enabled, password, real_name, header_url,
-    birth_time, mobile, telephone, app_token, id_card,is_deleted, create_id, modify_id, create_time,
+    birth_time, mobile, code, app_token, id_card,is_deleted, create_id, modify_id, create_time,
     modify_time,  header_info, site_id
   </sql>
     <select id="countByClassmateId" resultType="java.lang.Integer">
@@ -79,7 +79,7 @@
     <select id="listBaseByIdList" resultMap="BaseResultMap">
         select
         id, classmate_id, face_version,name,machine_id, sex, email, is_enabled, password, real_name, header_url,
-        birth_time, mobile, telephone, app_token, id_card,is_deleted, create_id, modify_id, create_time,
+        birth_time, mobile, code, app_token, id_card,is_deleted, create_id, modify_id, create_time,
         modify_time,   site_id
         from t_student_info
         where  is_deleted=0 AND
@@ -128,14 +128,14 @@
     insert into t_student_info (face_version,id_card,machine_id,classmate_id, name,
       sex, email, is_enabled, 
       password, real_name, header_url, 
-      birth_time, mobile, telephone, 
+      birth_time, mobile, code,
       app_token, is_deleted, create_id, 
       modify_id, create_time, modify_time, 
       site_id, header_info)
     values (#{faceVersion},#{idCard},#{machineId}, #{classmateId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
       #{sex,jdbcType=TINYINT}, #{email,jdbcType=VARCHAR}, #{isEnabled,jdbcType=BIT}, 
       #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{headerUrl},
-      #{birthTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, #{telephone,jdbcType=VARCHAR}, 
+      #{birthTime,jdbcType=TIMESTAMP}, #{mobile,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR},
       #{appToken,jdbcType=VARCHAR}, #{isDeleted,jdbcType=TINYINT}, #{createId,jdbcType=BIGINT}, 
       #{modifyId,jdbcType=BIGINT},now(), now(),
       #{siteId,jdbcType=BIGINT}, #{headerInfo})
@@ -181,8 +181,8 @@
             <if test="mobile != null">
                 mobile = #{mobile,jdbcType=VARCHAR},
             </if>
-            <if test="telephone != null">
-                telephone = #{telephone,jdbcType=VARCHAR},
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
             </if>
             <if test="appToken != null">
                 app_token = #{appToken,jdbcType=VARCHAR},
@@ -213,7 +213,7 @@
       header_url = #{headerUrl},
       birth_time = #{birthTime,jdbcType=TIMESTAMP},
       mobile = #{mobile,jdbcType=VARCHAR},
-      telephone = #{telephone,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
       modify_id = #{modifyId,jdbcType=BIGINT},
         <if test="password != null">
             password = #{password,jdbcType=VARCHAR},
