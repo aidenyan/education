@@ -14,7 +14,14 @@ public interface AppVersionMapper {
      * @return
      */
     AppVersion findByAppName(@Param("appName") String appName, @Param("siteIdList") List<Long> siteIdList);
-
+    /**
+     * 获取最新版本信息
+     *
+     * @param id
+     * @param siteIdList
+     * @return
+     */
+    AppVersion findById(@Param("id") Long id, @Param("siteIdList") List<Long> siteIdList);
     /**
      * 保存最新版本信息
      */
