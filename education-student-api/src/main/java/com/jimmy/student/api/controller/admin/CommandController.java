@@ -84,7 +84,7 @@ public class CommandController extends BaseController {
         raiseHandDTO.setStudentId(studentId);
         commandDetailDTO.setDetail(raiseHandDTO);
         commandDetailDTO.setCourseId(courseInfo.getId());
-        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
+        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO),studentId);
         return ResultBuilder.ok(id);
     }
 
@@ -106,7 +106,7 @@ public class CommandController extends BaseController {
         raiseHandDTO.setStudentId(studentId);
         commandDetailDTO.setDetail(raiseHandDTO);
         commandDetailDTO.setCourseId(courseInfo.getId());
-        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
+        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO),studentId);
         return ResultBuilder.ok(id);
     }
 
@@ -128,7 +128,7 @@ public class CommandController extends BaseController {
         raiseHandDTO.setStudentId(studentId);
         commandDetailDTO.setDetail(raiseHandDTO);
         commandDetailDTO.setCourseId(courseInfo.getId());
-        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
+        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO),studentId);
         return ResultBuilder.ok(id);
     }
 
@@ -150,11 +150,11 @@ public class CommandController extends BaseController {
         raiseHandDTO.setStudentId(studentId);
         commandDetailDTO.setDetail(raiseHandDTO);
         commandDetailDTO.setCourseId(courseInfo.getId());
-        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO));
+        Long id = using(CommandDTOTransfer.INSTANCE.toCommandDTO(commandDetailDTO),studentId);
         return ResultBuilder.ok(id);
     }
 
-    public Long using(CommandDTO commandDTO) {
+    public Long using(CommandDTO commandDTO,Long studentId) {
         CommandInfo commandInfo = CommandDTOTransfer.INSTANCE.toCommandInfo(commandDTO);
         CourseStudent courseStudent = CourseStudentLocalThread.get();
         MachineInfo machineInfo = classRoomService.findMachine(courseStudent.getMachineId());
@@ -175,9 +175,9 @@ public class CommandController extends BaseController {
         commandDTO.setSn(commandInfo.getSn());
         Long id = null;
         if (CommandTypeEnum.ASK_LEVEL.equals(commandDTO.getCommandType())) {
-            id = commandService.saveAskLevelByMachine(commandInfo, Boolean.TRUE);
+            id = commandService.saveAskLevelByMachine(commandInfo, Boolean.TRUE,studentId);
         } else if (CommandTypeEnum.ASK_LEVEL_END.equals(commandDTO.getCommandType())) {
-            id = commandService.saveAskLevelByMachine(commandInfo, Boolean.FALSE);
+            id = commandService.saveAskLevelByMachine(commandInfo, Boolean.FALSE,studentId);
 
         } else {
             id = commandService.save(commandInfo);

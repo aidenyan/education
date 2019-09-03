@@ -156,13 +156,14 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void updateAskLevelByStudent(Boolean isAskLevel, Long studentId, Long tempClassMateId) {
+    public void updateAskLevelByStudent(Boolean isAskLevel, Long machineId, Long studentId, Long tempClassMateId) {
         Assert.notNull(studentId);
         Assert.notNull(tempClassMateId);
         Assert.notNull(isAskLevel);
         TemporaryStudentClassMate temporaryStudentClassMate = new TemporaryStudentClassMate();
         temporaryStudentClassMate.setTemporaryClassId(tempClassMateId);
         temporaryStudentClassMate.setIsAskLevel(isAskLevel);
+        temporaryStudentClassMate.setMachineId(machineId);
         temporaryStudentClassMate.setStudentId(studentId);
         temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
         temporaryStudentClassMate.setCreateId(LoginLocalThread.get());
@@ -171,20 +172,5 @@ public class TemporaryClassMateServiceImpl implements TemporaryClassMateService 
 
     }
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public void updateAskLevelByMachine(Boolean isAskLevel, Long machineId, Long tempClassMateId) {
-        Assert.notNull(machineId);
-        Assert.notNull(tempClassMateId);
-        Assert.notNull(isAskLevel);
-        TemporaryStudentClassMate temporaryStudentClassMate = new TemporaryStudentClassMate();
-        temporaryStudentClassMate.setTemporaryClassId(tempClassMateId);
-        temporaryStudentClassMate.setIsAskLevel(isAskLevel);
-        temporaryStudentClassMate.setMachineId(machineId);
-        temporaryStudentClassMate.setSiteId(SiteLocalThread.getSiteId());
-        temporaryStudentClassMate.setCreateId(LoginLocalThread.get());
 
-        temporaryStudentClassMateMapper.updateByCourseStatus(temporaryStudentClassMate);
-
-    }
 }

@@ -80,10 +80,6 @@ public interface TemporaryClassMateService {
     /**
      * 更新临时班级中的签到
      */
-    void updateAskLevelByStudent(Boolean isAskLevel, Long studentId, Long tempClassMateId);
+    void updateAskLevelByStudent(Boolean isAskLevel, Long machineId, Long studentId, Long tempClassMateId);
 
-    /**
-     * 更新临时班级中的签到
-     */
-    void updateAskLevelByMachine(Boolean isAskLevel, Long machine, Long tempClassMateId);
 }

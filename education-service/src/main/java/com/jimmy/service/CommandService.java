@@ -24,7 +24,7 @@ public interface CommandService {
      * @param isAskLeve
      * @return
      */
-    Long saveAskLevelByMachine(CommandInfo commandInfo, Boolean isAskLeve);
+    Long saveAskLevelByMachine(CommandInfo commandInfo, Boolean isAskLeve,Long studentId);
 
     /**
      * 获取某个类型的命令信息

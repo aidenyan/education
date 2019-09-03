@@ -19,4 +19,6 @@ public class CommandInfo extends BaseEntity {
 
     private String content;
 
+
+
 }

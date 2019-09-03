@@ -44,10 +44,10 @@ public class CommandServiceImpl implements CommandService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long saveAskLevelByMachine(CommandInfo commandInfo, Boolean isAskLevel) {
+    public Long saveAskLevelByMachine(CommandInfo commandInfo, Boolean isAskLevel,Long studentId) {
         Long commandId = save(commandInfo);
         TemporaryClassMate temporaryClassMate = temporaryClassMateService.findTempClassMate(commandInfo.getCourseId());
-        temporaryClassMateService.updateAskLevelByMachine(isAskLevel,commandInfo.getOperationId(),temporaryClassMate.getId());
+        temporaryClassMateService.updateAskLevelByStudent(isAskLevel,commandInfo.getOperationId(),studentId,temporaryClassMate.getId());
         return commandId;
     }
 
