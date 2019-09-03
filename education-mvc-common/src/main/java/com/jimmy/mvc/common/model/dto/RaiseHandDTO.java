@@ -1,6 +1,5 @@
 package com.jimmy.mvc.common.model.dto;
 
-import io.swagger.annotations.Api;
 import lombok.Data;
 
 /**
@@ -16,4 +15,5 @@ public class RaiseHandDTO {
     private Long teacherId;
     private Long machineId;
     private Long studentId;
+    private String reason;
 }

@@ -1,6 +1,7 @@
 package com.jimmy.student.api.controller.admin;
 
 import com.jimmy.common.utils.StringUtils;
+import com.jimmy.core.enums.ResultCoreEnum;
 import com.jimmy.dao.entity.CommandInfo;
 import com.jimmy.dao.entity.CourseInfo;
 import com.jimmy.dao.entity.CourseStudent;
@@ -65,7 +66,10 @@ public class CommandController extends BaseController {
     @ResponseBody
     @PostMapping("/raise_hand")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Long> askLevel(Long studentId) {
+    public Result<Long> askLevel(Long studentId, String reason) {
+        if (StringUtils.isBlank(reason)) {
+            return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+        }
         CommandDetailDTO<RaiseHandDTO> commandDetailDTO = new CommandDetailDTO<>();
         commandDetailDTO.setCommandType(CommandTypeEnum.ASK_LEVEL);
         CourseStudent courseStudent = CourseStudentLocalThread.get();
@@ -74,6 +78,7 @@ public class CommandController extends BaseController {
             return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_START);
         }
         RaiseHandDTO raiseHandDTO = new RaiseHandDTO();
+        raiseHandDTO.setReason(reason);
         raiseHandDTO.setMachineId(courseStudent.getMachineId());
         raiseHandDTO.setTeacherId(courseInfo.getTeacherId());
         raiseHandDTO.setStudentId(studentId);

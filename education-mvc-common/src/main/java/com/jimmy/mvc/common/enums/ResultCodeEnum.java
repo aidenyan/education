@@ -32,6 +32,7 @@ public enum ResultCodeEnum implements ResultEnum {
     COURSEWARE_NOT_SELECT("-10020", "学生没有选择课件", "学生没有选择课件"),
     COURSEWARE_NOT_EXIST("-10021", "课件不存在", "课件不存在"),
     COURSE_NOT_SAME("-10022", "课程不对", "课程不对"),
+    MACHINE_STUDENT_NOT_SAME("-10023", "该机床上没有该学生", "该机床上没有该学生"),
     ;;
     private String code;
     private String message;

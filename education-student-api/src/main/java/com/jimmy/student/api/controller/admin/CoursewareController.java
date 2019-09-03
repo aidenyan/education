@@ -54,6 +54,7 @@ public class CoursewareController extends BaseController {
         List<CoursewareDetailDTO> coursewareDetailDTOList = new ArrayList<>();
         coursewareDetailVOList.forEach(coursewareDetailVO -> {
             CoursewareDetailDTO coursewareDetailDTO = new CoursewareDetailDTO();
+            coursewareDetailDTO.setCourseId(courseStudent.getCourseId());
             coursewareDetailDTO.setCourseware(CoursewareDTOTransfer.INSTANCE.toCoursewareDTO(coursewareDetailVO.getCourseware()));
             coursewareDetailDTO.setCoursewareItemList(CoursewareItemDTOTransfer.INSTANCE.toCoursewareItemDTOList(coursewareDetailVO.getCoursewareItemList()));
             coursewareDetailDTOList.add(coursewareDetailDTO);

@@ -64,7 +64,10 @@ public class StudentController {
     @ResponseBody
     @PostMapping("/register/{commandId}")
     @ApiImplicitParams({@ApiImplicitParam(required = true, paramType = "header", value = "token", name = "token")})
-    public Result<Boolean> using(@PathVariable("commandId") Long commandId) {
+    public Result<Boolean> using(@PathVariable("commandId") Long commandId, Long studentId) {
+        if (studentId == null) {
+            return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+        }
         CourseStudent detailCourseStudent = CourseStudentLocalThread.get();
         List<CourseStudent> courseStudentList = courseStudentService.find(detailCourseStudent.getCourseId(), detailCourseStudent.getStudentId(), null);
         if (CollectionUtils.isEmpty(courseStudentList)) {
@@ -76,12 +79,18 @@ public class StudentController {
         List<CourseStudentRegister> registerList = new ArrayList<>();
         CourseStudentRegister courseStudentRegister;
         for (CourseStudent courseStudent : courseStudentList) {
+            if (studentId.equals(courseStudent.getCourseId())) {
+                continue;
+            }
             courseStudentRegister = new CourseStudentRegister();
             courseStudentRegister.setCommandId(commandId);
             courseStudentRegister.setIsRegister(true);
             courseStudentRegister.setCourseStudentId(courseStudent.getId());
             registerList.add(courseStudentRegister);
             studentIdMap.put(courseStudent.getId(), courseStudent.getStudentId());
+        }
+        if (CollectionUtils.isEmpty(registerList)) {
+            return ResultBuilder.error(ResultCodeEnum.MACHINE_STUDENT_NOT_SAME);
         }
         courseStudentRegisterService.save(registerList, temporaryClassMate.getId(), studentIdMap);
         return ResultBuilder.ok(Boolean.TRUE);
