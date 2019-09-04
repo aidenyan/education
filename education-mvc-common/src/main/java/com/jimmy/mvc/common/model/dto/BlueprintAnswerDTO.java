@@ -11,8 +11,10 @@ public class BlueprintAnswerDTO {
     private Double answer;
     @ApiModelProperty("测试点内容")
     private String pointName;
-    @ApiModelProperty("误差")
-    private Double error;
+    @ApiModelProperty("下公差")
+    private Double minError;
+    @ApiModelProperty("上公差")
+    private Double maxError;
     @ApiModelProperty("单位")
     private String unit;
 }
