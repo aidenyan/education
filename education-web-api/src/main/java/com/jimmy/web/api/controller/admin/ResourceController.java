@@ -11,8 +11,6 @@ import com.jimmy.mvc.common.model.transfer.ResourceInfoDTOTransfer;
 import com.jimmy.service.ResourceInfoService;
 import com.jimmy.web.api.controller.BaseController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +32,7 @@ import java.util.List;
 public class ResourceController extends BaseController {
     @Autowired
     private ResourceInfoService resourceInfoService;
+
     @ResponseBody
     @GetMapping("/list/type")
     @ApiOperation("资源类型的列表")
@@ -54,6 +53,7 @@ public class ResourceController extends BaseController {
         Page<ResourceInfoDTO> resultList = getPageResult(resourceInfoList, target -> ResourceInfoDTOTransfer.INSTANCE.toResourceInfoDTOList(target));
         return ResultBuilder.ok(resultList);
     }
+
     @ResponseBody
     @GetMapping("/page")
     @ApiOperation("资源信息的分页信息")
@@ -68,6 +68,15 @@ public class ResourceController extends BaseController {
     @PostMapping("/save")
     @ApiOperation("保存资源信息")
     public Result<Void> save(@Validated @RequestBody ResourceInfoDTO resourceInfoDTO) {
+        try {
+            resourceInfoDTO.getBlueprintDTO();
+            resourceInfoDTO.getVideoDTO();
+            resourceInfoDTO.getImgWordText();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+        }
+
         resourceInfoService.save(ResourceInfoDTOTransfer.INSTANCE.toResourceInfo(resourceInfoDTO));
         return ResultBuilder.ok(null);
     }
@@ -79,6 +88,7 @@ public class ResourceController extends BaseController {
         ResourceInfo resourceInfo = resourceInfoService.findById(id);
         return ResultBuilder.ok(ResourceInfoDTOTransfer.INSTANCE.toResourceInfoDTO(resourceInfo));
     }
+
     @ResponseBody
     @PostMapping("/deleted/{id}")
     @ApiOperation("删除资源信息")
