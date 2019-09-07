@@ -2,6 +2,7 @@ package com.jimmy.web.api.controller.admin;
 
 import com.jimmy.core.base.Page;
 import com.jimmy.dao.entity.ClassRoomInfo;
+import com.jimmy.dao.entity.CourseInfo;
 import com.jimmy.model.vo.ClassRoomVO;
 import com.jimmy.mvc.common.base.Result;
 import com.jimmy.mvc.common.base.ResultBuilder;
@@ -53,6 +54,12 @@ public class ClassRoomController extends BaseController {
     @PostMapping("/save")
     @ApiOperation("保存教室信息")
     public Result<Void> save(@Validated @RequestBody ClassRoomVoDTO classRoomVoDTO) {
+        if (classRoomVoDTO.getClassRoomInfo().getId() != null) {
+            CourseInfo courseInfo = courseInfoService.findByRoomId(classRoomVoDTO.getClassRoomInfo().getId());
+            if (courseInfo != null) {
+                return ResultBuilder.error(ResultCodeEnum.ROOM_IS_USING);
+            }
+        }
         classRoomService.save(ClassRoomDTOTransfer.INSTANCE.toClassRoom(classRoomVoDTO.getClassRoomInfo()), MachineInfoTOTransfer.INSTANCE.toMachineInfoList(classRoomVoDTO.getMachineInfoList()));
         return ResultBuilder.ok(null);
     }
