@@ -13,4 +13,8 @@ public class CommandMessageDTO {
     private CommandDTO commandDTO;
     private String sendUrl;
     private String token;
+    /**
+     * 发送的次数
+     */
+    private Integer sendCount;
 }

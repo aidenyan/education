@@ -17,12 +17,15 @@ import com.jimmy.student.api.config.StudentConfig;
 import com.jimmy.student.api.websocket.WebSocketUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+
 
 /**
  * @ClassName: TeacherCommonController
@@ -41,6 +44,7 @@ public class StudentCommonController {
     private StudentConfig studentConfig;
     @Autowired
     private AppVersionService appVersionService;
+
 
     @ApiOperation("命令接口信息")
     @ResponseBody

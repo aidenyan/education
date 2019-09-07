@@ -1,6 +1,5 @@
 package com.jimmy.student.api.controller.login;
 
-import com.jimmy.common.utils.StringUtils;
 import com.jimmy.core.enums.ResultCoreEnum;
 import com.jimmy.core.model.dto.UserLoginBaseDTO;
 import com.jimmy.dao.entity.*;
@@ -81,14 +80,14 @@ public class LoginController extends BaseController {
         token = token.replace("-", "");
         MachineInfo machineInfo = classRoomService.findMachine(studentLoginDTO.getMachinaId());
         if (machineInfo == null) {
-            ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
+            return ResultBuilder.error(ResultCoreEnum.RESULT_PARAMETER_EXCEPTION);
         }
         CourseInfo courseInfo = courseInfoService.findByRoomId(machineInfo.getRoomId());
         if (courseInfo == null) {
-           return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
+            return ResultBuilder.error(ResultCodeEnum.COURSE_NOT_EXIST);
         }
         List<CourseStudent> courseStudentList = courseStudentService.find(courseInfo.getId(), studentInfo.getId(), studentLoginDTO.getMachinaId());
-        if(CollectionUtils.isEmpty(courseStudentList)){
+        if (CollectionUtils.isEmpty(courseStudentList)) {
             return ResultBuilder.error(ResultCodeEnum.MACHINE_STUDENT_NOT_EXIST);
         }
         CourseStudent courseStudent = courseStudentList.stream().findFirst().get();

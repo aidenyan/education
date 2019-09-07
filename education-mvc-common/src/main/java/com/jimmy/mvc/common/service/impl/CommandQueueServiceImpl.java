@@ -6,6 +6,8 @@ import com.jimmy.common.utils.HttpUtils;
 import com.jimmy.mvc.common.model.dto.CommandMessageDTO;
 import com.jimmy.mvc.common.model.dto.CommandResultDTO;
 import com.jimmy.mvc.common.service.CommandQueueService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +22,13 @@ import java.util.concurrent.ExecutorService;
  * @date: 2019/6/17/017.
  */
 @Service
+@groovy.util.logging.Slf4j
 public class CommandQueueServiceImpl implements CommandQueueService {
 
     @Autowired(required = false)
     private ExecutorService executorService;
+
+    Logger logger = LoggerFactory.getLogger(CommandQueueServiceImpl.class);
 
     private Queue<CommandMessageDTO> queue = new LinkedList<>();
 
@@ -62,8 +67,16 @@ public class CommandQueueServiceImpl implements CommandQueueService {
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
             }
+            if (commandMessageDTO.getSendCount() == null) {
+                commandMessageDTO.setSendCount(1);
+            }
+            commandMessageDTO.setSendCount(commandMessageDTO.getSendCount() + 1);
+            if (commandMessageDTO.getSendCount() <= 5) {
+                push(commandMessageDTO);
+            } else {
+                logger.error("send commandMessage fail:" + JSON.toJSONString(commandMessageDTO));
+            }
 
-            push(commandMessageDTO);
         }
 
     }
