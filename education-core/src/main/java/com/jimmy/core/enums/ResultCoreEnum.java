@@ -9,7 +9,9 @@ public enum ResultCoreEnum implements ResultEnum {
     RESULT_AUTHORITY_NOT_ENOUGH("-90002", "权限不足","权限不足"),
     RESULT_PARAMETER_EXCEPTION("-90003", "参数异常","参数异常"),
     RESULT_AUTHORITY_NOT_LOGIN("-10004","用户未登录或登录失效","用户未登录或登录失效"),
-    RESULT_NOT_COURSE("-10005","课程没有开始","课程没有开始")
+    RESULT_NOT_COURSE("-10005","课程没有开始","课程没有开始"),
+    RESULT_PARAMETER_ERROR("-90005", "参数格式错误","参数格式错误"),
+
 
     ;
     private String code;

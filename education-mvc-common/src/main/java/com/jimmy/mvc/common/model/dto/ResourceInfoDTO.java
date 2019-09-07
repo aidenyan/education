@@ -32,8 +32,7 @@ public class ResourceInfoDTO extends BaseDTO {
     private VideoDTO videoDTO;
     @ApiModelProperty("图纸信息")
     private BlueprintDTO blueprintDTO;
-    @ApiModelProperty("图纸答案信息")
-    private BlueprintAnswerDTO blueprintAnswerDTO;
+
 
     public BlueprintDTO getBlueprintDTO() {
         if (ResourceTypeEnum.BLUEPRINT == type) {
